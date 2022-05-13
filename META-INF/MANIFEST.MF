@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gips
+Bundle-SymbolicName: test.suite.gips;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: test.suite.gips
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.junit.jupiter.api;bundle-version="5.8.1",
+ gipsl.all.build;bundle-version="1.0.0",
+ gipsl.all.build.model;bundle-version="0.0.1",
+ org.emoflon.smartemf;bundle-version="1.0.0"
+Import-Package: org.junit.jupiter.api
+Export-Package: test.suite.gips,
+ test.suite.gipsl.all.build
