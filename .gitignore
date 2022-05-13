@@ -6,3 +6,5 @@ bin
 *.log
 *.LOG
 test.suite.gips/*.xmi
+
+test.suite.gips/build/
