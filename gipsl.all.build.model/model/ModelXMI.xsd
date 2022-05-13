@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:gipsl.all.build.model="platform:/resource/gipsl.all.build.model/model/Model.ecore" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="platform:/resource/gipsl.all.build.model/model/Model.ecore">
+  <xsd:annotation>
+    <xsd:documentation>TODO: Add documentation for model. Hint: You may copy this element in the Ecore editor to add documentation to EClasses, EOperations, ...</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.omg.org/XMI" schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/XMI.xsd"/>
+  <xsd:complexType name="Root">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="containers" type="gipsl.all.build.model:Container"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="containers" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="Root" type="gipsl.all.build.model:Root"/>
+  <xsd:complexType abstract="true" name="Element">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="name" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="Element" type="gipsl.all.build.model:Element"/>
+  <xsd:complexType abstract="true" name="Container">
+    <xsd:complexContent>
+      <xsd:extension base="gipsl.all.build.model:Element"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="Container" type="gipsl.all.build.model:Container"/>
+  <xsd:complexType name="VirtualContainer">
+    <xsd:complexContent>
+      <xsd:extension base="gipsl.all.build.model:Container">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:element name="virtualNodes" type="gipsl.all.build.model:VirtualNode"/>
+        </xsd:choice>
+        <xsd:attribute name="virtualNodes" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="VirtualContainer" type="gipsl.all.build.model:VirtualContainer"/>
+  <xsd:complexType name="SubstrateContainer">
+    <xsd:complexContent>
+      <xsd:extension base="gipsl.all.build.model:Container">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:element name="substrateNodes" type="gipsl.all.build.model:SubstrateNode"/>
+        </xsd:choice>
+        <xsd:attribute name="substrateNodes" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="SubstrateContainer" type="gipsl.all.build.model:SubstrateContainer"/>
+  <xsd:complexType abstract="true" name="Node">
+    <xsd:complexContent>
+      <xsd:extension base="gipsl.all.build.model:Element"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="Node" type="gipsl.all.build.model:Node"/>
+  <xsd:complexType abstract="true" name="VirtualNode">
+    <xsd:complexContent>
+      <xsd:extension base="gipsl.all.build.model:Node">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:element name="host" type="gipsl.all.build.model:SubstrateNode"/>
+        </xsd:choice>
+        <xsd:attribute name="host" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="VirtualNode" type="gipsl.all.build.model:VirtualNode"/>
+  <xsd:complexType abstract="true" name="SubstrateNode">
+    <xsd:complexContent>
+      <xsd:extension base="gipsl.all.build.model:Node">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:element name="guests" type="gipsl.all.build.model:VirtualNode"/>
+        </xsd:choice>
+        <xsd:attribute name="guests" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="SubstrateNode" type="gipsl.all.build.model:SubstrateNode"/>
+  <xsd:complexType name="VirtualResourceNode">
+    <xsd:complexContent>
+      <xsd:extension base="gipsl.all.build.model:VirtualNode">
+        <xsd:attribute name="resourceDemand" type="xsd:int"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="VirtualResourceNode" type="gipsl.all.build.model:VirtualResourceNode"/>
+  <xsd:complexType name="SubstrateResourceNode">
+    <xsd:complexContent>
+      <xsd:extension base="gipsl.all.build.model:SubstrateNode">
+        <xsd:attribute name="resourceAmountTotal" type="xsd:int" use="required"/>
+        <xsd:attribute name="resourceAmountAvailable" type="xsd:int" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="SubstrateResourceNode" type="gipsl.all.build.model:SubstrateResourceNode"/>
+</xsd:schema>
