@@ -26,6 +26,8 @@ public class Connector {
 			throw new IllegalArgumentException("Output path is invalid!");
 		}
 
+		final URI absPath = URI.createFileURI(System.getProperty("user.dir") + "/" + outputPath);
+
 		// Build the ILP problem (including updates)
 		api.buildILPProblem(true);
 		final ILPSolverOutput output = api.solveILPProblem();
@@ -35,7 +37,7 @@ public class Connector {
 		api.getN2n().applyNonZeroMappings();
 
 		try {
-			api.saveResult(outputPath);
+			api.saveResult(absPath.toFileString());
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}

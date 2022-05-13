@@ -4,19 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.connector.Connector;
 import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
-public class GipslAllBuildSimpleTest {
+public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {
 
-	static Connector con;
-	static AllBuildModelGenerator gen;
-
-	@BeforeAll
-	public static void setUp() {
+	@BeforeEach
+	public void setUp() {
 		gen = new AllBuildModelGenerator();
 		gen.persistModel("model.xmi");
 		con = new Connector("model.xmi");
