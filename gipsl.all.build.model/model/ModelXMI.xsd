@@ -11,7 +11,6 @@
     </xsd:choice>
     <xsd:attribute ref="xmi:id"/>
     <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
-    <xsd:attribute name="containers" type="xsd:string"/>
   </xsd:complexType>
   <xsd:element name="Root" type="gipsl.all.build.model:Root"/>
   <xsd:complexType abstract="true" name="Element">
@@ -35,7 +34,6 @@
         <xsd:choice maxOccurs="unbounded" minOccurs="0">
           <xsd:element name="virtualNodes" type="gipsl.all.build.model:VirtualNode"/>
         </xsd:choice>
-        <xsd:attribute name="virtualNodes" type="xsd:string"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -46,7 +44,6 @@
         <xsd:choice maxOccurs="unbounded" minOccurs="0">
           <xsd:element name="substrateNodes" type="gipsl.all.build.model:SubstrateNode"/>
         </xsd:choice>
-        <xsd:attribute name="substrateNodes" type="xsd:string"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>

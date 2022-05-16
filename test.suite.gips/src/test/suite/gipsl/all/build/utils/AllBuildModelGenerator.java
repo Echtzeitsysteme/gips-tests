@@ -73,6 +73,7 @@ public class AllBuildModelGenerator {
 		final SubstrateResourceNode node = ModelFactory.eINSTANCE.createSubstrateResourceNode();
 		node.setName(name);
 		node.setResourceAmountTotal(resourceAmountTotal);
+		node.setResourceAmountAvailable(resourceAmountTotal);
 		((SubstrateContainer) getContainer(SUB_NAME)).getSubstrateNodes().add(node);
 	}
 

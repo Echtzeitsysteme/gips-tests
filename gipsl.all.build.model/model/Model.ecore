@@ -7,7 +7,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Root">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containers" upperBound="-1"
-        eType="#//Container"/>
+        eType="#//Container" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -15,11 +15,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="VirtualContainer" eSuperTypes="#//Container">
     <eStructuralFeatures xsi:type="ecore:EReference" name="virtualNodes" upperBound="-1"
-        eType="#//VirtualNode"/>
+        eType="#//VirtualNode" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SubstrateContainer" eSuperTypes="#//Container">
     <eStructuralFeatures xsi:type="ecore:EReference" name="substrateNodes" upperBound="-1"
-        eType="#//SubstrateNode"/>
+        eType="#//SubstrateNode" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="VirtualNode" abstract="true" eSuperTypes="#//Node">
