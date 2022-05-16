@@ -67,7 +67,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 
 	@Test
 	public void testMap10to1() {
-		gen.genSubstrateNode("s1", 2);
+		gen.genSubstrateNode("s1", 10);
 		for (int i = 1; i <= 10; i++) {
 			gen.genVirtualNode("v" + i, 1);
 		}
@@ -109,6 +109,31 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
+	}
+
+	@Test
+	public void testMap1NotPossible() {
+		gen.genSubstrateNode("s1", 1);
+		gen.genVirtualNode("v1", 2);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run("output.xmi");
+		checkIfFileExists();
+
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+	}
+
+	@Test
+	public void testMap2NotPossible() {
+		gen.genSubstrateNode("s1", 1);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run("output.xmi");
+		checkIfFileExists();
+
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
 	// Utility methods

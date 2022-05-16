@@ -55,7 +55,7 @@ rule mapVnode() {
 
 mapping n2n with mapVnode;
 constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
 }
 constraint -> pattern::vnodeNotMapped {
 	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
