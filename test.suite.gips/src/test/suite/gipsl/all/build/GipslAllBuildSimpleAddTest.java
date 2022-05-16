@@ -1,39 +1,20 @@
 package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.File;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.connector.Connector;
-import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
 public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 
-	// Setup and tear down methods
-
-	@BeforeEach
-	public void setUp() {
-		gen = new AllBuildModelGenerator();
-	}
+	// Setup method
 
 	public void callableSetUp() {
-		gen.persistModel("model.xmi");
-		con = new Connector("model.xmi");
-	}
-
-	@AfterEach
-	public void tearDown() {
-		final File in = new File("model.xmi");
-		final File out = new File("output.xmi");
-		in.delete();
-		out.delete();
+		gen.persistModel(MODEL_PATH);
+		con = new Connector(MODEL_PATH);
 	}
 
 	// Actual tests
@@ -44,7 +25,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run("output.xmi");
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
@@ -58,7 +39,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run("output.xmi");
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
@@ -73,7 +54,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		}
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run("output.xmi");
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
@@ -88,7 +69,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run("output.xmi");
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
@@ -104,7 +85,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run("output.xmi");
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
@@ -117,7 +98,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 2);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run("output.xmi");
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
@@ -130,17 +111,10 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run("output.xmi");
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
-	}
-
-	// Utility methods
-
-	public void checkIfFileExists() {
-		final File f = new File("output.xmi");
-		assertTrue(f.exists() && !f.isDirectory());
 	}
 
 }
