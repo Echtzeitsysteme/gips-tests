@@ -7,7 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.connector.Connector;
+import gipsl.all.build.simple.connector.Connector;
 import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
 public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {

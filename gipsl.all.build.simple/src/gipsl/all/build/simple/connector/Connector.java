@@ -1,14 +1,14 @@
-package gipsl.all.build.connector;
+package gipsl.all.build.simple.connector;
 
 import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 
-import gipsl.all.build.api.gips.BuildGipsAPI;
+import gipsl.all.build.simple.api.gips.SimpleGipsAPI;
 
 public class Connector {
-	final BuildGipsAPI api;
+	final SimpleGipsAPI api;
 
 	public Connector(final String modelPath) {
 		if (modelPath == null || modelPath.isBlank()) {
@@ -17,7 +17,7 @@ public class Connector {
 
 		final URI absPath = URI.createFileURI(System.getProperty("user.dir") + "/" + modelPath);
 
-		api = new BuildGipsAPI();
+		api = new SimpleGipsAPI();
 		api.init(absPath);
 	}
 

@@ -6,7 +6,7 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.connector.Connector;
+import gipsl.all.build.simple.connector.Connector;
 
 public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 

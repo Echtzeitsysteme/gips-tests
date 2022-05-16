@@ -7,7 +7,7 @@ import java.io.File;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import gipsl.all.build.connector.Connector;
+import gipsl.all.build.simple.connector.Connector;
 import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
 public abstract class AGipslAllBuildTest {
