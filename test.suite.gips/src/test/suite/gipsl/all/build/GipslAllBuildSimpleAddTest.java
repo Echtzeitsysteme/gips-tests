@@ -13,11 +13,13 @@ import org.junit.jupiter.api.Test;
 import gipsl.all.build.connector.Connector;
 import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
-public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {
+public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 
 	@BeforeEach
 	public void setUp() {
 		gen = new AllBuildModelGenerator();
+		gen.genSubstrateNode("s1", 1);
+		gen.genVirtualNode("v1", 1);
 		gen.persistModel("model.xmi");
 		con = new Connector("model.xmi");
 	}
@@ -28,7 +30,7 @@ public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {
 		final File f = new File("output.xmi");
 		assertTrue(f.exists() && !f.isDirectory());
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(1, ret.objectiveValue());
 	}
 
 }

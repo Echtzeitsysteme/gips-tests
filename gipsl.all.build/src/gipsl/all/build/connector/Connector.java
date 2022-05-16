@@ -21,7 +21,7 @@ public class Connector {
 		api.init(absPath);
 	}
 
-	public void run(final String outputPath) {
+	public ILPSolverOutput run(final String outputPath) {
 		if (outputPath == null || outputPath.isBlank()) {
 			throw new IllegalArgumentException("Output path is invalid!");
 		}
@@ -41,6 +41,8 @@ public class Connector {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
+
+		return output;
 	}
 
 }

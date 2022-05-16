@@ -8,7 +8,7 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 Package model <platform:/resource/gipsl.all.build.model/model/Model.ecore>
 
   Class Root
-    Reference containers : Container
+    Reference containers : Container<<0..*>>
 
   Class Element
     Attribute name : EString
