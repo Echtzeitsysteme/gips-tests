@@ -9,19 +9,9 @@ config {
 	debugOutput := true;
 }
 
-condition vnodeNotMapped = forbid vnodeIsMapped
-pattern vnodeIsMapped {
-	host: SubstrateNode
-	
-	vnode: VirtualNode {
-		-host -> host
-	}
-}
-
-pattern vnodeNotMapped {
-	vnode: VirtualNode
-}
-when vnodeNotMapped
+//
+// This file is for compilation verification only. Thus, all of the constraints, objectives, ... given below must be compilable.
+//
 
 rule mapVnode() {
 	root: Root {
@@ -57,9 +47,161 @@ mapping n2n with mapVnode;
 constraint -> class::SubstrateResourceNode {
 	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
 }
-constraint -> pattern::vnodeNotMapped {
+constraint -> pattern::mapVnode {
 	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
 }
+
+// This must not produce an error
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->count() * 1 == self.resourceDemand
+}
+
+// TODO: Fix validator?
+//constraint -> mapping::n2n {
+//	self.isMapped()
+//}
+//
+//constraint -> mapping::n2n {
+//	self.value() == 1
+//}
+
+// TODO: UnsupportedOperationException?
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) == self.resourceAmountAvailable
+//}
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) <= self.resourceAmountAvailable
+//}
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) >= self.resourceAmountAvailable
+//}
+
+//constraint -> class::Root {
+//	mappings.n2n->filter(match | match.nodes().snode == self)->exists()
+//}
+
+// TODO: Should be allowed later on
+//constraint -> pattern::mapVnode {
+//	self.nodes().snode.resourceAmountAvailable >= 0
+//}
+//constraint -> class::SubstrateResourceNode {
+//	self.resourceAmountAvailable <= self.resourceAmountTotal
+//}
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().snode == self)->exists() & self.resourceAmountAvailable > 0
+//}
+
+// Other variable names must also be allowed
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(var | var.nodes().snode == self)->exists()
+}
+
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->exists()
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->notExists()
+}
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode != self)->exists()
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode != self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->exists()
+}
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->exists()
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->exists()
+}
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().root != self)->exists() & true & true & true
+}
+// TODO: These constraints should be possible
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().root != self)->exists() & !(false)
+//}
+//constraint -> class::SubstrateResourceNode {
+//	!(false) & self.resourceAmountTotal == 0
+//}
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->exists()
+//}
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | false)->filter(n | n.nodes().snode == self)->exists()
+//}
+
+constraint -> class::VirtualResourceNode {
+	self.resourceDemand > mappings.n2n->count()
+}
+
+// TODO: Should this work?
+//constraint -> mapping::n2n {
+//	self.nodes().snode.guests->exists()	
+//}
+//constraint -> mapping::n2n {
+//	self.nodes().root.containers->exists()
+//}
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->count() > mappings.n2n->filter(m | m.nodes().vnode == self)->count()
+}
+// TODO: Fix compilation error
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->count() - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//}
+
+// TODO: Fix compilation error
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | m.nodes().virtualContainer.virtualNodes ^ 1 + 1 == self.resourceDemand)->exists()
+//}
+// TODO: Fix me
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | 0 > 1)->filter(m | m.nodes().root == self)->exists()
+//}
+
+// TODO: Fix in validator
+// TODO: Fix compilation error
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable ^ 2 == 0
+//}
+
+// TODO: Fix compilation error
+//constraint -> mapping::n2n {
+//	2 ^ self.nodes().snode.resourceAmountAvailable == 1
+//}
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable * 2 == 1
+}
+
+constraint -> mapping::n2n {
+	sin(self.nodes().vnode.resourceDemand) == 0
+}
+constraint -> mapping::n2n {
+	cos(self.nodes().vnode.resourceDemand) == 0
+}
+constraint -> mapping::n2n {
+	abs(self.nodes().vnode.resourceDemand) == 0
+}
+constraint -> mapping::n2n {
+	sqrt(self.nodes().vnode.resourceDemand) == 0
+}
+constraint -> mapping::n2n {
+	-(self.nodes().vnode.resourceDemand) == 0
+}
+
+
+// TODO: These objectives should be allowed right?
+//objective snode -> class::SubstrateResourceNode {
+//	2
+//}
+//objective nPatObj -> pattern::mapVnode {
+//	3
+//}
 
 objective nObj -> mapping::n2n {
 	1
