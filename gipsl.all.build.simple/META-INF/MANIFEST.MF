@@ -12,7 +12,8 @@ Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.gips.core,
  org.emoflon.ibex.gt.democles,
  org.emoflon.ibex.gt.hipe,
- gipsl.all.build.model
+ gipsl.all.build.model,
+ test.suite.utils;bundle-version="1.0.0"
 Export-Package: gipsl.all.build.simple.api,
  gipsl.all.build.simple.api.gips,
  gipsl.all.build.simple.connector

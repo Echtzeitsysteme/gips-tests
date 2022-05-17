@@ -6,28 +6,19 @@ import org.eclipse.emf.common.util.URI;
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 
 import gipsl.all.build.objective.api.gips.ObjectiveGipsAPI;
+import test.suite.gips.utils.GipsTestUtils;
 
 public class ObjectiveConnector {
 
 	final ObjectiveGipsAPI api;
 
 	public ObjectiveConnector(final String modelPath) {
-		if (modelPath == null || modelPath.isBlank()) {
-			throw new IllegalArgumentException("Model path is invalid!");
-		}
-
-		final URI absPath = URI.createFileURI(System.getProperty("user.dir") + "/" + modelPath);
-
 		api = new ObjectiveGipsAPI();
-		api.init(absPath);
+		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 	}
 
 	public ILPSolverOutput run(final String outputPath) {
-		if (outputPath == null || outputPath.isBlank()) {
-			throw new IllegalArgumentException("Output path is invalid!");
-		}
-
-		final URI absPath = URI.createFileURI(System.getProperty("user.dir") + "/" + outputPath);
+		final URI absPath = GipsTestUtils.pathToAbsUri(outputPath);
 
 		// Build the ILP problem (including updates)
 		api.buildILPProblem(true);
