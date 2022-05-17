@@ -11,6 +11,7 @@ config {
 
 //
 // This file is for compilation verification only. Thus, all of the constraints, objectives, ... given below must be compilable.
+// (There is no logic behind this GIPSL problem!)
 //
 
 rule mapVnode() {
@@ -37,6 +38,81 @@ rule mapVnode() {
 	
 	# vnode.resourceDemand <= snode.resourceAmountAvailable
 	# snode.resourceAmountAvailable >= 0
+}
+
+// The following rules are basically copies of the one above.
+// These are necessary because of the objective testing below.
+rule mapA() {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# snode.resourceAmountAvailable >= 1
+}
+rule mapB() {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# snode.resourceAmountAvailable >= 2
+}
+rule mapC() {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# snode.resourceAmountAvailable >= 3
 }
 
 //
@@ -194,6 +270,36 @@ constraint -> mapping::n2n {
 	-(self.nodes().vnode.resourceDemand) == 0
 }
 
+// TODO: Fix compilation errors
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable == self.nodes().snode.resourceAmountTotal
+//}
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable - self.nodes().snode.resourceAmountTotal == 0
+//}
+
+constraint -> class::SubstrateContainer {
+	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->exists()
+}
+
+// TODO: Fix compilation error
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable ^ 1 == 0
+//}
+
+// TODO: Allow this
+//constraint -> pattern::mapVnode {
+//	abs(self.nodes().snode.guests->filter(m | m.host != self.nodes().snode)->count()) == 0
+//}
+
+// TODO: Unknown context type?
+//constraint -> pattern::mapVnode {
+//	self.isMapped()
+//}
+
+mapping mappingA with mapA;
+mapping mappingB with mapB;
+mapping mappingC with mapC;
 
 // TODO: These objectives should be allowed right?
 //objective snode -> class::SubstrateResourceNode {
@@ -207,6 +313,31 @@ objective nObj -> mapping::n2n {
 	1
 }
 
+// TODO: Fix compilation error
+//objective testObjA -> mapping::n2n {
+//	3 * 2 ^ 2 + self.nodes().vnode.resourceDemand - sin(333) + cos(123) * abs(8)
+//}
+
+// TODO: Fix compilation error
+//objective testObjB -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable
+//}
+
+// TODO: Fix compilation error
+//objective testObjC -> mapping::n2n {
+//	abs(8)
+//}
+
+objective testObjD -> mapping::mappingA {
+	2 * self.value()
+}
+
+// TODO: Fix compilation error
+// TODO: sqrt of a negative number should display a warning -> TODO validator!
+//objective testObjE -> mapping::mappingB {
+//	abs(1) + -(1) + sqrt(1) - sqrt(-1.0) / cos(55)
+//}
+
 global objective : min {
-	nObj
+	nObj + 3 + -(nObj) + 2 * testObjD
 }
