@@ -153,7 +153,7 @@ constraint -> class::VirtualResourceNode {
 //}
 
 //constraint -> class::Root {
-//	mappings.n2n->filter(match | match.nodes().snode == self)->exists()
+//	mappings.n2n->filter(match | match.nodes().snode == self)->notEmpty()
 //}
 
 // TODO: Should be allowed later on
@@ -169,46 +169,46 @@ constraint -> class::VirtualResourceNode {
 
 // Other variable names must also be allowed
 constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(var | var.nodes().snode == self)->exists()
+	mappings.n2n->filter(var | var.nodes().snode == self)->notEmpty()
 }
 
 
 constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->exists()
+	mappings.n2n->filter(m | m.nodes().snode == self)->notEmpty()
 }
 constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->notExists()
-}
-
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode != self)->exists()
-}
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode != self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->exists()
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 0
 }
 
 constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->exists()
+	mappings.n2n->filter(m | m.nodes().snode != self)->notEmpty()
 }
 constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->exists()
+	mappings.n2n->filter(m | m.nodes().snode != self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->notEmpty()
 }
 
 constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().root != self)->exists() & true & true & true
+	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->notEmpty()
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->notEmpty()
+}
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & true & true & true
 }
 // TODO: These constraints should be possible
 //constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->filter(m | m.nodes().root != self)->exists() & !(false)
+//	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & !(false)
 //}
 //constraint -> class::SubstrateResourceNode {
 //	!(false) & self.resourceAmountTotal == 0
 //}
 //constraint -> class::VirtualResourceNode {
-//	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->exists()
+//	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->notEmpty()
 //}
 //constraint -> class::VirtualResourceNode {
-//	mappings.n2n->filter(m | false)->filter(n | n.nodes().snode == self)->exists()
+//	mappings.n2n->filter(m | false)->filter(n | n.nodes().snode == self)->notEmpty()
 //}
 
 constraint -> class::VirtualResourceNode {
@@ -217,10 +217,10 @@ constraint -> class::VirtualResourceNode {
 
 // TODO: Should this work?
 //constraint -> mapping::n2n {
-//	self.nodes().snode.guests->exists()	
+//	self.nodes().snode.guests->notEmpty()
 //}
 //constraint -> mapping::n2n {
-//	self.nodes().root.containers->exists()
+//	self.nodes().root.containers->notEmpty()
 //}
 
 constraint -> class::VirtualResourceNode {
@@ -233,11 +233,11 @@ constraint -> class::VirtualResourceNode {
 
 // TODO: Fix compilation error
 //constraint -> class::VirtualResourceNode {
-//	mappings.n2n->filter(m | m.nodes().virtualContainer.virtualNodes ^ 1 + 1 == self.resourceDemand)->exists()
+//	mappings.n2n->filter(m | m.nodes().virtualContainer.virtualNodes ^ 1 + 1 == self.resourceDemand)->notEmpty()
 //}
 // TODO: Fix me
 //constraint -> class::VirtualResourceNode {
-//	mappings.n2n->filter(m | 0 > 1)->filter(m | m.nodes().root == self)->exists()
+//	mappings.n2n->filter(m | 0 > 1)->filter(m | m.nodes().root == self)->notEmpty()
 //}
 
 // TODO: Fix in validator
@@ -279,7 +279,7 @@ constraint -> mapping::n2n {
 //}
 
 constraint -> class::SubstrateContainer {
-	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->exists()
+	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->notEmpty()
 }
 
 // TODO: Fix compilation error
