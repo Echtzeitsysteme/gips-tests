@@ -297,6 +297,18 @@ constraint -> class::SubstrateContainer {
 //	self.isMapped()
 //}
 
+// TODO: Fix compilation error
+//constraint -> pattern::mapVnode {
+//	self.nodes().snode != null
+//}
+//constraint -> class::SubstrateResourceNode {
+//	self.name != null	
+//}
+//constraint -> class::SubstrateResourceNode {
+//	self.guests->filter(m | m != null)->notEmpty()
+//}
+
+
 mapping mappingA with mapA;
 mapping mappingB with mapB;
 mapping mappingC with mapC;
@@ -336,6 +348,10 @@ objective testObjD -> mapping::mappingA {
 // TODO: sqrt of a negative number should display a warning -> TODO validator!
 //objective testObjE -> mapping::mappingB {
 //	abs(1) + -(1) + sqrt(1) - sqrt(-1.0) / cos(55)
+//}
+// TODO: Also fix validator implementation
+//objective testObjF -> mapping::mappingC {
+//	2 log 3 + pi + e
 //}
 
 global objective : min {
