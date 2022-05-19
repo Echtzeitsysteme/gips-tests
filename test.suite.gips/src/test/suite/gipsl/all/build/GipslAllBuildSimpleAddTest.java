@@ -28,7 +28,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(1 * 2 + 1, ret.objectiveValue());
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2 * 2 + 1, ret.objectiveValue());
 	}
 
 	@Test
@@ -55,7 +55,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(10, ret.objectiveValue());
+		assertEquals(10 * 2 + 1, ret.objectiveValue());
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2 * 2 + 1, ret.objectiveValue());
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2 * 2 + 1, ret.objectiveValue());
 	}
 
 	@Test

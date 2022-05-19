@@ -66,5 +66,5 @@ objective nObj -> mapping::n2n {
 }
 
 global objective : min {
-	nObj
+	2 * nObj + 1
 }

@@ -24,7 +24,7 @@ public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {
 	public void testCreateOutput() {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0 + 1, ret.objectiveValue());
 	}
 
 }
