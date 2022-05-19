@@ -24,6 +24,8 @@ import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 import org.junit.platform.launcher.listeners.TestExecutionSummary;
 import org.junit.platform.reporting.legacy.xml.LegacyXmlReportGeneratingListener;
 
+import io.github.gdiegel.junit5_html_report_generator.ExtentReportGeneratingListener;
+
 public class GlobalTestRunner {
 
 	public static void main(final String[] args) {
@@ -36,8 +38,7 @@ public class GlobalTestRunner {
 		final SummaryGeneratingListener listener = new SummaryGeneratingListener();
 		final LegacyXmlReportGeneratingListener xmlListener = new LegacyXmlReportGeneratingListener(
 				Path.of("./build/reports"), new PrintWriter(System.out));
-		// TODO: Add HTML report generator later on
-//		final ExtentReportGeneratingListener extentReportGeneratingListener = new ExtentReportGeneratingListener();
+		final ExtentReportGeneratingListener extentReportGeneratingListener = new ExtentReportGeneratingListener();
 
 		// Find tests and build request
 		LauncherDiscoveryRequest request;
@@ -63,8 +64,7 @@ public class GlobalTestRunner {
 		launcher.registerTestExecutionListeners(listener);
 		launcher.registerTestExecutionListeners(xmlListener);
 
-		// TODO: Add HTML report generator later on
-//		launcher.registerTestExecutionListeners(extentReportGeneratingListener);
+		launcher.registerTestExecutionListeners(extentReportGeneratingListener);
 
 		// Run tests
 		launcher.execute(request);
