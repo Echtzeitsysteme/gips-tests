@@ -6,7 +6,7 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.simple.connector.Connector;
+import gips.all.build.objective.connector.ObjectiveConnector;
 
 public class GipslAllBuildObjectiveTest extends AGipslAllBuildTest {
 
@@ -14,7 +14,7 @@ public class GipslAllBuildObjectiveTest extends AGipslAllBuildTest {
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new Connector(MODEL_PATH);
+		con = new ObjectiveConnector(MODEL_PATH);
 	}
 
 	// Actual tests
@@ -26,7 +26,6 @@ public class GipslAllBuildObjectiveTest extends AGipslAllBuildTest {
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		final double refObjA = 1 + 2 + Math.sin(3) + Math.cos(4) + Math.abs(-5) + -(6) + Math.pow(7, 3) + Math.sqrt(8)

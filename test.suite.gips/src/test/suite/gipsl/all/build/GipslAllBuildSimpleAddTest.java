@@ -6,7 +6,7 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.simple.connector.Connector;
+import gipsl.all.build.simple.connector.SimpleConnector;
 
 public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 
@@ -14,7 +14,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new Connector(MODEL_PATH);
+		con = new SimpleConnector(MODEL_PATH);
 	}
 
 	// Actual tests
@@ -26,7 +26,6 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, ret.objectiveValue());
@@ -40,7 +39,6 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
@@ -55,7 +53,6 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, ret.objectiveValue());
@@ -70,7 +67,6 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
@@ -86,7 +82,6 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
@@ -99,7 +94,6 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
@@ -112,7 +106,6 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		checkIfFileExists();
 
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}

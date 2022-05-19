@@ -7,12 +7,12 @@ import java.io.File;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import gipsl.all.build.simple.connector.Connector;
+import test.suite.gips.utils.AConnector;
 import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
 public abstract class AGipslAllBuildTest {
 
-	protected Connector con;
+	protected AConnector con;
 	protected AllBuildModelGenerator gen;
 	protected final static String MODEL_PATH = "model.xmi";
 	protected final static String OUTPUT_PATH = "output.xmi";
@@ -30,6 +30,7 @@ public abstract class AGipslAllBuildTest {
 		out.delete();
 	}
 
+	@Deprecated
 	public void checkIfFileExists() {
 		final File f = new File(OUTPUT_PATH);
 		assertTrue(f.exists() && !f.isDirectory());
