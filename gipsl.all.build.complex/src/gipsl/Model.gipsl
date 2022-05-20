@@ -132,16 +132,15 @@ constraint -> class::VirtualResourceNode {
 	mappings.n2n->count() * 1 == self.resourceDemand
 }
 
-// TODO: UnsupportedOperationException?
-//constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) == self.resourceAmountAvailable
-//}
-//constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) <= self.resourceAmountAvailable
-//}
-//constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) >= self.resourceAmountAvailable
-//}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) == self.resourceAmountAvailable
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) <= self.resourceAmountAvailable
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) >= self.resourceAmountAvailable
+}
 
 constraint -> class::Root {
 	mappings.n2n->filter(match | match.nodes().snode == self)->notEmpty()
@@ -187,7 +186,7 @@ constraint -> class::SubstrateResourceNode {
 constraint -> class::SubstrateResourceNode {
 	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & true & true & true
 }
-// TODO: These constraints should be possible
+// TODO: These constraints should be possible, but !() is not yet implemented
 //constraint -> class::SubstrateResourceNode {
 //	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & !(false)
 //}
@@ -281,12 +280,12 @@ constraint -> pattern::mapVnode {
 //	self.isMapped()
 //}
 
-// TODO: Fix compilation error
+// TODO: Fix compilation error or must these constraints be forbidded by the validator?
 //constraint -> pattern::mapVnode {
 //	self.nodes().snode != null
 //}
-//constraint -> class::SubstrateResourceNode {
-//	self.name != null	
+//constraint -> class::VirtualResourceNode {
+//	self.host != null
 //}
 
 // TODO: Fix error: "Couldn't resolve reference to GipsObjective 'o'."

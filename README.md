@@ -11,6 +11,11 @@ This repository holds some GIPS test projects.
 * Clone this Git repository to your local machine and import it into Eclipse: *File -> Import -> General -> Existing Projects into Workspace*. Import all projects.
 * Build all your projects with the black eMoflon hammer. Sometimes, it is required to trigger a cleaning in Eclipse (*Project -> Clean... -> Clean all projects*).
 
+### Requirements
+
+Currently, all of the tests use the [GLPK](https://www.gnu.org/software/glpk/) ILP solver, which is free and open-source.
+Thus, you have to install and configure GLPK or change the configuration of all `Model.gipsl` files from `GLPK` to `GUROBI`.
+
 
 ## Repository/Project structure
 
