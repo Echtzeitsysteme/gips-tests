@@ -152,20 +152,19 @@ constraint -> class::VirtualResourceNode {
 //	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) >= self.resourceAmountAvailable
 //}
 
-//constraint -> class::Root {
-//	mappings.n2n->filter(match | match.nodes().snode == self)->notEmpty()
-//}
+constraint -> class::Root {
+	mappings.n2n->filter(match | match.nodes().snode == self)->notEmpty()
+}
 
-// TODO: Should be allowed later on
-//constraint -> pattern::mapVnode {
-//	self.nodes().snode.resourceAmountAvailable >= 0
-//}
-//constraint -> class::SubstrateResourceNode {
-//	self.resourceAmountAvailable <= self.resourceAmountTotal
-//}
-//constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->filter(m | m.nodes().snode == self)->exists() & self.resourceAmountAvailable > 0
-//}
+constraint -> pattern::mapVnode {
+	self.nodes().snode.resourceAmountAvailable >= 0
+}
+constraint -> class::SubstrateResourceNode {
+	self.resourceAmountAvailable <= self.resourceAmountTotal
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1 & self.resourceAmountAvailable > 0
+}
 
 // Other variable names must also be allowed
 constraint -> class::SubstrateResourceNode {
@@ -204,11 +203,16 @@ constraint -> class::SubstrateResourceNode {
 //constraint -> class::SubstrateResourceNode {
 //	!(false) & self.resourceAmountTotal == 0
 //}
+
+// TODO: Fix me (context is used!)
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->notEmpty()
 //}
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->filter(m | false)->filter(n | n.nodes().snode == self)->notEmpty()
+//}
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | 0 > 1)->filter(m | m.nodes().root == self)->notEmpty()
 //}
 
 constraint -> class::VirtualResourceNode {
@@ -226,30 +230,21 @@ constraint -> class::VirtualResourceNode {
 constraint -> class::VirtualResourceNode {
 	mappings.n2n->count() > mappings.n2n->filter(m | m.nodes().vnode == self)->count()
 }
-// TODO: Fix compilation error
+// TODO: Fix compilation error (there are missing type constraint classes in src-gen)
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->count() - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
 //}
 
-// TODO: Fix compilation error
-//constraint -> class::VirtualResourceNode {
-//	mappings.n2n->filter(m | m.nodes().virtualContainer.virtualNodes ^ 1 + 1 == self.resourceDemand)->notEmpty()
-//}
-// TODO: Fix me
-//constraint -> class::VirtualResourceNode {
-//	mappings.n2n->filter(m | 0 > 1)->filter(m | m.nodes().root == self)->notEmpty()
-//}
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode.resourceDemand ^ 1 + 1 == self.resourceDemand)->notEmpty()
+}
 
-// TODO: Fix in validator
-// TODO: Fix compilation error
-//constraint -> mapping::n2n {
-//	self.nodes().snode.resourceAmountAvailable ^ 2 == 0
-//}
-
-// TODO: Fix compilation error
-//constraint -> mapping::n2n {
-//	2 ^ self.nodes().snode.resourceAmountAvailable == 1
-//}
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable ^ 2 == 0
+}
+constraint -> mapping::n2n {
+	2 ^ self.nodes().snode.resourceAmountAvailable == 1
+}
 constraint -> mapping::n2n {
 	self.nodes().snode.resourceAmountAvailable * 2 == 1
 }
@@ -282,15 +277,13 @@ constraint -> class::SubstrateContainer {
 	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->notEmpty()
 }
 
-// TODO: Fix compilation error
-//constraint -> mapping::n2n {
-//	self.nodes().snode.resourceAmountAvailable ^ 1 == 0
-//}
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable ^ 1 == 0
+}
 
-// TODO: Allow this
-//constraint -> pattern::mapVnode {
-//	abs(self.nodes().snode.guests->filter(m | m.host != self.nodes().snode)->count()) == 0
-//}
+constraint -> pattern::mapVnode {
+	abs(self.nodes().snode.guests->filter(m | m.host != self.nodes().snode)->count()) == 0
+}
 
 // TODO: Unknown context type?
 //constraint -> pattern::mapVnode {
@@ -304,8 +297,10 @@ constraint -> class::SubstrateContainer {
 //constraint -> class::SubstrateResourceNode {
 //	self.name != null	
 //}
+
+// TODO: Fix error: "Couldn't resolve reference to GipsObjective 'o'."
 //constraint -> class::SubstrateResourceNode {
-//	self.guests->filter(m | m != null)->notEmpty()
+//	self.guests->filter(o | o != null)->notEmpty()
 //}
 
 
@@ -313,42 +308,37 @@ mapping mappingA with mapA;
 mapping mappingB with mapB;
 mapping mappingC with mapC;
 
-// TODO: These objectives should be allowed right?
-//objective snode -> class::SubstrateResourceNode {
-//	2
-//}
-//objective nPatObj -> pattern::mapVnode {
-//	3
-//}
+objective snode -> class::SubstrateResourceNode {
+	2
+}
+objective nPatObj -> pattern::mapVnode {
+	3
+}
 
 objective nObj -> mapping::n2n {
 	1
 }
 
-// TODO: Fix compilation error
-//objective testObjA -> mapping::n2n {
-//	3 * 2 ^ 2 + self.nodes().vnode.resourceDemand - sin(333) + cos(123) * abs(8)
-//}
+objective testObjA -> mapping::n2n {
+	3 * 2 ^ 2 + self.nodes().vnode.resourceDemand - sin(333) + cos(123) * abs(8)
+}
 
-// TODO: Fix compilation error
-//objective testObjB -> mapping::n2n {
-//	self.nodes().snode.resourceAmountAvailable
-//}
+objective testObjB -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable
+}
 
-// TODO: Fix compilation error
-//objective testObjC -> mapping::n2n {
-//	abs(8)
-//}
+objective testObjC -> mapping::n2n {
+	abs(8)
+}
 
 objective testObjD -> mapping::mappingA {
 	2 * self.value()
 }
 
-// TODO: Fix compilation error
 // TODO: sqrt of a negative number should display a warning -> TODO validator!
-//objective testObjE -> mapping::mappingB {
-//	abs(1) + -(1) + sqrt(1) - sqrt(-1.0) / cos(55)
-//}
+objective testObjE -> mapping::mappingB {
+	abs(1) + -(1) + sqrt(1) - sqrt(-1.0) / cos(55)
+}
 // TODO: Also fix validator implementation
 //objective testObjF -> mapping::mappingC {
 //	2 log 3 + pi + e
