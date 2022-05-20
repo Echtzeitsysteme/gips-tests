@@ -132,15 +132,6 @@ constraint -> class::VirtualResourceNode {
 	mappings.n2n->count() * 1 == self.resourceDemand
 }
 
-// TODO: Fix validator?
-//constraint -> mapping::n2n {
-//	self.isMapped()
-//}
-//
-//constraint -> mapping::n2n {
-//	self.value() == 1
-//}
-
 // TODO: UnsupportedOperationException?
 //constraint -> class::SubstrateResourceNode {
 //	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) == self.resourceAmountAvailable
@@ -339,10 +330,9 @@ objective testObjD -> mapping::mappingA {
 objective testObjE -> mapping::mappingB {
 	abs(1) + -(1) + sqrt(1) - sqrt(-1.0) / cos(55)
 }
-// TODO: Also fix validator implementation
-//objective testObjF -> mapping::mappingC {
-//	2 log 3 + pi + e
-//}
+objective testObjF -> mapping::mappingC {
+	2 log 3 + pi + e
+}
 
 global objective : min {
 	nObj + 3 + -(nObj) + 2 * testObjD
