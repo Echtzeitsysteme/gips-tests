@@ -187,6 +187,7 @@ constraint -> class::SubstrateResourceNode {
 	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & true & true & true
 }
 // TODO: These constraints should be possible, but !() is not yet implemented
+// Current status: java.lang.IllegalArgumentException: Optimization problem is impossible to solve: One ore more constraints return false by definition.
 //constraint -> class::SubstrateResourceNode {
 //	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & !(false)
 //}
@@ -195,6 +196,7 @@ constraint -> class::SubstrateResourceNode {
 //}
 
 // TODO: Fix me (context is used!)
+// Current status: java.lang.IllegalArgumentException: Context must be used at least once per non-global constraint.
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->notEmpty()
 //}
@@ -210,6 +212,7 @@ constraint -> class::VirtualResourceNode {
 }
 
 // TODO: Should this work?
+// Current status: java.lang.UnsupportedOperationException: Nested stream expressions and checking model preconditions within constraints are not yet supported. Instead, rules or patterns should be used for checking model preconditions.
 //constraint -> mapping::n2n {
 //	self.nodes().snode.guests->notEmpty()
 //}
@@ -220,7 +223,8 @@ constraint -> class::VirtualResourceNode {
 constraint -> class::VirtualResourceNode {
 	mappings.n2n->count() > mappings.n2n->filter(m | m.nodes().vnode == self)->count()
 }
-// TODO: Fix compilation error (there are missing type constraint classes in src-gen)
+// TODO: Fix compilation error
+// Current status: There are missing type constraint classes in src-gen)
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->count() - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
 //}
@@ -256,6 +260,7 @@ constraint -> mapping::n2n {
 }
 
 // TODO: Fix compilation errors
+// Current status: "snode" access in generated code is missing
 //constraint -> mapping::n2n {
 //	self.nodes().snode.resourceAmountAvailable == self.nodes().snode.resourceAmountTotal
 //}
@@ -275,12 +280,12 @@ constraint -> pattern::mapVnode {
 	abs(self.nodes().snode.guests->filter(m | m.host != self.nodes().snode)->count()) == 0
 }
 
-// TODO: Unknown context type?
+// TODO: Unknown context type? Should this possible?
 //constraint -> pattern::mapVnode {
 //	self.isMapped()
 //}
 
-// TODO: Fix compilation error or must these constraints be forbidded by the validator?
+// TODO: Fix compilation error or must these constraints be forbidden by the validator?
 //constraint -> pattern::mapVnode {
 //	self.nodes().snode != null
 //}
