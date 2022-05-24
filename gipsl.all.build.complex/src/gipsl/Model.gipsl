@@ -1,6 +1,6 @@
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GLPK [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
@@ -219,6 +219,12 @@ constraint -> class::VirtualResourceNode {
 //constraint -> mapping::n2n {
 //	self.nodes().root.containers->notEmpty()
 //}
+//constraint -> mapping::n2n {
+//	self.nodes().root.containers->filter(m | self.isMapped())->count() == 1
+//}
+//constraint -> mapping::n2n {
+//	self.nodes().root.containers->notEmpty()
+//}
 
 constraint -> class::VirtualResourceNode {
 	mappings.n2n->count() > mappings.n2n->filter(m | m.nodes().vnode == self)->count()
@@ -281,24 +287,27 @@ constraint -> pattern::mapVnode {
 	abs(self.nodes().snode.guests->filter(m | m.host != self.nodes().snode)->count()) == 0
 }
 
-// TODO: Unknown context type? Should this possible?
-//constraint -> pattern::mapVnode {
-//	self.isMapped()
-//}
+constraint -> mapping::n2n {
+	self.isMapped()
+}
 
-// TODO: Fix compilation error or must these constraints be forbidden by the validator?
+// TODO: Fix compilation error
 //constraint -> pattern::mapVnode {
 //	self.nodes().snode != null
 //}
 //constraint -> class::VirtualResourceNode {
 //	self.host != null
 //}
+// TODO: Use "buildConstantExpression" instead of "constantLhs/constantRhs"
+// If an expr can be "evaluated constantly", always use "buildConstantExpression"
 
 // TODO: Fix error: "Couldn't resolve reference to GipsObjective 'o'."
 // Not yet implemented -> Should be something like "o()" later on.
 //constraint -> class::SubstrateResourceNode {
 //	self.guests->filter(o | o != null)->notEmpty()
 //}
+
+// TODO: Test access to "patterns." and "types."!
 
 
 mapping mappingA with mapA;

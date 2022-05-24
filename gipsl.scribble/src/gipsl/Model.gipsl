@@ -50,6 +50,19 @@ mapping n2n with mapVnode;
 //	mappings.n2n->count() + 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
 //}
 
+constraint -> mapping::n2n {
+	self.isMapped()
+}
+constraint -> mapping::n2n {
+	self.isMapped() & 1 < 0
+}
+//constraint -> mapping::n2n {
+//	self.nodes().root.containers->filter(m | self.isMapped())->count() == 1
+//}
+//constraint -> mapping::n2n {
+//	self.nodes().root.containers->notEmpty()
+//}
+
 //objective testObj -> mapping::n2n {
 //	pi + e
 //}
