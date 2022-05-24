@@ -211,7 +211,7 @@ constraint -> class::VirtualResourceNode {
 	self.resourceDemand > mappings.n2n->count()
 }
 
-// TODO: Should this work?
+// TODO: Not yet implemented
 // Current status: java.lang.UnsupportedOperationException: Nested stream expressions and checking model preconditions within constraints are not yet supported. Instead, rules or patterns should be used for checking model preconditions.
 //constraint -> mapping::n2n {
 //	self.nodes().snode.guests->notEmpty()
@@ -227,6 +227,9 @@ constraint -> class::VirtualResourceNode {
 // Current status: There are missing type constraint classes in src-gen)
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->count() - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//	2 - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//	mappings.n2n->count() == self.resourceDemand
+//	mappings.n2n->count() + 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
 //}
 
 constraint -> class::VirtualResourceNode {
@@ -259,14 +262,12 @@ constraint -> mapping::n2n {
 	-(self.nodes().vnode.resourceDemand) == 0
 }
 
-// TODO: Fix compilation errors
-// Current status: "snode" access in generated code is missing
-//constraint -> mapping::n2n {
-//	self.nodes().snode.resourceAmountAvailable == self.nodes().snode.resourceAmountTotal
-//}
-//constraint -> mapping::n2n {
-//	self.nodes().snode.resourceAmountAvailable - self.nodes().snode.resourceAmountTotal == 0
-//}
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable == self.nodes().snode.resourceAmountTotal
+}
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable - self.nodes().snode.resourceAmountTotal == 0
+}
 
 constraint -> class::SubstrateContainer {
 	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->notEmpty()
@@ -294,6 +295,7 @@ constraint -> pattern::mapVnode {
 //}
 
 // TODO: Fix error: "Couldn't resolve reference to GipsObjective 'o'."
+// Not yet implemented -> Should be something like "o()" later on.
 //constraint -> class::SubstrateResourceNode {
 //	self.guests->filter(o | o != null)->notEmpty()
 //}

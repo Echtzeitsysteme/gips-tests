@@ -39,6 +39,17 @@ rule mapVnode() {
 
 mapping n2n with mapVnode;
 
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->notEmpty()
+//}
+
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->count() - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//	2 - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//	mappings.n2n->count() == self.resourceDemand
+//	mappings.n2n->count() + 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//}
+
 //objective testObj -> mapping::n2n {
 //	pi + e
 //}
