@@ -46,6 +46,11 @@ constraint -> class::SubstrateResourceNode {
 	!(mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable)
 }
 
+// OR
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->count() * self.resourceDemand >= 1 * self.resourceDemand | mappings.n2n->count() * self.resourceDemand <= 2 * self.resourceDemand
+}
+
 objective nObj -> mapping::n2n {
 	1
 }
