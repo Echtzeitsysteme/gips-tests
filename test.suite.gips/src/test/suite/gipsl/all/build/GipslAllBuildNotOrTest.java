@@ -22,8 +22,8 @@ public class GipslAllBuildNotOrTest extends AGipslAllBuildTest {
 	@Test
 	public void testMap2to1() {
 		gen.genSubstrateNode("s1", 1);
-		gen.genVirtualNode("v1", 2);
-		gen.genVirtualNode("v2", 2);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
