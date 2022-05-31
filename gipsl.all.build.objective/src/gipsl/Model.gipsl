@@ -1,0 +1,73 @@
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 73];
+	presolve := true;
+	debugOutput := true;
+}
+
+condition vnodeNotMapped = forbid vnodeIsMapped
+pattern vnodeIsMapped {
+	host: SubstrateNode
+	
+	vnode: VirtualNode {
+		-host -> host
+	}
+}
+
+pattern vnodeNotMapped {
+	vnode: VirtualNode
+}
+when vnodeNotMapped
+
+rule mapVnode() {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping a with mapVnode;
+constraint -> class::SubstrateResourceNode {
+	mappings.a->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+}
+constraint -> pattern::vnodeNotMapped {
+	mappings.a->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
+}
+
+objective objA -> mapping::a {
+	1 + 2 + sin(3) + cos(4) + abs(-5) + -(6) + 7^3 + sqrt(8) + self.nodes().snode.resourceAmountTotal - 9 + 10/10
+}
+objective objB -> class::Root {
+	500
+}
+
+global objective : min {
+	2 * objA + 73 + 2 * objB
+}

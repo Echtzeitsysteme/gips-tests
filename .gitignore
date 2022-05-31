@@ -1,0 +1,12 @@
+src-gen
+xtend-gen
+bin
+!/**/.gitkeep
+
+*.log
+*.LOG
+test.suite.gips/*.xmi
+
+test.suite.gips/build/
+
+*.html

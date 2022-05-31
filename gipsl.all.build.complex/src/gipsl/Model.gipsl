@@ -1,0 +1,353 @@
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 73];
+	presolve := true;
+	debugOutput := true;
+}
+
+//
+// This file is for compilation verification only. Thus, all of the constraints, objectives, ... given below must be compilable.
+// (There is no logic behind this GIPSL problem!)
+//
+
+rule mapVnode() {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+// The following rules are basically copies of the one above.
+// These are necessary because of the objective testing below.
+rule mapA() {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# snode.resourceAmountAvailable >= 1
+}
+rule mapB() {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# snode.resourceAmountAvailable >= 2
+}
+rule mapC() {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# snode.resourceAmountAvailable >= 3
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapVnode;
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+}
+constraint -> pattern::mapVnode {
+	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
+}
+
+// This must not produce an error
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->count() * 1 == self.resourceDemand
+}
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) == self.resourceAmountAvailable
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) <= self.resourceAmountAvailable
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) >= self.resourceAmountAvailable
+}
+
+constraint -> class::Root {
+	mappings.n2n->filter(match | match.nodes().snode == self)->notEmpty()
+}
+
+constraint -> pattern::mapVnode {
+	self.nodes().snode.resourceAmountAvailable >= 0
+}
+constraint -> class::SubstrateResourceNode {
+	self.resourceAmountAvailable <= self.resourceAmountTotal
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1 & self.resourceAmountAvailable > 0
+}
+
+// Other variable names must also be allowed
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(var | var.nodes().snode == self)->notEmpty()
+}
+
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->notEmpty()
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 0
+}
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode != self)->notEmpty()
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode != self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->notEmpty()
+}
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->notEmpty()
+}
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->notEmpty()
+}
+
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & true & true & true
+}
+// TODO: These constraints should be possible, but !() is not yet implemented
+// Current status: java.lang.IllegalArgumentException: Optimization problem is impossible to solve: One ore more constraints return false by definition.
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & !(false)
+//}
+//constraint -> class::SubstrateResourceNode {
+//	!(false) & self.resourceAmountTotal == 0
+//}
+
+// TODO: Fix me (context is used!)
+// Current status: java.lang.IllegalArgumentException: Context must be used at least once per non-global constraint.
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->notEmpty()
+//}
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | false)->filter(n | n.nodes().snode == self)->notEmpty()
+//}
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | 0 > 1)->filter(m | m.nodes().root == self)->notEmpty()
+//}
+
+constraint -> class::VirtualResourceNode {
+	self.resourceDemand > mappings.n2n->count()
+}
+
+// TODO: Not yet implemented
+// Current status: java.lang.UnsupportedOperationException: Nested stream expressions and checking model preconditions within constraints are not yet supported. Instead, rules or patterns should be used for checking model preconditions.
+//constraint -> mapping::n2n {
+//	self.nodes().snode.guests->notEmpty()
+//}
+//constraint -> mapping::n2n {
+//	self.nodes().root.containers->notEmpty()
+//}
+//constraint -> mapping::n2n {
+//	self.nodes().root.containers->filter(m | self.isMapped())->count() == 1
+//}
+//constraint -> mapping::n2n {
+//	self.nodes().root.containers->notEmpty()
+//}
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->count() > mappings.n2n->filter(m | m.nodes().vnode == self)->count()
+}
+// TODO: Fix compilation error
+// Current status: There are missing type constraint classes in src-gen)
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->count() - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//	2 - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//	mappings.n2n->count() == self.resourceDemand
+//	mappings.n2n->count() + 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//}
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode.resourceDemand ^ 1 + 1 == self.resourceDemand)->notEmpty()
+}
+
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable ^ 2 == 0
+}
+constraint -> mapping::n2n {
+	2 ^ self.nodes().snode.resourceAmountAvailable == 1
+}
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable * 2 == 1
+}
+
+constraint -> mapping::n2n {
+	sin(self.nodes().vnode.resourceDemand) == 0
+}
+constraint -> mapping::n2n {
+	cos(self.nodes().vnode.resourceDemand) == 0
+}
+constraint -> mapping::n2n {
+	abs(self.nodes().vnode.resourceDemand) == 0
+}
+constraint -> mapping::n2n {
+	sqrt(self.nodes().vnode.resourceDemand) == 0
+}
+constraint -> mapping::n2n {
+	-(self.nodes().vnode.resourceDemand) == 0
+}
+
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable == self.nodes().snode.resourceAmountTotal
+}
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable - self.nodes().snode.resourceAmountTotal == 0
+}
+
+constraint -> class::SubstrateContainer {
+	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->notEmpty()
+}
+
+constraint -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable ^ 1 == 0
+}
+
+constraint -> pattern::mapVnode {
+	abs(self.nodes().snode.guests->filter(m | m.host != self.nodes().snode)->count()) == 0
+}
+
+constraint -> mapping::n2n {
+	self.isMapped()
+}
+
+// TODO: Fix compilation error
+//constraint -> pattern::mapVnode {
+//	self.nodes().snode != null
+//}
+//constraint -> class::VirtualResourceNode {
+//	self.host != null
+//}
+// TODO: Use "buildConstantExpression" instead of "constantLhs/constantRhs"
+// If an expr can be "evaluated constantly", always use "buildConstantExpression"
+
+// TODO: Fix error: "Couldn't resolve reference to GipsObjective 'o'."
+// Not yet implemented -> Should be something like "o()" later on.
+//constraint -> class::SubstrateResourceNode {
+//	self.guests->filter(o | o != null)->notEmpty()
+//}
+
+// TODO: Test access to "patterns." and "types."!
+
+
+mapping mappingA with mapA;
+mapping mappingB with mapB;
+mapping mappingC with mapC;
+
+objective snode -> class::SubstrateResourceNode {
+	2
+}
+objective nPatObj -> pattern::mapVnode {
+	3
+}
+
+objective nObj -> mapping::n2n {
+	1
+}
+
+objective testObjA -> mapping::n2n {
+	3 * 2 ^ 2 + self.nodes().vnode.resourceDemand - sin(333) + cos(123) * abs(8)
+}
+
+objective testObjB -> mapping::n2n {
+	self.nodes().snode.resourceAmountAvailable
+}
+
+objective testObjC -> mapping::n2n {
+	abs(8)
+}
+
+objective testObjD -> mapping::mappingA {
+	2 * self.value()
+}
+
+objective testObjE -> mapping::mappingB {
+	abs(1) + -(1) + sqrt(1) - sqrt(2.0) / cos(55)
+}
+objective testObjF -> mapping::mappingC {
+	2 log 3 + pi + e
+}
+
+global objective : min {
+	nObj + 3 + -(nObj) + 2 * testObjD
+}
