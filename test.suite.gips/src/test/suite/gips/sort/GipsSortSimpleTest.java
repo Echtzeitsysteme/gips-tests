@@ -1,8 +1,10 @@
 package test.suite.gips.sort;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.URI;
@@ -12,6 +14,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.emoflon.smartemf.persistence.SmartEMFResourceFactoryImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import gips.sort.connector.SortConnector;
@@ -70,7 +73,7 @@ public class GipsSortSimpleTest {
 		con = new SortConnector(MODEL_PATH);
 	}
 
-	private void checkOrder() {
+	private void checkOrder(final int expectedNoOfEntries) {
 		// Find entry with smallest value (= start)
 		int currSmallestVal = Integer.MAX_VALUE;
 		Entry e = null;
@@ -79,18 +82,26 @@ public class GipsSortSimpleTest {
 			final Entry itEntry = it.next();
 			if (itEntry.getValue() < currSmallestVal) {
 				e = itEntry;
+				currSmallestVal = e.getValue();
 			}
 		}
+
+		int entryCounter = 0;
+		final HashSet<Integer> foundIds = new HashSet<Integer>();
 
 		// Start from first entry
 		int lastVal = e.getValue();
 		while (e.getNext() != e) {
 			e = e.getNext();
+			entryCounter++;
+			assertTrue(foundIds.add(e.getValue())); // Currently, no doubled values are supported
 			if (lastVal > e.getValue()) {
 				throw new AssertionError("Sortation is incorrect.");
 			}
 			lastVal = e.getValue();
 		}
+
+		assertEquals(expectedNoOfEntries - 1, entryCounter);
 	}
 
 	// Actual tests
@@ -99,28 +110,29 @@ public class GipsSortSimpleTest {
 	public void test2Entries() {
 		genNEntries(2);
 		callableSetUp();
-		runAndVerifyResult();
+		runAndVerifyResult(2);
 	}
 
 	@Test
 	public void test10Entries() {
 		genNEntries(10);
 		callableSetUp();
-		runAndVerifyResult();
+		runAndVerifyResult(10);
 	}
 
 	@Test
 	public void test100Entries() {
 		genNEntries(100);
 		callableSetUp();
-		runAndVerifyResult();
+		runAndVerifyResult(100);
 	}
 
 	@Test
+	@Disabled // Runtime
 	public void test1000Entries() {
-		genNEntries(100);
+		genNEntries(1000);
 		callableSetUp();
-		runAndVerifyResult();
+		runAndVerifyResult(1000);
 	}
 
 	private void genNEntries(final int n) {
@@ -129,12 +141,12 @@ public class GipsSortSimpleTest {
 		}
 	}
 
-	private void runAndVerifyResult() {
+	private void runAndVerifyResult(final int expectedNoOfEntries) {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		loadModel(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		checkOrder();
+		checkOrder(expectedNoOfEntries);
 	}
 
 }

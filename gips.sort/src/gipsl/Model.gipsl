@@ -71,3 +71,13 @@ constraint -> global {
 //constraint -> class::Entry {
 //	mappings.e2e->filter(m | m.nodes().valB == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
 //}
+
+
+constraint -> global {
+	mappings.e2self->count() + mappings.e2e->count() == classes.Entry->count()
+}
+
+constraint -> class::Entry {
+//	mappings.e2e->filter(m | m.nodes().valB == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
+	mappings.e2e->filter(m | m.nodes().valB == self)->count() == 1
+}
