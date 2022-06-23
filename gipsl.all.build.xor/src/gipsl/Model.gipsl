@@ -1,0 +1,57 @@
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 73];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapVnode;
+
+// XOR
+constraint -> class::VirtualResourceNode {
+//	mappings.n2n->count() * (self.resourceDemand / self.resourceDemand) >= 1 ^ false
+	mappings.n2n->count() * self.resourceDemand == 1
+	// TODO: Change this back!
+}
+
+objective nObj -> mapping::n2n {
+	1
+}
+
+global objective : min {
+	nObj
+}
