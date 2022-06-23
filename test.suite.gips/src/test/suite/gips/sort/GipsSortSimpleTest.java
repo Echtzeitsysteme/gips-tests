@@ -114,6 +114,13 @@ public class GipsSortSimpleTest {
 	}
 
 	@Test
+	public void test3Entries() {
+		genNEntries(3);
+		callableSetUp();
+		runAndVerifyResult(3);
+	}
+
+	@Test
 	public void test10Entries() {
 		genNEntries(10);
 		callableSetUp();

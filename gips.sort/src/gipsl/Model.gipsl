@@ -34,6 +34,31 @@ rule sortLast {
 	}
 }
 
+// TODO: This is just a workaround; normally, this should be a pattern
+rule findFirst {
+	root: Root {
+		-entries -> valB
+	}
+	
+	valB: Entry {
+		.^value := -1
+	}
+}
+when noPredecessor
+
+condition noPredecessor = forbid findPredecessor
+pattern findPredecessor {
+	root: Root {
+		-entries -> valA
+		-entries -> valB
+	}
+	
+	valA: Entry	
+	valB: Entry
+		
+	# valA.^value <= valB.^value
+}
+
 //rule sortFirst () {
 //	root: Root {
 //		-entries -> val
@@ -54,6 +79,7 @@ rule sortLast {
 
 mapping e2e with sortOne;
 mapping e2self with sortLast;
+mapping eFirst with findFirst;
 
 constraint -> class::Entry {
 	mappings.e2e->filter(m | m.nodes().valA == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
@@ -74,10 +100,11 @@ constraint -> global {
 
 
 constraint -> global {
-	mappings.e2self->count() + mappings.e2e->count() == classes.Entry->count()
+	mappings.e2e->count() == classes.Entry->count() - 1
 }
 
 constraint -> class::Entry {
 //	mappings.e2e->filter(m | m.nodes().valB == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
-	mappings.e2e->filter(m | m.nodes().valB == self)->count() == 1
+//	mappings.eFirst->filter(m | m.nodes().valB == self)->count() +  mappings.e2e->filter(m | m.nodes().valB == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
+	patterns.findFirst->filter(m | m.nodes().valB == self)->count() + mappings.e2e->filter(m | m.nodes().valB == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
 }
