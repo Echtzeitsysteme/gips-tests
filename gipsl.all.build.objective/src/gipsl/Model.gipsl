@@ -23,7 +23,7 @@ pattern vnodeNotMapped {
 }
 when vnodeNotMapped
 
-rule mapVnode() {
+rule mapVnode {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
@@ -62,7 +62,7 @@ constraint -> pattern::vnodeNotMapped {
 }
 
 objective objA -> mapping::a {
-	1 + 2 + sin(3) + cos(4) + abs(-5) + -(6) + 7^3 + sqrt(8) + self.nodes().snode.resourceAmountTotal - 9 + 10/10
+	1 + 2 + sin(3) + cos(4) + abs(-5) + -(6) + 7 pow 3 + sqrt(8) + self.nodes().snode.resourceAmountTotal - 9 + 10/10
 }
 objective objB -> class::Root {
 	500

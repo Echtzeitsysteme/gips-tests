@@ -1,7 +1,7 @@
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
@@ -9,7 +9,7 @@ config {
 	debugOutput := true;
 }
 
-rule mapVnode() {
+rule mapVnode {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
@@ -46,7 +46,7 @@ mapping n2n with mapVnode;
 //	!(mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable)
 //}
 constraint -> class::SubstrateResourceNode {
-	!(mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1)
+	!mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1
 }
 
 // OR
