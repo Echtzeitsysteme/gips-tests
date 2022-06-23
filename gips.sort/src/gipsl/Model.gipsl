@@ -9,7 +9,7 @@ config {
 	debugOutput := true;
 }
 
-rule sortOne () {
+rule sortOne {
 	root: Root {
 		-entries -> valA
 		-entries -> valB
@@ -24,7 +24,7 @@ rule sortOne () {
 	# valA.^value <= valB.^value
 }
 
-rule sortLast () {
+rule sortLast {
 	root: Root {
 		-entries -> val
 	}
