@@ -6,15 +6,15 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.notor.connector.NotOrConnector;
+import gipsl.all.build.not.connector.NotConnector;
 
-public class GipslAllBuildNotOrTest extends AGipslAllBuildTest {
+public class GipslAllBuildNotTest extends AGipslAllBuildTest {
 
 	// Setup method
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new NotOrConnector(MODEL_PATH);
+		con = new NotConnector(MODEL_PATH);
 	}
 
 	// Actual tests
