@@ -42,16 +42,16 @@ rule mapVnode {
 mapping n2n with mapVnode;
 
 // XOR
-constraint -> class::VirtualResourceNode {
-//	mappings.n2n->count() * (self.resourceDemand / self.resourceDemand) >= 1 ^ false
-	mappings.n2n->count() * self.resourceDemand == 1
-	// TODO: Change this back!
+constraint -> class::SubstrateResourceNode {
+	// The `filter` operation on the first half of the expression is useless but necessary because of the `self` reference
+	// The second possibility could be true but the goal is to maximize the number of mappings according to the objective function.
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1 ^ mappings.n2n->filter(m | m.nodes().snode == self)->count() == 0
 }
 
 objective nObj -> mapping::n2n {
 	1
 }
 
-global objective : min {
+global objective : max {
 	nObj
 }

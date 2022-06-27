@@ -1,9 +1,12 @@
 package test.suite.gipsl.all.build;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.xor.connector.XorConnector;
-import test.suite.gips.utils.GipsTestUtils;
 
 public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
@@ -18,21 +21,31 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
 	@Test
 	public void testMap2to1() {
-		// TODO: Create a test case
+		gen.genSubstrateNode("s1", 2);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		callableSetUp();
 
-//		gen.genSubstrateNode("s1", 1);
-////		gen.genVirtualNode("v1", 1);
-//		// TODO!
-////		gen.genVirtualNode("v2", 1);
-//		callableSetUp();
-//
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-//
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-//		assertEquals(2, ret.objectiveValue());
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-		// TODO
-		GipsTestUtils.failNotImplemented();
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		// Only one of the two matches must be embedded because of the XOR constraint
+		assertEquals(1, ret.objectiveValue());
+	}
+
+	@Test
+	public void testMap3to1() {
+		gen.genSubstrateNode("s1", 3);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		gen.genVirtualNode("v3", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		// Only one of the three matches must be embedded because of the XOR constraint
+		assertEquals(1, ret.objectiveValue());
 	}
 
 }
