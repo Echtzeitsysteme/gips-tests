@@ -46,7 +46,7 @@ mapping n2n with mapVnode;
 //	!(mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable)
 //}
 constraint -> class::SubstrateResourceNode {
-	!mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1
+	!mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1
 }
 
 // OR
@@ -58,7 +58,7 @@ objective nObj -> mapping::n2n {
 	1
 }
 
-global objective : min {
+global objective : max {
 	nObj
 }
 
