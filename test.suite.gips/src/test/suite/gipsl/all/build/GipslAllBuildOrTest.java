@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import test.suite.gips.utils.GipsTestUtils;
 
-public class GipslAllBuildIOrTest extends AGipslAllBuildTest {
+public class GipslAllBuildOrTest extends AGipslAllBuildTest {
 
 	// Setup method
 
