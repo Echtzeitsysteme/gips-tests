@@ -48,4 +48,28 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 		assertEquals(1, ret.objectiveValue());
 	}
 
+	@Test
+	public void testMap0to1() {
+		gen.genSubstrateNode("s1", 2);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		// No mapping must be chosen but status must be optimal
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(0, ret.objectiveValue());
+	}
+
+	@Test
+	public void testMap1to0() {
+		gen.genVirtualNode("v1", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		// No mapping must be chosen but status must be optimal
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(0, ret.objectiveValue());
+	}
+
 }

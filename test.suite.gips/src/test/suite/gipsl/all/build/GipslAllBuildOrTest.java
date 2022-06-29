@@ -18,18 +18,7 @@ public class GipslAllBuildOrTest extends AGipslAllBuildTest {
 	}
 
 	// Actual tests
-
-	@Test
-	public void testMap0to1() {
-		gen.genSubstrateNode("s1", 1);
-		callableSetUp();
-
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-
-		// No virtual node match -> problem must be infeasible because of the
-		// constraint(s)
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
-	}
+	// Positive tests
 
 	@Test
 	public void testMap1to1() {
@@ -70,6 +59,32 @@ public class GipslAllBuildOrTest extends AGipslAllBuildTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// Still only two mappings valid because of the constraint(s)
 		assertEquals(2, ret.objectiveValue());
+	}
+
+	// Negative tests
+
+	@Test
+	public void testMap0to1() {
+		gen.genSubstrateNode("s1", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		// No virtual node match -> problem must be infeasible because of the
+		// constraint(s)
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+	}
+
+	@Test
+	public void testMap1to0() {
+		gen.genVirtualNode("v1", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		// No substrate node match -> problem must be infeasible because of the
+		// constraint(s)
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
 }
