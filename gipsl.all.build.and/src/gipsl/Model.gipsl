@@ -41,13 +41,10 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
-// TODO
 // AND
-//constraint -> class::SubstrateResourceNode {
-//	// The `filter` operation on the first half of the expression is useless but necessary because of the `self` reference
-//	// The second possibility could be true but the goal is to maximize the number of mappings according to the objective function.
-//	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 2 | mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1
-//}
+constraint -> global {
+	mappings.n2n->count() >= 1 & mappings.n2n->count() <= 3
+}
 
 objective nObj -> mapping::n2n {
 	1
