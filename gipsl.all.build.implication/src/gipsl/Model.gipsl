@@ -42,16 +42,15 @@ rule mapVnode {
 mapping n2n with mapVnode;
 
 // Implication
-constraint -> class::VirtualResourceNode {
-//	mappings.n2n->count() * (self.resourceDemand / self.resourceDemand) >= 1 ^ false
-	mappings.n2n->count() * self.resourceDemand == 1
-	// TODO: Change this back!
+constraint -> class::SubstrateNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1 =>
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 2
 }
 
 objective nObj -> mapping::n2n {
 	1
 }
 
-global objective : min {
+global objective : max {
 	nObj
 }
