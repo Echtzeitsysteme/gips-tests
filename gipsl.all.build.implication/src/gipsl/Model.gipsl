@@ -43,8 +43,8 @@ mapping n2n with mapVnode;
 
 // Implication
 constraint -> class::SubstrateNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1 =>
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 2
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 1 =>
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 2
 }
 
 objective nObj -> mapping::n2n {
