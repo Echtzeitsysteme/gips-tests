@@ -29,7 +29,7 @@ public class GipslAllBuildNotTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// v1 must not be mapped because it is forbidden by a constraint
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
 }
