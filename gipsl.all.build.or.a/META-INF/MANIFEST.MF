@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.or
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: gipsl.all.build.or; singleton:=true
+Bundle-SymbolicName: gipsl.all.build.or.a;singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-16
 Require-Bundle: org.emoflon.ibex.common,

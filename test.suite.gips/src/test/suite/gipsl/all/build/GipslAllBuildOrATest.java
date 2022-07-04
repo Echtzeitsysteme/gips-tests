@@ -6,15 +6,15 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.or.connector.OrConnector;
+import gipsl.all.build.or.connector.OrAConnector;
 
-public class GipslAllBuildOrTest extends AGipslAllBuildTest {
+public class GipslAllBuildOrATest extends AGipslAllBuildTest {
 
 	// Setup method
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new OrConnector(MODEL_PATH);
+		con = new OrAConnector(MODEL_PATH);
 	}
 
 	// Actual tests
