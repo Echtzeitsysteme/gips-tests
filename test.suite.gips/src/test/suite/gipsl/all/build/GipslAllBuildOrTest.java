@@ -30,7 +30,7 @@ public class GipslAllBuildOrTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class GipslAllBuildOrTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2, Math.abs(ret.objectiveValue()));
 	}
 
 	@Test
@@ -57,8 +57,8 @@ public class GipslAllBuildOrTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		// Still only two mappings valid because of the constraint(s)
-		assertEquals(2, ret.objectiveValue());
+		// Three mappings valid because of the constraint(s) (>=1)
+		assertEquals(3, Math.abs(ret.objectiveValue()));
 	}
 
 	// Negative tests
@@ -70,9 +70,10 @@ public class GipslAllBuildOrTest extends AGipslAllBuildTest {
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-		// No virtual node match -> problem must be infeasible because of the
-		// constraint(s)
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		// No virtual node match -> problem must be feasible, because the constraint
+		// is defined with <= 2
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
 	@Test
@@ -82,9 +83,10 @@ public class GipslAllBuildOrTest extends AGipslAllBuildTest {
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-		// No substrate node match -> problem must be infeasible because of the
-		// constraint(s)
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		// No substrate node match -> problem must be feasible, because the constraint
+		// is defined on class SubstrateNode
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
 }
