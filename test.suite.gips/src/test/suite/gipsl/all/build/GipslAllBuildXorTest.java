@@ -29,8 +29,8 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		// Only one of the two matches must be embedded because of the XOR constraint
-		assertEquals(1, ret.objectiveValue());
+		// One mapping must be chosen
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 	}
 
 	@Test
@@ -45,7 +45,7 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// Only one of the three matches must be embedded because of the XOR constraint
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 	}
 
 	@Test
@@ -55,9 +55,9 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-		// No mapping must be chosen but status must be optimal
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		// No mapping must be chosen but status must be infeasible
+		// 0 matches -> both conditions are true -> XOR is always false
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
 		// No mapping must be chosen but status must be optimal
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
 }
