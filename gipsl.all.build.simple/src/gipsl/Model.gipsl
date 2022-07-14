@@ -23,7 +23,7 @@ pattern vnodeNotMapped {
 }
 when vnodeNotMapped
 
-rule mapVnode() {
+rule mapVnode {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
