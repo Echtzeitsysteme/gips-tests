@@ -6,18 +6,19 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.objective.max.connector.ObjectiveMaxConnector;
+import gipsl.all.build.objective.min.connector.ObjectiveMinConnector;
 
-public class GipslAllBuilbObjectiveMaxTest extends AGipslAllBuildTest {
+public class GipslAllBuildObjectiveMinTest extends AGipslAllBuildTest {
 
 	// Setup method
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new ObjectiveMaxConnector(MODEL_PATH);
+		con = new ObjectiveMinConnector(MODEL_PATH);
 	}
 
 	// Actual tests
+	// Positive
 
 	@Test
 	public void testMap2to1() {
@@ -29,8 +30,8 @@ public class GipslAllBuilbObjectiveMaxTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		// All mappings chosen according to objective goal
-		assertEquals(2, ret.objectiveValue());
+		// No mappings chosen according to objective goal
+		assertEquals(0, ret.objectiveValue());
 	}
 
 	@Test
@@ -44,8 +45,8 @@ public class GipslAllBuilbObjectiveMaxTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		// All mappings chosen according to objective goal
-		assertEquals(3, ret.objectiveValue());
+		// No mappings chosen according to objective goal
+		assertEquals(0, ret.objectiveValue());
 	}
 
 	@Test
@@ -54,15 +55,17 @@ public class GipslAllBuilbObjectiveMaxTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
 		gen.genVirtualNode("v3", 1);
-		gen.genVirtualNode("v4", 1);
+		gen.genVirtualNode("leftout", 1);
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		// All mappings chosen according to objective goal
-		assertEquals(4, ret.objectiveValue());
+		// No mappings chosen according to objective goal
+		assertEquals(0, ret.objectiveValue());
 	}
+
+	// Negative
 
 	@Test
 	public void testMap0to1() {
@@ -71,9 +74,8 @@ public class GipslAllBuilbObjectiveMaxTest extends AGipslAllBuildTest {
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-		// No mappings chosen according to objective goal
-		// Objective is -0.0 -> Math.asb(...) fixes this for the test
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		// No mappings chosen because there are no matches
+		assertEquals(0, ret.objectiveValue());
 	}
 
 	@Test
@@ -83,9 +85,8 @@ public class GipslAllBuilbObjectiveMaxTest extends AGipslAllBuildTest {
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-		// No mappings chosen according to objective goal
-		// Objective is -0.0 -> Math.asb(...) fixes this for the test
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		// No mappings chosen because there are no matches
+		assertEquals(0, ret.objectiveValue());
 	}
 
 }
