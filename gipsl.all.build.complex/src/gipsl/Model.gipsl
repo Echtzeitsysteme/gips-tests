@@ -310,6 +310,11 @@ constraint -> pattern::mapVnode {
 
 // TODO: Test access to "patterns." and "types."!
 
+// TODO: This throws an error at build time
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->count() >= 1 | mappings.n2n->count() * self.resourceDemand <= 2
+}
+
 
 mapping mappingA with mapA;
 mapping mappingB with mapB;

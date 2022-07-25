@@ -18,6 +18,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 	}
 
 	// Actual tests
+	// Positive tests
 
 	@Test
 	public void testMap1to1() {
@@ -87,6 +88,8 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		assertEquals(2 * 2 + 1, ret.objectiveValue());
 	}
 
+	// Negative tests
+
 	@Test
 	public void testMap1NotPossible() {
 		gen.genSubstrateNode("s1", 1);
@@ -103,6 +106,29 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		gen.genSubstrateNode("s1", 1);
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+	}
+
+	@Test
+	public void testMap0to1() {
+		gen.genSubstrateNode("s1", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		// Status must be optimal because constraint is placed on matches (not on
+		// objects)
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(0 + 1, ret.objectiveValue());
+	}
+
+	@Test
+	public void testMap1to0() {
+		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
