@@ -3,7 +3,7 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 // This GIPSL project is just for scribbles and debugging, e.g, the validator.
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GLPK [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
@@ -37,7 +37,33 @@ rule mapVnode {
 	# snode.resourceAmountAvailable >= 0
 }
 
+//abstract rule arule {
+//	root: Root {
+//		-containers -> substrateContainer
+//		-containers -> virtualContainer
+//	}
+//	
+//	substrateContainer: SubstrateContainer {
+//		-substrateNodes -> snode
+//	}
+//	
+//	virtualContainer: VirtualContainer {
+//		-virtualNodes -> vnode
+//	}
+//	
+//	snode: SubstrateResourceNode {
+//		++ -guests -> vnode
+//	}
+//	
+//	vnode: VirtualResourceNode {
+//		++ -host -> snode
+//	}
+//}
+//
+//mapping mapA with arule;
+
 mapping n2n with mapVnode;
+//mapping n2m with mapVnode;
 
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->notEmpty()
@@ -48,6 +74,10 @@ mapping n2n with mapVnode;
 //	2 - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
 //	mappings.n2n->count() == self.resourceDemand
 //	mappings.n2n->count() + 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
+//}
+
+//constraint -> class::SubstrateResourceNode {
+//	self.resourceAmountAvailable->notEmpty()
 //}
 
 // TODO
@@ -63,6 +93,12 @@ mapping n2n with mapVnode;
 //constraint -> mapping::n2n {
 //	self.nodes().root.containers->notEmpty()
 //}
+//constraint -> global {
+//	mappings.n2n->count() == 1
+//}
+//constraint -> mapping::n2n {
+//	self.nodes().root + 1
+//}
 
 //objective testObj -> mapping::n2n {
 //	pi + e
@@ -70,9 +106,12 @@ mapping n2n with mapVnode;
 //objective testObj -> mapping::n2n {
 //	2 log 3
 //}
-objective testObj -> mapping::n2n {
-	2 log 3 + pi + e
-}
+//objective testObj -> mapping::n2n {
+//	2 log 3 + pi + e
+//}
+//objective o -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable->notEmpty()
+//}
 
 global objective : min {
 	1

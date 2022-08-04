@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.emoflon.gips.core.config.GipsGlobalConfig;
+import org.emoflon.gips.intermediate.GipsIntermediate.ILPSolverType;
 import org.junit.platform.engine.DiscoverySelector;
 import org.junit.platform.launcher.Launcher;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
@@ -67,13 +69,18 @@ public class GlobalTestRunner {
 		launcher.registerTestExecutionListeners(extentReportGeneratingListener);
 
 		// Run tests
-		launcher.execute(request);
+		GipsGlobalConfig.overrideIlpSolver = true;
 
-		// Print summary to console
-		final TestExecutionSummary summary = listener.getSummary();
-		summary.printTo(new PrintWriter(System.out));
+		for (final ILPSolverType t : ILPSolverType.VALUES) {
+			GipsGlobalConfig.solverType = t;
+			launcher.execute(request);
+
+			// Print summary to console
+			final TestExecutionSummary summary = listener.getSummary();
+			summary.printTo(new PrintWriter(System.out));
+		}
+
 		System.exit(0);
-
 	}
 
 	/**
