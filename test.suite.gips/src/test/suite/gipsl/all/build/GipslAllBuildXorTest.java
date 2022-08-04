@@ -7,6 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.xor.connector.XorConnector;
+import test.suite.gips.GlobalTestConfig;
 
 public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
@@ -30,7 +31,7 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// One mapping must be chosen
-		assertEquals(1, Math.abs(ret.objectiveValue()));
+		assertEquals(1, Math.abs(ret.objectiveValue()), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -45,7 +46,7 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// Only one of the three matches must be embedded because of the XOR constraint
-		assertEquals(1, Math.abs(ret.objectiveValue()));
+		assertEquals(1, Math.abs(ret.objectiveValue()), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -69,7 +70,7 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 
 		// No mapping must be chosen but status must be optimal
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		assertEquals(0, Math.abs(ret.objectiveValue()), GlobalTestConfig.DELTA_OBJ);
 	}
 
 }

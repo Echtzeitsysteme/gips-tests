@@ -7,6 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.objective.max.connector.ObjectiveMaxConnector;
+import test.suite.gips.GlobalTestConfig;
 
 public class GipslAllBuildObjectiveMaxTest extends AGipslAllBuildTest {
 
@@ -30,7 +31,7 @@ public class GipslAllBuildObjectiveMaxTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// All mappings chosen according to objective goal
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -45,7 +46,7 @@ public class GipslAllBuildObjectiveMaxTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// All mappings chosen according to objective goal
-		assertEquals(3, ret.objectiveValue());
+		assertEquals(3, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -61,7 +62,7 @@ public class GipslAllBuildObjectiveMaxTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// All mappings chosen according to objective goal
-		assertEquals(4, ret.objectiveValue());
+		assertEquals(4, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -73,7 +74,7 @@ public class GipslAllBuildObjectiveMaxTest extends AGipslAllBuildTest {
 
 		// No mappings chosen according to objective goal
 		// Objective is -0.0 -> Math.asb(...) fixes this for the test
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		assertEquals(0, Math.abs(ret.objectiveValue()), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -85,7 +86,7 @@ public class GipslAllBuildObjectiveMaxTest extends AGipslAllBuildTest {
 
 		// No mappings chosen according to objective goal
 		// Objective is -0.0 -> Math.asb(...) fixes this for the test
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		assertEquals(0, Math.abs(ret.objectiveValue()), GlobalTestConfig.DELTA_OBJ);
 	}
 
 }

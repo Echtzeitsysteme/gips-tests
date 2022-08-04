@@ -7,6 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.not.connector.NotConnector;
+import test.suite.gips.GlobalTestConfig;
 
 public class GipslAllBuildNotTest extends AGipslAllBuildTest {
 
@@ -29,7 +30,7 @@ public class GipslAllBuildNotTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// v1 must not be mapped because it is forbidden by a constraint
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		assertEquals(0, Math.abs(ret.objectiveValue()), GlobalTestConfig.DELTA_OBJ);
 	}
 
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.simple.connector.SimpleConnector;
+import test.suite.gips.GlobalTestConfig;
 import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
 public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {
@@ -24,7 +25,7 @@ public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {
 	public void testCreateOutput() {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0 + 1, ret.objectiveValue());
+		assertEquals(0 + 1, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 }

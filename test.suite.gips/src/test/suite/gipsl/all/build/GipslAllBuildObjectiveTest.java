@@ -7,6 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gips.all.build.objective.connector.ObjectiveConnector;
+import test.suite.gips.GlobalTestConfig;
 
 public class GipslAllBuildObjectiveTest extends AGipslAllBuildTest {
 
@@ -32,7 +33,7 @@ public class GipslAllBuildObjectiveTest extends AGipslAllBuildTest {
 				+ 1 - 9 + 10 / 10;
 		final double refObjB = 500;
 		final double refGlobal = 2 * refObjA + 73 + 2 * refObjB;
-		assertEquals(refGlobal, ret.objectiveValue());
+		assertEquals(refGlobal, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -47,7 +48,7 @@ public class GipslAllBuildObjectiveTest extends AGipslAllBuildTest {
 		// No matches -> Only static value of 73 + 2 * obj on class root
 		final double refObjB = 500;
 		final double refGlobal = 2 * refObjB + 73;
-		assertEquals(refGlobal, ret.objectiveValue());
+		assertEquals(refGlobal, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 }

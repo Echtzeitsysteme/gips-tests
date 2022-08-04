@@ -7,6 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.objective.min.connector.ObjectiveMinConnector;
+import test.suite.gips.GlobalTestConfig;
 
 public class GipslAllBuildObjectiveMinTest extends AGipslAllBuildTest {
 
@@ -31,7 +32,7 @@ public class GipslAllBuildObjectiveMinTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// No mappings chosen according to objective goal
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -46,7 +47,7 @@ public class GipslAllBuildObjectiveMinTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// No mappings chosen according to objective goal
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -62,7 +63,7 @@ public class GipslAllBuildObjectiveMinTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// No mappings chosen according to objective goal
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	// Negative
@@ -75,7 +76,7 @@ public class GipslAllBuildObjectiveMinTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		// No mappings chosen because there are no matches
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -86,7 +87,7 @@ public class GipslAllBuildObjectiveMinTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		// No mappings chosen because there are no matches
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 }

@@ -7,6 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.implication.connector.ImplicationConnector;
+import test.suite.gips.GlobalTestConfig;
 
 public class GipslAllBuildImplicationTest extends AGipslAllBuildTest {
 
@@ -30,7 +31,7 @@ public class GipslAllBuildImplicationTest extends AGipslAllBuildTest {
 
 		// No mapping must be chosen due to the implication constraint
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -44,7 +45,7 @@ public class GipslAllBuildImplicationTest extends AGipslAllBuildTest {
 
 		// Both mappings must be chosen to fulfill the implication constraint
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -59,7 +60,7 @@ public class GipslAllBuildImplicationTest extends AGipslAllBuildTest {
 
 		// Two mappings must be chosen to satisfy objective function
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(3, ret.objectiveValue());
+		assertEquals(3, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -71,7 +72,7 @@ public class GipslAllBuildImplicationTest extends AGipslAllBuildTest {
 
 		// No mapping possible, but constraint is fulfilled
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		assertEquals(0, Math.abs(ret.objectiveValue()), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -84,7 +85,7 @@ public class GipslAllBuildImplicationTest extends AGipslAllBuildTest {
 		// No mapping possible, but constraint is not applied due to missing substrate
 		// node
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		assertEquals(0, Math.abs(ret.objectiveValue()), GlobalTestConfig.DELTA_OBJ);
 	}
 
 }

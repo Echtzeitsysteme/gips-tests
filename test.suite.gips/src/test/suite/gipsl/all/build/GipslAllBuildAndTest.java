@@ -7,6 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.and.connector.AndConnector;
+import test.suite.gips.GlobalTestConfig;
 
 public class GipslAllBuildAndTest extends AGipslAllBuildTest {
 
@@ -31,7 +32,7 @@ public class GipslAllBuildAndTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// All mappings must be chosen, according to the objective function
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -46,7 +47,7 @@ public class GipslAllBuildAndTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// All mappings must be chosen, according to the objective function
-		assertEquals(3, ret.objectiveValue());
+		assertEquals(3, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -62,7 +63,7 @@ public class GipslAllBuildAndTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// Only 3 mappings must be chosen, according to the constraint
-		assertEquals(3, ret.objectiveValue());
+		assertEquals(3, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	// Negative tests

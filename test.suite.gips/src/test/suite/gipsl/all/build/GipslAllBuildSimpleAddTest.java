@@ -7,6 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.simple.connector.SimpleConnector;
+import test.suite.gips.GlobalTestConfig;
 
 public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 
@@ -29,7 +30,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1 * 2 + 1, ret.objectiveValue());
+		assertEquals(1 * 2 + 1, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -42,7 +43,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2 * 2 + 1, ret.objectiveValue());
+		assertEquals(2 * 2 + 1, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -56,7 +57,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(10 * 2 + 1, ret.objectiveValue());
+		assertEquals(10 * 2 + 1, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -70,7 +71,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2 * 2 + 1, ret.objectiveValue());
+		assertEquals(2 * 2 + 1, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
@@ -85,7 +86,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2 * 2 + 1, ret.objectiveValue());
+		assertEquals(2 * 2 + 1, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	// Negative tests
@@ -123,7 +124,7 @@ public class GipslAllBuildSimpleAddTest extends AGipslAllBuildTest {
 		// Status must be optimal because constraint is placed on matches (not on
 		// objects)
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0 + 1, ret.objectiveValue());
+		assertEquals(0 + 1, ret.objectiveValue(), GlobalTestConfig.DELTA_OBJ);
 	}
 
 	@Test
