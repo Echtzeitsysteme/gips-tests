@@ -1,0 +1,9 @@
+import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
+
+pattern findMappedGuests {
+	h: Host
+	
+	g: Guest {
+		-host -> h
+	}
+}
