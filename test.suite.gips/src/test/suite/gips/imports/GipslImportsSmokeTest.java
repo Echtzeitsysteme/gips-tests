@@ -7,7 +7,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.simple.connector.SimpleConnector;
+import gipsl.imports.sub.connector.ImportsSubConnector;
 import test.suite.gips.imports.utils.ImportsModelGenerator;
 
 public class GipslImportsSmokeTest extends AGipslImportsTest {
@@ -17,13 +17,13 @@ public class GipslImportsSmokeTest extends AGipslImportsTest {
 	public void setUp() {
 		gen = new ImportsModelGenerator();
 		gen.persistModel(MODEL_PATH);
-		con = new SimpleConnector(MODEL_PATH);
+		con = new ImportsSubConnector(MODEL_PATH);
 	}
 
 	@Test
 	public void testCreateOutput() {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(0, ret.objectiveValue());
 	}
 }

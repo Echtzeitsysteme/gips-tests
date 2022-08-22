@@ -2,7 +2,7 @@ import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
 //from "platform:/resource/gipsl.imports.supera/src/gipsl/Model.gipsl" import mapGuestA
 //from "platform:/resource/gipsl.imports.superb/src/gipsl/imports/superb/Rules.gt" import findMappedGuests
 from "C:\Users\mkratz\git\gips-tests\gipsl.imports.supera\src\gipsl\Model.gipsl" import mapGuestA
-from "C:\Users\mkratz\git\gips-tests\gipsl.imports.superb\src\gipsl\imports\superb\Rules.gt" import findMappedGuests
+from "C:\Users\mkratz\git\gips-tests\gipsl.imports.superb\src\gipsl\imports\superb\Rules.gt" import guestNotMapped
 
 config {  
 	solver := GLPK [home:="fu", license:="bar"];
@@ -16,7 +16,7 @@ config {
 mapping g2h with mapGuestA;
 
 constraint -> global {
-	mappings.g2h->count() == classes.Guest->count()
+	mappings.g2h->count() == patterns.guestNotMapped->count()
 }
 
 objective g2hObj -> mapping::g2h {

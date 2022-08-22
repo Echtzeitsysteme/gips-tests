@@ -1,5 +1,6 @@
 import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
 
+condition guestNotMapped = forbid findMappedGuests
 pattern findMappedGuests {
 	h: Host
 	
@@ -7,3 +8,8 @@ pattern findMappedGuests {
 		-host -> h
 	}
 }
+
+pattern guestNotMapped {
+	g: Guest
+}
+when guestNotMapped
