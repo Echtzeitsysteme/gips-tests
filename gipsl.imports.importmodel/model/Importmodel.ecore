@@ -12,13 +12,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Element">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Host">
+  <eClassifiers xsi:type="ecore:EClass" name="Host" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="guests" upperBound="-1"
-        eType="#//Guest" eOpposite="#//Guest/Host"/>
+        eType="#//Guest" eOpposite="#//Guest/host"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Guest">
+  <eClassifiers xsi:type="ecore:EClass" name="Guest" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="demand" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="Host" eType="#//Host" eOpposite="#//Host/guests"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="host" eType="#//Host" eOpposite="#//Host/guests"/>
   </eClassifiers>
 </ecore:EPackage>
