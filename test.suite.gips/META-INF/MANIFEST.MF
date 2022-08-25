@@ -18,6 +18,7 @@ Import-Package: gips.all.build.objective.connector,
  gipsl.all.build.objective.max.connector,
  gipsl.all.build.or.b.connector,
  gipsl.all.build.or.connector,
+ gipsl.all.build.sumvalue.connector,
  gipsl.all.build.xor.connector,
  org.junit.jupiter.api,
  test.suite.gips.utils
