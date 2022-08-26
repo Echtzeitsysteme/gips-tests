@@ -7,6 +7,7 @@ import java.io.File;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import stringmodel.Root;
 import test.suite.gips.utils.AConnector;
 import test.suite.gipsl.string.utils.StringModelGenerator;
 
@@ -34,6 +35,10 @@ public abstract class AGipslStringTest {
 	public void checkIfFileExists() {
 		final File f = new File(OUTPUT_PATH);
 		assertTrue(f.exists() && !f.isDirectory());
+	}
+
+	public Root loadModelAfterTest() {
+		return gen.loadModel(OUTPUT_PATH);
 	}
 
 }
