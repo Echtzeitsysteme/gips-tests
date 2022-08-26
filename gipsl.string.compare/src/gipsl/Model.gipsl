@@ -48,7 +48,7 @@ mapping n2n with mapGuest;
 
 // Every non-mapped guest must be mapped
 constraint -> pattern::guestNotMapped {
-	mappings.n2n->filter(m | m.nodes().g == self.nodes().g)->count() == 1
+	mappings.n2n->filter(m | m.nodes().g == self.nodes().g)->count() <= 1
 }
 
 // Name of the guest must be equal to the name of the host
