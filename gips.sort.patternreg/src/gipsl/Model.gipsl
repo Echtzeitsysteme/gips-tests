@@ -1,0 +1,26 @@
+import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 73];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule findFirst {
+	root: Root {
+		-entries -> val
+	}
+	
+	val: Entry {
+		.^value := -1
+	}
+}
+
+// Mapping removed on purpose to trigger exception
+//mapping eFirst with findFirst;
+constraint -> class::Entry {
+	patterns.findFirst->filter(m | m.nodes().val == self)->count() == 0
+}

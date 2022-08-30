@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:gips.sort.listmodel="platform:/resource/gips.sort.listmodel/model/Listmodel.ecore" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="platform:/resource/gips.sort.listmodel/model/Listmodel.ecore">
+  <xsd:annotation>
+    <xsd:documentation>TODO: Add documentation for listmodel. Hint: You may copy this element in the Ecore editor to add documentation to EClasses, EOperations, ...</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.omg.org/XMI" schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/XMI.xsd"/>
+  <xsd:complexType name="Root">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="entries" type="gips.sort.listmodel:Entry"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+  </xsd:complexType>
+  <xsd:element name="Root" type="gips.sort.listmodel:Root"/>
+  <xsd:complexType name="Entry">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="next" type="gips.sort.listmodel:Entry"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="value" type="xsd:int" use="required"/>
+    <xsd:attribute name="next" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="Entry" type="gips.sort.listmodel:Entry"/>
+</xsd:schema>
