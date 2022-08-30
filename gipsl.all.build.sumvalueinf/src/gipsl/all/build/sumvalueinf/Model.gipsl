@@ -1,4 +1,4 @@
-package "gipsl"
+package "gipsl.all.build.sumvalueinf"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
@@ -54,17 +54,16 @@ rule mapVnode {
 mapping n2n with mapVnode;
 
 constraint -> global {
-	mappings.n2n->count() == 0
+	mappings.n2n->sum(m | m.value()) == 2
+}
+constraint -> global {
+	mappings.n2n->count() == 3
 }
 
-objective matches -> class::Root {
-	patterns.vnodeNotMapped->count()
-}
-
-objective maps -> mapping::n2n {
+objective mapped -> mapping::n2n {
 	1
 }
 
 global objective : max {
-	matches + maps
+	mapped
 }

@@ -1,4 +1,4 @@
-package "gipsl"
+package "gipsl.all.build.simple"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  

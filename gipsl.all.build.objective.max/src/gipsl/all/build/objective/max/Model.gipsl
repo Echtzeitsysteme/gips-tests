@@ -1,4 +1,4 @@
-package "gipsl"
+package "gipsl.all.build.objective.max"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
@@ -42,14 +42,8 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
-// Implication
-constraint -> class::SubstrateNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 1 =>
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 2
-	// 1 => 1 = 1
-	// 1 => 0 = 0
-	// 0 => 1 = 1
-	// 0 => 0 = 1
+constraint -> class::VirtualNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() >= 0
 }
 
 objective nObj -> mapping::n2n {
@@ -59,3 +53,4 @@ objective nObj -> mapping::n2n {
 global objective : max {
 	nObj
 }
+

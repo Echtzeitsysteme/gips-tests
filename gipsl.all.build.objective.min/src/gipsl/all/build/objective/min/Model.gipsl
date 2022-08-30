@@ -1,4 +1,4 @@
-package "gipsl"
+package "gipsl.all.build.objective.min"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
@@ -42,24 +42,15 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
-// NOT
-//constraint -> class::SubstrateResourceNode {
-//	!(mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable)
-//}
-constraint -> class::SubstrateResourceNode {
-	!mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1
+constraint -> class::VirtualNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
 }
-
-// OR
-//constraint -> class::VirtualResourceNode {
-//	mappings.n2n->count() * self.resourceDemand >= 1 * self.resourceDemand | mappings.n2n->count() * self.resourceDemand <= 2 * self.resourceDemand
-//}
 
 objective nObj -> mapping::n2n {
 	1
 }
 
-global objective : max {
+global objective : min {
 	nObj
 }
 

@@ -1,28 +1,14 @@
-package "gipsl"
+package "gipsl.all.build.or.b"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
 	debugOutput := true;
 }
-
-condition vnodeNotMapped = forbid vnodeIsMapped
-pattern vnodeIsMapped {
-	host: SubstrateNode
-	
-	vnode: VirtualNode {
-		-host -> host
-	}
-}
-
-pattern vnodeNotMapped {
-	vnode: VirtualNode
-}
-when vnodeNotMapped
 
 rule mapVnode {
 	root: Root {
@@ -45,6 +31,9 @@ rule mapVnode {
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
 }
 
 //
@@ -53,17 +42,18 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
-constraint -> global {
-	mappings.n2n->sum(m | m.value()) == 2
-}
-constraint -> global {
-	mappings.n2n->count() == 3
+// OR
+constraint -> class::SubstrateResourceNode {
+	// The `filter` operation on the first half of the expression is useless but necessary because of the `self` reference
+	// The second possibility could be true but the goal is to maximize the number of mappings according to the objective function.
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 2 | mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 1
 }
 
-objective mapped -> mapping::n2n {
+objective nObj -> mapping::n2n {
 	1
 }
 
 global objective : max {
-	mapped
+	nObj
 }
+

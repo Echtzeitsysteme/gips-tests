@@ -1,4 +1,4 @@
-package "gipsl"
+package "gipsl.all.build.not"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
@@ -42,12 +42,18 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
-// XOR
+// NOT
+//constraint -> class::SubstrateResourceNode {
+//	!(mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable)
+//}
 constraint -> class::SubstrateResourceNode {
-	// The `filter` operation on the first half of the expression is useless but necessary because of the `self` reference
-	// The second possibility could be true but the goal is to maximize the number of mappings according to the objective function.
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 1 ^ mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 0
+	!mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1
 }
+
+// OR
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->count() * self.resourceDemand >= 1 * self.resourceDemand | mappings.n2n->count() * self.resourceDemand <= 2 * self.resourceDemand
+//}
 
 objective nObj -> mapping::n2n {
 	1
@@ -56,3 +62,4 @@ objective nObj -> mapping::n2n {
 global objective : max {
 	nObj
 }
+

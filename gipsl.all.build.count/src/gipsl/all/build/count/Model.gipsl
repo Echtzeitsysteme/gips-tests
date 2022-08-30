@@ -1,14 +1,28 @@
-package "gipsl"
+package "gipsl.all.build.count"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GLPK [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
 	debugOutput := true;
 }
+
+condition vnodeNotMapped = forbid vnodeIsMapped
+pattern vnodeIsMapped {
+	host: SubstrateNode
+	
+	vnode: VirtualNode {
+		-host -> host
+	}
+}
+
+pattern vnodeNotMapped {
+	vnode: VirtualNode
+}
+when vnodeNotMapped
 
 rule mapVnode {
 	root: Root {
@@ -31,9 +45,6 @@ rule mapVnode {
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
-	# vnode.resourceDemand <= snode.resourceAmountAvailable
-	# snode.resourceAmountAvailable >= 0
 }
 
 //
@@ -42,15 +53,18 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
-constraint -> class::VirtualNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
+constraint -> global {
+	mappings.n2n->count() == 0
 }
 
-objective nObj -> mapping::n2n {
+objective matches -> class::Root {
+	patterns.vnodeNotMapped->count()
+}
+
+objective maps -> mapping::n2n {
 	1
 }
 
-global objective : min {
-	nObj
+global objective : max {
+	matches + maps
 }
-
