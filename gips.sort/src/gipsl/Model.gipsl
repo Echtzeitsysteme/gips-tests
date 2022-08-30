@@ -1,0 +1,51 @@
+package "gipsl"
+import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 73];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule sortOne {
+	root: Root {
+		-entries -> valA
+		-entries -> valB
+	}
+	
+	valA: Entry {
+		++ -next -> valB
+	}
+	
+	valB: Entry
+		
+	# valA.^value < valB.^value
+}
+
+rule sortLast {
+	root: Root {
+		-entries -> val
+	}
+	
+	val: Entry {
+		++ -next -> val
+	}
+}
+
+mapping e2e with sortOne;
+mapping e2self with sortLast;
+
+constraint -> class::Entry {
+	mappings.e2e->filter(m | m.nodes().valA == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
+}
+
+constraint -> class::Entry {
+	mappings.e2e->filter(m | m.nodes().valB == self)->count() <= 1
+}
+
+constraint -> global {
+	mappings.e2self->count() == 1
+}
