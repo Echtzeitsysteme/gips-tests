@@ -1,3 +1,4 @@
+package "gipsl.string.compare.filter"
 import "platform:/resource/gipsl.string.stringmodel/model/Stringmodel.ecore"
 
 config {  
@@ -9,19 +10,19 @@ config {
 	debugOutput := true;
 }
 
-condition guestNotMapped = forbid guestIsMapped
-pattern guestIsMapped {
-	h: Host
-	
-	g: Guest {
-		-host -> h
-	}
-}
-
-pattern guestNotMapped {
-	g: Guest
-}
-when guestNotMapped
+//condition guestNotMapped = forbid guestIsMapped
+//pattern guestIsMapped {
+//	h: Host
+//	
+//	g: Guest {
+//		-host -> h
+//	}
+//}
+//
+//pattern guestNotMapped {
+//	g: Guest
+//}
+//when guestNotMapped
 
 rule mapGuest {
 	root: Root {
@@ -37,7 +38,7 @@ rule mapGuest {
 		++ -host -> h
 	}
 	
-	// intentionally left out condition that both names must be equal
+	// intentionally left out every condition
 }
 
 //
@@ -46,14 +47,9 @@ rule mapGuest {
 
 mapping n2n with mapGuest;
 
-// Every non-mapped guest must be mapped
-constraint -> pattern::guestNotMapped {
-	mappings.n2n->filter(m | m.nodes().g == self.nodes().g)->count() <= 1
-}
-
-// Name of the guest must be equal to the name of the host
-constraint -> mapping::n2n {
-	self.nodes().g.name == self.nodes().h.name
+// There must be exactly one mapping for every non-mapped guest
+constraint -> class::Guest {
+	mappings.n2n->filter(m | m.nodes().g.name == self.name)->count() <= 1
 }
 
 objective gObj -> mapping::n2n {
