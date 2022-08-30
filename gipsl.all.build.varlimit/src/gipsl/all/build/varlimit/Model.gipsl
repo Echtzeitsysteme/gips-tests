@@ -55,27 +55,9 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
-//constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
-//}
-//
-//constraint -> pattern::vnodeNotMapped {
-//	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
-//}
-
-//constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->filter(m | m.nodes().snode == self)->count() == patterns.vnodeNotMapped->count() | true
-//}
-//constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->filter(m | m.nodes().snode == self)->count() == patterns.vnodeNotMapped->count() | 1 == 1
-//}
-
-//constraint -> class::SubstrateResourceNode {
-//	mappings.n2n->filter(m | m.nodes().snode == self)->count() == patterns.vnodeNotMapped->count() | 1 >= 0
-//}
-
 constraint -> class::SubstrateResourceNode {
 	// RHS of the OR term is useless (logically); the RHS is never true
+	// This constraint ensures that each virtual node is mapped to every substrate node possible.
 	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= patterns.vnodeNotMapped->count() | mappings.n2n->filter(m | m.nodes().snode != self)->count() <= -1
 }
 
