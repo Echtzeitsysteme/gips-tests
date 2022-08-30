@@ -15,20 +15,15 @@ import org.junit.jupiter.api.Test;
 import gips.sort.connector.SortConnector;
 import listmodel.Entry;
 import test.suite.gips.sort.utils.SortModelGenerator;
-import test.suite.gips.utils.AConnector;
 
-public class GipsSortSimpleTest {
-
-	protected final static String MODEL_PATH = "model.xmi";
-	protected final static String OUTPUT_PATH = "output.xmi";
-
-	protected AConnector con;
+public class GipsSortSimpleTest extends AGipsSortTest {
 
 	@BeforeEach
 	public void resetModel() {
 		SortModelGenerator.reset();
 	}
 
+	@Override
 	public void callableSetUp() {
 		SortModelGenerator.persistModel(MODEL_PATH);
 		con = new SortConnector(MODEL_PATH);
