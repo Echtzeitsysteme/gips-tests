@@ -24,6 +24,7 @@ Import-Package: gips.all.build.objective.connector,
  gipsl.all.build.or.connector,
  gipsl.all.build.sumvalue.connector,
  gipsl.all.build.sumvalueinf.connector,
+ gipsl.all.build.varlimit.connector,
  gipsl.all.build.xor.connector,
  org.junit.jupiter.api,
  test.suite.gips.utils
