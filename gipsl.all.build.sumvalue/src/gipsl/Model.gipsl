@@ -55,15 +55,6 @@ constraint -> global {
 	mappings.n2n->sum(m | m.value()) == 2
 }
 
-//constraint -> global {
-//	mappings.n2n->sum(m | m.value()) == mappings.n2n->count()
-//}
-//constraint -> global {
-//	mappings.n2n->sum(m | m.value()) == mappings.n2n->sum(m | m.value())
-//}
-//constraint -> global {
-//	mappings.n2n->count()== mappings.n2n->count()
-//}
 constraint -> global {
 	mappings.n2n->count() == 2
 }
