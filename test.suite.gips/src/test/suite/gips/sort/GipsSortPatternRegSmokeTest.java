@@ -12,17 +12,15 @@ public class GipsSortPatternRegSmokeTest {
 	protected final static String OUTPUT_PATH = "output.xmi";
 
 	protected AConnector con;
-	private SortModelGenerator gen;
 
 	public void callableSetUp() {
-		gen = new SortModelGenerator();
-		gen.persistModel(MODEL_PATH);
+		SortModelGenerator.persistModel(MODEL_PATH);
 		con = new SortPatternRegConnector(MODEL_PATH);
 	}
 
 	@Test
 	public void test10EntriesNormal() {
-		gen.genNEntries(10);
+		SortModelGenerator.genNEntries(10);
 		callableSetUp();
 		con.run(OUTPUT_PATH);
 	}

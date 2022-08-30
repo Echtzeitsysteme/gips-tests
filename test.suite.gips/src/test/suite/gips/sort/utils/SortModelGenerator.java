@@ -14,37 +14,41 @@ import listmodel.Root;
 
 public class SortModelGenerator {
 
-	private Root root = ListmodelFactory.eINSTANCE.createRoot();
+	private static Root root = ListmodelFactory.eINSTANCE.createRoot();
 
-	public void genEntry(final int value) {
+	public static void genEntry(final int value) {
 		final Entry entry = ListmodelFactory.eINSTANCE.createEntry();
 		entry.setValue(value);
 		root.getEntries().add(entry);
 	}
 
-	public void genNEntries(final int n) {
+	public static void genNEntries(final int n) {
 		for (int i = 1; i <= n; i++) {
 			genEntry(i);
 		}
 	}
 
-	public void genNEntriesReverse(final int n) {
+	public static void genNEntriesReverse(final int n) {
 		for (int i = n - 1; i >= 0; i--) {
 			genEntry(i);
 		}
 	}
 
-	public void genEntriesFromArray(final int[] entries) {
+	public static void genEntriesFromArray(final int[] entries) {
 		for (int i = 0; i < entries.length; i++) {
 			genEntry(entries[i]);
 		}
 	}
 
-	public Root getRoot() {
+	public static Root getRoot() {
 		return root;
 	}
 
-	public Root loadModel(final String path) {
+	public static void reset() {
+		root = ListmodelFactory.eINSTANCE.createRoot();
+	}
+
+	public static Root loadModel(final String path) {
 		// Workaround: Always use absolute path
 		final URI absPath = URI.createFileURI(System.getProperty("user.dir") + "/" + path);
 
@@ -56,7 +60,7 @@ public class SortModelGenerator {
 		return root;
 	}
 
-	public void persistModel(final String path) {
+	public static void persistModel(final String path) {
 		// Workaround: Always use absolute path
 		final URI absPath = URI.createFileURI(System.getProperty("user.dir") + "/" + path);
 
