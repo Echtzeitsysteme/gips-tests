@@ -24,8 +24,3 @@ rule findFirst {
 constraint -> class::Entry {
 	patterns.findFirst->filter(m | m.nodes().val == self)->count() == 0
 }
-
-// TODO: Test this one
-//constraint -> class::Entry {
-//	patterns.findFirst->filter(m | m.nodes().val == self)->notEmpty()
-//}
