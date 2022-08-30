@@ -21,7 +21,7 @@ rule sortOne {
 	
 	valB: Entry
 		
-	# valA.^value <= valB.^value
+	# valA.^value < valB.^value
 }
 
 rule sortLast {
