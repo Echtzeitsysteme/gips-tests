@@ -15,6 +15,7 @@ Require-Bundle: org.junit.jupiter.api;bundle-version="5.8.1",
  gips.sort;bundle-version="1.0.0",
  gips.sort.listmodel;bundle-version="0.0.1"
 Import-Package: gips.all.build.objective.connector,
+ gips.sort.patternreg.connector,
  gipsl.all.build.and.connector,
  gipsl.all.build.implication.connector,
  gipsl.all.build.objective.max.connector,
