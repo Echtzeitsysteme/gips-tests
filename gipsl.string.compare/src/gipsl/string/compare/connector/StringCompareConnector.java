@@ -17,6 +17,7 @@ public class StringCompareConnector extends AConnector {
 	public ILPSolverOutput run(final String outputPath) {
 		final ILPSolverOutput output = solve();
 		((CompareGipsAPI) api).getN2n().applyNonZeroMappings();
+		save(outputPath);
 		return output;
 	}
 

@@ -9,7 +9,7 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.and.connector.AndConnector;
+import gipsl.string.compare.connector.StringCompareConnector;
 import stringmodel.Guest;
 import stringmodel.Host;
 import stringmodel.Root;
@@ -20,7 +20,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new AndConnector(MODEL_PATH);
+		con = new StringCompareConnector(MODEL_PATH);
 	}
 
 	// Actual tests
