@@ -21,6 +21,7 @@ Import-Package: gips.all.build.objective.connector,
  gipsl.all.build.or.connector,
  gipsl.all.build.xor.connector,
  gipsl.string.compare.connector,
+ gipsl.string.compare.filter.connector,
  org.junit.jupiter.api,
  test.suite.gips.utils
 Export-Package: test.suite.gips,
