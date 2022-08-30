@@ -1,3 +1,4 @@
+package "gipsl"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 // This GIPSL project is just for scribbles and debugging, e.g, the validator.

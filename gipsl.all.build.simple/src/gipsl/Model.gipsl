@@ -1,3 +1,4 @@
+package "gipsl"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
