@@ -1,3 +1,4 @@
+package "gipsl"
 import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
 
 config {  

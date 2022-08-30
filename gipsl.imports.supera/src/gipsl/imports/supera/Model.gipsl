@@ -1,4 +1,4 @@
-package "gipsl"
+package "gipsl.imports.supera"
 import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
 
 config {  
