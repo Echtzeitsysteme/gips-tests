@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gipsl.imports.superb
+Bundle-ManifestVersion: 2
+Bundle-Name: gipsl.imports.superb
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: gipsl.imports.superb; singleton:=true
+Bundle-ActivationPolicy: lazy
+Import-Package: importmodel,importmodel.impl,org.apache.commons.loggin
+ g,org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-16
+Require-Bundle: org.emoflon.ibex.common,
+ org.emoflon.ibex.gt,
+ org.emoflon.ibex.patternmodel,
+ org.emoflon.ibex.gt.democles,
+ org.emoflon.ibex.gt.hipe
+Export-Package: gipsl.imports.superb.api,
+ gipsl.imports.superb.api.matches,
+ gipsl.imports.superb.api.rules

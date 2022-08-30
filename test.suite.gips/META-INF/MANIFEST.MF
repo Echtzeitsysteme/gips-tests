@@ -13,7 +13,8 @@ Require-Bundle: org.junit.jupiter.api;bundle-version="5.8.1",
  gipsl.all.build.not;bundle-version="1.0.0",
  gipsl.all.build.objective.min,
  gips.sort;bundle-version="1.0.0",
- gips.sort.listmodel;bundle-version="0.0.1"
+ gips.sort.listmodel;bundle-version="0.0.1",
+ gipsl.imports.importmodel;bundle-version="0.0.1"
 Import-Package: gips.all.build.objective.connector,
  gips.sort.patternreg.connector,
  gipsl.all.build.and.connector,
@@ -26,6 +27,7 @@ Import-Package: gips.all.build.objective.connector,
  gipsl.all.build.sumvalueinf.connector,
  gipsl.all.build.varlimit.connector,
  gipsl.all.build.xor.connector,
+ gipsl.imports.sub.connector,
  org.junit.jupiter.api,
  test.suite.gips.utils
 Export-Package: test.suite.gips,
