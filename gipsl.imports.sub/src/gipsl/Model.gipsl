@@ -1,3 +1,4 @@
+package "gipsl"
 import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
 //from "platform:/resource/gipsl.imports.supera/src/gipsl/Model.gipsl" import mapGuestA
 //from "platform:/resource/gipsl.imports.superb/src/gipsl/imports/superb/Rules.gt" import findMappedGuests
