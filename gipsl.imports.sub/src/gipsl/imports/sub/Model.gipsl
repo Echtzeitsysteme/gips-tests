@@ -1,9 +1,8 @@
 package "gipsl.imports.sub"
 import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
-//from "platform:/resource/gipsl.imports.supera/src/gipsl/Model.gipsl" import mapGuestA
-//from "platform:/resource/gipsl.imports.superb/src/gipsl/imports/superb/Rules.gt" import findMappedGuests
-from "C:\Users\mkratz\git\gips-tests\gipsl.imports.supera\src\gipsl\imports\supera\Model.gipsl" import mapGuestA
-from "C:\Users\mkratz\git\gips-tests\gipsl.imports.superb\src\gipsl\imports\superb\Rules.gt" import guestNotMapped
+
+from "../gipsl.imports.supera/src/gipsl/imports/supera/Model.gipsl" import mapGuestA
+from "../gipsl.imports.superb/src/gipsl/imports/superb/Rules.gt" import guestNotMapped
 
 config {  
 	solver := GLPK [home:="fu", license:="bar"];
