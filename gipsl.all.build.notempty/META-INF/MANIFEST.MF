@@ -14,3 +14,4 @@ Require-Bundle: gipsl.all.build.model;bundle-version="0.0.1",
  org.emoflon.gips.core,
  org.emoflon.ibex.gt.democles,
  org.emoflon.ibex.gt.hipe
+Export-Package: gipsl.all.build.notempty.connector

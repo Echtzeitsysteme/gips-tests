@@ -40,9 +40,11 @@ rule mapVnode {
 mapping n2n with mapVnode;
 
 constraint -> global {
+//	mappings.n2n->count() >= 1
 	mappings.n2n->notEmpty()
 }
 constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | m.nodes().vnode == self)->count() >= 1
 	mappings.n2n->filter(m | m.nodes().vnode == self)->notEmpty()
 }
 
