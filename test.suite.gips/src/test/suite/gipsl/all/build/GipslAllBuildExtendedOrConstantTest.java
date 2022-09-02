@@ -6,15 +6,15 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.or.extendedortrue.connector.OrExtendedTrueConnector;
+import gipsl.all.build.or.extendedorconstant.connector.OrExtendedConstantConnector;
 
-public class GipslAllBuildExtendedOrTrueTest extends AGipslAllBuildTest {
+public class GipslAllBuildExtendedOrConstantTest extends AGipslAllBuildTest {
 
 	// Setup method
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new OrExtendedTrueConnector(MODEL_PATH);
+		con = new OrExtendedConstantConnector(MODEL_PATH);
 	}
 
 	// Actual tests

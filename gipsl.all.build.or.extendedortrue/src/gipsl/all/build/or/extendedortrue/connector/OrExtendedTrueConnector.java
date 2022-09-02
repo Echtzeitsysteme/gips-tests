@@ -1,22 +1,22 @@
-package gipsl.all.build.or.extendedor.tru.connector;
+package gipsl.all.build.or.extendedortrue.connector;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 
-import gipsl.all.build.or.extendedor.api.gips.ExtendedorGipsAPI;
+import gipsl.all.build.or.extendedortrue.api.gips.ExtendedortrueGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
 
 public class OrExtendedTrueConnector extends AConnector {
 
 	public OrExtendedTrueConnector(final String modelPath) {
-		api = new ExtendedorGipsAPI();
+		api = new ExtendedortrueGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 	}
 
 	@Override
 	public ILPSolverOutput run(final String outputPath) {
 		final ILPSolverOutput output = solve();
-		((ExtendedorGipsAPI) api).getN2n().applyNonZeroMappings();
+		((ExtendedortrueGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;
 	}
 

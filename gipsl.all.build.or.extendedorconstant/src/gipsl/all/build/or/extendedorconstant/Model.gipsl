@@ -1,4 +1,4 @@
-package "gipsl.all.build.or.extendedor"
+package "gipsl.all.build.or.extendedorconstant"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
@@ -40,7 +40,7 @@ mapping n2n with mapVnode;
 
 constraint -> class::VirtualResourceNode {
 	// Every virtual node must be mapped OR true
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() >= 1 | true
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() >= 1 | self.resourceDemand >= 0
 }
 
 // Helper constraint to allow ...->count() == 1 in an OR
