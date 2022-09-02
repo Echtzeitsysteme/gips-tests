@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gipsl.all.build.or.extendedor
+Bundle-ManifestVersion: 2
+Bundle-Name: gipsl.all.build.or.extendedor
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: gipsl.all.build.or.extendedor; singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-16
+Require-Bundle: org.emoflon.ibex.common,
+ org.emoflon.ibex.gt,
+ org.emoflon.gips.core,
+ org.emoflon.ibex.gt.democles,
+ org.emoflon.ibex.gt.hipe,
+ test.suite.utils;bundle-version="1.0.0",
+ gipsl.all.build.model;bundle-version="0.0.1"
+Export-Package: gipsl.all.build.or.extendedor.tru.connector
