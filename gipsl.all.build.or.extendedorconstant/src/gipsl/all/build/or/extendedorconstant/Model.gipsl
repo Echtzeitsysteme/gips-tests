@@ -45,7 +45,7 @@ constraint -> class::VirtualResourceNode {
 
 // Helper constraint to allow ...->count() == 1 in an OR
 constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1 | (2 / 2 - 1 + 1) >= 1 | patterns.mapVnode->count() >= 0
 }
 
 objective nObj -> mapping::n2n {
