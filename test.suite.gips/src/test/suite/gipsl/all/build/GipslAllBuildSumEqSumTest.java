@@ -21,6 +21,18 @@ public class GipslAllBuildSumEqSumTest extends AGipslAllBuildTest {
 	// Positive tests
 
 	@Test
+	public void testMap1to1() {
+		gen.genSubstrateNode("s1", 2);
+		gen.genVirtualNode("v1", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(1, ret.objectiveValue());
+	}
+
+	@Test
 	public void testMap2to1() {
 		gen.genSubstrateNode("s1", 2);
 		gen.genVirtualNode("v1", 1);
@@ -44,7 +56,7 @@ public class GipslAllBuildSumEqSumTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(10, ret.objectiveValue());
 	}
 
 	@Test
@@ -58,7 +70,7 @@ public class GipslAllBuildSumEqSumTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2 * 2, ret.objectiveValue());
 	}
 
 }

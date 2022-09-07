@@ -3,6 +3,8 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
 	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := false [value:=120.0];
+	presolve := true;
 	debugOutput := true;
 }
 
@@ -40,7 +42,7 @@ mapping n2n with mapVnode;
 
 constraint -> global {
 //	mappings.n2n->sum(m | m.value()) == mappings.n2n->sum(m | m.value())
-	mappings.n2n->count() == mappings.n2n->count()
+	mappings.n2n->count() + mappings.n2n->count() >= 0
 }
 
 objective mapped -> mapping::n2n {
