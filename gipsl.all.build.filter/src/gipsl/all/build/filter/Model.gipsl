@@ -1,0 +1,75 @@
+package "gipsl.all.build.filter"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+condition vnodeNotMapped = forbid vnodeIsMapped
+pattern vnodeIsMapped {
+	host: SubstrateNode
+	
+	vnode: VirtualResourceNode {
+		-host -> host
+	}
+}
+
+pattern vnodeNotMapped {
+	vnode: VirtualResourceNode
+}
+when vnodeNotMapped
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	// No updating of "available" variables nor constraint checking
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapVnode;
+
+// Constraint that should be tested
+constraint -> pattern::vnodeNotMapped {
+	// This should not throw an error during compilation time
+	mappings.n2n->filter(m | m.nodes().snode.resourceAmountAvailable == self.nodes().vnode.resourceDemand)->count() == 1
+}
+
+// Helper constraint to only map a virtual node once
+constraint -> pattern::vnodeNotMapped {
+	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
+}
+
+objective o -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	o
+}

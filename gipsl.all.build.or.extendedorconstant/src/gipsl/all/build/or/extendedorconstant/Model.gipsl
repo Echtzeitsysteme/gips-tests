@@ -1,4 +1,4 @@
-package "gipsl.all.build.objective.max"
+package "gipsl.all.build.or.extendedorconstant"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
@@ -36,21 +36,23 @@ rule mapVnode {
 	# snode.resourceAmountAvailable >= 0
 }
 
-//
-// GIPSL starts here!
-//
-
 mapping n2n with mapVnode;
 
-constraint -> class::VirtualNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() >= 0
+constraint -> class::VirtualResourceNode {
+	// Every virtual node must be mapped OR true
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() >= 1 | self.resourceDemand >= 0
+}
+
+// Helper constraint to allow ...->count() == 1 in an OR
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1 | (2 / 2 - 1 + 1) >= 1 | patterns.mapVnode->count() >= 0
 }
 
 objective nObj -> mapping::n2n {
 	1
 }
 
-global objective : max {
+// Minimization of cost function -> No virtual node should be mapped whatsoever
+global objective : min {
 	nObj
 }
-
