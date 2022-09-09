@@ -1,39 +1,62 @@
 package "gips.ilp.timeout"
-import "http://www.eclipse.org/emf/2002/Ecore"
-// import a metamodel here
+import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
 config {  
 	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
-	timeLimit := true [value := 42.0];
-	randomSeed := true [value := 73];
-	presolve := true;
+	timeLimit := true [value := 0.0];
+	randomSeed := true [value := 0];
+	presolve := false;
 	debugOutput := true;
 }
 
-// specify an example rule
-rule exampleRule {
-	clazz : EClass {
-		++ -eAllOperations -> op
+condition srcNotMapped = forbid srcIsMapped
+pattern srcIsMapped {
+	trg: Target
+	
+	src: Source {
+		-host -> trg
+	}
+}
+
+rule mapSrc {
+	root: Root {
+		-elements -> src
+		-elements -> trg
 	}
 	
-	op : EOperation
+	src: Source {
+		++ -host -> trg
+	}
+	
+	trg: Target {
+		++ -srcs -> src
+		.free := trg.free - src.val
+	}
+	
+	# src.val <= trg.free
+	# trg.free > 0
+	# trg.val > 0
+}
+when srcNotMapped
+
+//
+// GIPSL starts here!
+//
+
+mapping s2t with mapSrc;
+
+constraint -> pattern::mapSrc {
+	mappings.s2t->filter(m | m.nodes().src == self.nodes().src)->count() == 1
 }
 
-// create a mapping on the rule
-mapping mapNode with exampleRule;
-
-// create a constraint on one class
-constraint -> class::EOperation {
-	mappings.mapNode->filter(m | m.nodes().clazz.^abstract)->count() > self.lowerBound
+constraint -> class::Target {
+	mappings.s2t->filter(m | m.nodes().trg == self)->sum(m | m.nodes().src.val) <= self.free
 }
 
-// create an objective for the mapping
-objective nodeObj -> mapping::mapNode {
-	self.nodes().op.upperBound * sin(73)
+objective o -> mapping::s2t {
+	1
 }
 
-// create an overall objective
 global objective : min {
-	2 * nodeObj
+	o
 }
