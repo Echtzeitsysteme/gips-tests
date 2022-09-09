@@ -2,12 +2,13 @@ package test.suite.gips.ilp.timeout;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import gips.ilp.timeout.connector.TimeOutConnector;
@@ -20,6 +21,8 @@ import timeoutmodel.Target;
  */
 public class GipsIlpTimeOutTest extends AGipsIlpTimeOutTest {
 
+	static int missedTimeOutSolutionCntr = 0;
+
 	@BeforeEach
 	public void resetModel() {
 		IlpTimeOutModelGenerator.reset();
@@ -29,6 +32,12 @@ public class GipsIlpTimeOutTest extends AGipsIlpTimeOutTest {
 	public void callableSetUp() {
 		IlpTimeOutModelGenerator.persistModel(MODEL_PATH);
 		con = new TimeOutConnector(MODEL_PATH);
+	}
+
+	@AfterAll
+	public static void verifyAtLeastOneTestWithoutSolution() {
+		assertNotEquals(missedTimeOutSolutionCntr, 3,
+				"The ILP solver did find at least one solution for all three tests.");
 	}
 
 	@Test
@@ -45,9 +54,13 @@ public class GipsIlpTimeOutTest extends AGipsIlpTimeOutTest {
 		IlpTimeOutModelGenerator.loadModel(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.TIME_OUT, ret.status());
 
-		// TODO: Check if solution was found
-		// There must be no embedding at all -> no solution found -> no solution applied
-		checkNoMapping();
+		if (ret.solutionCount() == 0) {
+			// There must be no embedding at all -> no solution found -> no solution applied
+			checkNoMapping();
+		} else {
+			System.err.println("=> Warning: ILP solver did find a solution.");
+			missedTimeOutSolutionCntr++;
+		}
 	}
 
 	@Test
@@ -64,12 +77,15 @@ public class GipsIlpTimeOutTest extends AGipsIlpTimeOutTest {
 		IlpTimeOutModelGenerator.loadModel(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.TIME_OUT, ret.status());
 
-		// TODO: Check if solution was found
-		// There must be no embedding at all -> no solution found -> no solution applied
-		checkNoMapping();
+		if (ret.solutionCount() == 0) {
+			// There must be no embedding at all -> no solution found -> no solution applied
+			checkNoMapping();
+		} else {
+			System.err.println("=> Warning: ILP solver did find a solution.");
+			missedTimeOutSolutionCntr++;
+		}
 	}
 
-	@Disabled
 	@Test
 	public void test200to200() {
 		for (int i = 1; i <= 200; i++) {
@@ -84,9 +100,13 @@ public class GipsIlpTimeOutTest extends AGipsIlpTimeOutTest {
 		IlpTimeOutModelGenerator.loadModel(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.TIME_OUT, ret.status());
 
-		// TODO: Check if solution was found
-		// There must be no embedding at all -> no solution found -> no solution applied
-		checkNoMapping();
+		if (ret.solutionCount() == 0) {
+			// There must be no embedding at all -> no solution found -> no solution applied
+			checkNoMapping();
+		} else {
+			System.err.println("=> Warning: ILP solver did find a solution.");
+			missedTimeOutSolutionCntr++;
+		}
 	}
 
 	private void checkNoMapping() {
