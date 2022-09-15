@@ -1,0 +1,42 @@
+package "gips.tsp"
+import "platform:/resource/gips.tsp.citymodel/model/Citymodel.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 60.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule connect {
+	root: Root {
+		-cities -> ca
+		-cities -> cb
+	}
+	
+	ca: City {
+		++ -next -> cb
+	}
+	cb: City {
+		++ -prev -> ca
+	}
+}
+
+mapping c2c with connect;
+
+constraint -> class::City {
+	mappings.c2c->filter(m | m.nodes().ca == self)->count() == 1 &
+	mappings.c2c->filter(m | m.nodes().cb == self)->count() == 1
+}
+
+// TODO: Eliminate sub tours
+
+objective city -> mapping::c2c {
+	// TODO: sqrt needed?
+	(self.nodes().cb.x - self.nodes().ca.x) pow 2 + (self.nodes().cb.y - self.nodes().ca.y) pow 2
+}
+
+global objective : min {
+	city
+}

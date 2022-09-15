@@ -14,8 +14,10 @@ Require-Bundle: org.junit.jupiter.api;bundle-version="5.8.1",
  gipsl.all.build.objective.min,
  gips.sort;bundle-version="1.0.0",
  gips.sort.listmodel;bundle-version="0.0.1",
- gipsl.imports.importmodel;bundle-version="0.0.1"
+ gipsl.imports.importmodel;bundle-version="0.0.1",
+ gips.tsp.citymodel;bundle-version="0.0.1"
 Import-Package: gips.sort.patternreg.connector,
+ gips.tsp.connector,
  gipsl.all.build.and.connector,
  gipsl.all.build.count.connector,
  gipsl.all.build.filter.connector,
