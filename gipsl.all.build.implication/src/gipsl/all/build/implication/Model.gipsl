@@ -2,10 +2,10 @@ package "gipsl.all.build.implication"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GLPK [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
-	timeLimit := true [value := 42.0];
-	randomSeed := true [value := 73];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
 }
@@ -43,7 +43,7 @@ rule mapVnode {
 mapping n2n with mapVnode;
 
 // Implication
-constraint -> class::SubstrateNode {
+constraint -> class::SubstrateResourceNode {
 	mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 1 =>
 	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 2
 	// 1 => 1 = 1
@@ -51,6 +51,10 @@ constraint -> class::SubstrateNode {
 	// 0 => 1 = 1
 	// 0 => 0 = 1
 }
+
+//constraint -> global {
+//	1 == 1 => 1 == 1
+//}
 
 objective nObj -> mapping::n2n {
 	1
