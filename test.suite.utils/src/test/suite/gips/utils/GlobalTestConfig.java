@@ -8,14 +8,29 @@ import org.emoflon.gips.core.ilp.ILPSolver;
 import org.emoflon.gips.core.ilp.ILPSolverConfig;
 import org.emoflon.gips.intermediate.GipsIntermediate.ILPSolverType;
 
+/**
+ * Test configuration for the GIPS test suite.
+ */
 public class GlobalTestConfig {
 	
-	public static boolean solverOverride = false;
+	/**
+	 * If true, the solver configuration will be overridden.
+	 */
+	public static boolean solverOverride = true;
+	
+	/**
+	 * Configures the used solver type (e.g., GLPK, Gurobi) if override is enabled.
+	 */
 	public static ILPSolverType solverType = ILPSolverType.GLPK;
 	
 	private GlobalTestConfig() {
 	}
 	
+	/**
+	 * Overrides the ILP solver configuration for a given GipsEngineAPI.
+	 * 
+	 * @param api GipsEngineAPI for which the ILP solver should be overridden.
+	 */
 	public static void overrideSolver(final GipsEngineAPI<?, ?> api) {
 		if (!solverOverride) {
 			return;
@@ -24,6 +39,13 @@ public class GlobalTestConfig {
 		api.setILPSolver(GlobalTestConfig.getSolver(api.getSolverConfig(), api));
 	}
 	
+	/**
+	 * Creates a new ILP solver instance for the given ILPSolverConfig and the given GipsEngineAPI.
+	 * 
+	 * @param config ILPSolverConfig which should be used by the newly instantiated ILP solver.
+	 * @param api GipsEngineAPI to get config from.
+	 * @return Newly instatiated ILP solver object.
+	 */
 	private static ILPSolver getSolver(final ILPSolverConfig config, final GipsEngineAPI<?, ?> api) {
 		switch(solverType) {
 		case GLPK: {
