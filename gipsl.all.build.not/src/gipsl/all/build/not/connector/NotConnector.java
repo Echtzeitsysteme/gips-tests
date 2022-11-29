@@ -5,12 +5,14 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import gipsl.all.build.not.api.gips.NotGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class NotConnector extends AConnector {
 
 	public NotConnector(final String modelPath) {
 		api = new NotGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override
