@@ -42,7 +42,8 @@ rule mapVnode {
 
 mapping n2n with mapVnode {
 	var v : EInt
-//	var w : EDouble
+	var w : EDouble
+	var x : EDouble
 };
 
 constraint -> class::VirtualResourceNode {
@@ -50,22 +51,35 @@ constraint -> class::VirtualResourceNode {
 }
 
 constraint -> mapping::n2n {
-	self.variables().v == 2 * self.nodes().vnode.resourceDemand
+	self.variables().v == 2
 }
 
-// TODO: Bricks transformation
+// TODO: Test hierfür:
 //constraint -> mapping::n2n {
-//	self.variables().w == 42
+//	self.nodes().vnode.resourceDemand >= 2
 //}
 
-//constraint -> mapping::n2n {
-//	self.variables().w == 1.5 * self.nodes().vnode.resourceDemand
+// TODO: Test hierfür:
+//constraint -> global {
+//	mappings.n2n->sum(m | m.variables().w) == 0
 //}
+
+constraint -> mapping::n2n {
+	self.variables().x == 42
+}
+
+constraint -> mapping::n2n {
+	self.variables().w == 1.5
+}
 
 objective n2nObj -> mapping::n2n {
 	1
 }
 
+//objective vObj -> mapping::n2n {
+//	self.variables().v
+//}
+
 global objective : max {
-	n2nObj
+	n2nObj // + vObj
 }
