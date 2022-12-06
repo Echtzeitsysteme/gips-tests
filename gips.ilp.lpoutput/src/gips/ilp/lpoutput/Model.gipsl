@@ -1,0 +1,34 @@
+package "gips.ilp.lpoutput"
+import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	presolve := true;
+	lpOutput := true [path := "./test.lp"];
+}
+
+rule mapSrc {
+	root: Root {
+		-elements -> src
+		-elements -> trg
+	}
+	
+	src: Source {
+		++ -host -> trg
+	}
+	
+	trg: Target {
+		++ -srcs -> src
+		.free := trg.free - src.val
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping s2t with mapSrc;
+
+constraint -> class::Target {
+	mappings.s2t->count() <= self.free
+}
