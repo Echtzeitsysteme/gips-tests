@@ -5,12 +5,14 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import gips.sort.api.gips.SortGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class SortConnector extends AConnector {
 
 	public SortConnector(final String modelPath) {
 		api = new SortGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override

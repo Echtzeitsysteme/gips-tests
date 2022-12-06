@@ -5,12 +5,14 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import gipsl.all.build.count.api.gips.CountGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class CountConnector extends AConnector {
 
 	public CountConnector(final String modelPath) {
 		api = new CountGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override
