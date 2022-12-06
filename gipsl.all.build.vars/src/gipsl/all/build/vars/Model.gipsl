@@ -7,6 +7,7 @@ config {
 	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
+	lpOutput := true [path := "./gurobi.lp"];
 }
 
 rule mapVnode {
@@ -41,7 +42,7 @@ rule mapVnode {
 
 mapping n2n with mapVnode {
 	var v : EInt
-	var w : EDouble
+//	var w : EDouble
 };
 
 constraint -> class::VirtualResourceNode {
@@ -57,9 +58,9 @@ constraint -> mapping::n2n {
 //	self.variables().w == 42
 //}
 
-constraint -> mapping::n2n {
-	self.variables().w == 1.5 * self.nodes().vnode.resourceDemand
-}
+//constraint -> mapping::n2n {
+//	self.variables().w == 1.5 * self.nodes().vnode.resourceDemand
+//}
 
 objective n2nObj -> mapping::n2n {
 	1
