@@ -3,12 +3,12 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GLPK [home:="fu", license:="bar"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
-	lpOutput := true [path := "./gurobi.lp"];
+//	lpOutput := true [path := "./GLPK.lp"];
 }
 
 rule mapVnode(par : EInt) {
@@ -27,7 +27,7 @@ rule mapVnode(par : EInt) {
 	
 	snode: SubstrateResourceNode {
 		++ -guests -> vnode
-		.resourceAmountAvailable := param::par
+//		.resourceAmountAvailable := param::par
 	}
 	
 	vnode: VirtualResourceNode {
@@ -46,7 +46,7 @@ mapping n2n with mapVnode {
 	var v : EInt
 	var w : EDouble
 	var x : EDouble
-	var y : EInt bind par
+//	var y : EInt bind par
 };
 
 constraint -> class::VirtualResourceNode {
@@ -67,14 +67,14 @@ constraint -> mapping::n2n {
 //	mappings.n2n->sum(m | m.variables().w) == 0
 //}
 
-//constraint -> mapping::n2n {
-//	self.variables().x == 42
-//}
-//
-//constraint -> mapping::n2n {
-//	self.variables().w == 1.5
-//}
-//
+constraint -> mapping::n2n {
+	self.variables().x == 42
+}
+
+constraint -> mapping::n2n {
+	self.variables().w == 1.5
+}
+
 //constraint -> mapping::n2n {
 //	self.variables().y == 3
 //}
@@ -85,11 +85,11 @@ constraint -> mapping::n2n {
 //}
 
 // TODO: Tests ...
-constraint -> global {
-	mappings.n2n->sum(m | m.variables().x)
-	+ mappings.n2n->sum(m | m.variables().w)
-	+ mappings.n2n->sum(m | m.variables().y) == 10
-}
+//constraint -> global {
+//	mappings.n2n->sum(m | m.variables().x)
+//	+ mappings.n2n->sum(m | m.variables().w)
+//	+ mappings.n2n->sum(m | m.variables().y) == 10
+//}
 
 objective n2nObj -> mapping::n2n {
 	1
