@@ -34,6 +34,9 @@ public class GipslAllBuildVarsTest extends AGipslAllBuildTest {
 		final ILPVariable<?> v = ((VarsConnector) con).getVarsOutput().freeVars().get("v");
 		final ILPVariable<?> w = ((VarsConnector) con).getVarsOutput().freeVars().get("w");
 		final ILPVariable<?> x = ((VarsConnector) con).getVarsOutput().freeVars().get("x");
+		
+		assertEquals(3, ((VarsConnector) con).getN2nMappings().values().iterator().next().getSnode().getResourceAmountAvailable());
+		
 		assertEquals(2, v.getValue().doubleValue());
 		assertEquals(1.5, w.getValue().doubleValue());
 		assertEquals(42, x.getValue().doubleValue());

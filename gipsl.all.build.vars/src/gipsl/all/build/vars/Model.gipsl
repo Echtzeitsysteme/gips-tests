@@ -1,5 +1,6 @@
 package "gipsl.all.build.vars"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
 	solver := GUROBI [home:="fu", license:="bar"];
@@ -10,7 +11,7 @@ config {
 	lpOutput := true [path := "./gurobi.lp"];
 }
 
-rule mapVnode {
+rule mapVnode(par : EInt) {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
@@ -26,6 +27,7 @@ rule mapVnode {
 	
 	snode: SubstrateResourceNode {
 		++ -guests -> vnode
+		.resourceAmountAvailable := param::par
 	}
 	
 	vnode: VirtualResourceNode {
@@ -44,6 +46,7 @@ mapping n2n with mapVnode {
 	var v : EInt
 	var w : EDouble
 	var x : EDouble
+	var y : EInt bind par
 };
 
 constraint -> class::VirtualResourceNode {
@@ -64,12 +67,28 @@ constraint -> mapping::n2n {
 //	mappings.n2n->sum(m | m.variables().w) == 0
 //}
 
-constraint -> mapping::n2n {
-	self.variables().x == 42
-}
+//constraint -> mapping::n2n {
+//	self.variables().x == 42
+//}
+//
+//constraint -> mapping::n2n {
+//	self.variables().w == 1.5
+//}
+//
+//constraint -> mapping::n2n {
+//	self.variables().y == 3
+//}
 
-constraint -> mapping::n2n {
-	self.variables().w == 1.5
+// TODO: Tests ...
+//constraint -> mapping::n2n {
+//	self.variables().x + self.variables().w + self.variables().y == 10
+//}
+
+// TODO: Tests ...
+constraint -> global {
+	mappings.n2n->sum(m | m.variables().x)
+	+ mappings.n2n->sum(m | m.variables().w)
+	+ mappings.n2n->sum(m | m.variables().y) == 10
 }
 
 objective n2nObj -> mapping::n2n {

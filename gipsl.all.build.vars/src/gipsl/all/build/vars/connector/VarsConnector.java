@@ -1,11 +1,13 @@
 package gipsl.all.build.vars.connector;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPVariable;
 
 import gipsl.all.build.vars.api.gips.VarsGipsAPI;
+import gipsl.all.build.vars.api.gips.mapping.N2nMapping;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
 
@@ -41,6 +43,10 @@ public class VarsConnector extends AConnector {
 	
 	public VarsOutput getVarsOutput() {
 		return varsOutput;
+	}
+	
+	public Map<String, N2nMapping> getN2nMappings() {
+		return ((VarsGipsAPI) api).getN2n().getMappings();
 	}
 
 }
