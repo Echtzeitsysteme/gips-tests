@@ -51,42 +51,22 @@ constraint -> class::VirtualResourceNode {
 	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
 }
 
-//constraint -> mapping::n2n {
-//	self.variables().v == 2
-//}
+constraint -> mapping::n2n {
+	self.variables().x >= 0
+}
 
-// TODO: Test hierfür:
-//constraint -> mapping::n2n {
-//	self.nodes().vnode.resourceDemand >= 2
-//}
+constraint -> mapping::n2n {
+	self.variables().v >= 0
+}
 
-// TODO: Test hierfür:
-//constraint -> global {
-//	mappings.n2n->sum(m | m.variables().w) == 0
-//}
+constraint -> mapping::n2n {
+	self.variables().w >= 0
+}
 
-//constraint -> mapping::n2n {
-//	self.variables().x == 42
-//}
-//
-//constraint -> mapping::n2n {
-//	self.variables().w == 1.5
-//}
-
-//constraint -> mapping::n2n {
-//	self.variables().y == 3
-//}
-
-// TODO: Tests ...
-//constraint -> mapping::n2n {
-//	self.variables().x + self.variables().w + self.variables().y == 10
-//}
-
-// TODO: Tests ...
 constraint -> global {
 	mappings.n2n->sum(m | m.variables().x)
 	+ mappings.n2n->sum(m | m.variables().v)
-	+ mappings.n2n->sum(m | m.variables().w) == 100
+	+ mappings.n2n->sum(m | m.variables().w) == 42
 }
 
 objective n2nObj -> mapping::n2n {
@@ -94,5 +74,5 @@ objective n2nObj -> mapping::n2n {
 }
 
 global objective : max {
-	n2nObj // + vObj
+	n2nObj
 }

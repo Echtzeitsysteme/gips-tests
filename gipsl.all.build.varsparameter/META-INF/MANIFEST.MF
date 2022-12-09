@@ -4,6 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.varsparameter
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.all.build.varsparameter.connector
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gipsl.all.build.varsparameter; singleton:=true
 Bundle-ActivationPolicy: lazy

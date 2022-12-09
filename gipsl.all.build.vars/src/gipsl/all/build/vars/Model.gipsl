@@ -11,7 +11,7 @@ config {
 //	lpOutput := true [path := "./GLPK.lp"];
 }
 
-rule mapVnode(par : EInt) {
+rule mapVnode {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
@@ -27,7 +27,6 @@ rule mapVnode(par : EInt) {
 	
 	snode: SubstrateResourceNode {
 		++ -guests -> vnode
-//		.resourceAmountAvailable := param::par
 	}
 	
 	vnode: VirtualResourceNode {
@@ -46,7 +45,6 @@ mapping n2n with mapVnode {
 	var v : EInt
 	var w : EDouble
 	var x : EDouble
-//	var y : EInt bind par
 };
 
 constraint -> class::VirtualResourceNode {
@@ -57,16 +55,6 @@ constraint -> mapping::n2n {
 	self.variables().v == 2
 }
 
-// TODO: Test hierfür:
-//constraint -> mapping::n2n {
-//	self.nodes().vnode.resourceDemand >= 2
-//}
-
-// TODO: Test hierfür:
-//constraint -> global {
-//	mappings.n2n->sum(m | m.variables().w) == 0
-//}
-
 constraint -> mapping::n2n {
 	self.variables().x == 42
 }
@@ -75,30 +63,10 @@ constraint -> mapping::n2n {
 	self.variables().w == 1.5
 }
 
-//constraint -> mapping::n2n {
-//	self.variables().y == 3
-//}
-
-// TODO: Tests ...
-//constraint -> mapping::n2n {
-//	self.variables().x + self.variables().w + self.variables().y == 10
-//}
-
-// TODO: Tests ...
-//constraint -> global {
-//	mappings.n2n->sum(m | m.variables().x)
-//	+ mappings.n2n->sum(m | m.variables().w)
-//	+ mappings.n2n->sum(m | m.variables().y) == 10
-//}
-
 objective n2nObj -> mapping::n2n {
 	1
 }
 
-//objective vObj -> mapping::n2n {
-//	self.variables().v
-//}
-
 global objective : max {
-	n2nObj // + vObj
+	n2nObj
 }

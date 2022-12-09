@@ -4,6 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.varssum
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.all.build.varssum.connector
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gipsl.all.build.varssum; singleton:=true
 Bundle-ActivationPolicy: lazy

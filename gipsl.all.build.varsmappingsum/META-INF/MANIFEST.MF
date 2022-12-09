@@ -4,6 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.varsmappingsum
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.all.build.varsmappingsum.connector
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gipsl.all.build.varsmappingsum; singleton:=true
 Bundle-ActivationPolicy: lazy

@@ -1,40 +1,63 @@
 package "gipsl.all.build.varsparameter"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
-// import a metamodel here
 
 config {  
 	solver := GLPK [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
-	timeLimit := true [value := 42.0];
-	randomSeed := true [value := 73];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
-	tolerance := true [value := 0.00001 ];
+//	lpOutput := true [path := "./GLPK.lp"];
 }
 
-// specify an example rule
-rule exampleRule {
-	clazz : EClass {
-		++ -eAllOperations -> op
+rule mapVnode(par : EInt) {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
 	}
 	
-	op : EOperation
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+		.resourceAmountAvailable := param::par
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
 }
 
-// create a mapping on the rule
-mapping mapNode with exampleRule;
+//
+// GIPSL starts here!
+//
 
-// create a constraint on one class
-constraint -> class::EOperation {
-	mappings.mapNode->filter(m | m.nodes().clazz.^abstract)->count() > self.lowerBound
+mapping n2n with mapVnode {
+	var y : EInt bind par
+};
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
 }
 
-// create an objective for the mapping
-objective nodeObj -> mapping::mapNode {
-	self.nodes().op.upperBound * sin(73)
+constraint -> mapping::n2n {
+	self.variables().y == 3
 }
 
-// create an overall objective
-global objective : min {
-	2 * nodeObj
+objective n2nObj -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	n2nObj
 }

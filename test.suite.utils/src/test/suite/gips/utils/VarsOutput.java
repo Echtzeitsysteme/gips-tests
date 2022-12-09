@@ -1,4 +1,4 @@
-package gipsl.all.build.vars.connector;
+package test.suite.gips.utils;
 
 import java.util.Map;
 

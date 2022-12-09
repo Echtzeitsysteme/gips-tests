@@ -1,21 +1,22 @@
 package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.emoflon.gips.core.ilp.ILPVariable;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.vars.connector.VarsConnector;
+import gipsl.all.build.varssum.connector.VarsSumConnector;
 
-public class GipslAllBuildVarsTest extends AGipslAllBuildTest {
+public class GipslAllBuildVarsSumTest extends AGipslAllBuildTest {
 
 	// Setup method
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new VarsConnector(MODEL_PATH);
+		con = new VarsSumConnector(MODEL_PATH);
 	}
 
 	// Actual tests
@@ -30,14 +31,13 @@ public class GipslAllBuildVarsTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, Math.abs(ret.objectiveValue()));
-		
-		final ILPVariable<?> v = ((VarsConnector) con).getVarsOutput().freeVars().get("v");
-		final ILPVariable<?> w = ((VarsConnector) con).getVarsOutput().freeVars().get("w");
-		final ILPVariable<?> x = ((VarsConnector) con).getVarsOutput().freeVars().get("x");
-		
-		assertEquals(2, v.getValue().doubleValue());
-		assertEquals(1.5, w.getValue().doubleValue());
-		assertEquals(42, x.getValue().doubleValue());
+
+		final ILPVariable<?> v = ((VarsSumConnector) con).getVarsOutput().freeVars().get("v");
+		final ILPVariable<?> w = ((VarsSumConnector) con).getVarsOutput().freeVars().get("w");
+		final ILPVariable<?> x = ((VarsSumConnector) con).getVarsOutput().freeVars().get("x");
+
+		assertEquals(0, w.getValue().doubleValue());
+		assertEquals(10, v.getValue().doubleValue() + w.getValue().doubleValue() + x.getValue().doubleValue());
 	}
 
 }
