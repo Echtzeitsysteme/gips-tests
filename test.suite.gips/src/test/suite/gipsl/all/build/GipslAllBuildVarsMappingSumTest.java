@@ -1,13 +1,16 @@
 package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Map;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
-import org.emoflon.gips.core.ilp.ILPVariable;
 import org.junit.jupiter.api.Test;
 
+import gipsl.all.build.varsmappingsum.api.gips.mapping.N2nMapping;
 import gipsl.all.build.varsmappingsum.connector.VarsMappingSumConnector;
 
 public class GipslAllBuildVarsMappingSumTest extends AGipslAllBuildTest {
@@ -32,15 +35,72 @@ public class GipslAllBuildVarsMappingSumTest extends AGipslAllBuildTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 
-		final ILPVariable<?> v = ((VarsMappingSumConnector) con).getVarsOutput().freeVars().get("v");
-		final ILPVariable<?> w = ((VarsMappingSumConnector) con).getVarsOutput().freeVars().get("w");
-		final ILPVariable<?> x = ((VarsMappingSumConnector) con).getVarsOutput().freeVars().get("x");
+		assertFalse(((VarsMappingSumConnector) con).getN2nMappings().isEmpty());
+		checkConstraints(((VarsMappingSumConnector) con).getN2nMappings());
+	}
 
-		assertTrue(v.getValue().doubleValue() >= 0);
-		assertTrue(w.getValue().doubleValue() >= 0);
-		assertTrue(x.getValue().doubleValue() >= 0);
+	@Test
+	public void testMap2to1() {
+		gen.genSubstrateNode("s1", 2);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		callableSetUp();
 
-		assertEquals(42, v.getValue().doubleValue() + w.getValue().doubleValue() + x.getValue().doubleValue());
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(2, Math.abs(ret.objectiveValue()));
+
+		assertFalse(((VarsMappingSumConnector) con).getN2nMappings().isEmpty());
+		checkConstraints(((VarsMappingSumConnector) con).getN2nMappings());
+	}
+
+	@Test
+	public void testMap10to1() {
+		gen.genSubstrateNode("s1", 10);
+		for (int i = 1; i <= 10; i++) {
+			gen.genVirtualNode("v" + i, 1);
+		}
+
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(10, Math.abs(ret.objectiveValue()));
+
+		assertFalse(((VarsMappingSumConnector) con).getN2nMappings().isEmpty());
+		checkConstraints(((VarsMappingSumConnector) con).getN2nMappings());
+	}
+
+	// Utility methods
+
+	private double getVarValFromMapping(final N2nMapping mapping, final String varName) {
+		if (mapping.getBoundVariableNames().contains(varName)) {
+			return mapping.getBoundVariables().get(varName).getValue().doubleValue();
+		} else if (mapping.getFreeVariableNames().contains(varName)) {
+			return mapping.getFreeVariables().get(varName).getValue().doubleValue();
+		}
+
+		throw new IllegalArgumentException("Var with name " + varName + " not found in mapping " + mapping);
+	}
+
+	private void checkConstraints(final Map<String, N2nMapping> map) {
+		map.forEach((k, m) -> {
+			final N2nMapping mapping = m;
+			assertTrue(getVarValFromMapping(mapping, "v") >= 0);
+			assertTrue(getVarValFromMapping(mapping, "w") >= 0);
+			assertTrue(getVarValFromMapping(mapping, "x") >= 0);
+		});
+
+		// Check the global constraint
+		double sumVWX = 0;
+		for (final N2nMapping m : map.values()) {
+			sumVWX += getVarValFromMapping(m, "v");
+			sumVWX += getVarValFromMapping(m, "w");
+			sumVWX += getVarValFromMapping(m, "x");
+		}
+		assertEquals(42, sumVWX);
 	}
 
 }
