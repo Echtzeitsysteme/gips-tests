@@ -1,0 +1,51 @@
+package "gipsl.all.build.resourcesetinit"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 60.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapVnode;
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+}
+
+objective nObj -> mapping::n2n {
+	1
+}
+
+global objective : min {
+	nObj
+}
