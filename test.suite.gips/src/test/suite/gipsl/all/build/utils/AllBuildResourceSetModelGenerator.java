@@ -18,16 +18,17 @@ import model.VirtualResourceNode;
 
 public class AllBuildResourceSetModelGenerator {
 
-//	private final static Root root = ModelFactory.eINSTANCE.createRoot();
 	private final static String SUB_NAME = "sub";
 	private final static String VIRT_NAME = "virt";
-	
-	/**
-	 * TODO!
-	 */
 	private ResourceSet resourceSet = new ResourceSetImpl();
 
 	public AllBuildResourceSetModelGenerator() {
+		init();
+	}
+	
+	private void init() {
+		resourceSet.getResources().clear();
+		
 		final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		reg.getExtensionToFactoryMap().put("xmi", new SmartEMFResourceFactoryImpl("../"));
 		resourceSet.getPackageRegistry().put(ModelPackage.eINSTANCE.getNsURI(), ModelPackage.eINSTANCE);
@@ -85,6 +86,10 @@ public class AllBuildResourceSetModelGenerator {
 	 */
 	public Root getRoot() {
 		return (Root) resourceSet.getResources().get(0).getContents().get(0);
+	}
+	
+	public void reset() {
+		init();
 	}
 
 }

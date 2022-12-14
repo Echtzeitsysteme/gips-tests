@@ -4,27 +4,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.and.connector.AndConnector;
+import gipsl.all.build.resourcesetinit.connector.RsinitConnector;
+import test.suite.gips.utils.AResourceConnector;
 
 public class GipslAllBuildResourceSetInitSimpleTest extends AGipslAllBuildResourceSetTest {
+
+	final AResourceConnector con = new RsinitConnector(gen.getResourceSet());
 	
 	// Setup method
 
-	public void callableSetUp() {
-		gen.persistModel(MODEL_PATH);
-		con = new AndConnector(MODEL_PATH);
+	@BeforeEach
+	public void setUp() {
+		gen.reset();
 	}
 	
 	@Test
 	public void testMap2to1() {
-		gen.genSubstrateNode("s1", 10);
+		gen.genSubstrateNode("s1", 2);
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
-		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		
+		final ILPSolverOutput ret = con.solve();
+		con.apply();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// All mappings must be chosen, according to the objective function

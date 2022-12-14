@@ -7,7 +7,7 @@ public abstract class AResourceConnector {
 
 	protected GipsEngineAPI<?, ?> api;
 	
-	protected ILPSolverOutput solve() {
+	public ILPSolverOutput solve() {
 		// Build the ILP problem (including updates)
 		api.buildILPProblem(true);
 		return api.solveILPProblem();
