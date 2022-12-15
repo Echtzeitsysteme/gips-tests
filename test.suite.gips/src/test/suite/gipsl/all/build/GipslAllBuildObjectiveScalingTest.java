@@ -54,5 +54,17 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(10 / 5, ret.objectiveValue());
 	}
+	
+	@Test
+	public void testMapSumD() {
+		gen.genSubstrateNode("s1", 20);
+		gen.genVirtualNode("v1", 20);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(20 / 0.1, ret.objectiveValue());
+	}
 
 }
