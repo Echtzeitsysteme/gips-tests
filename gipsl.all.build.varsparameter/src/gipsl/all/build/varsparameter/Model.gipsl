@@ -1,0 +1,63 @@
+package "gipsl.all.build.varsparameter"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+//	lpOutput := true [path := "./GLPK.lp"];
+}
+
+rule mapVnode(par : EInt) {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+		.resourceAmountAvailable := param::par
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapVnode {
+	var y : EInt bind par
+};
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+}
+
+constraint -> mapping::n2n {
+	self.variables().y == 3
+}
+
+objective n2nObj -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	n2nObj
+}

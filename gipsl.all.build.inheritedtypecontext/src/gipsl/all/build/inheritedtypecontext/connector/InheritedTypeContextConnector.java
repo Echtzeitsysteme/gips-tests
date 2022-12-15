@@ -5,12 +5,14 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import gipsl.all.build.inheritedtypecontext.api.gips.InheritedtypecontextGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class InheritedTypeContextConnector extends AConnector {
 
 	public InheritedTypeContextConnector(final String modelPath) {
 		api = new InheritedtypecontextGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override
