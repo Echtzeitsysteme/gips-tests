@@ -1,0 +1,44 @@
+package "gipsl.sortpatternmappingbug"
+import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+//
+// This GIPSL specification has no correct function/semantics.
+// It's only purpose is to trigger a bug in the code generation process.
+//
+
+rule ra {
+	root: Root {
+		-- -entries -> val
+	}
+	
+	val: Entry
+}
+
+rule rb {
+	root: Root {
+		-entries -> val
+	}
+	
+	val: Entry {
+		++ -next -> val
+	}
+}
+
+pattern p {
+	val: Entry
+}
+
+mapping ma with ra;
+mapping mb with rb;
+
+constraint -> class::Entry {
+	patterns.p->filter(m | m.nodes().val == self)->count() + mappings.ma->filter(m | m.nodes().val == self)->count() + mappings.mb->filter(m | m.nodes().val == self)->count() == 1
+}
