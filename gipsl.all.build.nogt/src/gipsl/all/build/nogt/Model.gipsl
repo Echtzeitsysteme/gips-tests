@@ -1,0 +1,21 @@
+package "gipsl.all.build.nogt"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+// No GT rules/patterns on purpose
+
+//
+// GIPSL starts here!
+//
+
+constraint -> class::SubstrateResourceNode {
+	self.resourceAmountAvailable >= 0
+}
