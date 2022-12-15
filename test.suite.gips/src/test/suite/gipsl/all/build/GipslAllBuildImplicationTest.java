@@ -28,9 +28,11 @@ public class GipslAllBuildImplicationTest extends AGipslAllBuildTest {
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-		// No mapping must be chosen due to the implication constraint
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		// The vNode can either be mapped or not be mapped:
+		// 1. Map vNode -> desired by objective but violates constraint
+		// 2. Do not map vNode -> Not desired by objective, constraint is also violated
+		// => Solution must be infeasible either way
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -69,9 +71,8 @@ public class GipslAllBuildImplicationTest extends AGipslAllBuildTest {
 
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-		// No mapping possible, but constraint is fulfilled
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		// No mapping possible, constraint is violated
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test

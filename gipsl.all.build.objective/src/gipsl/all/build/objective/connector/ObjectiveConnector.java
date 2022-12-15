@@ -5,12 +5,14 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import gipsl.all.build.objective.api.gips.ObjectiveGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class ObjectiveConnector extends AConnector {
 
 	public ObjectiveConnector(final String modelPath) {
 		api = new ObjectiveGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override

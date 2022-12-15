@@ -1,0 +1,37 @@
+package "gipsl.all.build.booleanbrackets"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+pattern snode {
+	snode: SubstrateResourceNode
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping sn with snode;
+
+constraint -> class::SubstrateResourceNode {
+	self.resourceAmountAvailable == 0 | [self.resourceAmountAvailable >= 1 & self.resourceAmountAvailable <= 1]
+}
+
+constraint -> class::VirtualResourceNode {
+	[mappings.sn->count() >= self.resourceDemand & mappings.sn->count() <= self.resourceDemand] | 1 == 0
+}
+
+objective snm -> mapping::sn {
+	1
+}
+
+global objective : max {
+	snm
+}
