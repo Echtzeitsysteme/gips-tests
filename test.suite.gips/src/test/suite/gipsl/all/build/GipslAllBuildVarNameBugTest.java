@@ -36,7 +36,7 @@ public class GipslAllBuildVarNameBugTest extends AGipslAllBuildTest {
 
 		checkConstraints(((VarNameBugConnector) con).getN2nMappings());
 	}
-	
+
 	@Test
 	public void testMap2to1() {
 		gen.genSubstrateNode("s1", 1);
@@ -50,6 +50,43 @@ public class GipslAllBuildVarNameBugTest extends AGipslAllBuildTest {
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 
 		checkConstraints(((VarNameBugConnector) con).getN2nMappings());
+	}
+
+	@Test
+	public void testMap10to1() {
+		gen.genSubstrateNode("s1", 1);
+		for (int i = 1; i <= 10; i++) {
+			gen.genVirtualNode("v" + i, 1);
+		}
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(10, Math.abs(ret.objectiveValue()));
+
+		checkConstraints(((VarNameBugConnector) con).getN2nMappings());
+	}
+
+	@Test
+	public void testMap0to1() {
+		gen.genSubstrateNode("s1", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
+	}
+
+	@Test
+	public void testMap1to0() {
+		gen.genVirtualNode("v1", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
 	// Utility methods
