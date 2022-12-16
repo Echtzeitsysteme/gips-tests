@@ -158,6 +158,31 @@ rule mapVnodeTwentyTwo {
 	# vnode.resourceDemand == 22
 }
 
+rule mapVnodeTwentyThree {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 33
+}
+
 //
 // GIPSL starts here!
 //
@@ -168,6 +193,7 @@ mapping c with mapVnodeTen;
 mapping d with mapVnodeTwenty;
 mapping f with mapVnodeTwentyOne;
 mapping g with mapVnodeTwentyTwo;
+mapping h with mapVnodeTwentyThree;
 
 // Each found virtual node (match) must be mapped (for both mappings!)
 constraint -> pattern::mapVnodeOne {
@@ -188,6 +214,10 @@ constraint -> pattern::mapVnodeTwentyOne {
 constraint -> pattern::mapVnodeTwentyTwo {
 	mappings.g->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
 }
+constraint -> pattern::mapVnodeTwentyThree {
+	mappings.h->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+
 objective objA -> mapping::a {
 	1
 }
@@ -210,6 +240,10 @@ objective sumFG -> class::SubstrateResourceNode {
 	/ 2 
 }
 
+objective sumH -> class::SubstrateResourceNode {
+	mappings.h->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) / 3
+}
+
 global objective : min {
-	73 * objA + (objB / 5) + sumC + sumD + sumFG
+	73 * objA + (objB / 5) + sumC + sumD + sumFG + (sumH / 11)
 }
