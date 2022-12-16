@@ -19,6 +19,10 @@ public class GipslAllBuildObjectiveMappingTest extends AGipslAllBuildTest {
 
 	// Actual tests
 
+	//
+	// First mapping
+	//
+
 	@Test
 	public void testMap1to1Res1() {
 		gen.genSubstrateNode("s1", 1);
@@ -67,6 +71,49 @@ public class GipslAllBuildObjectiveMappingTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(6, ret.objectiveValue());
+	}
+
+	//
+	// Second mapping
+	//
+
+	@Test
+	public void testMap1to1Res10Mapping2() {
+		gen.genSubstrateNode("s1", 10);
+		gen.genVirtualNode("v1", 10);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(1, ret.objectiveValue());
+	}
+
+	@Test
+	public void testMap2to1Res10Mapping2() {
+		gen.genSubstrateNode("s1", 10);
+		gen.genVirtualNode("v1", 10);
+		gen.genVirtualNode("v2", 10);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(2, ret.objectiveValue());
+	}
+
+	@Test
+	public void testMap10to1Res10Mapping2() {
+		gen.genSubstrateNode("s1", 10);
+		for (int i = 1; i <= 10; i++) {
+			gen.genVirtualNode("v" + i, 10);
+		}
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(10, ret.objectiveValue());
 	}
 
 }
