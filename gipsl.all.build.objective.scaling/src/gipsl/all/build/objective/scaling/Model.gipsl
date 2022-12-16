@@ -158,7 +158,7 @@ rule mapVnodeTwentyTwo {
 	# vnode.resourceDemand == 22
 }
 
-rule mapVnodeTwentyThree {
+rule mapVnodeThirtyThree {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
@@ -183,6 +183,31 @@ rule mapVnodeTwentyThree {
 	# vnode.resourceDemand == 33
 }
 
+rule mapVnodeFourty {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 40
+}
+
 //
 // GIPSL starts here!
 //
@@ -193,7 +218,8 @@ mapping c with mapVnodeTen;
 mapping d with mapVnodeTwenty;
 mapping f with mapVnodeTwentyOne;
 mapping g with mapVnodeTwentyTwo;
-mapping h with mapVnodeTwentyThree;
+mapping h with mapVnodeThirtyThree;
+mapping i with mapVnodeFourty;
 
 // Each found virtual node (match) must be mapped (for both mappings!)
 constraint -> pattern::mapVnodeOne {
@@ -214,8 +240,11 @@ constraint -> pattern::mapVnodeTwentyOne {
 constraint -> pattern::mapVnodeTwentyTwo {
 	mappings.g->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
 }
-constraint -> pattern::mapVnodeTwentyThree {
+constraint -> pattern::mapVnodeThirtyThree {
 	mappings.h->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+constraint -> pattern::mapVnodeFourty {
+	mappings.i->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
 }
 
 objective objA -> mapping::a {
@@ -244,6 +273,13 @@ objective sumH -> class::SubstrateResourceNode {
 	mappings.h->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) / 3
 }
 
+objective objIA -> mapping::i {
+	(self.nodes().vnode.resourceDemand + 10) / 5
+}
+objective objIB -> class::VirtualNode {
+	mappings.i->filter(m | m.nodes().vnode == self)->sum(m | m.nodes().vnode.resourceDemand)
+}
+
 global objective : min {
-	73 * objA + (objB / 5) + sumC + sumD + sumFG + (sumH / 11)
+	73 * objA + (objB / 5) + sumC + sumD + (sumH / 11) + ((objIA + objIB) / 5) + sumFG
 }
