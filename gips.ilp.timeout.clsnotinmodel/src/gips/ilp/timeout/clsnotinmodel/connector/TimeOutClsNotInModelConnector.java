@@ -1,16 +1,16 @@
-package gipsl.all.build.and.connector;
+package gips.ilp.timeout.clsnotinmodel.connector;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 
-import gipsl.all.build.and.api.gips.AndGipsAPI;
+import gips.ilp.timeout.clsnotinmodel.api.gips.ClsnotinmodelGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
 import test.suite.gips.utils.GlobalTestConfig;
 
-public class AndConnector extends AConnector {
+public class TimeOutClsNotInModelConnector extends AConnector {
 
-	public AndConnector(final String modelPath) {
-		api = new AndGipsAPI();
+	public TimeOutClsNotInModelConnector(final String modelPath) {
+		api = new ClsnotinmodelGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 		GlobalTestConfig.overrideSolver(api);
 	}
@@ -18,7 +18,8 @@ public class AndConnector extends AConnector {
 	@Override
 	public ILPSolverOutput run(final String outputPath) {
 		final ILPSolverOutput output = solve();
-		((AndGipsAPI) api).getN2n().applyNonZeroMappings();
+		((ClsnotinmodelGipsAPI) api).getS2t().applyNonZeroMappings();
+		save(outputPath);
 		return output;
 	}
 
