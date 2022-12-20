@@ -39,8 +39,8 @@ rule mapVnode {
 mapping n2n with mapVnode;
 
 // TODO: This context triggers the bug after a ResourceSet initialization!
-//constraint -> class::VirtualNode {
-constraint -> class::VirtualResourceNode {
+constraint -> class::VirtualNode {
+//constraint -> class::VirtualResourceNode {
 	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
 }
 

@@ -112,10 +112,6 @@ public class ResourceInitManualTest {
 		return null;
 	}
 
-	public ResourceSet getResourceSet() {
-		return resourceSet;
-	}
-
 	public Root getRoot() {
 		return (Root) resourceSet.getResources().get(0).getContents().get(0);
 	}
