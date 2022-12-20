@@ -7,7 +7,6 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.and.connector.AndConnector;
 import gipsl.all.build.resourcesetinit.connector.RsinitConnector;
 import test.suite.gips.utils.AResourceConnector;
 
