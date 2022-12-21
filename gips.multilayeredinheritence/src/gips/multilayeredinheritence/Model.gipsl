@@ -7,4 +7,26 @@ config {
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
+	debugOutput := true;
+}
+
+// This rule just sets the node id of a to 0
+rule zeroA {
+	root: Root {
+		-objects->a
+	}
+	
+	a: A {
+		.idA := 0
+	}
+}
+
+mapping za with zeroA;
+
+objective oa -> mapping::za {
+	1
+}
+
+global objective : max {
+	oa
 }
