@@ -1,6 +1,5 @@
 package test.suite.gipsl.all.build.utils;
 
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -25,15 +24,15 @@ public class AllBuildResourceSetModelGenerator {
 	public AllBuildResourceSetModelGenerator() {
 		init();
 	}
-	
+
 	private void init() {
 		resourceSet.getResources().clear();
-		
+
 		final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		reg.getExtensionToFactoryMap().put("xmi", new SmartEMFResourceFactoryImpl("../"));
 		resourceSet.getPackageRegistry().put(ModelPackage.eINSTANCE.getNsURI(), ModelPackage.eINSTANCE);
 		resourceSet.createResource(URI.createURI("model.xmi"));
-		
+
 		final Root root = ModelFactory.eINSTANCE.createRoot();
 		final Container subCntr = ModelFactory.eINSTANCE.createSubstrateContainer();
 		subCntr.setName(SUB_NAME);
@@ -41,7 +40,7 @@ public class AllBuildResourceSetModelGenerator {
 		virtCntr.setName(VIRT_NAME);
 		root.getContainers().add(subCntr);
 		root.getContainers().add(virtCntr);
-		
+
 		resourceSet.getResources().get(0).getContents().add(root);
 	}
 
@@ -69,7 +68,7 @@ public class AllBuildResourceSetModelGenerator {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns the current model instance as resource set.
 	 * 
@@ -78,7 +77,7 @@ public class AllBuildResourceSetModelGenerator {
 	public ResourceSet getResourceSet() {
 		return resourceSet;
 	}
-	
+
 	/**
 	 * Returns the root node.
 	 *
@@ -87,7 +86,7 @@ public class AllBuildResourceSetModelGenerator {
 	public Root getRoot() {
 		return (Root) resourceSet.getResources().get(0).getContents().get(0);
 	}
-	
+
 	public void reset() {
 		init();
 	}

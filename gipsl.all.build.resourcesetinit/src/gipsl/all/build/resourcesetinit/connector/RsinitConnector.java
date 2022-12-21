@@ -16,7 +16,7 @@ public class RsinitConnector extends AResourceConnector {
 
 	@Override
 	public void apply() {
-		((ResourcesetinitGipsAPI) api).getN2n().applyNonZeroMappings();		
+		((ResourcesetinitGipsAPI) api).getN2n().applyNonZeroMappings();
 	}
 
 }
