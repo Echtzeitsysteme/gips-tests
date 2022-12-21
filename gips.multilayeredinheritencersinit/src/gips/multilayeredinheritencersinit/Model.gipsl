@@ -1,4 +1,4 @@
-package "gips.multilayeredinheritence"
+package "gips.multilayeredinheritencersinit"
 import "platform:/resource/gips.multilayeredinheritencemodel/model/Multilayeredinheritencemodel.ecore"
 
 

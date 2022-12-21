@@ -286,7 +286,7 @@ public class MultiLayeredInheritenceTest extends AMultiLayeredInheritenceTest {
 
 	// Utilities
 
-	private void runAndyVerify(final int objDesVal) {
+	protected void runAndyVerify(final int objDesVal) {
 		if (objDesVal < 0) {
 			throw new IllegalArgumentException("Desired objective value < 0.");
 		}
