@@ -37,9 +37,6 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 	public void testMapSnodeFirstInvalid() {
 		// Set up in such a way that the validation log gets triggered
 		gen.genSubstrateNode("s1", 1);
-		final SubstrateContainer sub = (SubstrateContainer) gen.getContainer("sub");
-		final SubstrateResourceNode snode = (SubstrateResourceNode) sub.getSubstrateNodes().get(0);
-		snode.setResourceAmountAvailable(2);
 
 		final ILPSolverOutput ret = con.solve();
 		con.apply();
@@ -50,14 +47,13 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		// Lets start with the real test!
 		// Reset the model
 		gen.reset();
-		gen.genSubstrateNode("s1", 1);
 		gen.genVirtualNode("v1", 1);
 
 		final ILPSolverOutput ret2 = con.solve();
 		con.apply();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret2.status());
-		assertEquals(1, ret2.objectiveValue());
+		assertEquals(0, ret2.objectiveValue());
 	}
 
 	@Test
@@ -74,7 +70,6 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		// Reset the model
 		gen.reset();
 		gen.genSubstrateNode("s1", 1);
-		gen.genVirtualNode("v1", 1);
 
 		final ILPSolverOutput ret2 = con.solve();
 		con.apply();
@@ -82,7 +77,30 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		// Now, the validation log must be invalid again + the problem must be
 		// infeasible
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret2.status());
-		assertTrue(ret.validationLog().isNotValid());
+		assertTrue(ret2.validationLog().isNotValid());
+	}
+
+	@Test
+	public void testBothValid() {
+		gen.genSubstrateNode("s1", 1);
+		final SubstrateContainer sub = (SubstrateContainer) gen.getContainer("sub");
+		final SubstrateResourceNode snode = (SubstrateResourceNode) sub.getSubstrateNodes().get(0);
+		snode.setResourceAmountAvailable(2);
+
+		final ILPSolverOutput ret = con.solve();
+		con.apply();
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(0, ret.objectiveValue());
+
+		// Add a virtual node
+		gen.genVirtualNode("v1", 1);
+
+		final ILPSolverOutput ret2 = con.solve();
+		con.apply();
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret2.status());
+		assertEquals(1, ret2.objectiveValue());
 	}
 
 }
