@@ -228,6 +228,62 @@ public class MultiLayeredInheritenceTest extends AMultiLayeredInheritenceTest {
 		runAndyVerify(1);
 	}
 
+	//
+	// Tests with inherited constraints: Single node
+	//
+
+	@Test
+	public void testObjectBCnstrOnA() {
+		// Setup
+		MultiLayeredInheritenceModelGenerator.generateB(11);
+		runAndyVerify(0);
+	}
+
+	@Test
+	public void testObjectCCnstrOnA() {
+		// Setup
+		MultiLayeredInheritenceModelGenerator.generateC(11);
+		runAndyVerify(0);
+	}
+
+	@Test
+	public void testObjectCCnstrOnB() {
+		// Setup
+		MultiLayeredInheritenceModelGenerator.generateC(22);
+		runAndyVerify(0);
+	}
+
+	//
+	// Tests with inherited constraints: Multi node
+	//
+
+	@Test
+	public void testObjectABCCnstrB() {
+		// Setup
+		MultiLayeredInheritenceModelGenerator.generateA(1);
+		MultiLayeredInheritenceModelGenerator.generateB(11);
+		MultiLayeredInheritenceModelGenerator.generateC(1);
+		runAndyVerify(2);
+	}
+
+	@Test
+	public void testObjectABCCnstrConA() {
+		// Setup
+		MultiLayeredInheritenceModelGenerator.generateA(1);
+		MultiLayeredInheritenceModelGenerator.generateB(1);
+		MultiLayeredInheritenceModelGenerator.generateC(11);
+		runAndyVerify(2);
+	}
+
+	@Test
+	public void testObjectABCCnstrConB() {
+		// Setup
+		MultiLayeredInheritenceModelGenerator.generateA(1);
+		MultiLayeredInheritenceModelGenerator.generateB(1);
+		MultiLayeredInheritenceModelGenerator.generateC(22);
+		runAndyVerify(2);
+	}
+
 	// Utilities
 
 	private void runAndyVerify(final int objDesVal) {
