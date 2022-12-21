@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gips.multilayeredinheritence
+Bundle-ManifestVersion: 2
+Bundle-Name: gips.multilayeredinheritence
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Import-Package: test.suite.gips.utils
+Bundle-SymbolicName: gips.multilayeredinheritence; singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-16
+Require-Bundle: org.emoflon.ibex.common,
+ org.emoflon.ibex.gt,
+ org.emoflon.gips.core,
+ org.emoflon.ibex.gt.democles,
+ org.emoflon.ibex.gt.hipe,
+ gips.multilayeredinheritencemodel;bundle-version="0.0.1"

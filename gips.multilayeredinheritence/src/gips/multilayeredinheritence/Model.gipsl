@@ -1,0 +1,10 @@
+package "gips.multilayeredinheritence"
+import "platform:/resource/gips.multilayeredinheritencemodel/model/Multilayeredinheritencemodel.ecore"
+
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+}
