@@ -1,7 +1,5 @@
 package test.suite.gips.multilayeredinheritence;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -15,36 +13,37 @@ import multilayeredinheritencemodel.C;
 import multilayeredinheritencemodel.MultilayeredinheritencemodelFactory;
 import multilayeredinheritencemodel.Root;
 
-public class MultiLayeredInheritenceResourceSetModelGenerator {
+public class MultiLayeredInheritenceResourceSetModelGenerator extends AMultiLayeredInheritenceModelGenerator {
 
-	private static ResourceSet resourceSet = new ResourceSetImpl();
+	private ResourceSet resourceSet = new ResourceSetImpl();
 
-	public static Root getRoot() {
+	@Override
+	public Root getRoot() {
 		return (Root) resourceSet.getResources().get(0).getContents().get(0);
 	}
 
-	public static void reset() {
+	@Override
+	public void reset() {
 		init();
 	}
 
-	public static Collection<A> getObjects() {
-		return getRoot().getObjects();
-	}
-
-	public static void generateA(final int id) {
+	@Override
+	public void generateA(final int id) {
 		final A a = MultilayeredinheritencemodelFactory.eINSTANCE.createA();
 		a.setIdA(id);
 		getObjects().add(a);
 	}
 
-	public static void generateB(final int id) {
+	@Override
+	public void generateB(final int id) {
 		final B b = MultilayeredinheritencemodelFactory.eINSTANCE.createB();
 		b.setIdA(id);
 		b.setIdB(id);
 		getObjects().add(b);
 	}
 
-	public static void generateC(final int id) {
+	@Override
+	public void generateC(final int id) {
 		final C c = MultilayeredinheritencemodelFactory.eINSTANCE.createC();
 		c.setIdA(id);
 		c.setIdB(id);
@@ -52,7 +51,7 @@ public class MultiLayeredInheritenceResourceSetModelGenerator {
 		getObjects().add(c);
 	}
 
-	private static void init() {
+	private void init() {
 		resourceSet.getResources().clear();
 
 		final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
@@ -70,7 +69,7 @@ public class MultiLayeredInheritenceResourceSetModelGenerator {
 	 * 
 	 * @return Current model instance as resource set.
 	 */
-	public static ResourceSet getResourceSet() {
+	public ResourceSet getResourceSet() {
 		return resourceSet;
 	}
 

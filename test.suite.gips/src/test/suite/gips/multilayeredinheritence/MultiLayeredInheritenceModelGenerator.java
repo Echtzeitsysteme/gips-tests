@@ -1,7 +1,6 @@
 package test.suite.gips.multilayeredinheritence;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,36 +14,37 @@ import multilayeredinheritencemodel.C;
 import multilayeredinheritencemodel.MultilayeredinheritencemodelFactory;
 import multilayeredinheritencemodel.Root;
 
-public class MultiLayeredInheritenceModelGenerator {
+public class MultiLayeredInheritenceModelGenerator extends AMultiLayeredInheritenceModelGenerator {
 
-	private static Root root = MultilayeredinheritencemodelFactory.eINSTANCE.createRoot();
+	private Root root = MultilayeredinheritencemodelFactory.eINSTANCE.createRoot();
 
-	public static Root getRoot() {
+	@Override
+	public Root getRoot() {
 		return root;
 	}
 
-	public static void reset() {
+	@Override
+	public void reset() {
 		root = MultilayeredinheritencemodelFactory.eINSTANCE.createRoot();
 	}
 
-	public static Collection<A> getObjects() {
-		return root.getObjects();
-	}
-
-	public static void generateA(final int id) {
+	@Override
+	public void generateA(final int id) {
 		final A a = MultilayeredinheritencemodelFactory.eINSTANCE.createA();
 		a.setIdA(id);
 		getObjects().add(a);
 	}
 
-	public static void generateB(final int id) {
+	@Override
+	public void generateB(final int id) {
 		final B b = MultilayeredinheritencemodelFactory.eINSTANCE.createB();
 		b.setIdA(id);
 		b.setIdB(id);
 		getObjects().add(b);
 	}
 
-	public static void generateC(final int id) {
+	@Override
+	public void generateC(final int id) {
 		final C c = MultilayeredinheritencemodelFactory.eINSTANCE.createC();
 		c.setIdA(id);
 		c.setIdB(id);
@@ -52,7 +52,7 @@ public class MultiLayeredInheritenceModelGenerator {
 		getObjects().add(c);
 	}
 
-	public static Root loadModel(final String path) {
+	public Root loadModel(final String path) {
 		// Workaround: Always use absolute path
 		final URI absPath = URI.createFileURI(System.getProperty("user.dir") + "/" + path);
 
@@ -64,7 +64,7 @@ public class MultiLayeredInheritenceModelGenerator {
 		return root;
 	}
 
-	public static void persistModel(final String path) {
+	public void persistModel(final String path) {
 		// Workaround: Always use absolute path
 		final URI absPath = URI.createFileURI(System.getProperty("user.dir") + "/" + path);
 

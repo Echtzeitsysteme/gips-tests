@@ -11,21 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import gips.multilayeredinheritencersinit.connector.MultiLayeredInheritenceRSInitConnector;
 import test.suite.gips.utils.AResourceConnector;
 
-public class MultiLayeredInheritenceRSInitTest extends MultiLayeredInheritenceTest {
+public class MultiLayeredInheritenceRSInitTest extends AMultiLayeredInheritenceTest {
 
+	// Overwrite the parent AConnector field
 	protected AResourceConnector con;
 
-	@BeforeEach
-	public void setUp() {
-		MultiLayeredInheritenceResourceSetModelGenerator.reset();
-		final ResourceSet model = MultiLayeredInheritenceResourceSetModelGenerator.getResourceSet();
-		con = new MultiLayeredInheritenceRSInitConnector(model);
-	}
-
-	// Utilities
-
 	@Override
-	protected void runAndyVerify(final int objDesVal) {
+	protected void runAndVerify(int objDesVal) {
 		if (objDesVal < 0) {
 			throw new IllegalArgumentException("Desired objective value < 0.");
 		}
@@ -35,6 +27,15 @@ public class MultiLayeredInheritenceRSInitTest extends MultiLayeredInheritenceTe
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(objDesVal, ret.objectiveValue());
 		assertFalse(ret.validationLog().isNotValid());
+	}
+
+	@Override
+	@BeforeEach
+	public void resetModel() {
+		gen = new MultiLayeredInheritenceResourceSetModelGenerator();
+		gen.reset();
+		final ResourceSet model = ((MultiLayeredInheritenceResourceSetModelGenerator) gen).getResourceSet();
+		con = new MultiLayeredInheritenceRSInitConnector(model);
 	}
 
 }
