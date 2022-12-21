@@ -32,8 +32,9 @@ rule mapVnode {
 		++ -host -> snode
 	}
 	
-	# vnode.resourceDemand <= snode.resourceAmountAvailable
-	# snode.resourceAmountAvailable >= 0
+	// Explicitly no constraints
+//	# vnode.resourceDemand <= snode.resourceAmountAvailable
+//	# snode.resourceAmountAvailable >= 0
 }
 
 //
@@ -44,8 +45,14 @@ mapping n2n with mapVnode {
 	var v : EInt
 };
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+// Explicitly no constraint that enforces the mappings
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+//}
+
+// Enforce the pattern constraints by ILP
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
 }
 
 // Attach the free variable (v) to the mapping variable
