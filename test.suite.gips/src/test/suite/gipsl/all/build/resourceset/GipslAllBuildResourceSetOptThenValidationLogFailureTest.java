@@ -1,6 +1,7 @@
 package test.suite.gipsl.all.build.resourceset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
@@ -33,7 +34,7 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 	}
 
 	@Test
-	public void testMapSnodeInvalid() {
+	public void testMapSnodeFirstInvalid() {
 		// Set up in such a way that the validation log gets triggered
 		gen.genSubstrateNode("s1", 1);
 		final SubstrateContainer sub = (SubstrateContainer) gen.getContainer("sub");
@@ -57,6 +58,31 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret2.status());
 		assertEquals(1, ret2.objectiveValue());
+	}
+
+	@Test
+	public void testMapSnodeSecondInvalid() {
+		// Set up in such a way that the validation log does not get triggered
+		gen.genVirtualNode("v1", 1);
+
+		final ILPSolverOutput ret = con.solve();
+		con.apply();
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertFalse(ret.validationLog().isNotValid());
+
+		// Reset the model
+		gen.reset();
+		gen.genSubstrateNode("s1", 1);
+		gen.genVirtualNode("v1", 1);
+
+		final ILPSolverOutput ret2 = con.solve();
+		con.apply();
+
+		// Now, the validation log must be invalid again + the problem must be
+		// infeasible
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret2.status());
+		assertTrue(ret.validationLog().isNotValid());
 	}
 
 }

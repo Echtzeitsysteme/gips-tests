@@ -35,19 +35,26 @@ rule mapVnode {
 	# snode.resourceAmountAvailable >= 0
 }
 
+//pattern wrongSnode {
+//	snode: SubstrateResourceNode
+//	# snode.resourceAmountAvailable > snode.resourceAmountTotal
+//}
+
 //
 // GIPSL starts here!
 //
 
 mapping n2n with mapVnode;
 
-constraint -> global {
-	mappings.n2n->count() == 1
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
 }
 
 // This constraint must not be fulfilled
+//constraint -> pattern::wrongSnode {
 constraint -> class::SubstrateResourceNode {
 	self.resourceAmountAvailable > self.resourceAmountTotal
+//	self.nodes().snode.resourceAmountAvailable > self.nodes().snode.resourceAmountTotal
 }
 
 objective nObj -> mapping::n2n {
