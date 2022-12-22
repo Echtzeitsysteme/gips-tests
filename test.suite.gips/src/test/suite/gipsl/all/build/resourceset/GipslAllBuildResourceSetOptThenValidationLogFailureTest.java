@@ -53,7 +53,7 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		con.apply();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret2.status());
-		assertEquals(0, ret2.objectiveValue());
+		assertEquals(0, Math.abs(ret2.objectiveValue()));
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		con.apply();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 
 		// Add a virtual node
 		gen.genVirtualNode("v1", 1);
@@ -100,7 +100,7 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		con.apply();
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret2.status());
-		assertEquals(1, ret2.objectiveValue());
+		assertEquals(1, Math.abs(ret2.objectiveValue()));
 	}
 
 }
