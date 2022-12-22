@@ -46,7 +46,7 @@ public class GlobalTestConfig {
 	 * @param config ILPSolverConfig which should be used by the newly instantiated
 	 *               ILP solver.
 	 * @param api    GipsEngineAPI to get config from.
-	 * @return Newly instatiated ILP solver object.
+	 * @return Newly instantiated ILP solver object.
 	 */
 	private static ILPSolver getSolver(final ILPSolverConfig config, final GipsEngineAPI<?, ?> api) {
 		switch (solverType) {
