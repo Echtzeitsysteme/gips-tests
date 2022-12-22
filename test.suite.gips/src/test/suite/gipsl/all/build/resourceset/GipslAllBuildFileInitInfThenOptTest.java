@@ -9,21 +9,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.resourceinit.infthenopt.connector.InfThenOptConnector;
-import test.suite.gips.utils.AResourceConnector;
+import test.suite.gipsl.all.build.AGipslAllBuildTest;
+import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
-public class GipslAllBuildResourceSetInfThenOptTest extends AGipslAllBuildResourceSetTest {
+public class GipslAllBuildFileInitInfThenOptTest extends AGipslAllBuildTest {
 
 	/**
-	 * Connector to the GIPS project with resource set initialization
+	 * Connector to the GIPS project
 	 */
-	private AResourceConnector con;
+	private InfThenOptConnector con;
+
+	@BeforeEach
+	public void setUpOnce() {
+		gen = new AllBuildModelGenerator();
+	}
 
 	// Setup method
 
-	@BeforeEach
-	public void setUp() {
-		gen.reset();
-		con = new InfThenOptConnector(gen.getResourceSet());
+	public void callableSetUp() {
+		gen.persistModel(MODEL_PATH);
+		con = new InfThenOptConnector(MODEL_PATH);
 	}
 
 	@Test
@@ -32,9 +37,9 @@ public class GipslAllBuildResourceSetInfThenOptTest extends AGipslAllBuildResour
 		gen.genSubstrateNode("s1", 1);
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
+		callableSetUp();
 
-		final ILPSolverOutput ret = con.solve();
-		con.apply();
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
@@ -46,21 +51,22 @@ public class GipslAllBuildResourceSetInfThenOptTest extends AGipslAllBuildResour
 		gen.genSubstrateNode("s1", 1);
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
+		callableSetUp();
 
-		ILPSolverOutput ret = con.solve();
-		con.apply();
+		ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 
 		// Reset the model
-		gen.reset();
+		con = new InfThenOptConnector(MODEL_PATH);
+		setUpOnce();
 		gen.genSubstrateNode("s1", 1);
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
+		callableSetUp();
 
-		ret = con.solve();
-		con.apply();
+		ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
@@ -72,21 +78,22 @@ public class GipslAllBuildResourceSetInfThenOptTest extends AGipslAllBuildResour
 		gen.genSubstrateNode("s1", 1);
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
+		callableSetUp();
 
-		ILPSolverOutput ret = con.solve();
-		con.apply();
+		ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 
 		// Reset the model
-		gen.reset();
+		setUpOnce();
+		con = new InfThenOptConnector(MODEL_PATH);
 		gen.genSubstrateNode("s1", 2);
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
+		callableSetUp();
 
-		ret = con.solve();
-		con.apply();
+		ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
