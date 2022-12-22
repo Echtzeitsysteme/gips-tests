@@ -1,16 +1,20 @@
 package test.suite.gipsl.all.build.utils;
 
+import java.util.Iterator;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emoflon.smartemf.persistence.SmartEMFResourceFactoryImpl;
+import org.emoflon.smartemf.runtime.collections.LinkedSmartESet;
 
 import model.Container;
 import model.ModelFactory;
 import model.ModelPackage;
 import model.Root;
 import model.SubstrateContainer;
+import model.SubstrateNode;
 import model.SubstrateResourceNode;
 import model.VirtualContainer;
 import model.VirtualResourceNode;
@@ -57,6 +61,20 @@ public class AllBuildResourceSetModelGenerator {
 		node.setResourceAmountTotal(resourceAmountTotal);
 		node.setResourceAmountAvailable(resourceAmountTotal);
 		((SubstrateContainer) getContainer(SUB_NAME)).getSubstrateNodes().add(node);
+	}
+
+	public void deleteSubstrateNode(final String name) {
+		int index = 0;
+		final LinkedSmartESet<SubstrateNode> snodes = ((SubstrateContainer) getContainer(SUB_NAME)).getSubstrateNodes();
+		final Iterator<SubstrateNode> it = snodes.iterator();
+		while (it.hasNext()) {
+			final SubstrateNode sn = it.next();
+			if (sn.getName() != null && sn.getName().equals(name)) {
+				break;
+			}
+			index++;
+		}
+		snodes.remove(index);
 	}
 
 	public Container getContainer(final String name) {

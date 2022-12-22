@@ -33,4 +33,8 @@ public class InfThenOptConnector extends AResourceConnector {
 		((InfthenoptGipsAPI) api).getN2n().applyNonZeroMappings();
 	}
 
+	public ResourceSet getResourceSet() {
+		return api.getResourceSet();
+	}
+
 }

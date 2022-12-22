@@ -41,9 +41,9 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
-// At most one mapping per virtual resource node
+// Exactly one mapping per virtual resource node
 constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
 }
 
 // This constraint is the key of this project:
