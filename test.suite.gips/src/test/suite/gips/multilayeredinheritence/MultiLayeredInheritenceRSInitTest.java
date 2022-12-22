@@ -25,7 +25,7 @@ public class MultiLayeredInheritenceRSInitTest extends AMultiLayeredInheritenceT
 		final ILPSolverOutput ret = con.solve();
 		con.apply();
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(objDesVal, ret.objectiveValue());
+		assertEquals(objDesVal, Math.abs(ret.objectiveValue()));
 		assertFalse(ret.validationLog().isNotValid());
 	}
 

@@ -33,7 +33,7 @@ public class MultiLayeredInheritenceTest extends AMultiLayeredInheritenceTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		((MultiLayeredInheritenceModelGenerator) gen).loadModel(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(objDesVal, ret.objectiveValue());
+		assertEquals(objDesVal, Math.abs(ret.objectiveValue()));
 		assertFalse(ret.validationLog().isNotValid());
 	}
 
