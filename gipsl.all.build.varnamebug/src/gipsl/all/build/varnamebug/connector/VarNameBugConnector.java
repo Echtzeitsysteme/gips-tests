@@ -8,12 +8,14 @@ import gipsl.all.build.varnamebug.api.gips.VarnamebugGipsAPI;
 import gipsl.all.build.varnamebug.api.gips.mapping.N2nMapping;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class VarNameBugConnector extends AConnector {
 
 	public VarNameBugConnector(final String modelPath) {
 		api = new VarnamebugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override
