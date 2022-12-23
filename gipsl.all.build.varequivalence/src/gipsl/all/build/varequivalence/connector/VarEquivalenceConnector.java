@@ -8,12 +8,14 @@ import gipsl.all.build.varequivalence.api.gips.VarequivalenceGipsAPI;
 import gipsl.all.build.varequivalence.api.gips.mapping.N2nMapping;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class VarEquivalenceConnector extends AConnector {
 
 	public VarEquivalenceConnector(final String modelPath) {
 		api = new VarequivalenceGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override

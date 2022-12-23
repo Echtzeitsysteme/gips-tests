@@ -8,12 +8,14 @@ import gipsl.all.build.vardoubleimpl.api.gips.VardoubleimplGipsAPI;
 import gipsl.all.build.vardoubleimpl.api.gips.mapping.N2nMapping;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class VarDoubleImplConnector extends AConnector {
 
 	public VarDoubleImplConnector(final String modelPath) {
 		api = new VardoubleimplGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override

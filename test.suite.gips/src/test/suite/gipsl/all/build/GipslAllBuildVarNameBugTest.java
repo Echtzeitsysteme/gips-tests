@@ -32,7 +32,7 @@ public class GipslAllBuildVarNameBugTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, Math.abs(ret.objectiveValue()));
+		assertEquals(1, Math.abs(ret.objectiveValue()), DELTA);
 
 		checkConstraints(((VarNameBugConnector) con).getN2nMappings());
 	}
@@ -47,7 +47,7 @@ public class GipslAllBuildVarNameBugTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, Math.abs(ret.objectiveValue()));
+		assertEquals(2, Math.abs(ret.objectiveValue()), DELTA);
 
 		checkConstraints(((VarNameBugConnector) con).getN2nMappings());
 	}
@@ -63,7 +63,7 @@ public class GipslAllBuildVarNameBugTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(10, Math.abs(ret.objectiveValue()));
+		assertEquals(10, Math.abs(ret.objectiveValue()), DELTA);
 
 		checkConstraints(((VarNameBugConnector) con).getN2nMappings());
 	}
@@ -76,7 +76,7 @@ public class GipslAllBuildVarNameBugTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, Math.abs(ret.objectiveValue()));
+		assertEquals(0, Math.abs(ret.objectiveValue()), DELTA);
 	}
 
 	@Test
