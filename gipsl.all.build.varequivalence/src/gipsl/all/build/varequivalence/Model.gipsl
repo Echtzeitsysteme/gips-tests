@@ -1,0 +1,69 @@
+package "gipsl.all.build.varequivalence"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	// Explicitly no constraints
+//	# vnode.resourceDemand <= snode.resourceAmountAvailable
+//	# snode.resourceAmountAvailable >= 0
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapVnode {
+	var v : EInt
+};
+
+// Explicitly no constraint that enforces the mappings
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+//}
+
+// Enforce the pattern constraints by ILP
+constraint -> class::SubstrateResourceNode {
+	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+}
+
+// Attach the free variable (v) to the mapping variable
+constraint -> mapping::n2n {
+	self.value() >= 1 <=> self.variables().v >= 1
+}
+
+objective n2nObj -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	n2nObj
+}

@@ -16,6 +16,7 @@ public abstract class AGipslAllBuildTest {
 	protected AllBuildModelGenerator gen;
 	protected final static String MODEL_PATH = "model.xmi";
 	protected final static String OUTPUT_PATH = "output.xmi";
+	protected final static double DELTA = 0.000_0001;
 
 	@BeforeEach
 	public void setUp() {
