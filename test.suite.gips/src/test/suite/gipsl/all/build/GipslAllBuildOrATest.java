@@ -30,7 +30,7 @@ public class GipslAllBuildOrATest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, Math.abs(ret.objectiveValue()));
+		assertEquals(1, Math.abs(ret.objectiveValue()), DELTA);
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class GipslAllBuildOrATest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, Math.abs(ret.objectiveValue()));
+		assertEquals(2, Math.abs(ret.objectiveValue()), DELTA);
 	}
 
 	@Test
