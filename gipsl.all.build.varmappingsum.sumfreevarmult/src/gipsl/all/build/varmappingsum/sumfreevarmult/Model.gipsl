@@ -1,40 +1,96 @@
 package "gipsl.all.build.varmappingsum.sumfreevarmult"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
-// import a metamodel here
 
 config {  
 	solver := GLPK [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
-	timeLimit := true [value := 42.0];
-	randomSeed := true [value := 73];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
-	tolerance := true [value := 0.00001 ];
 }
 
-// specify an example rule
-rule exampleRule {
-	clazz : EClass {
-		++ -eAllOperations -> op
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
 	}
 	
-	op : EOperation
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
 }
 
-// create a mapping on the rule
-mapping mapNode with exampleRule;
+//
+// GIPSL starts here!
+//
 
-// create a constraint on one class
-constraint -> class::EOperation {
-	mappings.mapNode->filter(m | m.nodes().clazz.^abstract)->count() > self.lowerBound
+// Scenario: 5-6 free variables in one sum
+// 			 	+ mapping variable
+//				+ attribute access
+
+mapping n2n with mapVnode {
+	var u : EInt
+	var v : EInt
+	var w : EDouble
+	var x : EDouble
+	var y : EDouble
+};
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
 }
 
-// create an objective for the mapping
-objective nodeObj -> mapping::mapNode {
-	self.nodes().op.upperBound * sin(73)
+constraint -> mapping::n2n {
+	self.variables().u >= 0
 }
 
-// create an overall objective
-global objective : min {
-	2 * nodeObj
+constraint -> mapping::n2n {
+	self.variables().v >= 0
+}
+
+constraint -> mapping::n2n {
+	self.variables().w >= 0
+}
+
+constraint -> mapping::n2n {
+	self.variables().x >= 0
+}
+
+constraint -> mapping::n2n {
+	self.variables().y >= 0
+}
+
+constraint -> global {
+	2 * mappings.n2n->sum(m | m.variables().u
+							+ m.variables().v
+							+ m.variables().w
+							+ m.variables().x
+							+ m.variables().y
+							+ m.nodes().vnode.resourceDemand
+	)
+	== 1000
+}
+
+objective n2nObj -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	n2nObj
 }
