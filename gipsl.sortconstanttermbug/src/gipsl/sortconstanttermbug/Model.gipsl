@@ -31,5 +31,13 @@ constraint -> class::Entry {
 	mappings.ma->filter(m | m.nodes().val == self)->count()
 	+ (1 - mappings.ma->filter(m | m.nodes().val == self)->count())
 	+ 2 * (1 - mappings.ma->filter(m | m.nodes().val == self)->count())
-	== 0
+	== 1
+}
+
+objective entryObj -> mapping::ma {
+	1
+}
+
+global objective : max {
+	entryObj
 }
