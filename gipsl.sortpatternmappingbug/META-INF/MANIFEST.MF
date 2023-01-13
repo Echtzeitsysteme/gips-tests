@@ -4,6 +4,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.sortpatternmappingbug
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
+Import-Package: test.suite.gips.utils
+Export-Package: gipsl.sortpatternmappingbug.connector
 Bundle-SymbolicName: gipsl.sortpatternmappingbug; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-16

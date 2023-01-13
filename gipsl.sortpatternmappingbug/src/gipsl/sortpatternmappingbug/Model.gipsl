@@ -16,10 +16,12 @@ config {
 
 rule ra {
 	root: Root {
-		-- -entries -> val
+		-entries -> val
 	}
 	
-	val: Entry
+	val: Entry {
+		++ -next -> val
+	}
 }
 
 rule rb {
@@ -40,5 +42,17 @@ mapping ma with ra;
 mapping mb with rb;
 
 constraint -> class::Entry {
-	patterns.p->filter(m | m.nodes().val == self)->count() + mappings.ma->filter(m | m.nodes().val == self)->count() + mappings.mb->filter(m | m.nodes().val == self)->count() == 1
+	patterns.p->filter(m | m.nodes().val == self)->count() + mappings.ma->filter(m | m.nodes().val == self)->count() + mappings.mb->filter(m | m.nodes().val == self)->count() == 3
+}
+
+objective maObj -> mapping::ma {
+	1
+}
+
+objective mbObj -> mapping::mb {
+	1
+}
+
+global objective : min {
+	maObj + mbObj
 }
