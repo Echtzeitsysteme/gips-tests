@@ -27,6 +27,7 @@ Thus, you have to install and configure GLPK or change the configuration of all 
 | `gips.sort.*`                    | GIPSL set  | A simple test to create a sorted linked-list                                                   |
 | `gipsl.all.build.*`              | GIPSL set  | Multiple projects with the same metamodel to test individual language features                 |
 | `gipsl.imports.*`                | GIPSL set  | Multiple projects to test the import functionality                                             |
+| `gips(l).*bug.*`                 | GIPSL set  | Multiple projects to triggern known bugs (fixed or not fixed)                                  |
 | `gipsl.scribble`                 | GIPSL      | Scribble project to debug, e.g., the validator - does not contain tests                        |
 | `test.suite.gips`                | Test suite | Test suite with a global test runner to run all tests in this repo                             |
 | `test.suite.utils`               | Utilities  | Utilities for the tests that are also needed by the GIPSL projects above                       |
