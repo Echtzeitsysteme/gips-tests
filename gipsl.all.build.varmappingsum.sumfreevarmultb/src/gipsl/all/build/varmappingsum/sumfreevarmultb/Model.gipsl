@@ -1,4 +1,4 @@
-package "gipsl.all.build.varmappingsum.sumfreevarmult"
+package "gipsl.all.build.varmappingsum.sumfreevarmultb"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
@@ -42,7 +42,7 @@ rule mapVnode {
 
 // Scenario: 5-6 free variables in one sum
 //				+ attribute access
-//				+ multiplication
+//				+ multiplication in sum
 
 mapping n2n with mapVnode {
 	var u : EInt
@@ -77,12 +77,12 @@ constraint -> mapping::n2n {
 }
 
 constraint -> global {
-	2 * mappings.n2n->sum(m | m.variables().u
+	mappings.n2n->sum(m | 4 * (m.variables().u
 							+ m.variables().v
 							+ m.variables().w
 							+ m.variables().x
 							+ m.variables().y
-							+ m.nodes().vnode.resourceDemand
+							+ m.nodes().vnode.resourceDemand)
 	)
 	== 1000
 }
