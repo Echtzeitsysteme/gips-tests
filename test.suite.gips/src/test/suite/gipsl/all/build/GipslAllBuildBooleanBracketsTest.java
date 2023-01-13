@@ -23,11 +23,11 @@ public class GipslAllBuildBooleanBracketsTest extends AGipslAllBuildTest {
 	public void testStaticVal1() {
 		gen.genSubstrateNode("s1", 1);
 		callableSetUp();
-		
+
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 	}
-	
+
 	@Test
 	public void testStaticVal10() {
 		gen.genSubstrateNode("s1", 10);
@@ -36,7 +36,7 @@ public class GipslAllBuildBooleanBracketsTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
-	
+
 	@Test
 	public void testStaticVal0() {
 		gen.genSubstrateNode("s1", 0);
@@ -45,7 +45,7 @@ public class GipslAllBuildBooleanBracketsTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 	}
-	
+
 	@Test
 	public void testStaticValNeg() {
 		gen.genSubstrateNode("s1", -1);
@@ -54,7 +54,7 @@ public class GipslAllBuildBooleanBracketsTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
-	
+
 	@Test
 	public void testDynamicFit() {
 		gen.genSubstrateNode("s1", 1);
@@ -65,7 +65,7 @@ public class GipslAllBuildBooleanBracketsTest extends AGipslAllBuildTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 	}
-	
+
 	@Test
 	public void testDynamicSmallerNegative() {
 		gen.genSubstrateNode("s1", 1);
@@ -75,7 +75,7 @@ public class GipslAllBuildBooleanBracketsTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
-	
+
 	@Test
 	public void testDynamicSmallerZero() {
 		gen.genSubstrateNode("s1", 1);
@@ -86,7 +86,7 @@ public class GipslAllBuildBooleanBracketsTest extends AGipslAllBuildTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
-	
+
 	@Test
 	public void testDynamicLarger() {
 		gen.genSubstrateNode("s1", 1);
