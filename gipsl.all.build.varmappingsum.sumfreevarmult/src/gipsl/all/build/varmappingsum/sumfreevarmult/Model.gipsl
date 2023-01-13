@@ -41,8 +41,8 @@ rule mapVnode {
 //
 
 // Scenario: 5-6 free variables in one sum
-// 			 	+ mapping variable
 //				+ attribute access
+//				+ multiplication
 
 mapping n2n with mapVnode {
 	var u : EInt
@@ -85,6 +85,15 @@ constraint -> global {
 							+ m.nodes().vnode.resourceDemand
 	)
 	== 1000
+//	// TODO
+//	mappings.n2n->sum(m | m.variables().u
+//							+ m.variables().v
+//							+ m.variables().w
+//							+ m.variables().x
+//							+ m.variables().y
+//							+ m.nodes().vnode.resourceDemand
+//	)
+//	== 1000
 }
 
 objective n2nObj -> mapping::n2n {
