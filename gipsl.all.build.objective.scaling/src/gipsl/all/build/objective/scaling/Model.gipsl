@@ -276,7 +276,7 @@ objective sumH -> class::SubstrateResourceNode {
 objective objIA -> mapping::i {
 	(self.nodes().vnode.resourceDemand + 10) / 5
 }
-objective objIB -> class::VirtualNode {
+objective objIB -> class::VirtualResourceNode {
 	mappings.i->filter(m | m.nodes().vnode == self)->sum(m | m.nodes().vnode.resourceDemand)
 }
 
