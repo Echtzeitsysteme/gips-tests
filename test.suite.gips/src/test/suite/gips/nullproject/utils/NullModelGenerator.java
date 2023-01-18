@@ -15,30 +15,6 @@ public class NullModelGenerator {
 
 	private static Root root = NullmodelFactory.eINSTANCE.createRoot();
 
-//	public static void genEntry(final int value) {
-//		final Entry entry = ListmodelFactory.eINSTANCE.createEntry();
-//		entry.setValue(value);
-//		root.getEntries().add(entry);
-//	}
-//
-//	public static void genNEntries(final int n) {
-//		for (int i = 1; i <= n; i++) {
-//			genEntry(i);
-//		}
-//	}
-//
-//	public static void genNEntriesReverse(final int n) {
-//		for (int i = n - 1; i >= 0; i--) {
-//			genEntry(i);
-//		}
-//	}
-//
-//	public static void genEntriesFromArray(final int[] entries) {
-//		for (int i = 0; i < entries.length; i++) {
-//			genEntry(entries[i]);
-//		}
-//	}
-
 	public static Root getRoot() {
 		return root;
 	}

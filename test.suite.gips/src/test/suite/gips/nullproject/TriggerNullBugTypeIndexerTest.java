@@ -1,5 +1,6 @@
 package test.suite.gips.nullproject;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
@@ -26,6 +27,10 @@ public class TriggerNullBugTypeIndexerTest extends AGipsNullProjectTest {
 	@Test
 	public void checkNoNpe() {
 		callableSetUp();
+
+		// Pre-check: Reference in root must be null
+		assertNull(NullModelGenerator.getRoot().getSubnode());
+
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		NullModelGenerator.loadModel(MODEL_PATH);
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
