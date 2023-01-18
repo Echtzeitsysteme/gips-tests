@@ -1,0 +1,29 @@
+package "gips.nullproject"
+import "platform:/resource/gips.nullmodel/model/Nullmodel.ecore"
+// import a metamodel here
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+}
+
+rule addSubNode {
+	root: Root {
+		++ -subnode -> sn
+	}
+	
+	sn: Subnode
+}
+
+mapping asn with addSubNode;
+
+objective o -> mapping::asn {
+	1
+}
+
+global objective : max {
+	o
+}
