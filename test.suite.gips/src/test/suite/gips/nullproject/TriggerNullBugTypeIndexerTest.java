@@ -34,7 +34,7 @@ public class TriggerNullBugTypeIndexerTest extends AGipsNullProjectTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 		NullModelGenerator.loadModel(MODEL_PATH);
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
 }
