@@ -38,7 +38,7 @@ constraint -> class::Slot {
 
 // TODO: Objective: Per slot use the non-mapped task with the earliest deadline
 objective edf -> mapping::t2s {
-	1
+	-1 * (self.nodes().s.index - self.nodes().t.deadline)
 }
 
 global objective : min {
