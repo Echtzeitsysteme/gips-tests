@@ -21,7 +21,7 @@ rule runTaskInSlot {
 	
 	s: Slot
 	
-	# t.^deadline <= s.^index
+	# t.^deadline >= s.^index
 }
 
 mapping t2s with runTaskInSlot;
@@ -33,7 +33,7 @@ constraint -> class::Task {
 
 // There must be at most one mapping per slot
 constraint -> class::Slot {
-	mappings.t2s->filter(m | m.nodes().s == self)->count() >= 0
+	mappings.t2s->filter(m | m.nodes().s == self)->count() <= 1
 }
 
 // TODO: Objective: Per slot use the non-mapped task with the earliest deadline

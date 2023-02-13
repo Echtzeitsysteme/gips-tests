@@ -18,7 +18,7 @@ public class EdfConnector extends AConnector {
 	@Override
 	public ILPSolverOutput run(final String outputPath) {
 		final ILPSolverOutput output = solve();
-		((EdfGipsAPI) api).getT2s().applyNonZeroMappings();
+		final var ams = ((EdfGipsAPI) api).getT2s().applyNonZeroMappings();
 		save(outputPath);
 		return output;
 	}
