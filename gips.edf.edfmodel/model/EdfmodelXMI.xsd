@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:gips.edf.edfmodel="platform:/resource/gips.edf.edfmodel/model/Edfmodel.ecore" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="platform:/resource/gips.edf.edfmodel/model/Edfmodel.ecore">
+  <xsd:annotation>
+    <xsd:documentation>TODO: Add documentation for edfmodel. Hint: You may copy this element in the Ecore editor to add documentation to EClasses, EOperations, ...</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.omg.org/XMI" schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/XMI.xsd"/>
+  <xsd:complexType name="Root">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="slots" type="gips.edf.edfmodel:Slot"/>
+      <xsd:element name="tasks" type="gips.edf.edfmodel:Task"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+  </xsd:complexType>
+  <xsd:element name="Root" type="gips.edf.edfmodel:Root"/>
+  <xsd:complexType name="Slot">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="runningtask" type="gips.edf.edfmodel:Task"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="index" type="xsd:int"/>
+    <xsd:attribute name="runningtask" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="Slot" type="gips.edf.edfmodel:Slot"/>
+  <xsd:complexType name="Task">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="runningon" type="gips.edf.edfmodel:Slot"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="id" type="xsd:int"/>
+    <xsd:attribute name="deadline" type="xsd:int"/>
+    <xsd:attribute name="duration" type="xsd:int"/>
+    <xsd:attribute name="runningon" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="Task" type="gips.edf.edfmodel:Task"/>
+</xsd:schema>
