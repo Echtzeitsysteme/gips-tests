@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,7 +16,7 @@ import edfmodel.Slot;
 import edfmodel.Task;
 
 public class SchedulingValidator {
-	
+
 	public static void verify(final int expectedNumberOfMappings) {
 		// Iterate over all tasks
 		final Iterator<Task> taskIt = SchedulingModelGenerator.getRoot().getTasks().iterator();
@@ -66,9 +68,22 @@ public class SchedulingValidator {
 			runnedTasks.put(t, 0);
 		}
 
-		// Iterate over all slots
+		// Get all slots into a sorted list
+		final List<Slot> sortedSlots = new LinkedList<Slot>();
 		final Iterator<Slot> slotIt = SchedulingModelGenerator.getRoot().getSlots().iterator();
 		while (slotIt.hasNext()) {
+			sortedSlots.add(slotIt.next());
+		}
+
+		Collections.sort(sortedSlots, new Comparator<Slot>() {
+			@Override
+			public int compare(final Slot s1, final Slot s2) {
+				return s1.getIndex() - s2.getIndex();
+			}
+		});
+
+		// Iterate over all sorted slots
+		for (final Slot s : sortedSlots) {
 			// Get tasks that aren't finished yet
 			final List<Task> notFinished = new LinkedList<Task>();
 			runnedTasks.forEach((t, v) -> {
@@ -93,8 +108,6 @@ public class SchedulingValidator {
 
 			// Check if current slot has a mapped task with the same earliest deadline
 			// (Note: This must not be the identical task!)
-			final var s = slotIt.next();
-
 			// We have to check if the slot is empty because the collection of slots must
 			// not be sorted
 			if (!s.getRunningtask().isEmpty()) {

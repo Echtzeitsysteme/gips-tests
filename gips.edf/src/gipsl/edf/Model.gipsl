@@ -42,8 +42,12 @@ constraint -> class::Slot {
 //}
 
 //// Objective EDF: Use the task with the earliest deadline
-objective edf -> mapping::t2s {
-	self.nodes().t.deadline
+//objective edf -> mapping::t2s {
+//	self.nodes().t.deadline
+//}
+
+objective edf -> class::Slot {
+	mappings.t2s->filter(m | m.nodes().s == self)->sum(m | m.nodes().t.deadline)
 }
 
 global objective : min {
