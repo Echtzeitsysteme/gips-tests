@@ -94,7 +94,6 @@ public class SchedulingValidator {
 
 			// Break if all tasks were finished
 			if (notFinished.isEmpty()) {
-				slotIt.next();
 				break;
 			}
 

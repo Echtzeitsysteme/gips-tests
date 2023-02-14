@@ -1,6 +1,8 @@
 package test.suite.gips.scheduling.utils;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -93,6 +95,41 @@ public class SchedulingModelGenerator {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void setUpTask3_1() {
+		// Slots
+		// Task says that 99 slots should be used but to make it feasible, we give the
+		// problem 150 and only check the first 99 later on
+		SchedulingModelGenerator.genSlots(150);
+
+		// Tasks
+		// array[0] = deadline, array[1] = duration
+		final Map<Integer, int[]> taskInput = new HashMap<>();
+		// Task 1
+		for (int i = 1; i <= 34; i++) {
+			taskInput.put(100 + i, new int[] { (i * 3), 1 });
+		}
+		// Task 2
+		taskInput.put(201, new int[] { 55, 4 });
+		taskInput.put(202, new int[] { 55 * 2, 4 });
+		// Task 3
+		taskInput.put(301, new int[] { 86, 5 });
+		// Task 4
+		for (int i = 1; i <= 6; i++) {
+			taskInput.put(400 + i, new int[] { 16 * i, 4 });
+		}
+		// Task 5
+		taskInput.put(501, new int[] { 63, 15 });
+		taskInput.put(502, new int[] { 63 * 2, 15 });
+		// Task 6 - second instance will be skipped because it can't be checked in first
+		// 99 slots
+		taskInput.put(601, new int[] { 88, 3 });
+
+		// Translate map to actual tasks
+		taskInput.forEach((id, data) -> {
+			SchedulingModelGenerator.genTask(id, data[1], data[0]);
+		});
 	}
 
 }

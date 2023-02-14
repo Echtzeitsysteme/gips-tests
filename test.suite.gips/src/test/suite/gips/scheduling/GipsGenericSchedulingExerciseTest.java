@@ -7,11 +7,11 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gips.edf.connector.EdfConnector;
+import gips.generic.scheduling.connector.GenericSchedulingConnector;
 import test.suite.gips.scheduling.utils.SchedulingModelGenerator;
 import test.suite.gips.scheduling.utils.SchedulingValidator;
 
-public class GipsEdfExerciseTest extends AGipsSchedulingTest {
+public class GipsGenericSchedulingExerciseTest extends AGipsSchedulingTest {
 
 	@BeforeEach
 	public void resetModel() {
@@ -21,7 +21,7 @@ public class GipsEdfExerciseTest extends AGipsSchedulingTest {
 	@Override
 	public void callableSetUp() {
 		SchedulingModelGenerator.persistModel(MODEL_PATH);
-		con = new EdfConnector(MODEL_PATH);
+		con = new GenericSchedulingConnector(MODEL_PATH);
 	}
 
 	// Actual tests
@@ -34,8 +34,6 @@ public class GipsEdfExerciseTest extends AGipsSchedulingTest {
 		callableSetUp();
 		run();
 		SchedulingValidator.verify(99 + 6 - 1);
-		SchedulingValidator.validateEdf();
-		// TODO: Check with exercise solution
 	}
 
 	// Utility methods
