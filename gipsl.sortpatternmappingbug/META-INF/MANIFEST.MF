@@ -8,7 +8,7 @@ Import-Package: test.suite.gips.utils
 Export-Package: gipsl.sortpatternmappingbug.connector
 Bundle-SymbolicName: gipsl.sortpatternmappingbug; singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt,
  org.emoflon.gips.core,
