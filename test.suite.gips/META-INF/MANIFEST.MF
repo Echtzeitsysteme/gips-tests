@@ -18,10 +18,8 @@ Require-Bundle: junit-jupiter-api;bundle-version="5.9.0",
  gips.ilp.timeout.timeoutmodel;bundle-version="0.0.1",
  gips.multilayeredinheritencemodel;bundle-version="0.0.1",
  gips.nullmodel;bundle-version="0.0.1",
- gips.edf;bundle-version="1.0.0",
- gips.edf.edfmodel;bundle-version="0.0.1"
-Import-Package: gips.edf.connector,
- gips.generic.scheduling.connector,
+ gips.scheduling.taskmodel;bundle-version="0.0.1"
+Import-Package: gips.generic.scheduling.connector,
  gips.ilp.lpoutput.connector,
  gips.ilp.timeout.clsnotinmodel.connector,
  gips.ilp.timeout.connector,

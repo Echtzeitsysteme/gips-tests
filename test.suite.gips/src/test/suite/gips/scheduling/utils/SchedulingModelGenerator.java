@@ -10,21 +10,21 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emoflon.smartemf.persistence.SmartEMFResourceFactoryImpl;
 
-import edfmodel.EdfmodelFactory;
-import edfmodel.Root;
-import edfmodel.Slot;
-import edfmodel.Task;
+import taskmodel.Root;
+import taskmodel.Slot;
+import taskmodel.Task;
+import taskmodel.TaskmodelFactory;
 
 public class SchedulingModelGenerator {
 
-	private static Root root = EdfmodelFactory.eINSTANCE.createRoot();
+	private static Root root = TaskmodelFactory.eINSTANCE.createRoot();
 
 	public static void genSlot(final int index) {
 		if (index < 0) {
 			throw new IllegalArgumentException("Index < 0.");
 		}
 
-		final Slot s = EdfmodelFactory.eINSTANCE.createSlot();
+		final Slot s = TaskmodelFactory.eINSTANCE.createSlot();
 		s.setIndex(index);
 		root.getSlots().add(s);
 	}
@@ -52,7 +52,7 @@ public class SchedulingModelGenerator {
 			throw new IllegalArgumentException("Duration > deadline, which is impossible.");
 		}
 
-		final Task t = EdfmodelFactory.eINSTANCE.createTask();
+		final Task t = TaskmodelFactory.eINSTANCE.createTask();
 		t.setId(id);
 		t.setDuration(duration);
 		t.setDeadline(deadline);
@@ -64,7 +64,7 @@ public class SchedulingModelGenerator {
 	}
 
 	public static void reset() {
-		root = EdfmodelFactory.eINSTANCE.createRoot();
+		root = TaskmodelFactory.eINSTANCE.createRoot();
 	}
 
 	public static Root loadModel(final String path) {

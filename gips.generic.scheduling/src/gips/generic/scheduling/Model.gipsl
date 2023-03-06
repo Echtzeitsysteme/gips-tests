@@ -1,5 +1,5 @@
 package "gipsl.generic.scheduling"
-import "platform:/resource/gips.edf.edfmodel/model/Edfmodel.ecore"
+import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
 
 config {  
 	solver := GUROBI [home:="fu", license:="bar"];
@@ -35,3 +35,6 @@ constraint -> class::Task {
 constraint -> class::Slot {
 	mappings.t2s->filter(m | m.nodes().s == self)->count() <= 1
 }
+
+// No objective on purpose
+// this is the *generic* scheduling solution without any goal besides "find a valid solution"

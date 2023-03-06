@@ -12,8 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import edfmodel.Slot;
-import edfmodel.Task;
+import taskmodel.Slot;
+import taskmodel.Task;
 
 public class SchedulingValidator {
 
