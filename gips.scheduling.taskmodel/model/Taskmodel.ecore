@@ -14,13 +14,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Slot">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="runningtask" upperBound="-1"
-        eType="#//Task"/>
+        eType="#//Task" eOpposite="#//Task/runningon"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Task">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="runningon" upperBound="-1"
-        eType="#//Slot"/>
+        eType="#//Slot" eOpposite="#//Slot/runningtask"/>
   </eClassifiers>
 </ecore:EPackage>

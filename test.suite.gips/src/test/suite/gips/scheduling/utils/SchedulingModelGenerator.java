@@ -96,7 +96,7 @@ public class SchedulingModelGenerator {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void setUpTask3_1() {
 		// Slots
 		// Task says that 99 slots should be used but to make it feasible, we give the
