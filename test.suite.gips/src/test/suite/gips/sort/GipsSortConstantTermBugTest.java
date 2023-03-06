@@ -34,7 +34,7 @@ public class GipsSortConstantTermBugTest extends AGipsSortTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, ret.objectiveValue());
 	}
-	
+
 	@Test
 	public void test2Entries() {
 		SortModelGenerator.genNEntries(2);
@@ -44,7 +44,7 @@ public class GipsSortConstantTermBugTest extends AGipsSortTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
 	}
-	
+
 	@Test
 	public void test10Entries() {
 		SortModelGenerator.genNEntries(10);

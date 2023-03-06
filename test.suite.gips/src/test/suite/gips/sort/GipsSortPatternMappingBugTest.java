@@ -31,7 +31,7 @@ public class GipsSortPatternMappingBugTest extends AGipsSortTest {
 	}
 
 	// Actual tests
-	
+
 	@Test
 	public void test1Entry() {
 		SortModelGenerator.genNEntries(1);
@@ -53,7 +53,7 @@ public class GipsSortPatternMappingBugTest extends AGipsSortTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(2 * 2, ret.objectiveValue());
 	}
-	
+
 	@Test
 	public void test10Entries() {
 		SortModelGenerator.genNEntries(10);

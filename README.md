@@ -26,6 +26,7 @@ Thus, you have to install and configure GLPK or change the configuration of all 
 | `gips.multilayeredinheritence.*` | GIPSL      | Tests the correct behaviour of GIPS for multi-layered inheritence in classes                   |
 | `gips.null*`                     | GIPSL set  | Test project and metamodel to trigger a NPE bug in GIPS                                        |
 | `gips.sort.*`                    | GIPSL set  | A simple test to create a sorted linked-list                                                   |
+| `gips.scheduling.*`              | GIPSL set  | Test project and metamodel to plan generic task scheduling                                     |
 | `gipsl.all.build.*`              | GIPSL set  | Multiple projects with the same metamodel to test individual language features                 |
 | `gipsl.imports.*`                | GIPSL set  | Multiple projects to test the import functionality                                             |
 | `gips(l).*bug.*`                 | GIPSL set  | Multiple projects to triggern known bugs (fixed or not fixed)                                  |
