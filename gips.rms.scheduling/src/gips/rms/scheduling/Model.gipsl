@@ -1,0 +1,42 @@
+package "gips.rms.scheduling"
+import "platform:/resource/gips.scheduling.periodictaskmodel/model/Periodictaskmodel.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule runTaskInSlot {
+	root: Root {
+		-tasks -> t
+		-slots -> s
+	}
+	
+	t: Task {
+		++ -runningon -> s
+	}
+	
+	s: Slot
+}
+
+mapping t2s with runTaskInSlot;
+
+// Every task must be mapped n times (according to its execution time)
+constraint -> class::Task {
+	mappings.t2s->filter(m | m.nodes().t == self)->count() == self.executiontime
+}
+
+// There must be at most one mapping per slot
+constraint -> class::Slot {
+	mappings.t2s->filter(m | m.nodes().s == self)->count() <= 1
+}
+
+// Check completion time theorem
+constraint -> global {
+	classes.Task->sum(t | (1.0 * t.executiontime / t.timeperiod))
+	<=
+	classes.Task->count() * ((2 pow (1 / classes.Task->count())) - 1)	
+}
