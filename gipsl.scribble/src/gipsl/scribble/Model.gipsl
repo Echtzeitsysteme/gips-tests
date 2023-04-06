@@ -26,9 +26,7 @@ rule mapVnode {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode

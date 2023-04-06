@@ -26,7 +26,6 @@ rule mapVnode(par : EInt) {
 	}
 	
 	snode: SubstrateResourceNode {
-		++ -guests -> vnode
 		.resourceAmountAvailable := param::par
 	}
 	

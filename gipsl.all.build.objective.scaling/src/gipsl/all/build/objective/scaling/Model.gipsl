@@ -23,9 +23,7 @@ rule mapVnodeOne {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -48,9 +46,7 @@ rule mapVnodeTwo {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -73,9 +69,7 @@ rule mapVnodeTen {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -98,9 +92,7 @@ rule mapVnodeTwenty {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -123,9 +115,7 @@ rule mapVnodeTwentyOne {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -147,9 +137,7 @@ rule mapVnodeTwentyTwo {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -172,9 +160,7 @@ rule mapVnodeThirtyThree {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -197,9 +183,7 @@ rule mapVnodeFourty {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
