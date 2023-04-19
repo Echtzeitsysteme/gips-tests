@@ -6,9 +6,11 @@ Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: gipsl.imports.superb; singleton:=true
 Bundle-ActivationPolicy: lazy
-Import-Package: importmodel,importmodel.impl,org.apache.commons.loggin
- g,org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Import-Package: importmodel,
+ importmodel.impl,
+ org.apache.commons.logging,
+ org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt,
  org.emoflon.ibex.patternmodel,
@@ -17,3 +19,4 @@ Require-Bundle: org.emoflon.ibex.common,
 Export-Package: gipsl.imports.superb.api,
  gipsl.imports.superb.api.matches,
  gipsl.imports.superb.api.rules
+

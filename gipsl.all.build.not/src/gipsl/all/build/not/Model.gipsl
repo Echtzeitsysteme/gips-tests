@@ -2,12 +2,13 @@ package "gipsl.all.build.not"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GLPK [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
-	timeLimit := true [value := 42.0];
-	randomSeed := true [value := 73];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
+//	tolerance := true [value := 0.0000001];
 }
 
 rule mapVnode {
@@ -24,9 +25,7 @@ rule mapVnode {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode

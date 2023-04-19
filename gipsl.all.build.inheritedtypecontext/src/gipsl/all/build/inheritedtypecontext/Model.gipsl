@@ -1,0 +1,34 @@
+package "gipsl.all.build.inheritedtypecontext"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+// Currently, there must be at least one pattern/rule per GIPSL problem
+pattern findSnode {
+	root: Root {
+		-containers -> substrateContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	snode: SubstrateResourceNode
+}
+
+//
+// GIPSL starts here!
+//
+
+// This constraint should make the ILP problem infeasible if no guest is embedded onto an instance (=SubstrateRESOURCENode).
+// SubstrateNode = parent class
+constraint -> class::SubstrateNode {
+	self.guests->count() >= 1
+}

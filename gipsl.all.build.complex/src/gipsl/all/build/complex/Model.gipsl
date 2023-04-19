@@ -29,9 +29,7 @@ rule mapVnode {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -159,7 +157,7 @@ constraint -> class::SubstrateResourceNode {
 
 // Other variable names must also be allowed
 constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(var | var.nodes().snode == self)->notEmpty()
+	mappings.n2n->filter(v | v.nodes().snode == self)->notEmpty()
 }
 
 

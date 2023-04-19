@@ -1,0 +1,67 @@
+package "gips.ilp.timeout"
+import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 0.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+condition srcNotMapped = forbid srcIsMapped
+pattern srcIsMapped {
+	trg: Target
+	
+	src: Source {
+		-host -> trg
+	}
+}
+
+rule mapSrc {
+	root: Root {
+		-elements -> src
+		-elements -> trg
+	}
+	
+	src: Source {
+		++ -host -> trg
+	}
+	
+	trg: Target {
+		++ -srcs -> src
+		.free := trg.free - src.val
+	}
+	
+	# src.val <= trg.free
+	# trg.free > 0
+	# trg.val > 0
+}
+when srcNotMapped
+
+//
+// GIPSL starts here!
+//
+
+mapping s2t with mapSrc;
+
+constraint -> pattern::mapSrc {
+	mappings.s2t->filter(m | m.nodes().src == self.nodes().src)->count() == 1
+}
+
+constraint -> class::Target {
+	mappings.s2t->filter(m | m.nodes().trg == self)->sum(m | m.nodes().src.val) <= self.free
+}
+
+// The following constraint is redundant to the first one (if a non incremental run is archieved)
+constraint -> class::Source {
+	mappings.s2t->filter(m | m.nodes().src == self)->count() == 1
+}
+
+objective o -> mapping::s2t {
+	1
+}
+
+global objective : min {
+	o
+}

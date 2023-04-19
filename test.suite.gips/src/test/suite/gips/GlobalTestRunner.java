@@ -28,16 +28,33 @@ import io.github.gdiegel.junit5_html_report_generator.ExtentReportGeneratingList
 
 public class GlobalTestRunner {
 
+	/**
+	 * Main method to run all tests with this test runner.
+	 * 
+	 * @param args If the first argument is set to a non-empty string, this value
+	 *             will be used to find all tests within the JAR file.
+	 */
 	public static void main(final String[] args) {
 		String pathArg = "";
 		if (args != null && args.length > 0) {
 			pathArg = args[0];
 		}
 
+		runTests(pathArg, "");
+		System.exit(0);
+	}
+
+	/**
+	 * Method to actually run the tests.
+	 * 
+	 * @param pathArg       Path argument to search for tests in JAR files.
+	 * @param reportSubPath Sub path to generate the report to.
+	 */
+	public static void runTests(final String pathArg, final String reportSubPath) {
 		// Generate all listeners
 		final SummaryGeneratingListener listener = new SummaryGeneratingListener();
 		final LegacyXmlReportGeneratingListener xmlListener = new LegacyXmlReportGeneratingListener(
-				Path.of("./build/reports"), new PrintWriter(System.out));
+				Path.of("./build/reports/" + reportSubPath), new PrintWriter(System.out));
 		final ExtentReportGeneratingListener extentReportGeneratingListener = new ExtentReportGeneratingListener();
 
 		// Find tests and build request
@@ -72,8 +89,6 @@ public class GlobalTestRunner {
 		// Print summary to console
 		final TestExecutionSummary summary = listener.getSummary();
 		summary.printTo(new PrintWriter(System.out));
-		System.exit(0);
-
 	}
 
 	/**

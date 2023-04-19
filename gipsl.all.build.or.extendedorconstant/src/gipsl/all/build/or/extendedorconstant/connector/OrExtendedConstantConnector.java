@@ -5,12 +5,14 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import gipsl.all.build.or.extendedorconstant.api.gips.ExtendedorconstantGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class OrExtendedConstantConnector extends AConnector {
 
 	public OrExtendedConstantConnector(final String modelPath) {
 		api = new ExtendedorconstantGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override

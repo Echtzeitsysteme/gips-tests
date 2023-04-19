@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gipsl.all.build.nogt
+Bundle-ManifestVersion: 2
+Bundle-Name: gipsl.all.build.nogt
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.all.build.nogt.connector
+Require-Bundle: gipsl.all.build.model;bundle-version="0.0.1",
+ org.emoflon.ibex.common,
+ org.emoflon.ibex.gt,
+ org.emoflon.gips.core,
+ org.emoflon.ibex.gt.democles,
+ org.emoflon.ibex.gt.hipe
+Import-Package: test.suite.gips.utils
+Bundle-SymbolicName: gipsl.all.build.nogt; singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+
