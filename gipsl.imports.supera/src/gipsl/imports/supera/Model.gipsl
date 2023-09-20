@@ -2,7 +2,7 @@ package "gipsl.imports.supera"
 import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
