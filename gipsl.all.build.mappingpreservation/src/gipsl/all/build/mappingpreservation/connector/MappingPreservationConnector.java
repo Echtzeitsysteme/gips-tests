@@ -1,10 +1,13 @@
 package gipsl.all.build.mappingpreservation.connector;
 
-import java.util.function.Function;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 
 import gipsl.all.build.mappingpreservation.api.gips.MappingpreservationGipsAPI;
+import gipsl.all.build.mappingpreservation.api.matches.MapVnodeMatch;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
 import test.suite.gips.utils.GlobalTestConfig;
@@ -24,39 +27,24 @@ public class MappingPreservationConnector extends AConnector {
 		return output;
 	}
 
-	public ILPSolverOutput runWithUpdates() {
-		final ILPSolverOutput output = solve();
-		((MappingpreservationGipsAPI) api).getN2n().applyNonZeroMappings(true);
-//		((MappingpreservationGipsAPI) api).getN2n().getMappings().forEach((k,v) -> {
-//			v.getValue();
-//		});
-		((MappingpreservationGipsAPI) api).getN2n().applyMappings(new Function<Integer, Boolean>() {
-			@Override
-			public Boolean apply(final Integer t) {
-				return true;
-			}
-		}, true);
-		return output;
-	}
-
 	public ILPSolverOutput runWithNoApplication(final String outputPath) {
 		final ILPSolverOutput output = solve();
 		save(outputPath);
 		return output;
 	}
-
-	public void applyMapping(final int id) {
-		((MappingpreservationGipsAPI) api).getN2n().applyMappings(new Function<Integer, Boolean>() {
-			@Override
-			public Boolean apply(final Integer t) {
-				return t == id;
-			}
-		}, true);
+	
+	public List<Optional<MapVnodeMatch>> applyMappingWithVnodeName(final String vnodeName) {
+		final var mappings = ((MappingpreservationGipsAPI) api).getN2n().getMappings();
+		final var filtered = mappings.values().stream().filter(t -> {
+			return t.getMatch().getVnode().getName().equals(vnodeName);
+		}).toList();
+		
+		final var rule = ((MappingpreservationGipsAPI) api).getN2n().getGTRule();
+		return filtered.stream().map(m -> rule.apply(m.getMatch(), true)).collect(Collectors.toList());
 	}
 
-//	@Override
-//	public void save(final String path) {
-//		((MappingpreservationGipsAPI) api).saveResult(path);
-//	}
+	public void save(final String path) {
+		super.save(path);
+	}
 
 }

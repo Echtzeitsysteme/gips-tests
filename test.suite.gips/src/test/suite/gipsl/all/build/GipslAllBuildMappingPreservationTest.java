@@ -2,6 +2,8 @@ package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,7 @@ import gipsl.all.build.mappingpreservation.connector.MappingPreservationConnecto
 import model.Container;
 import model.Root;
 import model.VirtualContainer;
+import model.VirtualNode;
 
 public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 
@@ -18,6 +21,10 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
 		con = new MappingPreservationConnector(MODEL_PATH);
+		
+		// Delete possible file of previous run
+		final File output = new File(OUTPUT_PATH);
+		output.delete();
 	}
 
 	// Actual tests
@@ -32,24 +39,35 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 
 		final ILPSolverOutput ret = ((MappingPreservationConnector) con).runWithNoApplication(OUTPUT_PATH);
 
-		// Pre checks
+		// Pre-checks
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 
 		gen.loadModel(OUTPUT_PATH);
 
-		// Check model state (pre first application)
+		// Check model state (pre-first application)
 		checkNumberOfEmbeddedVnodes(0);
 
-		((MappingPreservationConnector) con).applyMapping(0);
+		final var appliedFirst = ((MappingPreservationConnector) con).applyMappingWithVnodeName("v1");
+		assertEquals(1, appliedFirst.size());
+		assertEquals("v1", appliedFirst.get(0).get().getVnode().getName());
 
-		// TODO: check model state (after first application)
+		// Check model state (after first application)
+		((MappingPreservationConnector) con).save(OUTPUT_PATH);
+		gen.loadModel(OUTPUT_PATH);
+		checkNumberOfEmbeddedVnodes(1);
 
-		((MappingPreservationConnector) con).applyMapping(1);
+		final var appliedSecond = ((MappingPreservationConnector) con).applyMappingWithVnodeName("v2");
+		assertEquals(1, appliedSecond.size());
+		assertEquals("v2", appliedSecond.get(0).get().getVnode().getName());
 
-		// TODO: check model state (after second application)
-
+		// Check model state (after second application)
+		((MappingPreservationConnector) con).save(OUTPUT_PATH);
+		gen.loadModel(OUTPUT_PATH);
+		checkNumberOfEmbeddedVnodes(2);
 	}
+	
+	// Utility methods
 
 	private void checkNumberOfEmbeddedVnodes(final int expected) {
 		int hostedVnodeCntr = 0;
@@ -58,8 +76,10 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		for (final Container c : root.getContainers()) {
 			if (c instanceof VirtualContainer) {
 				final VirtualContainer vc = (VirtualContainer) c;
-				if (vc.getVirtualNodes().get(0).getHost() != null) {
-					hostedVnodeCntr++;
+				for(final VirtualNode vn : vc.getVirtualNodes()) {
+					if(vn.getHost() != null) {
+						hostedVnodeCntr++;
+					}
 				}
 			}
 		}

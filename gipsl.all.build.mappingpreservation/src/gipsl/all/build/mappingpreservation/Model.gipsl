@@ -4,7 +4,7 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 config {  
 	solver := GLPK [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
-	timeLimit := true [value := 20.0];
+	timeLimit := true [value := 5.0];
 	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
@@ -51,10 +51,12 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
+// At most one mapping per virtual node is allowed
 constraint -> class::VirtualNode {
 	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
 }
 
+// Cost = 1 per mapped virtual node
 objective maps -> mapping::n2n {
 	1
 }
