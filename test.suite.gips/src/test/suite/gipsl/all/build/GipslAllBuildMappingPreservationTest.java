@@ -1,13 +1,16 @@
 package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.util.Collection;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
+import gipsl.all.build.mappingpreservation.api.gips.mapping.N2nMapping;
 import gipsl.all.build.mappingpreservation.connector.MappingPreservationConnector;
 import model.Container;
 import model.Root;
@@ -21,7 +24,7 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
 		con = new MappingPreservationConnector(MODEL_PATH);
-		
+
 		// Delete possible file of previous run
 		final File output = new File(OUTPUT_PATH);
 		output.delete();
@@ -31,7 +34,7 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 	// Positive tests
 
 	@Test
-	public void testMap2to1() {
+	public void testMap2to1IndividualApplication() {
 		gen.genSubstrateNode("s1", 2);
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
@@ -66,7 +69,31 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		gen.loadModel(OUTPUT_PATH);
 		checkNumberOfEmbeddedVnodes(2);
 	}
-	
+
+	@Test
+	public void testMap2to1ApplyNonZeroMappings() {
+		gen.genSubstrateNode("s1", 2);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(2, Math.abs(ret.objectiveValue()));
+
+		// Check model state
+		gen.loadModel(OUTPUT_PATH);
+		checkNumberOfEmbeddedVnodes(2);
+
+		// Actual check: Both mappings must still have the value > 0, even if PM got
+		// updated
+		final Collection<N2nMapping> mappings = ((MappingPreservationConnector) con).getMappings();
+		assertEquals(2, mappings.size());
+		for (final N2nMapping m : mappings) {
+			assertTrue(m.getValue() > 0);
+		}
+	}
+
 	// Utility methods
 
 	private void checkNumberOfEmbeddedVnodes(final int expected) {
@@ -76,8 +103,8 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		for (final Container c : root.getContainers()) {
 			if (c instanceof VirtualContainer) {
 				final VirtualContainer vc = (VirtualContainer) c;
-				for(final VirtualNode vn : vc.getVirtualNodes()) {
-					if(vn.getHost() != null) {
+				for (final VirtualNode vn : vc.getVirtualNodes()) {
+					if (vn.getHost() != null) {
 						hostedVnodeCntr++;
 					}
 				}
