@@ -88,12 +88,47 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		// Actual check: Both mappings must still have the value > 0, even if PM got
 		// updated
 		final Collection<N2nMapping> mappings = ((MappingPreservationConnector) con).getMappings();
+		// There are only two possible combinations
 		assertEquals(2, mappings.size());
 		for (final N2nMapping m : mappings) {
 			assertTrue(m.getValue() > 0);
 		}
 	}
 
+	@Test
+	public void testMap10to3ApplyNonZeroMappings() {
+		gen.genSubstrateNode("s1", 4);
+		gen.genSubstrateNode("s2", 4);
+		gen.genSubstrateNode("s3", 4);
+		for (int i = 1; i <= 10; i++) {
+			gen.genVirtualNode("v" + i, 1);
+		}
+		callableSetUp();
+
+		final ILPSolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(10, Math.abs(ret.objectiveValue()));
+
+		// Check model state
+		gen.loadModel(OUTPUT_PATH);
+		checkNumberOfEmbeddedVnodes(10);
+
+		// Actual check: Both mappings must still have the value > 0, even if PM got
+		// updated
+		final Collection<N2nMapping> mappings = ((MappingPreservationConnector) con).getMappings();
+		// There are 30 possible combinations
+		assertEquals(30, mappings.size());
+		// Check that there are exactly 10 mappings with value > 0 (one for each virtual
+		// node)
+		int counter = 0;
+		for (final N2nMapping m : mappings) {
+			if (m.getValue() > 0) {
+				counter++;
+			}
+		}
+		assertEquals(10, counter);
+	}
+	
 	// Utility methods
 
 	private void checkNumberOfEmbeddedVnodes(final int expected) {
