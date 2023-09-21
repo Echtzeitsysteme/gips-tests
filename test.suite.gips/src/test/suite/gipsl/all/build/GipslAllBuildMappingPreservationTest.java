@@ -11,6 +11,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.mappingpreservation.api.gips.mapping.N2nMapping;
+import gipsl.all.build.mappingpreservation.api.gips.mapping.ResDemMapping;
 import gipsl.all.build.mappingpreservation.connector.MappingPreservationConnector;
 import model.Container;
 import model.Root;
@@ -87,7 +88,7 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 
 		// Actual check: Both mappings must still have the value > 0, even if PM got
 		// updated
-		final Collection<N2nMapping> mappings = ((MappingPreservationConnector) con).getMappings();
+		final Collection<N2nMapping> mappings = ((MappingPreservationConnector) con).getN2nMappings();
 		// There are only two possible combinations
 		assertEquals(2, mappings.size());
 		for (final N2nMapping m : mappings) {
@@ -115,7 +116,7 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 
 		// Actual check: Both mappings must still have the value > 0, even if PM got
 		// updated
-		final Collection<N2nMapping> mappings = ((MappingPreservationConnector) con).getMappings();
+		final Collection<N2nMapping> mappings = ((MappingPreservationConnector) con).getN2nMappings();
 		// There are 30 possible combinations
 		assertEquals(30, mappings.size());
 		// Check that there are exactly 10 mappings with value > 0 (one for each virtual
@@ -128,7 +129,54 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		}
 		assertEquals(10, counter);
 	}
-	
+
+	@Test
+	public void testTwoSpecMappingsAfterEachOther() {
+		gen.genSubstrateNode("s1", 100);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		gen.genVirtualNode("v100", 10);
+		callableSetUp();
+
+		// The first run application does not apply the matches for rule #2.
+		// (This is intended!)
+		final ILPSolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(3, Math.abs(ret.objectiveValue()));
+
+		// Check model state
+		gen.loadModel(OUTPUT_PATH);
+		checkNumberOfEmbeddedVnodes(2);
+
+		// Check that all valid matches of rule #2 are still selected (value > 0)
+		final Collection<ResDemMapping> resDemMappings = ((MappingPreservationConnector) con).getResDemMappings();
+		// There is 1 possible combination
+		assertEquals(1, resDemMappings.size());
+		// The one mapping must also be selected
+		for (final ResDemMapping m : resDemMappings) {
+			assertTrue(m.getValue() > 0);
+		}
+
+		// Next step: Also apply the last mapping
+		final var appliedSecond = ((MappingPreservationConnector) con).applyMappingWithVnode10Name("v100");
+		assertEquals(1, appliedSecond.size());
+		assertEquals("v100", appliedSecond.get(0).get().getVnode().getName());
+
+		// Check model state (after second application)
+		((MappingPreservationConnector) con).save(OUTPUT_PATH);
+		gen.loadModel(OUTPUT_PATH);
+		checkNumberOfEmbeddedVnodes(3);
+
+		// Check N2N mapping afterwards
+		final Collection<N2nMapping> n2nMappings = ((MappingPreservationConnector) con).getN2nMappings();
+		// There are 2 possible combinations
+		assertEquals(2, n2nMappings.size());
+		// All two mappings must also be selected
+		for (final N2nMapping m : n2nMappings) {
+			assertTrue(m.getValue() > 0);
+		}
+	}
+
 	// Utility methods
 
 	private void checkNumberOfEmbeddedVnodes(final int expected) {

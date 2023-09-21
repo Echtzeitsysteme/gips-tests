@@ -43,6 +43,31 @@ rule mapVnode {
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
+	
+	# vnode.resourceDemand != 10
+}
+
+rule mapVnodeWith10ResDem {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+		
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 10
 }
 
 //
@@ -50,10 +75,15 @@ rule mapVnode {
 //
 
 mapping n2n with mapVnode;
+mapping resDem with mapVnodeWith10ResDem;
 
 // At most one mapping per virtual node is allowed
 constraint -> class::VirtualNode {
 	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
+}
+
+constraint -> class::VirtualNode {
+	mappings.resDem->filter(m | m.nodes().vnode == self)->count() <= 1
 }
 
 // Cost = 1 per mapped virtual node
@@ -61,6 +91,10 @@ objective maps -> mapping::n2n {
 	1
 }
 
+objective map10ResDem -> mapping::resDem {
+	1
+}
+
 global objective : max {
-	maps
+	maps + map10ResDem
 }
