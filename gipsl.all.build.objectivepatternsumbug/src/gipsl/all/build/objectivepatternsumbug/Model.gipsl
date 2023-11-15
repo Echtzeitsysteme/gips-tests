@@ -40,8 +40,6 @@ objective o -> mapping::move {
 	patterns.findVnodeMapping
 		->filter(m | m.nodes().s == self.nodes().s1)
 		->count()
-		// The following self.value() multiplication is a workaround
-		* self.value()
 }
 
 global objective : max {
