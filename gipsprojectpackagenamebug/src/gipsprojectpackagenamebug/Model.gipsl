@@ -1,4 +1,4 @@
-package "gips.projectpackagenamebug"
+package "gipsprojectpackagenamebug"
 import "platform:/resource/gips.nullmodel/model/Nullmodel.ecore"
 
 config {  

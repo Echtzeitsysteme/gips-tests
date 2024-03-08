@@ -8,7 +8,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gips.projectpackagenamebug.connector.ProjectPackageNameBugConnector;
+import gipsprojectpackagenamebug.connector.ProjectPackageNameBugConnector;
 import test.suite.gips.nullproject.utils.NullModelGenerator;
 
 public class TriggerProjectPackageNameBugTest extends AGipsNullProjectTest {
