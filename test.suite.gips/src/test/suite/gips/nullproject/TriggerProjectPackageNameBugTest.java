@@ -8,10 +8,10 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gips.projectpacketnambug.connector.ProjectPacketNameBugConnector;
+import gips.projectpackagenamebug.connector.ProjectPackageNameBugConnector;
 import test.suite.gips.nullproject.utils.NullModelGenerator;
 
-public class TriggerProjectPacketNameBugTest extends AGipsNullProjectTest {
+public class TriggerProjectPackageNameBugTest extends AGipsNullProjectTest {
 
 	@BeforeEach
 	public void resetModel() {
@@ -21,7 +21,7 @@ public class TriggerProjectPacketNameBugTest extends AGipsNullProjectTest {
 	@Override
 	protected void callableSetUp() {
 		NullModelGenerator.persistModel(MODEL_PATH);
-		con = new ProjectPacketNameBugConnector(MODEL_PATH);
+		con = new ProjectPackageNameBugConnector(MODEL_PATH);
 	}
 
 	@Test

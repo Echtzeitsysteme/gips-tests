@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
-Automatic-Module-Name: gips.projectpacketnamebug
+Automatic-Module-Name: gips.projectpackagenamebug
 Bundle-ManifestVersion: 2
-Bundle-Name: gips.projectpacketnamebug
+Bundle-Name: gips.projectpackagenamebug
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gips.projectpacketnambug.connector
-Bundle-SymbolicName: gips.projectpacketnamebug; singleton:=true
+Export-Package: gips.projectpackagenamebug.connector
+Bundle-SymbolicName: gips.projectpackagenamebug;singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.emoflon.ibex.common,

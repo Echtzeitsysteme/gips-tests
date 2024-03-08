@@ -1,16 +1,16 @@
-package gips.projectpacketnambug.connector;
+package gips.projectpackagenamebug.connector;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 
-import gips.projectpacketnamebug.api.gips.ProjectpacketnamebugGipsAPI;
+import gips.projectpackagenamebug.api.gips.ProjectpackagenamebugGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
 import test.suite.gips.utils.GlobalTestConfig;
 
-public class ProjectPacketNameBugConnector extends AConnector {
+public class ProjectPackageNameBugConnector extends AConnector {
 
-	public ProjectPacketNameBugConnector(final String modelPath) {
-		api = new ProjectpacketnamebugGipsAPI();
+	public ProjectPackageNameBugConnector(final String modelPath) {
+		api = new ProjectpackagenamebugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 		GlobalTestConfig.overrideSolver(api);
 	}
@@ -18,7 +18,7 @@ public class ProjectPacketNameBugConnector extends AConnector {
 	@Override
 	public ILPSolverOutput run(final String outputPath) {
 		final ILPSolverOutput output = solve();
-		((ProjectpacketnamebugGipsAPI) api).getAsn().applyNonZeroMappings();
+		((ProjectpackagenamebugGipsAPI) api).getAsn().applyNonZeroMappings();
 		save(outputPath);
 		return output;
 	}
