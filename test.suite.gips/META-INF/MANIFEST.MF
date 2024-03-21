@@ -69,6 +69,7 @@ Import-Package: gips.generic.scheduling.connector,
  gipsl.imports.sub.connector,
  gipsl.sortconstanttermbug.connector,
  gipsl.sortpatternmappingbug.connector,
+ gipsprojectpackagenamebug.connector,
  org.junit.jupiter.api,
  test.suite.gips.utils
 Export-Package: test.suite.gips,
