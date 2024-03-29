@@ -36,5 +36,12 @@ public abstract class AGipslAllBuildTest {
 		final File f = new File(OUTPUT_PATH);
 		assertTrue(f.exists() && !f.isDirectory());
 	}
+	
+	@AfterEach
+	protected void terminateApi() {
+		if (con != null) {
+			con.terminate();
+		}
+	}
 
 }
