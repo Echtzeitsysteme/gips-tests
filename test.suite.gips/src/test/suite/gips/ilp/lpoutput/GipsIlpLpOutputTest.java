@@ -31,6 +31,11 @@ public class GipsIlpLpOutputTest extends AGipsIlpTimeOutTest {
 		deleteFile();
 	}
 
+	@AfterEach
+	protected void terminateApi() {
+		con.terminate();
+	}
+
 	@Override
 	public void callableSetUp() {
 		IlpTimeOutModelGenerator.persistModel(MODEL_PATH);
