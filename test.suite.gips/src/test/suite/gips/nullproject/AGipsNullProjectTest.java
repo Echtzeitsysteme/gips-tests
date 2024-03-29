@@ -12,7 +12,7 @@ public abstract class AGipsNullProjectTest {
 	protected AConnector con;
 
 	protected abstract void callableSetUp();
-	
+
 	@AfterEach
 	protected void terminateApi() {
 		if (con != null) {

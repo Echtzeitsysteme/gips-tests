@@ -14,7 +14,7 @@ public abstract class AResourceConnector {
 	}
 
 	public abstract void apply();
-	
+
 	public void terminate() {
 		if (api != null) {
 			api.terminate();

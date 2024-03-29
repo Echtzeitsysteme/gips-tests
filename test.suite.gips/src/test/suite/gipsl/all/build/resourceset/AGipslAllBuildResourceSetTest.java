@@ -9,7 +9,7 @@ public abstract class AGipslAllBuildResourceSetTest {
 
 	protected AResourceConnector con;
 	protected AllBuildResourceSetModelGenerator gen = new AllBuildResourceSetModelGenerator();
-	
+
 	@AfterEach
 	protected void terminateApi() {
 		if (con != null) {

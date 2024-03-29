@@ -17,7 +17,7 @@ public class GipsIlpTimeOutClsNotInModelTriggerExTest extends AGipsIlpTimeOutTes
 	public void resetModel() {
 		IlpTimeOutModelGenerator.reset();
 	}
-	
+
 	@Override
 	public void callableSetUp() {
 		IlpTimeOutModelGenerator.persistModel(MODEL_PATH);
