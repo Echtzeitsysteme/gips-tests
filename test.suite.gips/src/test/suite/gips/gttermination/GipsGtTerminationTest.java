@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.emoflon.ibex.common.operational.IMatch;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import gips.gttermination.connector.GtTerminationConnector;
 import model.Root;
@@ -31,6 +33,7 @@ public class GipsGtTerminationTest extends AGipslAllBuildTest {
 
 	// Actual tests
 
+	@Timeout(value = 1, unit = TimeUnit.SECONDS)
 	@Test
 	public void testGtTermination() {
 		gen.genSubstrateNode("s1", 2);
