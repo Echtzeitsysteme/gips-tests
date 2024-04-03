@@ -20,6 +20,7 @@ Require-Bundle: junit-jupiter-api;bundle-version="5.9.0",
  gips.nullmodel;bundle-version="0.0.1",
  gips.scheduling.taskmodel;bundle-version="0.0.1"
 Import-Package: gips.generic.scheduling.connector,
+ gips.gttermination.connector,
  gips.ilp.lpoutput.connector,
  gips.ilp.timeout.clsnotinmodel.connector,
  gips.ilp.timeout.connector,
