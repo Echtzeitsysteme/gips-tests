@@ -33,7 +33,9 @@ public class GipsIlpLpOutputTest extends AGipsIlpTimeOutTest {
 
 	@AfterEach
 	protected void terminateApi() {
-		con.terminate();
+		if (con != null) {
+			con.terminate();
+		}
 	}
 
 	@Override
