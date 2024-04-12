@@ -8,7 +8,7 @@ Export-Package: gipsl.all.build.resourcesetinit.connector
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gipsl.all.build.resourcesetinit; singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt,
  org.emoflon.gips.core,

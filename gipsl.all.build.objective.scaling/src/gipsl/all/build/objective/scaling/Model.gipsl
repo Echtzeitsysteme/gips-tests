@@ -1,0 +1,269 @@
+package "gipsl.all.build.objective.scaling"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule mapVnodeOne {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 1
+}
+
+rule mapVnodeTwo {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 2
+}
+
+rule mapVnodeTen {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 10
+}
+
+rule mapVnodeTwenty {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 20
+}
+
+rule mapVnodeTwentyOne {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 21
+}
+rule mapVnodeTwentyTwo {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 22
+}
+
+rule mapVnodeThirtyThree {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 33
+}
+
+rule mapVnodeFourty {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 40
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping a with mapVnodeOne;
+mapping b with mapVnodeTwo;
+mapping c with mapVnodeTen;
+mapping d with mapVnodeTwenty;
+mapping f with mapVnodeTwentyOne;
+mapping g with mapVnodeTwentyTwo;
+mapping h with mapVnodeThirtyThree;
+mapping i with mapVnodeFourty;
+
+// Each found virtual node (match) must be mapped (for both mappings!)
+constraint -> pattern::mapVnodeOne {
+	mappings.a->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+constraint -> pattern::mapVnodeTwo {
+	mappings.b->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+constraint -> pattern::mapVnodeTen {
+	mappings.c->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+constraint -> pattern::mapVnodeTwenty {
+	mappings.d->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+constraint -> pattern::mapVnodeTwentyOne {
+	mappings.f->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+constraint -> pattern::mapVnodeTwentyTwo {
+	mappings.g->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+constraint -> pattern::mapVnodeThirtyThree {
+	mappings.h->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+constraint -> pattern::mapVnodeFourty {
+	mappings.i->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+}
+
+objective objA -> mapping::a {
+	1
+}
+
+objective objB -> mapping::b {
+	100
+}
+
+objective sumC -> class::SubstrateResourceNode {
+	mappings.c->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) / 5
+}
+
+objective sumD -> class::SubstrateResourceNode {
+	mappings.d->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) / 0.1
+}
+
+objective sumFG -> class::SubstrateResourceNode {
+	(mappings.f->filter(m | m.nodes().snode == self)->count() +
+	mappings.g->filter(m | m.nodes().snode == self)->count())
+	/ 2 
+}
+
+objective sumH -> class::SubstrateResourceNode {
+	mappings.h->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) / 3
+}
+
+objective objIA -> mapping::i {
+	(self.nodes().vnode.resourceDemand + 10) / 5
+}
+objective objIB -> class::VirtualResourceNode {
+	mappings.i->filter(m | m.nodes().vnode == self)->sum(m | m.nodes().vnode.resourceDemand)
+}
+
+global objective : min {
+	73 * objA + (objB / 5) + sumC + sumD + (sumH / 11) + ((objIA + objIB) / 5) + sumFG
+}

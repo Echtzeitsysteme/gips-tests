@@ -8,7 +8,7 @@ Export-Package: gips.multilayeredinheritence.connector
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gips.multilayeredinheritence; singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt,
  org.emoflon.gips.core,

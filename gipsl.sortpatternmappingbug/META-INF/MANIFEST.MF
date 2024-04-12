@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gipsl.sortpatternmappingbug
+Bundle-ManifestVersion: 2
+Bundle-Name: gipsl.sortpatternmappingbug
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Import-Package: test.suite.gips.utils
+Export-Package: gipsl.sortpatternmappingbug.connector
+Bundle-SymbolicName: gipsl.sortpatternmappingbug; singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.emoflon.ibex.common,
+ org.emoflon.ibex.gt,
+ org.emoflon.gips.core,
+ org.emoflon.ibex.gt.democles,
+ org.emoflon.ibex.gt.hipe,
+ gips.sort.listmodel;bundle-version="0.0.1"
