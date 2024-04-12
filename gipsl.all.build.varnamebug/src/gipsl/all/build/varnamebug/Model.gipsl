@@ -1,0 +1,64 @@
+package "gipsl.all.build.varnamebug"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapVnode {
+	var n : EInt
+};
+
+// Connect the variable 'n' to the corresponding mapping variable through the pattern context
+constraint -> pattern::mapVnode {
+	[mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() >= 1
+	=>
+	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->sum(m | m.variables().n) >= 1]
+	
+	&
+	
+	[mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->sum(m | m.variables().n) >= 1
+	=>
+	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() >= 1]
+}
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+}
+
+objective o -> mapping::n2n {
+	1
+}
+
+global objective : min {
+	o
+}

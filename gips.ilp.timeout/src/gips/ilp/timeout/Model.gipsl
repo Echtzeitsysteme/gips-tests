@@ -53,6 +53,11 @@ constraint -> class::Target {
 	mappings.s2t->filter(m | m.nodes().trg == self)->sum(m | m.nodes().src.val) <= self.free
 }
 
+// The following constraint is redundant to the first one (if a non incremental run is archieved)
+constraint -> class::Source {
+	mappings.s2t->filter(m | m.nodes().src == self)->count() == 1
+}
+
 objective o -> mapping::s2t {
 	1
 }

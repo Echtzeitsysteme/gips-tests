@@ -1,5 +1,7 @@
 package test.suite.gips.ilp.timeout;
 
+import org.junit.jupiter.api.AfterEach;
+
 import test.suite.gips.utils.AConnector;
 
 public abstract class AGipsIlpTimeOutTest {
@@ -10,5 +12,12 @@ public abstract class AGipsIlpTimeOutTest {
 	protected AConnector con;
 
 	protected abstract void callableSetUp();
+
+	@AfterEach
+	protected void terminateApi() {
+		if (con != null) {
+			con.terminate();
+		}
+	}
 
 }

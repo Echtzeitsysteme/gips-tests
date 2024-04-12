@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:gips.multilayeredinheritencemodel="platform:/resource/gips.multilayeredinheritencemodel/model/Multilayeredinheritencemodel.ecore" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="platform:/resource/gips.multilayeredinheritencemodel/model/Multilayeredinheritencemodel.ecore">
+  <xsd:annotation>
+    <xsd:documentation>TODO: Add documentation for multilayeredinheritencemodel. Hint: You may copy this element in the Ecore editor to add documentation to EClasses, EOperations, ...</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.omg.org/XMI" schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/XMI.xsd"/>
+  <xsd:complexType name="Root">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="objects" type="gips.multilayeredinheritencemodel:A"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+  </xsd:complexType>
+  <xsd:element name="Root" type="gips.multilayeredinheritencemodel:Root"/>
+  <xsd:complexType name="A">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="idA" type="xsd:int"/>
+  </xsd:complexType>
+  <xsd:element name="A" type="gips.multilayeredinheritencemodel:A"/>
+  <xsd:complexType name="B">
+    <xsd:complexContent>
+      <xsd:extension base="gips.multilayeredinheritencemodel:A">
+        <xsd:attribute name="idB" type="xsd:int"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="B" type="gips.multilayeredinheritencemodel:B"/>
+  <xsd:complexType name="C">
+    <xsd:complexContent>
+      <xsd:extension base="gips.multilayeredinheritencemodel:B">
+        <xsd:attribute name="idC" type="xsd:int"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="C" type="gips.multilayeredinheritencemodel:C"/>
+</xsd:schema>

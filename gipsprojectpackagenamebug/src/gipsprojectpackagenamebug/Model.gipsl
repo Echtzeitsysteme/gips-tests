@@ -1,0 +1,33 @@
+package "gipsprojectpackagenamebug"
+import "platform:/resource/gips.nullmodel/model/Nullmodel.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+}
+
+//
+// This test case does not check correct GT pattern matching
+// nor ILP solving; it's purpose is to check if this project
+// can be built without warnings.
+//
+
+rule addSubNode {
+	root: Root {
+		++ -subnode -> sn
+	}
+	
+	sn: Subnode
+}
+
+mapping asn with addSubNode;
+
+objective o -> mapping::asn {
+	1
+}
+
+global objective : max {
+	o
+}

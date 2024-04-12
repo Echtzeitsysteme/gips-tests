@@ -1,0 +1,94 @@
+package "gipsl.all.build.varmappingsum.sumfreevarmult"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+//
+// GIPSL starts here!
+//
+
+// Scenario: 5-6 free variables in one sum
+//				+ attribute access
+//				+ multiplication
+
+mapping n2n with mapVnode {
+	var u : EInt
+	var v : EInt
+	var w : EDouble
+	var x : EDouble
+	var y : EDouble
+};
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+}
+
+constraint -> mapping::n2n {
+	self.variables().u >= 0
+}
+
+constraint -> mapping::n2n {
+	self.variables().v >= 0
+}
+
+constraint -> mapping::n2n {
+	self.variables().w >= 0
+}
+
+constraint -> mapping::n2n {
+	self.variables().x >= 0
+}
+
+constraint -> mapping::n2n {
+	self.variables().y >= 0
+}
+
+constraint -> global {
+	2 * mappings.n2n->sum(m | m.variables().u
+							+ m.variables().v
+							+ m.variables().w
+							+ m.variables().x
+							+ m.variables().y
+							+ m.nodes().vnode.resourceDemand
+	)
+	== 1000
+}
+
+objective n2nObj -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	n2nObj
+}

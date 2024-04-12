@@ -14,4 +14,5 @@ Require-Bundle: gipsl.all.build.model;bundle-version="0.0.1",
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gipsl.all.build.nogt; singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+
