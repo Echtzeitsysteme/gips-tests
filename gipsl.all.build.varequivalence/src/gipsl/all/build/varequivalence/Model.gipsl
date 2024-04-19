@@ -58,6 +58,11 @@ constraint -> mapping::n2n {
 	self.value() >= 1 <=> self.variables().v >= 1
 }
 
+// Limit the value of the integer variable to positive values only.
+constraint -> mapping::n2n {
+	self.variables().v >= 0
+}
+
 objective n2nObj -> mapping::n2n {
 	1
 }
