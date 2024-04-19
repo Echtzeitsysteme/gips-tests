@@ -106,7 +106,18 @@ public class AllBuildResourceSetModelGenerator {
 	}
 
 	public void reset() {
-		init();
+		// Clean all
+		resourceSet.getResources().forEach(r -> r.getContents().clear());
+		
+		// Basic setup
+		final Root root = ModelFactory.eINSTANCE.createRoot();
+		final Container subCntr = ModelFactory.eINSTANCE.createSubstrateContainer();
+		subCntr.setName(SUB_NAME);
+		final Container virtCntr = ModelFactory.eINSTANCE.createVirtualContainer();
+		virtCntr.setName(VIRT_NAME);
+		root.getContainers().add(subCntr);
+		root.getContainers().add(virtCntr);
+		resourceSet.getResources().iterator().next().getContents().add(root);
 	}
 
 }
