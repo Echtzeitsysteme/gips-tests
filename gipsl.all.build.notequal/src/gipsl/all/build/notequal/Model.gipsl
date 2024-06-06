@@ -41,10 +41,13 @@ rule mapVnode {
 
 mapping n2n with mapVnode;
 
+// These two constraints should be equivalent
+
 // NOT ...->count() == 1
-//constraint -> class::SubstrateResourceNode {
-//	!mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1
-//}
+constraint -> class::SubstrateResourceNode {
+	!mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1
+}
+// ...->count() != 1
 constraint -> class::SubstrateResourceNode {
 	mappings.n2n->filter(m | m.nodes().snode == self)->count() != 1
 }
