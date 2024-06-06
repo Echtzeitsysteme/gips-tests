@@ -30,13 +30,17 @@ public class AllBuildResourceSetModelGenerator {
 	}
 
 	private void init() {
-		resourceSet.getResources().clear();
+		clearResourceSet();
 
 		final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		reg.getExtensionToFactoryMap().put("xmi", new SmartEMFResourceFactoryImpl("../"));
 		resourceSet.getPackageRegistry().put(ModelPackage.eINSTANCE.getNsURI(), ModelPackage.eINSTANCE);
 		resourceSet.createResource(URI.createURI("model.xmi"));
 
+		createModel();
+	}
+
+	private void createModel() {
 		final Root root = ModelFactory.eINSTANCE.createRoot();
 		final Container subCntr = ModelFactory.eINSTANCE.createSubstrateContainer();
 		subCntr.setName(SUB_NAME);
@@ -106,7 +110,12 @@ public class AllBuildResourceSetModelGenerator {
 	}
 
 	public void reset() {
-		init();
+		clearResourceSet();
+		createModel();
+	}
+
+	private void clearResourceSet() {
+		resourceSet.getResources().forEach(r -> r.getContents().clear());
 	}
 
 }
