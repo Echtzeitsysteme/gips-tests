@@ -42,8 +42,11 @@ rule mapVnode {
 mapping n2n with mapVnode;
 
 // NOT ...->count() == 1
+//constraint -> class::SubstrateResourceNode {
+//	!mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1
+//}
 constraint -> class::SubstrateResourceNode {
-	!mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() != 1
 }
 
 objective nObj -> mapping::n2n {
