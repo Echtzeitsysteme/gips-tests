@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gipsl.all.build.mappingpreservationb
+Bundle-ManifestVersion: 2
+Bundle-Name: gipsl.all.build.mappingpreservationb
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.all.build.mappingpreservationb.connector
+Bundle-SymbolicName: gipsl.all.build.mappingpreservationb; singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.emoflon.ibex.common,
+ org.emoflon.ibex.gt,
+ org.emoflon.gips.core,
+ org.emoflon.ibex.gt.democles,
+ org.emoflon.ibex.gt.hipe,
+ gipsl.all.build.model,
+ test.suite.utils
