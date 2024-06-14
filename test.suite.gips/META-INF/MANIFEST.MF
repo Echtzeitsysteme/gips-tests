@@ -4,7 +4,7 @@ Bundle-Name: Gips
 Bundle-SymbolicName: test.suite.gips;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: test.suite.gips
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: junit-jupiter-api;bundle-version="5.9.0",
  gipsl.all.build.simple;bundle-version="1.0.0",
  gipsl.all.build.model;bundle-version="0.0.1",
