@@ -58,15 +58,19 @@ mapping mu with findSnode;
 // Constraint to map f(x) == c <=> u == 1:
 constraint -> class::SubstrateResourceNode {
 	// This is just a complex way to express the '==' operator with '<=' and '>='
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1
+//	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1
+//	<=>
+//	mappings.mu->filter(m | m.nodes().snode == self)->count() >= 1
+//	
+//	&
+//	
+//	mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 1
+//	<=>
+//	mappings.mu->filter(m | m.nodes().snode == self)->count() <= 1
+
+	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 1
 	<=>
-	mappings.mu->filter(m | m.nodes().snode == self)->count() >= 1
-	
-	&
-	
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 1
-	<=>
-	mappings.mu->filter(m | m.nodes().snode == self)->count() <= 1
+	mappings.mu->filter(m | m.nodes().snode == self)->count() == 1
 }
 
 // Ensure that the mapping gets only selected if the respective

@@ -8,6 +8,11 @@ import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.equals.fxeqctrafo.connector.FxeqctrafoConnector;
 
+/**
+ * This class tests the correct transformation of f(x) == c <=> s. It can be
+ * used to reproduce a bug in said transformation on the currently (2024-07-30)
+ * un-merged feature branch `feature/improved_BooleanExpr_transformation`.
+ */
 public class GipslAllBuildFxeqctrafoTest extends AGipslAllBuildTest {
 
 	// Setup method
@@ -67,7 +72,12 @@ public class GipslAllBuildFxeqctrafoTest extends AGipslAllBuildTest {
 		assertEquals(0, ((FxeqctrafoConnector) con).getNumberOfNonZeroN2n());
 		assertEquals(0, ((FxeqctrafoConnector) con).getNumberOfNonZeroMu());
 	}
-	
+
+	/**
+	 * In this test, the mapping is not successful, because the resource constraint
+	 * forbids the rule selection. The problem must be feasible and both mappings
+	 * must not have any selected candidates.
+	 */
 	@Test
 	public void test0to1Resources() {
 		gen.genSubstrateNode("s1", 10);
