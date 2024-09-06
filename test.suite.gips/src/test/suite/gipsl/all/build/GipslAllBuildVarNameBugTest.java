@@ -104,7 +104,8 @@ public class GipslAllBuildVarNameBugTest extends AGipslAllBuildTest {
 	private void checkConstraints(final Map<String, N2nMapping> mappings) {
 		mappings.forEach((k, m) -> {
 			final N2nMapping mapping = m;
-			assertTrue(getVarValFromMapping(mapping, "n") >= 1);
+			assertTrue(getVarValFromMapping(mapping, "n") >= 1,
+					"Mapping " + m.getName() + " was not selected by the solver.");
 		});
 	}
 

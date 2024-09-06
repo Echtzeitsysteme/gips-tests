@@ -6,6 +6,7 @@ import org.emoflon.gips.core.ilp.GlpkSolver;
 import org.emoflon.gips.core.ilp.GurobiSolver;
 import org.emoflon.gips.core.ilp.ILPSolver;
 import org.emoflon.gips.core.ilp.ILPSolverConfig;
+import org.emoflon.gips.core.ilp.LpSolveSolver;
 import org.emoflon.gips.intermediate.GipsIntermediate.ILPSolverType;
 
 /**
@@ -21,7 +22,12 @@ public class GlobalTestConfig {
 	/**
 	 * Configures the used solver type (e.g., GLPK, Gurobi) if override is enabled.
 	 */
-	public static ILPSolverType solverType = ILPSolverType.GLPK;
+	public static ILPSolverType solverType = ILPSolverType.LPSOLVE;
+	
+	/**
+	 * TODO
+	 */
+	public static double epsilon = 0.001;
 
 	private GlobalTestConfig() {
 	}
@@ -63,6 +69,9 @@ public class GlobalTestConfig {
 		}
 		case CPLEX: {
 			return new CplexSolver(api, config);
+		}
+		case LPSOLVE: {
+			return new LpSolveSolver(api, config);
 		}
 		default: {
 			throw new UnsupportedOperationException("Solver type not known.");
