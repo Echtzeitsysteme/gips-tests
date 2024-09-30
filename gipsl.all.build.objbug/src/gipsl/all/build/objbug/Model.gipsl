@@ -1,0 +1,33 @@
+package "gipsl.all.build.objbug"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+pattern p {
+	host: SubstrateResourceNode
+	vnode: VirtualResourceNode {
+		-host -> host
+	}
+}
+
+mapping m with p;
+
+objective o -> mapping::m {
+//	(self.nodes().host.resourceAmountAvailable) / (self.nodes().host.resourceAmountTotal + 1)
+//	(1) / (self.nodes().host.resourceAmountTotal + 1)
+//	1 / (self.nodes().host.resourceAmountTotal + 1)
+//	1 / (1 + 1)
+	1
+	// ^to trigger the bug change line 27 to the content of line 26 and press "CTRL" + "S"
+}
+
+global objective : max {
+	1
+}
