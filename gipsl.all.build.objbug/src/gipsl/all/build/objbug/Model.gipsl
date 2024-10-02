@@ -12,22 +12,16 @@ config {
 
 pattern p {
 	host: SubstrateResourceNode
-	vnode: VirtualResourceNode {
-		-host -> host
-	}
+	vnode: VirtualResourceNode
 }
 
 mapping m with p;
 
 objective o -> mapping::m {
-//	(self.nodes().host.resourceAmountAvailable) / (self.nodes().host.resourceAmountTotal + 1)
-//	(1) / (self.nodes().host.resourceAmountTotal + 1)
-//	1 / (self.nodes().host.resourceAmountTotal + 1)
-//	1 / (1 + 1)
-	1
-	// ^to trigger the bug change line 27 to the content of line 26 and press "CTRL" + "S"
+	1 / (1 + 1)
+//	1
 }
 
 global objective : max {
-	1
+	o
 }

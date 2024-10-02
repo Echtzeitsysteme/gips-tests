@@ -4,6 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.objbug
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.all.build.objbug.connector
 Bundle-SymbolicName: gipsl.all.build.objbug; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
@@ -12,4 +13,5 @@ Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.gips.core,
  org.emoflon.ibex.gt.democles,
  org.emoflon.ibex.gt.hipe,
- gipsl.all.build.model
+ gipsl.all.build.model,
+ test.suite.utils
