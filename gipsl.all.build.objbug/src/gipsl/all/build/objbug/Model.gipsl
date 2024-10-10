@@ -1,0 +1,27 @@
+package "gipsl.all.build.objbug"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GLPK [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+pattern p {
+	host: SubstrateResourceNode
+	vnode: VirtualResourceNode
+}
+
+mapping m with p;
+
+objective o -> mapping::m {
+	1 / (1 + 1)
+//	1
+}
+
+global objective : max {
+	o
+}
