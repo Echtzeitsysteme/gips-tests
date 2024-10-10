@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.varmappingsum.sumfreevarattr.api.gips.mapping.N2nMapping;
 import gipsl.all.build.varsmappingsum.sumfreevarattr.connector.VarsMappingSumFreeVarAttrConnector;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class GipslAllBuildVarsMappingSumFreeVarAttrTest extends AGipslAllBuildTest {
 
@@ -106,7 +107,7 @@ public class GipslAllBuildVarsMappingSumFreeVarAttrTest extends AGipslAllBuildTe
 			sumVWX += m.getMatch().getVnode().getResourceDemand();
 			sumVWX += 1;
 		}
-		assertEquals(73, sumVWX);
+		assertEquals(73, sumVWX, GlobalTestConfig.epsilon);
 	}
 
 }

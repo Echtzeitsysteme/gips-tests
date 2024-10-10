@@ -23,9 +23,10 @@ public class GlobalTestConfig {
 	 * Configures the used solver type (e.g., GLPK, Gurobi) if override is enabled.
 	 */
 	public static ILPSolverType solverType = ILPSolverType.LPSOLVE;
-	
+
 	/**
-	 * TODO
+	 * Epsilon that is used in various tests to check for equality of floating point
+	 * numbers.
 	 */
 	public static double epsilon = 0.001;
 

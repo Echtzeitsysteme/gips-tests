@@ -12,6 +12,7 @@ import gipsl.all.build.varlimit.connector.VarLimitConnector;
 import model.Root;
 import model.SubstrateContainer;
 import model.VirtualContainer;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 
@@ -33,7 +34,7 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, Math.abs(ret.objectiveValue()));
+		assertEquals(1, Math.abs(ret.objectiveValue()), GlobalTestConfig.epsilon);
 		checkConsistency();
 	}
 
@@ -49,7 +50,7 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(10, Math.abs(ret.objectiveValue()));
+		assertEquals(10, Math.abs(ret.objectiveValue()), GlobalTestConfig.epsilon);
 		checkConsistency();
 	}
 
@@ -67,7 +68,7 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		// Every virtual node must be mapped to both substrate nodes
-		assertEquals(10 * 2, Math.abs(ret.objectiveValue()));
+		assertEquals(10 * 2, Math.abs(ret.objectiveValue()), GlobalTestConfig.epsilon);
 		checkConsistency();
 	}
 
