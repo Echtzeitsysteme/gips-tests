@@ -8,7 +8,7 @@ config {
 	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
-//	lpOutput := true [path := "./GLPK.lp"];
+//	lpOutput := true [path := "./GUROBI.lp"];
 }
 
 rule mapVnode {
