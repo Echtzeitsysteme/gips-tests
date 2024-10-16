@@ -39,7 +39,7 @@ public class GipslAllBuildObjBugTest extends AGipslAllBuildTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
 }
