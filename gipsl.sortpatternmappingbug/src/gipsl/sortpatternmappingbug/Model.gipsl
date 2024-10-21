@@ -2,7 +2,7 @@ package "gipsl.sortpatternmappingbug"
 import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;

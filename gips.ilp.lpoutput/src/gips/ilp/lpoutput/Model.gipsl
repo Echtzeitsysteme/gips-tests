@@ -2,7 +2,7 @@ package "gips.ilp.lpoutput"
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	presolve := true;
 	lpOutput := true [path := "./test.lp"];
 }

@@ -3,12 +3,12 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
-//	lpOutput := true [path := "./GLPK.lp"];
+//	lpOutput := true [path := "./GUROBI.lp"];
 }
 
 rule mapVnode {

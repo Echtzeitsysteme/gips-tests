@@ -2,7 +2,7 @@ package "gipsl.all.build.implication"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];

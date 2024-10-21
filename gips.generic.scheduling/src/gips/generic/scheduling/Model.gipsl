@@ -2,7 +2,7 @@ package "gipsl.generic.scheduling"
 import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := true [value := 60.0];
 	randomSeed := true [value := 0];
 	presolve := true;
