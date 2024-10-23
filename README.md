@@ -13,8 +13,8 @@ This repository holds some GIPS test projects.
 
 ### Requirements
 
-Currently, all of the tests use the [GLPK](https://www.gnu.org/software/glpk/) ILP solver, which is free and open-source.
-Thus, you have to install and configure GLPK or change the configuration of all tests in the [`GlobalTestConfig`](https://github.com/Echtzeitsysteme/gips-tests/blob/main/test.suite.utils/src/test/suite/gips/utils/GlobalTestConfig.java#L24) file from `GLPK` to `GUROBI` or `GLPK`.
+Currently, all of the tests use the [Gurobi](https://www.gurobi.com/) ILP solver, which is a commercial solution.
+Thus, you have to install and configure Gurobi or change the configuration of all tests in the [`GlobalTestConfig`](https://github.com/Echtzeitsysteme/gips-tests/blob/main/test.suite.utils/src/test/suite/gips/utils/GlobalTestConfig.java#L24) file from `GUROBI` to another solver.
 
 
 ## Repository/Project structure

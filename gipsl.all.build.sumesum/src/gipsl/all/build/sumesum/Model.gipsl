@@ -2,7 +2,7 @@ package "gipsl.all.build.sumesum"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := false [value:=120.0];
 	presolve := true;
 	debugOutput := true;
