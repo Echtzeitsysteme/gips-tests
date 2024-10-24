@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/reactive-streams-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/reactive-streams-1.0.4-javadoc.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/reactive-streams-1.0.4-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/rxjava-3.1.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/rxjava-3.1.9-javadoc.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/rxjava-3.1.9-sources.jar"/>
@@ -12,7 +15,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/gson-2.8.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/junit5-html-report-generator-1.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/lombok-1.18.12.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/reactive-streams-1.0.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
 		<attributes>
 			<attribute name="module" value="true"/>
