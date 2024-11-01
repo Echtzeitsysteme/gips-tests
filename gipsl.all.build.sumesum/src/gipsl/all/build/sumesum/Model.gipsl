@@ -5,7 +5,7 @@ config {
 	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := false [value:=120.0];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 // This test files triggers the GPLK implementation bug:

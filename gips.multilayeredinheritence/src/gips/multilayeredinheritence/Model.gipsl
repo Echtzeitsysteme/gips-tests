@@ -7,7 +7,7 @@ config {
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 // This rule just sets the node id of a to 0
