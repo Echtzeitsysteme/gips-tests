@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gipsl.all.build.model:Root
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gipsl.all.build.model="platform:/resource/gipsl.all.build.model/model/Model.ecore">
+  <containers
+      xsi:type="gipsl.all.build.model:VirtualContainer"
+      name="vc">
+    <virtualNodes
+        xsi:type="gipsl.all.build.model:VirtualResourceNode"
+        name="vnode"
+        resourceDemand="1"/>
+  </containers>
+  <containers
+      xsi:type="gipsl.all.build.model:SubstrateContainer"
+      name="sc">
+    <substrateNodes
+        xsi:type="gipsl.all.build.model:SubstrateResourceNode"
+        name="snode"
+        resourceAmountTotal="1"
+        resourceAmountAvailable="1"/>
+  </containers>
+</gipsl.all.build.model:Root>

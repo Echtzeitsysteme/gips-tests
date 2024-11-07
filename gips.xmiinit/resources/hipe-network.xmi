@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hipe.network:HiPENetwork xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:hipe.network="platform:/resource/hipe.network/model/hiPENetwork" xsi:schemaLocation="http://www.eclipse.org/emf/2002/Ecore java://org.eclipse.emf.ecore.EcorePackage platform:/resource/hipe.network/model/hiPENetwork java://hipe.network.NetworkPackage">
+  <networknode xmi:type="hipe.network:DispatchNode" name="DispatchNode" objectNodes="//@networknode.3 //@networknode.4 //@networknode.6 //@networknode.7 //@networknode.9" notificationNode="//@networknode.1">
+    <metamodels xmi:type="ecore:EPackage" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#/"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:NotificationNode" name="NotificationNode" dispatchNode="//@networknode.0"/>
+  <networknode xmi:type="hipe.network:ReferenceNode" name="VirtualContainer_virtualNodes_0_reference" inputPort="//@networknode.3/@ports/@port.0 //@networknode.4/@ports/@port.0" patternName="mapVnode_2">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portTarget="//@networknode.13" patternName="mapVnode_2" matchingNode="//@networknode.2"/>
+    </ports>
+    <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualContainer/virtualNodes"/>
+    <srcType xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualContainer"/>
+    <trgType xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualResourceNode"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:ObjectNode" name="VirtualContainer_object" patternName="mapVnode_4" dispatchnode="//@networknode.0">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portTarget="//@networknode.2" patternName="mapVnode_4" matchingNode="//@networknode.3"/>
+      <port xmi:type="hipe.network:SimplePort" portSlot="RIGHT" portTarget="//@networknode.10" patternName="mapVnode_4" matchingNode="//@networknode.3"/>
+    </ports>
+    <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualContainer"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:ObjectNode" name="VirtualResourceNode_object" patternName="mapVnode_5" dispatchnode="//@networknode.0">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portSlot="RIGHT" portTarget="//@networknode.2" patternName="mapVnode_5" matchingNode="//@networknode.4"/>
+    </ports>
+    <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualResourceNode"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:ReferenceNode" name="SubstrateContainer_substrateNodes_0_reference" inputPort="//@networknode.6/@ports/@port.0 //@networknode.7/@ports/@port.0" patternName="mapVnode_6">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portTarget="//@networknode.12" patternName="mapVnode_6" matchingNode="//@networknode.5"/>
+    </ports>
+    <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateContainer/substrateNodes"/>
+    <srcType xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateContainer"/>
+    <trgType xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateResourceNode"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:ObjectNode" name="SubstrateContainer_object" patternName="mapVnode_8" dispatchnode="//@networknode.0">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portTarget="//@networknode.5" patternName="mapVnode_8" matchingNode="//@networknode.6"/>
+      <port xmi:type="hipe.network:SimplePort" portSlot="RIGHT" portTarget="//@networknode.8" patternName="mapVnode_8" matchingNode="//@networknode.6"/>
+    </ports>
+    <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateContainer"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:ObjectNode" name="SubstrateResourceNode_object" patternName="mapVnode_9" dispatchnode="//@networknode.0">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portSlot="RIGHT" portTarget="//@networknode.5" patternName="mapVnode_9" matchingNode="//@networknode.7"/>
+    </ports>
+    <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateResourceNode"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:ReferenceNode" name="Root_containers_0_reference" inputPort="//@networknode.9/@ports/@port.0 //@networknode.6/@ports/@port.1" patternName="mapVnode_10">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portTarget="//@networknode.11" patternName="mapVnode_10" matchingNode="//@networknode.8"/>
+    </ports>
+    <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//Root/containers"/>
+    <srcType xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//Root"/>
+    <trgType xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateContainer"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:ObjectNode" name="Root_object" patternName="mapVnode_12" dispatchnode="//@networknode.0">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portTarget="//@networknode.8" patternName="mapVnode_12" matchingNode="//@networknode.9"/>
+      <port xmi:type="hipe.network:SimplePort" portTarget="//@networknode.10" patternName="mapVnode_12" matchingNode="//@networknode.9"/>
+    </ports>
+    <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//Root"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:ReferenceNode" name="Root_containers_1_reference" inputPort="//@networknode.9/@ports/@port.1 //@networknode.3/@ports/@port.1" patternName="mapVnode_11">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portSlot="RIGHT" portTarget="//@networknode.11" patternName="mapVnode_11" matchingNode="//@networknode.10"/>
+    </ports>
+    <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//Root/containers"/>
+    <srcType xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//Root"/>
+    <trgType xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualContainer"/>
+  </networknode>
+  <networknode xmi:type="hipe.network:JunctionNode" name="mapVnode_7_junction" inputPort="//@networknode.8/@ports/@port.0 //@networknode.10/@ports/@port.0" patternName="mapVnode_7" overlaps="//@networknode.11/@allOverlaps.0" mappings="//@networknode.11/@allMappings.0">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portSlot="RIGHT" portTarget="//@networknode.12" patternName="mapVnode_7" matchingNode="//@networknode.11"/>
+    </ports>
+    <allOverlaps xmi:type="hipe.network:Overlaps">
+      <overlap xmi:type="hipe.network:Overlap"/>
+    </allOverlaps>
+    <allMappings xmi:type="hipe.network:Mappings">
+      <mapping xmi:type="hipe.network:Mapping"/>
+      <mapping xmi:type="hipe.network:Mapping" index="1"/>
+      <mapping xmi:type="hipe.network:Mapping" origin="RIGHT" index="1"/>
+    </allMappings>
+  </networknode>
+  <networknode xmi:type="hipe.network:JunctionNode" name="mapVnode_3_junction" inputPort="//@networknode.5/@ports/@port.0 //@networknode.11/@ports/@port.0" patternName="mapVnode_3" overlaps="//@networknode.12/@allOverlaps.0" mappings="//@networknode.12/@allMappings.0">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portSlot="RIGHT" portTarget="//@networknode.13" patternName="mapVnode_3" matchingNode="//@networknode.12"/>
+    </ports>
+    <allOverlaps xmi:type="hipe.network:Overlaps">
+      <overlap xmi:type="hipe.network:Overlap" rightIndex="1"/>
+    </allOverlaps>
+    <allMappings xmi:type="hipe.network:Mappings">
+      <mapping xmi:type="hipe.network:Mapping"/>
+      <mapping xmi:type="hipe.network:Mapping" index="1"/>
+      <mapping xmi:type="hipe.network:Mapping" origin="RIGHT"/>
+      <mapping xmi:type="hipe.network:Mapping" origin="RIGHT" index="2"/>
+    </allMappings>
+  </networknode>
+  <networknode xmi:type="hipe.network:JunctionNode" name="mapVnode_1_junction" inputPort="//@networknode.2/@ports/@port.0 //@networknode.12/@ports/@port.0" patternName="mapVnode_1" overlaps="//@networknode.13/@allOverlaps.0" mappings="//@networknode.13/@allMappings.0">
+    <ports xmi:type="hipe.network:Ports">
+      <port xmi:type="hipe.network:SimplePort" portSlot="CENTER" portTarget="//@networknode.14" patternName="mapVnode_1" matchingNode="//@networknode.13"/>
+    </ports>
+    <allOverlaps xmi:type="hipe.network:Overlaps">
+      <overlap xmi:type="hipe.network:Overlap" rightIndex="3"/>
+    </allOverlaps>
+    <allMappings xmi:type="hipe.network:Mappings">
+      <mapping xmi:type="hipe.network:Mapping"/>
+      <mapping xmi:type="hipe.network:Mapping" index="1"/>
+      <mapping xmi:type="hipe.network:Mapping" origin="RIGHT"/>
+      <mapping xmi:type="hipe.network:Mapping" origin="RIGHT" index="1"/>
+      <mapping xmi:type="hipe.network:Mapping" origin="RIGHT" index="2"/>
+    </allMappings>
+  </networknode>
+  <networknode xmi:type="hipe.network:ProductionNode" name="mapVnode_production" inputPort="//@networknode.13/@ports/@port.0" patternName="mapVnode">
+    <labelToIndex xmi:type="hipe.network:StringToIntegerMapEntry" key="root" value="4"/>
+    <labelToIndex xmi:type="hipe.network:StringToIntegerMapEntry" key="snode" value="3"/>
+    <labelToIndex xmi:type="hipe.network:StringToIntegerMapEntry" key="substrateContainer" value="2"/>
+    <labelToIndex xmi:type="hipe.network:StringToIntegerMapEntry" key="virtualContainer" value="0"/>
+    <labelToIndex xmi:type="hipe.network:StringToIntegerMapEntry" key="vnode" value="1"/>
+  </networknode>
+</hipe.network:HiPENetwork>
