@@ -4,7 +4,8 @@ import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecor
 config {  
 	solver := GUROBI [home:="fu", license:="bar"];
 	presolve := true;
-	lpOutput := true [path := "./test.lp"];
+	debugOutput := false;
+	lpOutput := true [path := "./test.lp"];	
 }
 
 rule mapSrc {

@@ -7,7 +7,7 @@ config {
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 // Currently, there must be at least one pattern/rule per GIPSL problem
