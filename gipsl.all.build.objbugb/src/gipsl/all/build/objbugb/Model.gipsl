@@ -1,0 +1,27 @@
+package "gipsl.all.build.objbugb"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+pattern p {
+	host: SubstrateResourceNode
+	vnode: VirtualResourceNode
+}
+
+mapping m with p;
+
+objective o -> pattern::p {
+	mappings.m->sum(m | m.nodes().vnode.resourceDemand) / (2 - 1)
+	//mappings.m->sum(m | m.nodes().vnode.resourceDemand) / 1
+}
+
+global objective : max {
+	o
+}
