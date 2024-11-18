@@ -1,0 +1,35 @@
+package "gips.enumequals"
+import "http://www.eclipse.org/emf/2002/Ecore"
+// import a metamodel here
+import "platform:/resource/gips.enummodel/model/Enummodel.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 120.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+pattern findContainer {
+	r : Root {
+		- containers -> c
+	}
+	c : StateContainer
+}
+
+mapping m with findContainer;
+
+// $object == $object works as expected
+constraint -> pattern::findContainer {
+	mappings.m->filter(m | m.nodes().c == self.nodes().c)->count() >= 0
+}
+
+// $enum == $enum works **not** as expected
+// java.lang.IllegalArgumentException: Unsupported data type:
+// org.eclipse.emf.ecore.impl.EEnumImpl@57686538 (name: State)
+// (instanceClassName: null) (serializable: true)
+constraint -> pattern::findContainer {
+	mappings.m->filter(m | m.nodes().c.state == self.nodes().c.state)->count() >= 0
+}
