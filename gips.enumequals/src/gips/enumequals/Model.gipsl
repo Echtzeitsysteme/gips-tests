@@ -12,18 +12,20 @@ config {
 	debugOutput := true;
 }
 
-pattern findContainer {
+rule findContainer {
 	r : Root {
 		- containers -> c
 	}
-	c : StateContainer
+	c : StateContainer {
+		.visited := true
+	}
 }
 
 mapping m with findContainer;
 
 // $object == $object works as expected
 constraint -> pattern::findContainer {
-	mappings.m->filter(m | m.nodes().c == self.nodes().c)->count() >= 0
+	mappings.m->filter(m | m.nodes().c == self.nodes().c)->count() >= 1
 }
 
 // $enum == $enum works **not** as expected
