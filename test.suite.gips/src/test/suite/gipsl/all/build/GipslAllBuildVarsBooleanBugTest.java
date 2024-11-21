@@ -2,11 +2,11 @@ package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.emoflon.gips.core.gt.GTMapping;
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.varsbooleanbug.api.gips.mapping.N2nMapping;
 import gipsl.all.build.varsbooleanbug.connector.VarsBooleanBugConnector;
 
 public class GipslAllBuildVarsBooleanBugTest extends AGipslAllBuildTest {
@@ -55,9 +55,23 @@ public class GipslAllBuildVarsBooleanBugTest extends AGipslAllBuildTest {
 		});
 	}
 
+	@Test
+	public void testMapRoot() {
+		gen.genSubstrateNode("s1", 1);
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
+		((VarsBooleanBugConnector) con).getDummyMMappings().forEach((n, m) -> {
+			assertEquals(m.getValue(), Math.abs(getVarValFromMapping(m, "x")), 0.0);
+		});
+	}
+
 	// Utility methods
 
-	private double getVarValFromMapping(final N2nMapping mapping, final String varName) {
+	private double getVarValFromMapping(final GTMapping<?, ?> mapping, final String varName) {
 		if (mapping.getBoundVariableNames().contains(varName)) {
 			return mapping.getBoundVariables().get(varName).getValue().doubleValue();
 		} else if (mapping.getFreeVariableNames().contains(varName)) {

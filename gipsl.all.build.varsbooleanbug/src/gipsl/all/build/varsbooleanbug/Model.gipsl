@@ -31,6 +31,13 @@ rule mapVnode {
 	}
 }
 
+rule setDummyAttrRoot(p: EBoolean) {
+	root: Root {
+		.dummyAttribute := true
+	}
+	// the parameter `p` must not be used for this test
+}
+
 //
 // GIPSL starts here!
 //
@@ -39,8 +46,16 @@ mapping n2n with mapVnode {
 	var b : EBoolean
 };
 
+mapping dummyM with setDummyAttrRoot {
+	var x : EBoolean bind p
+};
+
 constraint -> class::VirtualResourceNode {
 	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+}
+
+constraint -> class::Root {
+	mappings.dummyM->filter(m | m.nodes().root == self)->count() == 1
 }
 
 // Sets the respective variable `b` to `1` if the corresponding mapping has been chosen
@@ -48,6 +63,13 @@ constraint -> pattern::mapVnode {
 	mappings.n2n->filter(m | m.nodes().snode == self.nodes().snode & m.nodes().vnode == self.nodes().vnode)->count()
 	==
 	mappings.n2n->filter(m | m.nodes().snode == self.nodes().snode & m.nodes().vnode == self.nodes().vnode)->sum(m | m.variables().b)
+}
+
+// Sets the respective variable `p` to `1` if the corresponding mapping has been chosen
+constraint -> pattern::setDummyAttrRoot {
+	mappings.dummyM->filter(m | m.nodes().root == self.nodes().root)->count()
+	==
+	mappings.dummyM->filter(m | m.nodes().root == self.nodes().root)->sum(m | m.variables().x)
 }
 
 objective n2nObj -> mapping::n2n {
