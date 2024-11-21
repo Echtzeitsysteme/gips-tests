@@ -8,6 +8,7 @@ config {
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
+	debugOutput := false;
 }
 
 rule addSubNode {

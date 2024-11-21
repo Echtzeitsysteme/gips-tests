@@ -7,7 +7,7 @@ config {
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 //

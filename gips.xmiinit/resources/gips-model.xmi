@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GipsIntermediate:GipsIntermediateModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:GipsIntermediate="platform:/resource/org.emoflon.gips.intermediate/model/GipsIntermediate.ecore" xmlns:IBeXPatternModel="platform:/resource/org.emoflon.ibex.patternmodel/model/IBeXPatternModel.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xsi:schemaLocation="http://www.eclipse.org/emf/2002/Ecore java://org.eclipse.emf.ecore.EcorePackage" name="Model">
+  <variables xmi:type="GipsIntermediate:GTMapping" name="n2n" upperBound="1.0" contextPattern="//@ibexModel/@patternSet/@contextPatterns.0" rule="//@ibexModel/@ruleSet/@rules.0"/>
+  <variables xmi:type="GipsIntermediate:Pattern" name="mapVnode" pattern="//@ibexModel/@patternSet/@contextPatterns.0" isRule="true"/>
+  <constraints xmi:type="GipsIntermediate:PatternConstraint" name="PatternConstraint0OnmapVnode" pattern="//@variables.1">
+    <expression xmi:type="GipsIntermediate:RelationalExpression" operator="Equal">
+      <lhs xmi:type="GipsIntermediate:ArithmeticValue">
+        <value xmi:type="GipsIntermediate:MappingSumExpression" mapping="//@variables.0">
+          <expression xmi:type="GipsIntermediate:ArithmeticValue">
+            <value xmi:type="GipsIntermediate:IteratorMappingVariableValue" stream="//@constraints.0/@expression/@lhs/@value" mappingContext="//@variables.0"/>
+          </expression>
+          <filter xmi:type="GipsIntermediate:StreamExpression">
+            <current xmi:type="GipsIntermediate:StreamFilterOperation">
+              <predicate xmi:type="GipsIntermediate:RelationalExpression" operator="ObjectEqual">
+                <lhs xmi:type="GipsIntermediate:ArithmeticValue">
+                  <value xmi:type="GipsIntermediate:IteratorMappingNodeValue" stream="//@constraints.0/@expression/@lhs/@value" mappingContext="//@variables.0" node="//@ibexModel/@nodeSet/@nodes.4"/>
+                </lhs>
+                <rhs xmi:type="GipsIntermediate:ArithmeticValue">
+                  <value xmi:type="GipsIntermediate:ContextPatternNode" patternContext="//@variables.1" node="//@ibexModel/@nodeSet/@nodes.4"/>
+                </rhs>
+              </predicate>
+            </current>
+          </filter>
+        </value>
+      </lhs>
+      <rhs xmi:type="GipsIntermediate:IntegerLiteral" literal="1"/>
+    </expression>
+  </constraints>
+  <objectives xmi:type="GipsIntermediate:MappingObjective" name="o" elementwise="true" mapping="//@variables.0">
+    <expression xmi:type="GipsIntermediate:IntegerLiteral" literal="1"/>
+  </objectives>
+  <globalObjective xmi:type="GipsIntermediate:GlobalObjective" target="MAX">
+    <expression xmi:type="GipsIntermediate:ArithmeticValue">
+      <value xmi:type="GipsIntermediate:ObjectiveFunctionValue" objective="//@objectives.0"/>
+    </expression>
+  </globalObjective>
+  <ibexModel xmi:type="IBeXPatternModel:IBeXModel">
+    <patternSet xmi:type="IBeXPatternModel:IBeXPatternSet">
+      <contextPatterns xmi:type="IBeXPatternModel:IBeXContextPattern" name="mapVnode" documentation="" localEdges="//@ibexModel/@edgeSet/@edges.0 //@ibexModel/@edgeSet/@edges.1 //@ibexModel/@edgeSet/@edges.2 //@ibexModel/@edgeSet/@edges.3" signatureNodes="//@ibexModel/@nodeSet/@nodes.0 //@ibexModel/@nodeSet/@nodes.1 //@ibexModel/@nodeSet/@nodes.2 //@ibexModel/@nodeSet/@nodes.3 //@ibexModel/@nodeSet/@nodes.4"/>
+    </patternSet>
+    <ruleSet xmi:type="IBeXPatternModel:IBeXRuleSet">
+      <rules xmi:type="IBeXPatternModel:IBeXRule" name="mapVnode" documentation="" lhs="//@ibexModel/@patternSet/@contextPatterns.0">
+        <rhs xmi:type="IBeXPatternModel:IBeXContextPattern" name="mapVnode_rhs" localEdges="//@ibexModel/@edgeSet/@edges.0 //@ibexModel/@edgeSet/@edges.1 //@ibexModel/@edgeSet/@edges.2 //@ibexModel/@edgeSet/@edges.3 //@ibexModel/@edgeSet/@edges.4" signatureNodes="//@ibexModel/@nodeSet/@nodes.0 //@ibexModel/@nodeSet/@nodes.1 //@ibexModel/@nodeSet/@nodes.2 //@ibexModel/@nodeSet/@nodes.3 //@ibexModel/@nodeSet/@nodes.4"/>
+        <create xmi:type="IBeXPatternModel:IBeXCreatePattern" name="mapVnode" createdEdges="//@ibexModel/@edgeSet/@edges.4"/>
+        <delete xmi:type="IBeXPatternModel:IBeXDeletePattern" name="mapVnode"/>
+      </rules>
+    </ruleSet>
+    <nodeSet xmi:type="IBeXPatternModel:IBeXNodeSet">
+      <nodes xmi:type="IBeXPatternModel:IBeXNode" name="root" outgoingEdges="//@ibexModel/@edgeSet/@edges.0 //@ibexModel/@edgeSet/@edges.1">
+        <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//Root"/>
+      </nodes>
+      <nodes xmi:type="IBeXPatternModel:IBeXNode" name="snode" incomingEdges="//@ibexModel/@edgeSet/@edges.2 //@ibexModel/@edgeSet/@edges.4">
+        <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateResourceNode"/>
+      </nodes>
+      <nodes xmi:type="IBeXPatternModel:IBeXNode" name="substrateContainer" incomingEdges="//@ibexModel/@edgeSet/@edges.0" outgoingEdges="//@ibexModel/@edgeSet/@edges.2">
+        <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateContainer"/>
+      </nodes>
+      <nodes xmi:type="IBeXPatternModel:IBeXNode" name="virtualContainer" incomingEdges="//@ibexModel/@edgeSet/@edges.1" outgoingEdges="//@ibexModel/@edgeSet/@edges.3">
+        <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualContainer"/>
+      </nodes>
+      <nodes xmi:type="IBeXPatternModel:IBeXNode" name="vnode" incomingEdges="//@ibexModel/@edgeSet/@edges.3" outgoingEdges="//@ibexModel/@edgeSet/@edges.4">
+        <type xmi:type="ecore:EClass" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualResourceNode"/>
+      </nodes>
+    </nodeSet>
+    <edgeSet xmi:type="IBeXPatternModel:IBeXEdgeSet">
+      <edges xmi:type="IBeXPatternModel:IBeXEdge" name="root->substrateContainer" sourceNode="//@ibexModel/@nodeSet/@nodes.0" targetNode="//@ibexModel/@nodeSet/@nodes.2">
+        <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//Root/containers"/>
+      </edges>
+      <edges xmi:type="IBeXPatternModel:IBeXEdge" name="root->virtualContainer" sourceNode="//@ibexModel/@nodeSet/@nodes.0" targetNode="//@ibexModel/@nodeSet/@nodes.3">
+        <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//Root/containers"/>
+      </edges>
+      <edges xmi:type="IBeXPatternModel:IBeXEdge" name="substrateContainer->snode" sourceNode="//@ibexModel/@nodeSet/@nodes.2" targetNode="//@ibexModel/@nodeSet/@nodes.1">
+        <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//SubstrateContainer/substrateNodes"/>
+      </edges>
+      <edges xmi:type="IBeXPatternModel:IBeXEdge" name="virtualContainer->vnode" sourceNode="//@ibexModel/@nodeSet/@nodes.3" targetNode="//@ibexModel/@nodeSet/@nodes.4">
+        <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualContainer/virtualNodes"/>
+      </edges>
+      <edges xmi:type="IBeXPatternModel:IBeXEdge" name="vnode->snode" sourceNode="//@ibexModel/@nodeSet/@nodes.4" targetNode="//@ibexModel/@nodeSet/@nodes.1">
+        <type xmi:type="ecore:EReference" href="platform:/resource/gipsl.all.build.model/model/Model.ecore#//VirtualNode/host"/>
+      </edges>
+    </edgeSet>
+  </ibexModel>
+  <config xmi:type="GipsIntermediate:ILPConfig" solverHomeDir="fu" solverLicenseFile="bar" enableTimeLimit="true" ilpTimeLimit="10.0" enableRndSeed="true" enablePresolve="true"/>
+</GipsIntermediate:GipsIntermediateModel>

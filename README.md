@@ -31,6 +31,7 @@ Thus, you have to install and configure Gurobi or change the configuration of al
 | `gipsl.imports.*`                | GIPSL set  | Multiple projects to test the import functionality                                             |
 | `gips(l).*bug.*`                 | GIPSL set  | Multiple projects to triggern known bugs (fixed or not fixed)                                  |
 | `gipsl.scribble`                 | GIPSL      | Scribble project to debug, e.g., the validator - does not contain tests                        |
+| `stringrulegipsl`                | GIPSL      | Tests a specific bug with missing default values for the data type EString in GT rules         |
 | `test.suite.gips`                | Test suite | Test suite with a global test runner to run all tests in this repo                             |
 | `test.suite.utils`               | Utilities  | Utilities for the tests that are also needed by the GIPSL projects above                       |
 
