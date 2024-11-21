@@ -3,12 +3,11 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
-	debugOutput := true;
-//	lpOutput := true [path := "./GLPK.lp"];
+	debugOutput := false;
 }
 
 rule mapVnode {
@@ -30,9 +29,6 @@ rule mapVnode {
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
-	# vnode.resourceDemand <= snode.resourceAmountAvailable
-	# snode.resourceAmountAvailable >= 0
 }
 
 //
@@ -47,10 +43,11 @@ constraint -> class::VirtualResourceNode {
 	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
 }
 
-constraint -> mapping::n2n {
-	// TODO: This line should be possible
-//	self.variables().b == true
-	self.variables().b == 1
+// Sets the respective variable `b` to `1` if the corresponding mapping has been chosen
+constraint -> pattern::mapVnode {
+	mappings.n2n->filter(m | m.nodes().snode == self.nodes().snode & m.nodes().vnode == self.nodes().vnode)->count()
+	==
+	mappings.n2n->filter(m | m.nodes().snode == self.nodes().snode & m.nodes().vnode == self.nodes().vnode)->sum(m | m.variables().b)
 }
 
 objective n2nObj -> mapping::n2n {
