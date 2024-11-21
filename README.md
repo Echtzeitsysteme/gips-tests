@@ -1,6 +1,6 @@
 # GIPS Tests
 
-[**GIPS**](https://github.com/Echtzeitsysteme/gips) is an open-source framework for **G**raph-Based **I**LP **P**roblem **S**pecification.
+[**GIPS**](https://github.com/Echtzeitsysteme/gips) is an open-source framework for **G**raph-Based (M)**I**LP **P**roblem **S**pecification.
 This repository holds some GIPS test projects.
 
 
@@ -13,8 +13,8 @@ This repository holds some GIPS test projects.
 
 ### Requirements
 
-Currently, all of the tests use the [GLPK](https://www.gnu.org/software/glpk/) ILP solver, which is free and open-source.
-Thus, you have to install and configure GLPK or change the configuration of all tests in the [`GlobalTestConfig`](https://github.com/Echtzeitsysteme/gips-tests/blob/main/test.suite.utils/src/test/suite/gips/utils/GlobalTestConfig.java#L24) file from `GLPK` to `GUROBI` or `GLPK`.
+Currently, all of the tests use the [Gurobi](https://www.gurobi.com/) ILP solver, which is a commercial solution.
+Thus, you have to install and configure Gurobi or change the configuration of all tests in the [`GlobalTestConfig`](https://github.com/Echtzeitsysteme/gips-tests/blob/main/test.suite.utils/src/test/suite/gips/utils/GlobalTestConfig.java#L24) file from `GUROBI` to another solver.
 
 
 ## Repository/Project structure
@@ -31,6 +31,7 @@ Thus, you have to install and configure GLPK or change the configuration of all 
 | `gipsl.imports.*`                | GIPSL set  | Multiple projects to test the import functionality                                             |
 | `gips(l).*bug.*`                 | GIPSL set  | Multiple projects to triggern known bugs (fixed or not fixed)                                  |
 | `gipsl.scribble`                 | GIPSL      | Scribble project to debug, e.g., the validator - does not contain tests                        |
+| `stringrulegipsl`                | GIPSL      | Tests a specific bug with missing default values for the data type EString in GT rules         |
 | `test.suite.gips`                | Test suite | Test suite with a global test runner to run all tests in this repo                             |
 | `test.suite.utils`               | Utilities  | Utilities for the tests that are also needed by the GIPSL projects above                       |
 

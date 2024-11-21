@@ -24,7 +24,14 @@ public class MultiLayeredInheritenceResourceSetModelGenerator extends AMultiLaye
 
 	@Override
 	public void reset() {
-		init();
+		clearResourceSet();
+		createModel();
+	}
+	
+	private void createModel() {
+		final Root root = MultilayeredinheritencemodelFactory.eINSTANCE.createRoot();
+
+		resourceSet.getResources().get(0).getContents().add(root);
 	}
 
 	@Override
@@ -51,8 +58,8 @@ public class MultiLayeredInheritenceResourceSetModelGenerator extends AMultiLaye
 		getObjects().add(c);
 	}
 
-	private void init() {
-		resourceSet.getResources().clear();
+	public void init() {
+		clearResourceSet();
 
 		final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		reg.getExtensionToFactoryMap().put("xmi", new SmartEMFResourceFactoryImpl("../"));
@@ -71,6 +78,10 @@ public class MultiLayeredInheritenceResourceSetModelGenerator extends AMultiLaye
 	 */
 	public ResourceSet getResourceSet() {
 		return resourceSet;
+	}
+	
+	private void clearResourceSet() {
+		resourceSet.getResources().forEach(r -> r.getContents().clear());
 	}
 
 }

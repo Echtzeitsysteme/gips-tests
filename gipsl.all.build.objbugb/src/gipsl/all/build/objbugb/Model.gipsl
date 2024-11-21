@@ -1,0 +1,40 @@
+package "gipsl.all.build.objbugb"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+pattern p {
+	host: SubstrateResourceNode
+	vnode: VirtualResourceNode
+}
+
+mapping m with p {
+	// dummy variables
+	var v : EInt
+	var w : EInt
+};
+
+// triggers a bug when the constant expression (`(2-1` in this case)
+// has a higher depth than the non-constant one
+objective o -> pattern::p {
+	mappings.m->sum(m | m.nodes().vnode.resourceDemand) / (2 - 1)
+}
+
+// triggers a bug when both sides of an expression are non-constant
+// (side note: this constraint does not alter the junit test result)
+constraint -> global {
+	mappings.m->sum(m | m.variables().v)
+	==
+	mappings.m->sum(m | m.variables().w * m.nodes().host.resourceAmountTotal)
+}
+
+global objective : max {
+	o
+}
