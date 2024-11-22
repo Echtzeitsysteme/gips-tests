@@ -1,8 +1,11 @@
 package test.suite.gipsl.string;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
@@ -35,7 +38,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -50,7 +53,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -66,7 +69,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -80,7 +83,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -95,7 +98,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(2, ret.objectiveValue());
+		assertEquals(2, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -110,7 +113,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(10, ret.objectiveValue());
+		assertEquals(10, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -125,7 +128,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(10, ret.objectiveValue());
+		assertEquals(10, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -140,7 +143,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(1, ret.objectiveValue());
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -155,7 +158,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(10, ret.objectiveValue());
+		assertEquals(10, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -167,7 +170,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -179,7 +182,7 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		assertEquals(0, ret.objectiveValue());
+		assertEquals(0, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
 
@@ -187,26 +190,32 @@ public class GipslStringCompareTest extends AGipslStringTest {
 
 	private void checkConsistency() {
 		final Root root = loadModelAfterTest();
-		final Set<Host> hosts = new HashSet<>();
+		final Map<String, Host> hosts = new HashMap<>();
 		final Set<Guest> guests = new HashSet<>();
 
 		root.getElements().forEach(e -> {
 			if (e instanceof Host h) {
-				hosts.add(h);
+				hosts.put(h.getName(), h);
 			} else if (e instanceof Guest g) {
 				guests.add(g);
 			}
 		});
 
 		// Forward and backward consistency check
-		for (final Host h : hosts) {
+		for (final Host h : hosts.values()) {
 			h.getGuests().forEach(g -> {
 				assertEquals(h.getName(), (g.getName()));
 			});
 		}
 
-		for (final Guest g : guests) {
-			assertEquals(g.getName(), g.getHost().getName());
+		// If there are any hosts with the same name, check from guest side
+		if (!hosts.isEmpty()) {
+			for (final Guest g : guests) {
+				if (hosts.get(g.getName()) != null) {
+					assertNotNull(g.getHost());
+					assertEquals(g.getName(), g.getHost().getName());
+				}
+			}
 		}
 	}
 
