@@ -14,4 +14,4 @@ Require-Bundle: gipsl.all.build.model;bundle-version="0.0.1",
  org.emoflon.ibex.gt.hipe
 Bundle-SymbolicName: gipsl.all.build.boolexpr; singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-21
