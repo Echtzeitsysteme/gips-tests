@@ -8,6 +8,7 @@ import java.util.Map;
 import org.emoflon.gips.core.gt.GTMapping;
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public abstract class AGipslAllBuildVarEqMappingTest extends AGipslAllBuildTest {
@@ -25,6 +26,13 @@ public abstract class AGipslAllBuildVarEqMappingTest extends AGipslAllBuildTest 
 	 *                      expected to be equal to zero.
 	 */
 	protected abstract void runChecks(final boolean exptectedZero);
+
+	@AfterEach
+	protected void terminateApi() {
+		if (con != null) {
+			con.terminate();
+		}
+	}
 
 	// Actual tests
 	// Positive tests

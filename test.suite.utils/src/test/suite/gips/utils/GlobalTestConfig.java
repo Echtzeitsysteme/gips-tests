@@ -21,7 +21,7 @@ public class GlobalTestConfig {
 	/**
 	 * Configures the used solver type (e.g., GLPK, Gurobi) if override is enabled.
 	 */
-	public static ILPSolverType solverType = ILPSolverType.GLPK;
+	public static ILPSolverType solverType = ILPSolverType.GUROBI;
 
 	private GlobalTestConfig() {
 	}

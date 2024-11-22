@@ -2,12 +2,12 @@ package "gipsl.all.build.complex"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 //
@@ -141,9 +141,10 @@ constraint -> class::SubstrateResourceNode {
 	mappings.n2n->sum(m | m.nodes().snode.resourceAmountTotal) >= self.resourceAmountAvailable
 }
 
-constraint -> class::Root {
-	mappings.n2n->filter(match | match.nodes().snode == self)->notEmpty()
-}
+// TODO: Broken
+//constraint -> class::Root {
+//	mappings.n2n->filter(match | match.nodes().snode == self)->notEmpty()
+//}
 
 constraint -> pattern::mapVnode {
 	self.nodes().snode.resourceAmountAvailable >= 0
@@ -155,36 +156,45 @@ constraint -> class::SubstrateResourceNode {
 	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1 & self.resourceAmountAvailable > 0
 }
 
+// TODO: Broken
 // Other variable names must also be allowed
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(v | v.nodes().snode == self)->notEmpty()
-}
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(v | v.nodes().snode == self)->notEmpty()
+//}
 
-
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->notEmpty()
-}
+// TODO: Broken
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().snode == self)->notEmpty()
+//}
 constraint -> class::SubstrateResourceNode {
 	mappings.n2n->filter(m | m.nodes().snode == self)->count() == 0
 }
 
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode != self)->notEmpty()
-}
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode != self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->notEmpty()
-}
+// TODO: Broken
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().snode != self)->notEmpty()
+//}
 
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->notEmpty()
-}
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->notEmpty()
-}
+// TODO: Broken
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().snode != self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->notEmpty()
+//}
 
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & true & true & true
-}
+// TODO: Broken
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->notEmpty()
+//}
+
+// TODO: Broken
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().root != self)->filter(m | m.nodes().root == self)->filter(m | m.nodes().snode.resourceAmountAvailable > 0)->notEmpty()
+//}
+
+// TODO: Broken
+//constraint -> class::SubstrateResourceNode {
+//	mappings.n2n->filter(m | m.nodes().root != self)->notEmpty() & true & true & true
+//}
+
 // TODO: These constraints should be possible, but !() is not yet implemented
 // Current status: java.lang.IllegalArgumentException: Optimization problem is impossible to solve: One ore more constraints return false by definition.
 //constraint -> class::SubstrateResourceNode {
@@ -194,14 +204,17 @@ constraint -> class::SubstrateResourceNode {
 //	!(false) & self.resourceAmountTotal == 0
 //}
 
-// TODO: Fix me (context is used!)
-// Current status: java.lang.IllegalArgumentException: Context must be used at least once per non-global constraint.
+// TODO: Broken
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->notEmpty()
 //}
+
+// TODO: Broken
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->filter(m | false)->filter(n | n.nodes().snode == self)->notEmpty()
 //}
+
+// TODO: Broken
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->filter(m | 0 > 1)->filter(m | m.nodes().root == self)->notEmpty()
 //}
@@ -210,17 +223,22 @@ constraint -> class::VirtualResourceNode {
 	self.resourceDemand > mappings.n2n->count()
 }
 
-// TODO: Not yet implemented
-// Current status: java.lang.UnsupportedOperationException: Nested stream expressions and checking model preconditions within constraints are not yet supported. Instead, rules or patterns should be used for checking model preconditions.
+// TODO: Broken
 //constraint -> mapping::n2n {
 //	self.nodes().snode.guests->notEmpty()
 //}
+
+// TODO: Broken
 //constraint -> mapping::n2n {
 //	self.nodes().root.containers->notEmpty()
 //}
+
+// TODO: Broken
 //constraint -> mapping::n2n {
-//	self.nodes().root.containers->filter(m | self.isMapped())->count() == 1
+//	self.nodes().root.containers->filter(m | self.isMapped()->count() == 1
 //}
+
+// TODO: Broken
 //constraint -> mapping::n2n {
 //	self.nodes().root.containers->notEmpty()
 //}
@@ -228,90 +246,116 @@ constraint -> class::VirtualResourceNode {
 constraint -> class::VirtualResourceNode {
 	mappings.n2n->count() > mappings.n2n->filter(m | m.nodes().vnode == self)->count()
 }
-// TODO: Fix compilation error
-// Current status: There are missing type constraint classes in src-gen)
-//constraint -> class::VirtualResourceNode {
-//	mappings.n2n->count() - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
-//	2 - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
-//	mappings.n2n->count() == self.resourceDemand
-//	mappings.n2n->count() + 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
-//}
 
 constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode.resourceDemand ^ 1 + 1 == self.resourceDemand)->notEmpty()
+	mappings.n2n->count() + 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
 }
 
-constraint -> mapping::n2n {
-	self.nodes().snode.resourceAmountAvailable ^ 2 == 0
-}
-constraint -> mapping::n2n {
-	2 ^ self.nodes().snode.resourceAmountAvailable == 1
-}
-constraint -> mapping::n2n {
-	self.nodes().snode.resourceAmountAvailable * 2 == 1
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->count() - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
 }
 
-constraint -> mapping::n2n {
-	sin(self.nodes().vnode.resourceDemand) == 0
-}
-constraint -> mapping::n2n {
-	cos(self.nodes().vnode.resourceDemand) == 0
-}
-constraint -> mapping::n2n {
-	abs(self.nodes().vnode.resourceDemand) == 0
-}
-constraint -> mapping::n2n {
-	sqrt(self.nodes().vnode.resourceDemand) == 0
-}
-constraint -> mapping::n2n {
-	-(self.nodes().vnode.resourceDemand) == 0
+constraint -> class::VirtualResourceNode {
+	2 - 1 > mappings.n2n->filter(m | m.nodes().vnode == self)->count() * 4
 }
 
-constraint -> mapping::n2n {
-	self.nodes().snode.resourceAmountAvailable == self.nodes().snode.resourceAmountTotal
-}
-constraint -> mapping::n2n {
-	self.nodes().snode.resourceAmountAvailable - self.nodes().snode.resourceAmountTotal == 0
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->count() == self.resourceDemand
 }
 
-constraint -> class::SubstrateContainer {
-	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->notEmpty()
-}
+// TODO: Broken
+//constraint -> class::VirtualResourceNode {
+//	mappings.n2n->filter(m | m.nodes().vnode.resourceDemand ^ 1 + 1 == self.resourceDemand)->notEmpty()
+//}
 
-constraint -> mapping::n2n {
-	self.nodes().snode.resourceAmountAvailable ^ 1 == 0
-}
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable pow 2 == 0
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	2 pow self.nodes().snode.resourceAmountAvailable == 1
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable * 2 == 1
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	sin(self.nodes().vnode.resourceDemand) == 0
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	cos(self.nodes().vnode.resourceDemand) == 0
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	abs(self.nodes().vnode.resourceDemand) == 0
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	sqrt(self.nodes().vnode.resourceDemand) == 0
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	-(self.nodes().vnode.resourceDemand) == 0
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable == self.nodes().snode.resourceAmountTotal
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable - self.nodes().snode.resourceAmountTotal == 0
+//}
+
+// TODO: Broken
+//constraint -> class::SubstrateContainer {
+//	mappings.n2n->filter(m | m.nodes().substrateContainer == self)->notEmpty()
+//}
+
+// TODO: Broken
+//constraint -> mapping::n2n {
+//	self.nodes().snode.resourceAmountAvailable pow 1 == 0
+//}
 
 constraint -> pattern::mapVnode {
 	abs(self.nodes().snode.guests->filter(m | m.host != self.nodes().snode)->count()) == 0
 }
 
-// TODO
+// TODO: Broken
 //constraint -> mapping::n2n {
 //	self.isMapped()
 //}
 
-// TODO: Fix compilation error
+// TODO: Broken
 //constraint -> pattern::mapVnode {
 //	self.nodes().snode != null
 //}
+
+// TODO: Broken
 //constraint -> class::VirtualResourceNode {
 //	self.host != null
 //}
-// TODO: Use "buildConstantExpression" instead of "constantLhs/constantRhs"
-// If an expr can be "evaluated constantly", always use "buildConstantExpression"
 
-// TODO: Fix error: "Couldn't resolve reference to GipsObjective 'o'."
-// Not yet implemented -> Should be something like "o()" later on.
+// TODO: Broken
 //constraint -> class::SubstrateResourceNode {
 //	self.guests->filter(o | o != null)->notEmpty()
 //}
 
 // TODO: Test access to "patterns." and "types."!
 
-// TODO: This throws an error at build time
 constraint -> class::VirtualResourceNode {
-	mappings.n2n->count() >= 1 | mappings.n2n->count() * self.resourceDemand <= 2
+	mappings.n2n->count() >= 1 * self.resourceDemand | mappings.n2n->count() * self.resourceDemand <= 2
 }
 
 
