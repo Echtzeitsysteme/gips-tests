@@ -1,0 +1,47 @@
+package "gipsl.all.build.objectivepatternsumbug"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule moveVnodeMapping {
+	v : VirtualNode {
+		-- -host -> s1
+		++ -host -> s2
+	}
+	s1 : SubstrateNode
+	s2 : SubstrateNode
+}
+
+pattern findVnodeMapping {
+	s : SubstrateNode
+	v : VirtualNode {
+		-host -> s
+	}
+}
+
+mapping move with moveVnodeMapping;
+
+constraint -> global {
+	mappings.move->count() == 1
+}
+
+
+//
+// This objective triggers a compiler error in the generated code.
+// It does not need a test method, etc.
+//
+objective o -> mapping::move {
+	patterns.findVnodeMapping
+		->filter(m | m.nodes().s == self.nodes().s1)
+		->count()
+}
+
+global objective : max {
+	o
+}

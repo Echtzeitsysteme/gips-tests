@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="nullmodel.NullmodelPackage" genModel="model/Nullmodel.genmodel" uri="platform:/resource/gips.nullmodel/model/Nullmodel.ecore"/>
+  </extension>
+</plugin>

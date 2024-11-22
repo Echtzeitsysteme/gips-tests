@@ -8,12 +8,14 @@ import gipsl.all.build.varssum.api.gips.VarssumGipsAPI;
 import gipsl.all.build.varssum.api.gips.mapping.N2nMapping;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class VarsSumConnector extends AConnector {
 
 	public VarsSumConnector(final String modelPath) {
 		api = new VarssumGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override

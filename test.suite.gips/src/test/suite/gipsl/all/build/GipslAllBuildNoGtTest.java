@@ -28,7 +28,7 @@ public class GipslAllBuildNoGtTest extends AGipslAllBuildTest {
 
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 	}
-	
+
 	@Test
 	public void testConstraintNotOk() {
 		gen.genSubstrateNode("s1", -1);

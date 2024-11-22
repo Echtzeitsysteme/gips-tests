@@ -8,6 +8,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Root">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containers" upperBound="-1"
         eType="#//Container" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dummyAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -23,11 +24,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="VirtualNode" abstract="true" eSuperTypes="#//Node">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="host" lowerBound="1" eType="#//SubstrateNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="host" lowerBound="1" eType="#//SubstrateNode"
+        eOpposite="#//SubstrateNode/guests"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SubstrateNode" abstract="true" eSuperTypes="#//Node">
     <eStructuralFeatures xsi:type="ecore:EReference" name="guests" upperBound="-1"
-        eType="#//VirtualNode"/>
+        eType="#//VirtualNode" eOpposite="#//VirtualNode/host"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VirtualResourceNode" eSuperTypes="#//VirtualNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceDemand" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

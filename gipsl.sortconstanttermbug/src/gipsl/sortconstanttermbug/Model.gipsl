@@ -1,0 +1,43 @@
+package "gipsl.sortconstanttermbug"
+import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+//
+// This GIPSL specification has no correct function/semantics.
+// It's only purpose is to trigger a bug in the code generation process.
+//
+
+rule ra {
+	root: Root {
+		-entries -> val
+	}
+	
+	val: Entry {
+		++ -next -> val
+	}
+}
+
+mapping ma with ra;
+
+// Example: a + (1-b) + c (1-d)
+constraint -> class::Entry {
+	mappings.ma->filter(m | m.nodes().val == self)->count()
+	+ (1 - mappings.ma->filter(m | m.nodes().val == self)->count())
+	+ 2 * (1 - mappings.ma->filter(m | m.nodes().val == self)->count())
+	== 1
+}
+
+objective entryObj -> mapping::ma {
+	1
+}
+
+global objective : max {
+	entryObj
+}

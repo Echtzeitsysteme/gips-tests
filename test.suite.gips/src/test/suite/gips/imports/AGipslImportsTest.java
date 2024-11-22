@@ -28,4 +28,11 @@ public abstract class AGipslImportsTest {
 		out.delete();
 	}
 
+	@AfterEach
+	protected void terminateApi() {
+		if (con != null) {
+			con.terminate();
+		}
+	}
+
 }

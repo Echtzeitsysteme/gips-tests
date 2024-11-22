@@ -17,7 +17,7 @@ import test.suite.gips.ilp.timeout.AGipsIlpTimeOutTest;
 import test.suite.gips.ilp.timeout.IlpTimeOutModelGenerator;
 
 public class GipsIlpLpOutputTest extends AGipsIlpTimeOutTest {
-	
+
 	private final String lpFilePath = "./test.lp";
 
 	@BeforeEach
@@ -25,10 +25,17 @@ public class GipsIlpLpOutputTest extends AGipsIlpTimeOutTest {
 		IlpTimeOutModelGenerator.reset();
 		deleteFile();
 	}
-	
+
 	@AfterEach
 	public void deleteGenTestFile() {
 		deleteFile();
+	}
+
+	@AfterEach
+	protected void terminateApi() {
+		if (con != null) {
+			con.terminate();
+		}
 	}
 
 	@Override
@@ -51,9 +58,9 @@ public class GipsIlpLpOutputTest extends AGipsIlpTimeOutTest {
 		assertTrue(testFile.exists());
 		assertFalse(testFile.isDirectory());
 	}
-	
+
 	// Utilities
-	
+
 	private void deleteFile() {
 		final File testFile = new File(lpFilePath);
 		testFile.delete();

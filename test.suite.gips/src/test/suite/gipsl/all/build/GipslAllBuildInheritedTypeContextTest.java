@@ -13,42 +13,44 @@ import model.VirtualContainer;
 import model.VirtualResourceNode;
 
 public class GipslAllBuildInheritedTypeContextTest extends AGipslAllBuildTest {
-		
-		// Setup method
 
-		public void callableSetUp() {
-			gen.persistModel(MODEL_PATH);
-			con = new InheritedTypeContextConnector(MODEL_PATH);
-		}
+	// Setup method
 
-		// Actual tests
+	public void callableSetUp() {
+		gen.persistModel(MODEL_PATH);
+		con = new InheritedTypeContextConnector(MODEL_PATH);
+	}
 
-		@Test
-		public void testInfeasible() {
-			gen.genSubstrateNode("s1", 1);
-			callableSetUp();
+	// Actual tests
 
-			final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+	@Test
+	public void testInfeasible() {
+		gen.genSubstrateNode("s1", 1);
+		callableSetUp();
 
-			// Result must be infeasible because the constraint is NOT satisfied
-			assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
-		}
-		
-		@Test
-		public void testFeasible() {
-			gen.genSubstrateNode("s1", 1);
-			gen.genVirtualNode("v1", 1);
-			
-			// Add vNode to guests in sNode
-			final VirtualResourceNode vnode = ((VirtualResourceNode) ((VirtualContainer) gen.getContainer("virt")).getVirtualNodes().get(0));
-			((SubstrateResourceNode) ((SubstrateContainer) gen.getContainer("sub")).getSubstrateNodes().get(0)).getGuests().add(vnode);
-			
-			callableSetUp();
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
 
-			final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		// Result must be infeasible because the constraint is NOT satisfied
+		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+	}
 
-			// Result must be feasible/optimal because the constraint IS satisfied
-			assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		}
-		
+	@Test
+	public void testFeasible() {
+		gen.genSubstrateNode("s1", 1);
+		gen.genVirtualNode("v1", 1);
+
+		// Add vNode to guests in sNode
+		final VirtualResourceNode vnode = ((VirtualResourceNode) ((VirtualContainer) gen.getContainer("virt"))
+				.getVirtualNodes().get(0));
+		((SubstrateResourceNode) ((SubstrateContainer) gen.getContainer("sub")).getSubstrateNodes().get(0)).getGuests()
+				.add(vnode);
+
+		callableSetUp();
+
+		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+
+		// Result must be feasible/optimal because the constraint IS satisfied
+		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+	}
+
 }
