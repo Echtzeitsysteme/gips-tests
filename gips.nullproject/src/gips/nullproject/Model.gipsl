@@ -3,11 +3,12 @@ import "platform:/resource/gips.nullmodel/model/Nullmodel.ecore"
 // import a metamodel here
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
+	debugOutput := false;
 }
 
 rule addSubNode {
