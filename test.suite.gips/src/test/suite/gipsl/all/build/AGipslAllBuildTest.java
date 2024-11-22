@@ -16,6 +16,7 @@ public abstract class AGipslAllBuildTest {
 	protected AllBuildModelGenerator gen;
 	protected final static String MODEL_PATH = "model.xmi";
 	protected final static String OUTPUT_PATH = "output.xmi";
+	protected final static double DELTA = 0.000_0001;
 
 	@BeforeEach
 	public void setUp() {
@@ -34,6 +35,13 @@ public abstract class AGipslAllBuildTest {
 	public void checkIfFileExists() {
 		final File f = new File(OUTPUT_PATH);
 		assertTrue(f.exists() && !f.isDirectory());
+	}
+
+	@AfterEach
+	protected void terminateApi() {
+		if (con != null) {
+			con.terminate();
+		}
 	}
 
 }

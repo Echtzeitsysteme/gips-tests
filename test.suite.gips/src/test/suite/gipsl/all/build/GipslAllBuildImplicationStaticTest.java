@@ -11,7 +11,7 @@ import model.SubstrateContainer;
 import model.SubstrateResourceNode;
 
 public class GipslAllBuildImplicationStaticTest extends AGipslAllBuildTest {
-	
+
 	// Setup method
 
 	public void callableSetUp() {
@@ -20,55 +20,57 @@ public class GipslAllBuildImplicationStaticTest extends AGipslAllBuildTest {
 	}
 
 	// Actual tests
-	
+
 	// 1 => 1 = 1
 	// 1 => 0 = 0
 	// 0 => 1 = 1
 	// 0 => 0 = 1
-	
+
 	@Test
 	public void testTT() {
 		gen.genSubstrateNode("s1", 1);
 		callableSetUp();
-		
+
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		
+
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
-	
+
 	@Test
 	public void testTF() {
 		gen.genSubstrateNode("s1", 1);
-		((SubstrateResourceNode) ((SubstrateContainer) gen.getContainer("sub")).getSubstrateNodes().get(0)).setResourceAmountTotal(0);
+		((SubstrateResourceNode) ((SubstrateContainer) gen.getContainer("sub")).getSubstrateNodes().get(0))
+				.setResourceAmountTotal(0);
 		callableSetUp();
-		
+
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		
+
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
-	
+
 	@Test
 	public void testFT() {
 		gen.genSubstrateNode("s1", 1);
-		((SubstrateResourceNode) ((SubstrateContainer) gen.getContainer("sub")).getSubstrateNodes().get(0)).setResourceAmountAvailable(0);
+		((SubstrateResourceNode) ((SubstrateContainer) gen.getContainer("sub")).getSubstrateNodes().get(0))
+				.setResourceAmountAvailable(0);
 		callableSetUp();
-		
+
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		
+
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
-	
+
 	@Test
 	public void testFF() {
 		gen.genSubstrateNode("s1", 0);
 		callableSetUp();
-		
+
 		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		
+
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
-	
+
 }

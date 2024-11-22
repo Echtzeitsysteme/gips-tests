@@ -27,4 +27,10 @@ public abstract class AConnector {
 		return api.solveILPProblem();
 	}
 
+	public void terminate() {
+		if (api != null) {
+			api.terminate();
+		}
+	}
+
 }

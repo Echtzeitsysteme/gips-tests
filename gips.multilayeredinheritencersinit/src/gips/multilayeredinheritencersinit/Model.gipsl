@@ -1,0 +1,47 @@
+package "gips.multilayeredinheritencersinit"
+import "platform:/resource/gips.multilayeredinheritencemodel/model/Multilayeredinheritencemodel.ecore"
+
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+// This rule just sets the node id of a to 0
+rule zeroA {
+	root: Root {
+		-objects->a
+	}
+	
+	a: A {
+		.idA := 0
+	}
+}
+
+mapping za with zeroA;
+
+// Forbid mapping of A with id 11
+constraint -> class::A {
+	mappings.za->filter(m | m.nodes().a == self & self.idA == 11)->count() == 0
+}
+
+// Forbid mapping of B with id 22
+constraint -> class::B {
+	mappings.za->filter(m | m.nodes().a == self & self.idA == 22)->count() == 0
+}
+
+// Forbid mapping of C with id 33
+constraint -> class::C {
+	mappings.za->filter(m | m.nodes().a == self & self.idA == 33)->count() == 0
+}
+
+objective oa -> mapping::za {
+	1
+}
+
+global objective : max {
+	oa
+}
