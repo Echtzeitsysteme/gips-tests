@@ -33,6 +33,7 @@ public class MultiLayeredInheritenceRSInitTest extends AMultiLayeredInheritenceT
 	@BeforeEach
 	public void resetModel() {
 		gen = new MultiLayeredInheritenceResourceSetModelGenerator();
+		((MultiLayeredInheritenceResourceSetModelGenerator) gen).init();
 		gen.reset();
 		final ResourceSet model = ((MultiLayeredInheritenceResourceSetModelGenerator) gen).getResourceSet();
 		con = new MultiLayeredInheritenceRSInitConnector(model);

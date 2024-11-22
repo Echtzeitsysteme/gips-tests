@@ -1,0 +1,61 @@
+package "gipsl.string.compare.filter"
+import "platform:/resource/gipsl.string.stringmodel/model/Stringmodel.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+//condition guestNotMapped = forbid guestIsMapped
+//pattern guestIsMapped {
+//	h: Host
+//	
+//	g: Guest {
+//		-host -> h
+//	}
+//}
+//
+//pattern guestNotMapped {
+//	g: Guest
+//}
+//when guestNotMapped
+
+rule mapGuest {
+	root: Root {
+		-elements -> g
+		-elements -> h
+	}
+	
+	h: Host {
+		++ -guests -> g
+	}
+	
+	g: Guest {
+		++ -host -> h
+	}
+	
+	// intentionally left out every condition
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapGuest;
+
+// There must be exactly one mapping for every non-mapped guest
+constraint -> class::Guest {
+	mappings.n2n->filter(m | m.nodes().g.name == self.name)->count() <= 1
+}
+
+objective gObj -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	gObj
+}

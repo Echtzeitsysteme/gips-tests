@@ -1,5 +1,6 @@
 package test.suite.gips.multilayeredinheritence;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import test.suite.gips.utils.AConnector;
@@ -15,6 +16,13 @@ public abstract class AMultiLayeredInheritenceTest {
 	protected abstract void runAndVerify(final int objDesVal);
 
 	public abstract void resetModel();
+
+	@AfterEach
+	protected void terminateApi() {
+		if (con != null) {
+			con.terminate();
+		}
+	}
 
 	//
 	// Tests with no constraints
