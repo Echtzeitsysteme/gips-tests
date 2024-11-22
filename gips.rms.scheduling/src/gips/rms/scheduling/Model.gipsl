@@ -2,11 +2,11 @@ package "gips.rms.scheduling"
 import "platform:/resource/gips.scheduling.periodictaskmodel/model/Periodictaskmodel.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 rule runTaskInSlot {
