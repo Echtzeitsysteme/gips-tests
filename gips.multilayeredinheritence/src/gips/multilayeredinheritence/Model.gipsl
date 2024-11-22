@@ -3,11 +3,11 @@ import "platform:/resource/gips.multilayeredinheritencemodel/model/Multilayeredi
 
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 // This rule just sets the node id of a to 0
