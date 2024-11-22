@@ -1,0 +1,66 @@
+package "gipsl.string.compare.nonmappingcontext"
+import "platform:/resource/gipsl.string.stringmodel/model/Stringmodel.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+condition guestNotMapped = forbid guestIsMapped
+pattern guestIsMapped {
+	h: Host
+	
+	g: Guest {
+		-host -> h
+	}
+}
+
+pattern guestNotMapped {
+	g: Guest
+}
+when guestNotMapped
+
+rule mapGuest {
+	root: Root {
+		-elements -> g
+		-elements -> h
+	}
+	
+	h: Host {
+		++ -guests -> g
+	}
+	
+	g: Guest {
+		++ -host -> h
+	}
+	
+	// intentionally left out condition that both names must be equal
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapGuest;
+
+// Every non-mapped guest must be mapped
+constraint -> pattern::guestNotMapped {
+	mappings.n2n->filter(m | m.nodes().g == self.nodes().g)->count() <= 1
+}
+
+// Name of the guest must be equal to the name of the host
+// Context = pattern
+constraint -> pattern::mapGuest {
+	self.nodes().g.name == self.nodes().h.name
+}
+
+objective gObj -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	gObj
+}

@@ -3,11 +3,11 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 rule mapVnode {
@@ -24,9 +24,7 @@ rule mapVnode {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode
@@ -59,6 +57,11 @@ constraint -> class::SubstrateResourceNode {
 constraint -> mapping::n2n {
 	[self.variables().v >= 1 => self.value() >= 1] &
 	[self.value() >= 1 => self.variables().v >= 1]
+}
+
+// Limit the value of the integer variable to positive values only.
+constraint -> mapping::n2n {
+	self.variables().v >= 0
 }
 
 objective n2nObj -> mapping::n2n {

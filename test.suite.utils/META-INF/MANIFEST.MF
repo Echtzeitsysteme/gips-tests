@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Utils
 Bundle-SymbolicName: test.suite.utils
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: test.suite.utils
 Export-Package: test.suite.gips.utils
 Require-Bundle: org.eclipse.emf.common;bundle-version="2.23.0",
