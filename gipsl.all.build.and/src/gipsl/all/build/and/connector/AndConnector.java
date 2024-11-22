@@ -13,7 +13,6 @@ public class AndConnector extends AConnector {
 		api = new AndGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 		GlobalTestConfig.overrideSolver(api);
-		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override

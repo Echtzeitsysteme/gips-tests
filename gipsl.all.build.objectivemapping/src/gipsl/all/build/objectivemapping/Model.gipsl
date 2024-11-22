@@ -1,0 +1,114 @@
+package "gipsl.all.build.objectivemapping"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+rule mapVnodeTen {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand == 10
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping a with mapVnode;
+mapping ten with mapVnodeTen;
+
+//constraint -> pattern::mapVnode {
+//	mappings.a
+//		->filter(
+//			m | m.nodes().snode == self.nodes().snode
+//			& m.nodes().vnode == self.nodes().vnode
+//		)
+//		->count() == 1
+//}
+//
+//constraint -> pattern::mapVnodeTen {
+//	mappings.ten
+//		->filter(
+//			m | m.nodes().snode == self.nodes().snode
+//			& m.nodes().vnode == self.nodes().vnode
+//		)
+//		->count() == 1
+//}
+
+// Exactly one mapping must be chosen
+constraint -> class::VirtualResourceNode {
+		mappings.a
+		->filter(m | m.nodes().vnode == self)
+		->count()
+		
+		+
+		
+		mappings.ten
+		->filter(m | m.nodes().vnode == self)
+		->count()
+		
+		== 1
+}
+
+objective localObj -> pattern::mapVnode {
+	mappings.a
+		->filter(
+			m | m.nodes().snode == self.nodes().snode
+			& m.nodes().vnode == self.nodes().vnode
+		)->sum(m | m.nodes().vnode.resourceDemand)
+}
+
+objective localObjTen -> pattern::mapVnodeTen {
+	mappings.ten
+		->filter(
+			m | m.nodes().snode == self.nodes().snode
+			& m.nodes().vnode == self.nodes().vnode
+		)->count()
+}
+
+global objective : min {
+	localObj + localObjTen
+}

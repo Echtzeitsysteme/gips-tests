@@ -1,0 +1,64 @@
+package "gipsl.all.build.resourcesinit.optthenvallog"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+//pattern wrongSnode {
+//	snode: SubstrateResourceNode
+//	# snode.resourceAmountAvailable > snode.resourceAmountTotal
+//}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n with mapVnode;
+
+constraint -> class::VirtualResourceNode {
+	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
+}
+
+// This constraint must not be fulfilled
+//constraint -> pattern::wrongSnode {
+constraint -> class::SubstrateResourceNode {
+	self.resourceAmountAvailable > self.resourceAmountTotal
+//	self.nodes().snode.resourceAmountAvailable > self.nodes().snode.resourceAmountTotal
+}
+
+objective nObj -> mapping::n2n {
+	1
+}
+
+global objective : max {
+	nObj
+}

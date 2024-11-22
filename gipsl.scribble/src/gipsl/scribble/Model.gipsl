@@ -4,12 +4,12 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 // This GIPSL project is just for scribbles and debugging, e.g, the validator.
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 rule mapVnode {
@@ -26,9 +26,7 @@ rule mapVnode {
 		-virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode {
-		++ -guests -> vnode
-	}
+	snode: SubstrateResourceNode
 	
 	vnode: VirtualResourceNode {
 		++ -host -> snode

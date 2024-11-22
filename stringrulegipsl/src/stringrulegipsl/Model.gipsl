@@ -1,0 +1,32 @@
+package "stringrulegipsl"
+import "platform:/resource/stringmetamodel/model/Stringmetamodel.ecore"
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+	tolerance := true [value := 0.00001];
+}
+
+//
+// To trigger the bug, both, a rule with an EString type parameter
+// and a mapping that uses said rule must be present.
+//
+// There is no need to execute something, as the code generator
+// already produced non-compilable code.
+//
+
+rule setName(newname : EString) {
+	root : Root {
+		- items -> i
+	}
+	i : Item {
+		.name := param::newname
+	}
+}
+
+mapping m with setName;
