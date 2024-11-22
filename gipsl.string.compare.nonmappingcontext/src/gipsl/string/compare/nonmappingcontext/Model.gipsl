@@ -2,11 +2,11 @@ package "gipsl.string.compare.nonmappingcontext"
 import "platform:/resource/gipsl.string.stringmodel/model/Stringmodel.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 condition guestNotMapped = forbid guestIsMapped
