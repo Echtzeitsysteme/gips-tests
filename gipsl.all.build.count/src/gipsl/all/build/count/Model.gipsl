@@ -2,12 +2,12 @@ package "gipsl.all.build.count"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GLPK [home:="fu", license:="bar"];
+	solver := GUROBI [home:="fu", license:="bar"];
 	launchConfig := true [main := "TODO"];
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 condition vnodeNotMapped = forbid vnodeIsMapped
