@@ -6,7 +6,7 @@ config {
 	timeLimit := true [value := 60.0];
 	randomSeed := true [value := 0];
 	presolve := true;
-	debugOutput := true;
+	debugOutput := false;
 }
 
 rule connect {
