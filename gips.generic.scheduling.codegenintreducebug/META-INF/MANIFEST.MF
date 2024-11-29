@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Automatic-Module-Name: gips.generic.scheduling.constantdivbug
+Automatic-Module-Name: gips.generic.scheduling.codegenintreducebug
 Bundle-ManifestVersion: 2
-Bundle-Name: gips.generic.scheduling.constantdivbug
+Bundle-Name: gips.generic.scheduling.codegenintreducebug
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: gips.generic.scheduling.constantdivbug; singleton:=true
+Bundle-SymbolicName: gips.generic.scheduling.codegenintreducebug; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.emoflon.ibex.common,

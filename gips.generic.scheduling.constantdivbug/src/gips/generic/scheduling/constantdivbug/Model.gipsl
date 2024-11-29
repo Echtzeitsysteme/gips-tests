@@ -20,12 +20,13 @@ rule runTaskInSlot {
 	}
 	
 	s: Slot
-	
-	# t.^deadline >= s.^index
 }
 
 mapping t2s with runTaskInSlot;
 
+// This test does only check if the original bug
+// is absent and, hence, the generated Java code
+// can be compiled.
 constraint -> global {
 	0 == classes.Task->sum(t | t.duration / t.deadline)
 }
