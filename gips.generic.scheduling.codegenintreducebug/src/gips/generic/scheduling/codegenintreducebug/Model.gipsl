@@ -1,0 +1,79 @@
+package "gips.generic.scheduling.codegenintreducebug"
+import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 60.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule runTaskInSlot {
+	root: Root {
+		-tasks -> t
+		-slots -> s
+	}
+	
+	t: Task {
+		++ -runningon -> s
+	}
+	
+	s: Slot
+}
+
+mapping t2s with runTaskInSlot;
+
+// Test values (hard-coded)
+// duration = 0
+// deadline = 1
+
+// +
+constraint -> global {
+	1 == classes.Task->sum(t | t.duration + t.deadline)
+}
+
+// -
+constraint -> global {
+	-1 == classes.Task->sum(t | t.duration - t.deadline)
+}
+
+// *
+constraint -> global {
+	0 == classes.Task->sum(t | t.duration * t.deadline)
+}
+
+// /
+constraint -> global {
+	0 == classes.Task->sum(t | t.duration / t.deadline)
+}
+
+// log
+constraint -> global {
+	0 == classes.Task->sum(t | t.deadline log e)
+}
+
+// POW
+constraint -> global {
+	0 == classes.Task->sum(t | t.duration pow t.deadline)
+}
+
+// ABS
+constraint -> global {
+	1 == classes.Task->sum(t | abs(t.deadline))
+}
+
+// SINE
+constraint -> global {
+	0 == classes.Task->sum(t | sin(t.duration))
+}
+
+// COSINE
+constraint -> global {
+	1 == classes.Task->sum(t | cos(t.duration))
+}
+
+// SQRT
+constraint -> global {
+	1 == classes.Task->sum(t | sqrt(t.deadline))
+}

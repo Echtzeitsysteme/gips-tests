@@ -1,12 +1,11 @@
 Manifest-Version: 1.0
-Automatic-Module-Name: gips.generic.scheduling
+Automatic-Module-Name: gips.generic.scheduling.codegenintreducebug
 Bundle-ManifestVersion: 2
-Bundle-Name: gips.generic.scheduling
+Bundle-Name: gips.generic.scheduling.codegenintreducebug
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gips.generic.scheduling.connector
-Import-Package: test.suite.gips.utils
-Bundle-SymbolicName: gips.generic.scheduling; singleton:=true
+Export-Package: gips.generic.scheduling.codegenintreducebug.connector
+Bundle-SymbolicName: gips.generic.scheduling.codegenintreducebug; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.emoflon.ibex.common,
