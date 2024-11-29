@@ -24,15 +24,18 @@ rule runTaskInSlot {
 
 mapping t2s with runTaskInSlot;
 
+// Test values (hard-coded)
+// duration = 0
+// deadline = 1
+
 // +
 constraint -> global {
-	0 == classes.Task->sum(t | t.duration + t.deadline)
+	1 == classes.Task->sum(t | t.duration + t.deadline)
 }
-
 
 // -
 constraint -> global {
-	0 == classes.Task->sum(t | t.duration - t.deadline)
+	-1 == classes.Task->sum(t | t.duration - t.deadline)
 }
 
 // *
@@ -47,7 +50,7 @@ constraint -> global {
 
 // log
 constraint -> global {
-	0 == classes.Task->sum(t | t.deadline log t.deadline)
+	0 == classes.Task->sum(t | t.deadline log e)
 }
 
 // POW
@@ -57,7 +60,7 @@ constraint -> global {
 
 // ABS
 constraint -> global {
-	0 == classes.Task->sum(t | abs(t.duration))
+	1 == classes.Task->sum(t | abs(t.deadline))
 }
 
 // SINE
@@ -67,10 +70,10 @@ constraint -> global {
 
 // COSINE
 constraint -> global {
-	0 == classes.Task->sum(t | cos(t.duration))
+	1 == classes.Task->sum(t | cos(t.duration))
 }
 
 // SQRT
 constraint -> global {
-	0 == classes.Task->sum(t | sqrt(t.duration))
+	1 == classes.Task->sum(t | sqrt(t.deadline))
 }
