@@ -86,4 +86,8 @@ public class AllBuildModelGenerator {
 		return null;
 	}
 
+	public Root getRoot() {
+		return root;
+	}
+
 }
