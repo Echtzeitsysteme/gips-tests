@@ -57,8 +57,7 @@ public class GlobalTestConfig {
 			try {
 				return new GurobiSolver(api, config);
 			} catch (final Exception e) {
-				e.printStackTrace();
-				throw new InternalError("Gurobi initialization failed.");
+				throw new InternalError("Gurobi initialization failed: " + e.getMessage());
 			}
 		}
 		case CPLEX: {
