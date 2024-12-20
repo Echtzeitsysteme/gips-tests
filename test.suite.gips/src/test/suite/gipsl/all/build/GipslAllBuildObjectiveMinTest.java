@@ -89,4 +89,9 @@ public class GipslAllBuildObjectiveMinTest extends AGipslAllBuildTest {
 		assertEquals(0, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return ObjectiveMinConnector.class;
+	}
+
 }

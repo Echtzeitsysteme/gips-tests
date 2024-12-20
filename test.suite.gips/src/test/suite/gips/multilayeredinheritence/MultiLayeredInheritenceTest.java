@@ -37,4 +37,9 @@ public class MultiLayeredInheritenceTest extends AMultiLayeredInheritenceTest {
 		assertFalse(ret.validationLog().isNotValid());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return MultiLayeredInheritenceConnector.class;
+	}
+
 }

@@ -129,4 +129,9 @@ public class GipslAllBuildResourceSetInfThenOptTest extends AGipslAllBuildResour
 		assertEquals(2, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return InfThenOptConnector.class;
+	}
+
 }

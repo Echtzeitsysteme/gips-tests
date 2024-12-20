@@ -1,4 +1,4 @@
-package gipsl.all.build.varsmappingsum.sumfreevarmultb.connector;
+package gipsl.all.build.varmappingsum.sumfreevarmultb.connector;
 
 import java.util.Map;
 

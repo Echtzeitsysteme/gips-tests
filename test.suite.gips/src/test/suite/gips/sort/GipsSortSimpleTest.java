@@ -187,4 +187,9 @@ public class GipsSortSimpleTest extends AGipsSortTest {
 		checkOrder(expectedNoOfEntries);
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return SortConnector.class;
+	}
+
 }

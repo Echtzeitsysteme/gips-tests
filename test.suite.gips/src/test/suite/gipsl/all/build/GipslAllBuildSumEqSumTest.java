@@ -73,4 +73,9 @@ public class GipslAllBuildSumEqSumTest extends AGipslAllBuildTest {
 		assertEquals(2 * 2, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return SumEqSumConnector.class;
+	}
+
 }

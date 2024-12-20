@@ -219,4 +219,9 @@ public class GipslStringCompareTest extends AGipslStringTest {
 		}
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return StringCompareConnector.class;
+	}
+
 }

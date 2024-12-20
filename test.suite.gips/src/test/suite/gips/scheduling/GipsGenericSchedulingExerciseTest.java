@@ -44,4 +44,9 @@ public class GipsGenericSchedulingExerciseTest extends AGipsSchedulingTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return GenericSchedulingConnector.class;
+	}
+
 }

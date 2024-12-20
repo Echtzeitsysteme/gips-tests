@@ -53,4 +53,9 @@ public class GipslAllBuildInheritedTypeContextTest extends AGipslAllBuildTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return InheritedTypeContextConnector.class;
+	}
+
 }

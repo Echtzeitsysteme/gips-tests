@@ -27,4 +27,9 @@ public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {
 		assertEquals(0 + 1, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return SimpleConnector.class;
+	}
+
 }

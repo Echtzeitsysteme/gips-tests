@@ -95,4 +95,9 @@ public class GipslAllBuildVarsSumTest extends AGipslAllBuildTest {
 		assertEquals(0, sumW);
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarsSumConnector.class;
+	}
+
 }

@@ -70,4 +70,9 @@ public class GipsGtTerminationTest extends AGipslAllBuildTest {
 		assertEquals(2, matches2.size(), "GT engine termination failed.");
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return GtTerminationConnector.class;
+	}
+
 }

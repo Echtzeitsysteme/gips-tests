@@ -81,4 +81,9 @@ public class GipslAllBuildVarsBooleanBugTest extends AGipslAllBuildTest {
 		throw new IllegalArgumentException("Var with name " + varName + " not found in mapping " + mapping);
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarsBooleanBugConnector.class;
+	}
+
 }

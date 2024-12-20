@@ -28,4 +28,9 @@ public class GipslAllBuildVarDoubleImplTest extends AGipslAllBuildVarEqMappingTe
 		checkConstraints(mappings, exptectedZero);
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarDoubleImplConnector.class;
+	}
+
 }

@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.Assert;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import gips.xmiinit.connector.XmiInitConnector;
@@ -71,6 +72,21 @@ public class GipslAllBuildXmiInitTest extends AGipslAllBuildTest {
 			e.printStackTrace();
 			Assert.fail("IOException caught.");
 		}
+	}
+
+	/**
+	 * This test intentionally deletes the default generated XMI files. Hence, it
+	 * will always fail to check for the generated files.
+	 */
+	@Disabled
+	@Override
+	public void testGeneratedFiles() {
+		// Do nothing.
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return null;
 	}
 
 }

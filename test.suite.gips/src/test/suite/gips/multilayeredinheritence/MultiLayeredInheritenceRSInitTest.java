@@ -39,4 +39,9 @@ public class MultiLayeredInheritenceRSInitTest extends AMultiLayeredInheritenceT
 		con = new MultiLayeredInheritenceRSInitConnector(model);
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return MultiLayeredInheritenceRSInitConnector.class;
+	}
+
 }

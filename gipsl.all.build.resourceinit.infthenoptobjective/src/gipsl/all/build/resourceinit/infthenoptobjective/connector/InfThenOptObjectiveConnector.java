@@ -1,4 +1,4 @@
-package gipsl.all.build.resourceinit.infthenopt.objective.connector;
+package gipsl.all.build.resourceinit.infthenoptobjective.connector;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emoflon.gips.core.ilp.ILPSolverOutput;

@@ -148,4 +148,9 @@ public class GipslAllBuildFileInitInfThenOptTest extends AGipslAllBuildTest {
 		assertEquals(2, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return InfThenOptConnector.class;
+	}
+
 }

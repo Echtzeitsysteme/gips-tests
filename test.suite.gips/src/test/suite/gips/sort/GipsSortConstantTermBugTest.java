@@ -55,4 +55,9 @@ public class GipsSortConstantTermBugTest extends AGipsSortTest {
 		assertEquals(10, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return SortConstantTermBugConnector.class;
+	}
+
 }

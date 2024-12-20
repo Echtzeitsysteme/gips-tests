@@ -91,4 +91,9 @@ public class GipslAllBuildFxeqctrafoTest extends AGipslAllBuildTest {
 		assertEquals(0, ((FxeqctrafoConnector) con).getNumberOfNonZeroMu());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return FxeqctrafoConnector.class;
+	}
+
 }

@@ -99,4 +99,9 @@ public class GipslAllBuildVarsObjectiveTest extends AGipslAllBuildTest {
 		});
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarsObjectiveConnector.class;
+	}
+
 }

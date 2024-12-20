@@ -66,4 +66,9 @@ public class GipsIlpLpOutputTest extends AGipsIlpTimeOutTest {
 		testFile.delete();
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return LpOutputConnector.class;
+	}
+
 }

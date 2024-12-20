@@ -28,4 +28,9 @@ public class GipslAllBuildVarEquivalenceTest extends AGipslAllBuildVarEqMappingT
 		checkConstraints(mappings, exptectedZero);
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarEquivalenceConnector.class;
+	}
+
 }

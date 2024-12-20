@@ -124,4 +124,9 @@ public class GipslAllBuildCountTest extends AGipslAllBuildTest {
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return CountConnector.class;
+	}
+
 }

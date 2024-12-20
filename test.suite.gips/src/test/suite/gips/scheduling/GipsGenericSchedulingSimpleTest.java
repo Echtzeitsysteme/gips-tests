@@ -136,4 +136,9 @@ public class GipsGenericSchedulingSimpleTest extends AGipsSchedulingTest {
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return GenericSchedulingConnector.class;
+	}
+
 }

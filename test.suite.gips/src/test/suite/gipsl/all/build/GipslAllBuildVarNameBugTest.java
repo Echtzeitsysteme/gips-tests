@@ -108,4 +108,9 @@ public class GipslAllBuildVarNameBugTest extends AGipslAllBuildTest {
 		});
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarNameBugConnector.class;
+	}
+
 }

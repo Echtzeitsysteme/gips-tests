@@ -120,4 +120,9 @@ public class GipsIlpTimeOutTest extends AGipsIlpTimeOutTest {
 		});
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return TimeOutConnector.class;
+	}
+
 }

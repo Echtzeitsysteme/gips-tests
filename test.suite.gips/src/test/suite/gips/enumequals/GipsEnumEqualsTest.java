@@ -44,4 +44,9 @@ public class GipsEnumEqualsTest extends AGipsEnumEqualsTest {
 		}
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return EnumEqualsConnector.class;
+	}
+
 }

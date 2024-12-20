@@ -116,4 +116,9 @@ public class GipslAllBuildObjectiveMappingTest extends AGipslAllBuildTest {
 		assertEquals(10, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return ObjectiveMappingConnector.class;
+	}
+
 }

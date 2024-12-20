@@ -104,4 +104,9 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		assertEquals((10 + 40) / 5, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return ObjectiveScalingConnector.class;
+	}
+
 }

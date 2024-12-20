@@ -48,4 +48,9 @@ public class GipslAllBuildNotEqualTest extends AGipslAllBuildTest {
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return NotEqualConnector.class;
+	}
+
 }

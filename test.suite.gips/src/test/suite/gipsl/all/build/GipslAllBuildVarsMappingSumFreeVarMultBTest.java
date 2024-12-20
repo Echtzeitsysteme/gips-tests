@@ -11,7 +11,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.varmappingsum.sumfreevarmultb.api.gips.mapping.N2nMapping;
-import gipsl.all.build.varsmappingsum.sumfreevarmultb.connector.VarsMappingSumFreeVarMultBConnector;
+import gipsl.all.build.varmappingsum.sumfreevarmultb.connector.VarsMappingSumFreeVarMultBConnector;
 
 public class GipslAllBuildVarsMappingSumFreeVarMultBTest extends AGipslAllBuildTest {
 
@@ -106,6 +106,11 @@ public class GipslAllBuildVarsMappingSumFreeVarMultBTest extends AGipslAllBuildT
 			sumVWX += m.getMatch().getVnode().getResourceDemand();
 		}
 		assertEquals(1000, sumVWX * 4);
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarsMappingSumFreeVarMultBConnector.class;
 	}
 
 }

@@ -2,10 +2,11 @@ package test.suite.gipsl.all.build.resourceset;
 
 import org.junit.jupiter.api.AfterEach;
 
+import test.suite.gips.AbstractGipsTest;
 import test.suite.gips.utils.AResourceConnector;
 import test.suite.gipsl.all.build.utils.AllBuildResourceSetModelGenerator;
 
-public abstract class AGipslAllBuildResourceSetTest {
+public abstract class AGipslAllBuildResourceSetTest extends AbstractGipsTest {
 
 	protected AResourceConnector con;
 	protected AllBuildResourceSetModelGenerator gen = new AllBuildResourceSetModelGenerator();

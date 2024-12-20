@@ -6,7 +6,7 @@ import org.emoflon.gips.core.ilp.ILPSolverOutput;
 import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.or.connector.OrAConnector;
+import gipsl.all.build.or.a.connector.OrAConnector;
 
 public class GipslAllBuildOrATest extends AGipslAllBuildTest {
 
@@ -87,6 +87,11 @@ public class GipslAllBuildOrATest extends AGipslAllBuildTest {
 		// is defined on class SubstrateNode
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, Math.abs(ret.objectiveValue()));
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return OrAConnector.class;
 	}
 
 }

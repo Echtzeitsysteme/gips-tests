@@ -42,4 +42,9 @@ public class GipsGenericSchedulingIntReduceBugTest extends AGipsSchedulingTest {
 		assertEquals(expectedObjective, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return CodeGenIntReduceBugConnector.class;
+	}
+
 }

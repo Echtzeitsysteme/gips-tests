@@ -1,4 +1,4 @@
-package gipsl.all.build.or.connector;
+package gipsl.all.build.or.a.connector;
 
 import org.emoflon.gips.core.ilp.ILPSolverOutput;
 

@@ -70,4 +70,9 @@ public class GipslImportsSimpleMappingTest extends AGipslImportsTest {
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return ImportsSubConnector.class;
+	}
+
 }

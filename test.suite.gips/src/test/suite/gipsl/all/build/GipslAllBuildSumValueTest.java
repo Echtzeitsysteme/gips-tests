@@ -123,4 +123,9 @@ public class GipslAllBuildSumValueTest extends AGipslAllBuildTest {
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return SumValueConnector.class;
+	}
+
 }

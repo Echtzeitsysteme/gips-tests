@@ -106,4 +106,9 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 		});
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarLimitConnector.class;
+	}
+
 }
