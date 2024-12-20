@@ -73,4 +73,9 @@ public class GipslAllBuildResourceSetInitMediumTest extends AGipslAllBuildResour
 		}
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return RsinitConnector.class;
+	}
+
 }

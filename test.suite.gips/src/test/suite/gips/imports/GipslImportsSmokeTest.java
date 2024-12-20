@@ -26,4 +26,9 @@ public class GipslImportsSmokeTest extends AGipslImportsTest {
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, ret.objectiveValue());
 	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return ImportsSubConnector.class;
+	}
 }

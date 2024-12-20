@@ -88,4 +88,9 @@ public class GipslAllBuildObjectiveMaxTest extends AGipslAllBuildTest {
 		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return ObjectiveMaxConnector.class;
+	}
+
 }

@@ -2,9 +2,10 @@ package test.suite.gipsl.solverconfig;
 
 import org.junit.jupiter.api.Test;
 
+import test.suite.gips.AbstractGipsTest;
 import test.suite.gips.utils.GipsTestUtils;
 
-public class GipslSolverConfigTest {
+public class GipslSolverConfigTest extends AbstractGipsTest {
 
 	/**
 	 * The name of the GIPS(L) project.
@@ -25,8 +26,20 @@ public class GipslSolverConfigTest {
 	public void testEmptyIlpSolverConfigSrcGen() {
 		GipsTestUtils.checkIfFileGenerated(
 				GipsTestUtils.constructFilePath(PROJECT_NAME, PACKAGE_NAME, "SolverconfigGipsAPI.java"));
-		GipsTestUtils
-				.checkIfFileGenerated(GipsTestUtils.constructFilePath(PROJECT_NAME, PACKAGE_NAME, "gips-model.xmi"));
+	}
+
+	@Override
+	public String getProjectName() {
+		return PROJECT_NAME;
+	}
+
+	/**
+	 * This method is not necessary for this test case, because there is no
+	 * connector class and the project name gets hard-coded above, anyway.
+	 */
+	@Override
+	public Class<?> getConnectorClass() {
+		return null;
 	}
 
 }

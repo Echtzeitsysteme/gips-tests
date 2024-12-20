@@ -37,4 +37,9 @@ public class TriggerProjectPackageNameBugTest extends AGipsNullProjectTest {
 		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return ProjectPackageNameBugConnector.class;
+	}
+
 }

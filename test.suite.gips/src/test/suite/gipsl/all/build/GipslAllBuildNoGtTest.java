@@ -39,4 +39,9 @@ public class GipslAllBuildNoGtTest extends AGipslAllBuildTest {
 		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return NoGtConnector.class;
+	}
+
 }

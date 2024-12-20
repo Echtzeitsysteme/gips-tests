@@ -95,4 +95,9 @@ public class GipslAllBuildFilterTest extends AGipslAllBuildTest {
 		assertEquals(10, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return FilterConnector.class;
+	}
+
 }

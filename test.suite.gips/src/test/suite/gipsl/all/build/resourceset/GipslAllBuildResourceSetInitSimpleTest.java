@@ -78,4 +78,9 @@ public class GipslAllBuildResourceSetInitSimpleTest extends AGipslAllBuildResour
 		}
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return RsinitConnector.class;
+	}
+
 }

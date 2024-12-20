@@ -103,4 +103,9 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		assertEquals(1, Math.abs(ret2.objectiveValue()));
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return OptThenValidationLogConnector.class;
+	}
+
 }

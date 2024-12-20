@@ -58,4 +58,9 @@ public class GipsSortPatternMappingBugTest extends AGipsSortTest {
 		assertEquals(2 * 10, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return SortPatternMappingBugConnector.class;
+	}
+
 }

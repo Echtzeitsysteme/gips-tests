@@ -20,4 +20,9 @@ public class GipsSortPatternRegSmokeTest extends AGipsSortTest {
 		con.run(OUTPUT_PATH);
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return SortPatternRegConnector.class;
+	}
+
 }

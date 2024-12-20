@@ -42,4 +42,9 @@ public class GipslAllBuildObjBugTest extends AGipslAllBuildTest {
 		assertEquals(0, Math.abs(ret.objectiveValue()));
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return ObjBugConnector.class;
+	}
+
 }

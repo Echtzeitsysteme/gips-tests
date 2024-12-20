@@ -100,4 +100,9 @@ public class GipslAllBuildVarsParameterTest extends AGipslAllBuildTest {
 		});
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarsParameterConnector.class;
+	}
+
 }

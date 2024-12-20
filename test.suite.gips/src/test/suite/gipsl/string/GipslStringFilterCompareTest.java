@@ -137,4 +137,9 @@ public class GipslStringFilterCompareTest extends AGipslStringTest {
 		assertEquals(ref, guestCntr);
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return StringCompareFilterConnector.class;
+	}
+
 }

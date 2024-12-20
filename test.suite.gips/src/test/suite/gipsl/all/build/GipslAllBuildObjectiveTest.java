@@ -50,4 +50,9 @@ public class GipslAllBuildObjectiveTest extends AGipslAllBuildTest {
 		assertEquals(refGlobal, ret.objectiveValue());
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return ObjectiveConnector.class;
+	}
+
 }

@@ -11,7 +11,7 @@ import org.emoflon.gips.core.ilp.ILPSolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.resourceinit.infthenopt.objective.connector.InfThenOptObjectiveConnector;
+import gipsl.all.build.resourceinit.infthenoptobjective.connector.InfThenOptObjectiveConnector;
 import model.Container;
 import model.Root;
 import model.SubstrateContainer;
@@ -161,6 +161,11 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(10, ret.objectiveValue());
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return InfThenOptObjectiveConnector.class;
 	}
 
 }

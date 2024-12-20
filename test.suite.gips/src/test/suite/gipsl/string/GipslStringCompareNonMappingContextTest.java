@@ -291,4 +291,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		}
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return StringCompareNonMappingContextConnector.class;
+	}
+
 }
