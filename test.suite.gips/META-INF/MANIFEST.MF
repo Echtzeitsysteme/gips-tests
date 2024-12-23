@@ -20,7 +20,8 @@ Require-Bundle: junit-jupiter-api;bundle-version="5.9.0",
  gips.multilayeredinheritencemodel;bundle-version="0.0.1",
  gips.nullmodel;bundle-version="0.0.1",
  gips.scheduling.taskmodel;bundle-version="0.0.1",
- gips.enummodel;bundle-version="0.0.1"
+ gips.enummodel;bundle-version="0.0.1",
+ genericgraphmetamodel;bundle-version="0.0.1"
 Import-Package: gips.enumequals.connector,
  gips.generic.scheduling.codegenintreducebug.connector,
  gips.generic.scheduling.connector,
@@ -84,6 +85,7 @@ Import-Package: gips.enumequals.connector,
  gipsl.string.compare.nonmappingcontext.connector,
  gipsprojectpackagenamebug.connector,
  org.junit.jupiter.api,
+ shortestpath.connector,
  test.suite.gips.utils
 Export-Package: test.suite.gips,
  test.suite.gipsl.all.build,

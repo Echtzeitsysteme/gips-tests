@@ -10,3 +10,9 @@ test.suite.gips/*.xmi
 test.suite.gips/build/
 
 *.html
+
+genericgraphmetamodel/instances/gen.xmi
+
+shortestpath/gurobi.lp
+
+test.suite.gips/gurobi.lp
