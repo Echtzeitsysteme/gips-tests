@@ -1,0 +1,207 @@
+package "shortestpath"
+import "platform:/resource/genericgraphmetamodel/model/Genericgraphmetamodel.ecore"
+
+// This specification solves the "shortest path" problem (which, normally,
+// could be solved by the algorithm of Dijkstra).
+//
+// Assumptions:
+// - the graph is connected
+// - there is exactly one source node, i.e., there is exactly one node
+//   that does not have any incoming edges
+// - there is exactly one target node, i.e., there is exactly one node
+//   that does not have any outgoing edges
+// - the graph does not contain any cycles
+//
+// You should not solve a standard shortest path problem with this
+// implementation. It was developed solely for testing purposes.
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 60.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+	tolerance := true [value := 0.00001];
+	lpOutput := true [path := "./gurobi.lp"];
+}
+
+rule selectEdge {
+	source : Node
+	target : Node
+	edge : Edge {
+		- source -> source
+		- target -> target
+		.selected := true
+	}
+}
+
+//condition hasNoIncomingEdge = forbid findIncomingEdge
+//pattern findIncomingEdge {
+//	someNode : Node
+//	node : Node
+//	edge : Edge {
+//		- source -> someNode
+//		- target -> node
+//	}
+//}
+//
+//condition hasNoOutgoingEdge = forbid findOutgoingEdge
+//pattern findOutgoingEdge {
+//	nextNode : Node
+//	node : Node
+//	edge : Edge {
+//		- source -> node
+//		- target -> nextNode
+//	}
+//}
+
+//pattern findSourceNode {
+//	node : Node
+//}
+//when hasNoIncomingEdge
+//
+//pattern findTargetNode {
+//	node : Node
+//}
+//when hasNoOutgoingEdge
+
+pattern findSourceNode {
+	node : Node
+	root : Root {
+		- sourceNode -> node
+	}
+}
+
+pattern findTargetNode {
+	node : Node
+	root : Root {
+		- targetNode -> node
+	}
+}
+
+//condition isMiddleNode = enforce findIncomingEdge && enforce findOutgoingEdge
+condition isMiddleNode = forbid findSourceNode && forbid findTargetNode
+pattern findMiddleNode {
+	node : Node
+}
+when isMiddleNode
+
+
+
+//
+// GIPSL
+//
+
+mapping selectEdge with selectEdge;
+//mapping selectSourceNode with findSourceNode;
+//mapping selectTargetNode with findTargetNode;
+
+// There must be #nodes - 1 selected mappings
+//constraint -> global {
+//	mappings.selectEdge->count() == classes.Node->count() - 1
+//}
+
+// Every node must be part of two selected mappings:
+// - source node + one intermediate node
+// - one intermediate node + target node
+// - two intermediate nodes
+//constraint -> class::Node {
+////	mappings.selectSourceNode->filter(m | m.nodes().sourceNode == self)->count()
+////	+ mappings.selectTargetNode->filter(m | m.nodes().targetNode == self)->count()
+////	+ mappings.selectEdge->filter(m | m.nodes().source == self)->count()
+////	+ mappings.selectEdge->filter(m | m.nodes().target == self)->count()
+////	== 2
+//
+//	// Start and ongoing
+//	[
+//		mappings.selectSourceNode->filter(m | m.nodes().sourceNode == self)->count() == 1
+//		&
+//		mappings.selectEdge->filter(m | m.nodes().source == self)->count() == 1
+//	]
+//	^
+//	// Ongoing and ongoing
+//	[
+//		mappings.selectEdge->filter(m | m.nodes().target == self)->count() == 1
+//		&
+//		mappings.selectEdge->filter(m | m.nodes().source == self)->count() == 1
+//	]
+//	^
+//	// Ongoing and end
+//	[
+//		mappings.selectEdge->filter(m | m.nodes().target == self)->count() == 1
+//		&
+//		mappings.selectTargetNode->filter(m | m.nodes().targetNode == self)->count() == 1
+//	]	
+//}
+
+constraint -> pattern::findSourceNode {
+	mappings.selectEdge->filter(m | m.nodes().source == self.nodes().node)->count() == 1
+	&
+	mappings.selectEdge->filter(m | m.nodes().target == self.nodes().node)->count() == 0
+}
+
+constraint -> pattern::findTargetNode {
+	mappings.selectEdge->filter(m | m.nodes().target == self.nodes().node)->count() == 1
+	&
+	mappings.selectEdge->filter(m | m.nodes().source == self.nodes().node)->count() == 0
+}
+
+constraint -> pattern::findMiddleNode {
+	mappings.selectEdge->filter(m | m.nodes().target == self.nodes().node)->count() == 1
+	<=>
+	mappings.selectEdge->filter(m | m.nodes().source == self.nodes().node)->count() == 1
+}
+
+//pattern findNodeTuple {
+//	root : Root {
+//		- nodes -> na
+//		- nodes -> nb
+//	}
+//	na : Node
+//	nb : Node
+//}
+
+//constraint -> pattern::findNodeTuple {
+//	mappings.selectEdge->filter(m | m.nodes().source == self.nodes().na & m.nodes().target == self.nodes().nb)->count()
+//	+
+//	mappings.selectEdge->filter(m | m.nodes().source == self.nodes().nb & m.nodes().target == self.nodes().na)->count()
+//	<= 1
+//}
+
+//pattern findEdgeNode {
+//	node : Node {
+//		- incomingEdges -> edge
+//	}
+//	edge : Edge
+//}
+
+constraint -> class::Node {
+	mappings.selectEdge->filter(m | m.nodes().target == self)->count() <= 1
+	&
+	mappings.selectEdge->filter(m | m.nodes().source == self)->count() <= 1
+}
+
+// TODO: Overlap constraint
+//constraint -> pattern::selectEdge {
+//	mappings.selectEdge->filter(
+//		m | m.nodes().source == self.nodes().source
+//		& m.nodes().target == self.nodes().target
+//		& m.nodes().edge == self.nodes().edge
+//	)->count() == 1
+//	<=>
+//	[
+//		mappings.selectEdge->filter(m | m.nodes().source == self.nodes().target)->count()
+//		+ mappings.selectTargetNode->filter(m | m.nodes().targetNode == self.nodes().target)->count()
+//		== 1
+//	]
+//}
+
+// Local objective is the weight of the selected edges
+objective o -> mapping::selectEdge {
+	self.nodes().edge.weight
+}
+
+// Global objective should be minimized
+global objective : min {
+	o
+}
