@@ -19,7 +19,7 @@ import test.suite.gips.utils.AConnector;
 
 public abstract class AGipsShortestPathTest extends AbstractGipsTest {
 
-	protected final static String MODEL_PATH = "model.xmi";
+	protected static String MODEL_PATH = "model.xmi";
 	protected final static String OUTPUT_PATH = "output.xmi";
 
 	protected AConnector con;
