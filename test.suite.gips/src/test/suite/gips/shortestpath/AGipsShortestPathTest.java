@@ -18,7 +18,7 @@ import test.suite.gips.AbstractGipsTest;
 import test.suite.gips.utils.AConnector;
 
 public abstract class AGipsShortestPathTest extends AbstractGipsTest {
-	
+
 	protected final static String MODEL_PATH = "model.xmi";
 	protected final static String OUTPUT_PATH = "output.xmi";
 
@@ -32,7 +32,7 @@ public abstract class AGipsShortestPathTest extends AbstractGipsTest {
 			con.terminate();
 		}
 	}
-	
+
 	public void validatePath(final Integer[] expectedPath) {
 		if (expectedPath == null || expectedPath.length == 0) {
 			throw new IllegalArgumentException("Given expected path was null or empty.");
