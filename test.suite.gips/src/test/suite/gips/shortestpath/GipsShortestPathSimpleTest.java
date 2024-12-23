@@ -1,5 +1,6 @@
 package test.suite.gips.shortestpath;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import shortestpath.connector.ShortestPathConnector;
@@ -14,6 +15,11 @@ public class GipsShortestPathSimpleTest extends AGipsShortestPathTest {
 	@Override
 	public Class<?> getConnectorClass() {
 		return ShortestPathConnector.class;
+	}
+	
+	@AfterAll
+	public static void resetModelPath() {
+		MODEL_PATH = "model.xmi";
 	}
 
 	@Test
