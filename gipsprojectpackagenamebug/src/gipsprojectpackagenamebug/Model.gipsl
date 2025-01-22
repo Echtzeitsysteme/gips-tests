@@ -2,7 +2,7 @@ package "gipsprojectpackagenamebug"
 import "platform:/resource/gips.nullmodel/model/Nullmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;

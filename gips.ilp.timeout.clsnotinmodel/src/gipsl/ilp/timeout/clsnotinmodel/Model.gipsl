@@ -2,7 +2,7 @@ package "gipsl.ilp.timeout.clsnotinmodel"
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 1.0];
 	randomSeed := true [value := 0];
 	presolve := true;

@@ -3,7 +3,7 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;

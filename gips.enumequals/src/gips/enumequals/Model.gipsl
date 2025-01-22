@@ -4,8 +4,7 @@ import "http://www.eclipse.org/emf/2002/Ecore"
 import "platform:/resource/gips.enummodel/model/Enummodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 120.0];
 	randomSeed := true [value := 0];
 	presolve := true;

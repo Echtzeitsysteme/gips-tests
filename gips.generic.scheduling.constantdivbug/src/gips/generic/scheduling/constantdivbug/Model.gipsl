@@ -2,7 +2,7 @@ package "gips.generic.scheduling.constantdivbug"
 import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 60.0];
 	randomSeed := true [value := 0];
 	presolve := true;

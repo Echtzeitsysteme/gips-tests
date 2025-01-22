@@ -4,8 +4,7 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 // This GIPSL project is just for scribbles and debugging, e.g, the validator.
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;

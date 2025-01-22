@@ -2,13 +2,11 @@ package "gipsl.all.build.not"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := false;
-//	tolerance := true [value := 0.0000001];
 }
 
 rule mapVnode {
