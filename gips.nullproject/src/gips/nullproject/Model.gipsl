@@ -3,8 +3,7 @@ import "platform:/resource/gips.nullmodel/model/Nullmodel.ecore"
 // import a metamodel here
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;

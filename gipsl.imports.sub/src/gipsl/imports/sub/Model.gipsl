@@ -5,8 +5,7 @@ from "../gipsl.imports.supera/src/gipsl/imports/supera/Model.gipsl" import mapGu
 from "../gipsl.imports.superb/src/gipsl/imports/superb/Rules.gt" import guestNotMapped
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;

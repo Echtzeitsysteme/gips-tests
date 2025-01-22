@@ -2,8 +2,7 @@ package "gipsl.string.compare"
 import "platform:/resource/gipsl.string.stringmodel/model/Stringmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;

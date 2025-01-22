@@ -2,8 +2,7 @@ package "gipsl"
 import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
