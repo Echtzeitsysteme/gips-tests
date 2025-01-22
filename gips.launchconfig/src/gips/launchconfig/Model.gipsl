@@ -1,0 +1,33 @@
+package "gips.launchconfig"
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+config {  
+	solver := GUROBI [home:="xy", license:="zz"];
+	launchConfig := true [main := "mySpecificMainName"];
+	timeLimit := true [value := 1.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+}
+
+//
+// Everything below this does not matter for the test project.
+// We only want to check if the `launchConfig` specification above
+// gets properly transfered into a launch config file.
+//
+
+// specify an example rule
+rule exampleRule {
+	clazz : EClass {
+		++ -eAllOperations -> op
+	}
+	
+	op : EOperation
+}
+
+// create a mapping on the rule
+mapping mapNode with exampleRule;
+
+// create a constraint on one class
+constraint -> class::EOperation {
+	mappings.mapNode->filter(m | m.nodes().clazz.^abstract)->count() > self.lowerBound
+}
