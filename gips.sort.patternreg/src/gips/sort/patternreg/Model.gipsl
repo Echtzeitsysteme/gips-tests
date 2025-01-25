@@ -21,6 +21,6 @@ rule findFirst {
 
 // Mapping removed on purpose to trigger exception
 //mapping eFirst with findFirst;
-constraint -> class::Entry {
-	patterns.findFirst->filter(m | m.nodes().val == self)->count() == 0
+constraint with Entry {
+	rules.findFirst->filter(element.nodes.val == context)->count() == 0
 }
