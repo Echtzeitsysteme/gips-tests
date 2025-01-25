@@ -24,16 +24,16 @@ rule runTaskInSlot {
 	# t.^deadline >= s.^index
 }
 
-mapping t2s with runTaskInSlot;
+mapping t2s to runTaskInSlot;  
 
 // Every task must be mapped n times (according to its duration)
-constraint -> class::Task {
-	mappings.t2s->filter(m | m.nodes().t == self)->count() == self.duration
+constraint with Task {
+	mappings.t2s->filter(element.nodes.t == context)->count() == context.duration     
 }
 
 // There must be at most one mapping per slot
-constraint -> class::Slot {
-	mappings.t2s->filter(m | m.nodes().s == self)->count() <= 1
+constraint with Slot {
+	mappings.t2s->filter(element.nodes.s == context)->count() <= 1
 }
 
 // No objective on purpose
