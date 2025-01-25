@@ -1,12 +1,12 @@
 package test.suite.gips.utils;
 
 import org.emoflon.gips.core.api.GipsEngineAPI;
-import org.emoflon.gips.core.ilp.CplexSolver;
-import org.emoflon.gips.core.ilp.GlpkSolver;
-import org.emoflon.gips.core.ilp.GurobiSolver;
-import org.emoflon.gips.core.ilp.ILPSolver;
-import org.emoflon.gips.core.ilp.ILPSolverConfig;
-import org.emoflon.gips.intermediate.GipsIntermediate.ILPSolverType;
+import org.emoflon.gips.core.milp.CplexSolver;
+import org.emoflon.gips.core.milp.GlpkSolver;
+import org.emoflon.gips.core.milp.GurobiSolver;
+import org.emoflon.gips.core.milp.Solver;
+import org.emoflon.gips.core.milp.SolverConfig;
+import org.emoflon.gips.intermediate.GipsIntermediate.SolverType;
 
 /**
  * Test configuration for the GIPS test suite.
@@ -21,34 +21,34 @@ public class GlobalTestConfig {
 	/**
 	 * Configures the used solver type (e.g., GLPK, Gurobi) if override is enabled.
 	 */
-	public static ILPSolverType solverType = ILPSolverType.GUROBI;
+	public static SolverType solverType = SolverType.GUROBI;
 
 	private GlobalTestConfig() {
 	}
 
 	/**
-	 * Overrides the ILP solver configuration for a given GipsEngineAPI.
+	 * Overrides the  solver configuration for a given GipsEngineAPI.
 	 * 
-	 * @param api GipsEngineAPI for which the ILP solver should be overridden.
+	 * @param api GipsEngineAPI for which the  solver should be overridden.
 	 */
 	public static void overrideSolver(final GipsEngineAPI<?, ?> api) {
 		if (!solverOverride) {
 			return;
 		}
 
-		api.setILPSolver(GlobalTestConfig.getSolver(api.getSolverConfig(), api));
+		api.setSolver(GlobalTestConfig.getSolver(api.getSolverConfig(), api));
 	}
 
 	/**
-	 * Creates a new ILP solver instance for the given ILPSolverConfig and the given
+	 * Creates a new  solver instance for the given SolverConfig and the given
 	 * GipsEngineAPI.
 	 * 
-	 * @param config ILPSolverConfig which should be used by the newly instantiated
-	 *               ILP solver.
+	 * @param config SolverConfig which should be used by the newly instantiated
+	 *                solver.
 	 * @param api    GipsEngineAPI to get config from.
-	 * @return Newly instantiated ILP solver object.
+	 * @return Newly instantiated  solver object.
 	 */
-	private static ILPSolver getSolver(final ILPSolverConfig config, final GipsEngineAPI<?, ?> api) {
+	private static Solver getSolver(final SolverConfig config, final GipsEngineAPI<?, ?> api) {
 		switch (solverType) {
 		case GLPK: {
 			return new GlpkSolver(api, config);

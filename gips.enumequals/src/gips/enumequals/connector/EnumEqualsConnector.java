@@ -1,6 +1,6 @@
 package gips.enumequals.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gips.enumequals.api.gips.EnumequalsGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class EnumEqualsConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((EnumequalsGipsAPI) api).getM().applyNonZeroMappings();
 		save(outputPath);
 		return output;
