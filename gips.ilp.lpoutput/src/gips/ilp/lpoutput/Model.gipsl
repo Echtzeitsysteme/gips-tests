@@ -28,8 +28,8 @@ rule mapSrc {
 // GIPSL starts here!
 //
 
-mapping s2t with mapSrc;
+mapping s2t to mapSrc;
 
-constraint -> class::Target {
-	mappings.s2t->count() <= self.free
+constraint with Target {
+	mappings.s2t->count() <= context.free
 }
