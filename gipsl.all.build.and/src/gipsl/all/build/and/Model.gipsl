@@ -37,18 +37,18 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
+mapping n2n to mapVnode;
 
 // AND
-constraint -> global {
+constraint {
 	mappings.n2n->count() >= 1 & mappings.n2n->count() <= 3
 }
 
-objective nObj -> mapping::n2n {
+function nObj with n2n {
 	1
 }
 
-global objective : max {
-	nObj
+objective : max {
+	functions.nObj
 }
 
