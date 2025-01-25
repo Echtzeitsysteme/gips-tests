@@ -34,17 +34,17 @@ rule sortLast {
 	}
 }
 
-mapping e2e with sortOne;
-mapping e2self with sortLast;
+mapping e2e to sortOne;
+mapping e2self to sortLast;
 
-constraint -> class::Entry {
-	mappings.e2e->filter(m | m.nodes().valA == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
+constraint with Entry {
+	mappings.e2e->filter(element.nodes.valA == context)->count() + mappings.e2self->filter(element.nodes.val == context)->count() == 1
 }
 
-constraint -> class::Entry {
-	mappings.e2e->filter(m | m.nodes().valB == self)->count() <= 1
-}
+constraint with Entry {
+	mappings.e2e->filter(element.nodes.valB == context)->count() <= 1
+} 
 
-constraint -> global {
+constraint {
 	mappings.e2self->count() == 1
 }
