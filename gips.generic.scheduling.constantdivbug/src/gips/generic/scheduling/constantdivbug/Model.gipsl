@@ -22,11 +22,11 @@ rule runTaskInSlot {
 	s: Slot
 }
 
-mapping t2s with runTaskInSlot;
+mapping t2s to runTaskInSlot;
 
 // This test does only check if the original bug
 // is absent and, hence, the generated Java code
 // can be compiled.
-constraint -> global {
-	0 == classes.Task->sum(t | t.duration / t.deadline)
+constraint {
+	0 == types.Task->sum(element.duration / element.deadline)
 }
