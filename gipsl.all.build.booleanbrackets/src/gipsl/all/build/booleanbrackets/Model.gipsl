@@ -17,20 +17,20 @@ pattern snode {
 // GIPSL starts here!
 //
 
-mapping sn with snode;
+mapping sn to snode;
 
-constraint -> class::SubstrateResourceNode {
-	self.resourceAmountAvailable == 0 | [self.resourceAmountAvailable >= 1 & self.resourceAmountAvailable <= 1]
+constraint with SubstrateResourceNode {
+	context.resourceAmountAvailable == 0 | [context.resourceAmountAvailable >= 1 & context.resourceAmountAvailable <= 1]
 }
 
-constraint -> class::VirtualResourceNode {
-	[mappings.sn->count() >= self.resourceDemand & mappings.sn->count() <= self.resourceDemand] | 1 == 0
+constraint with VirtualResourceNode {
+	[mappings.sn->count() >= context.resourceDemand & mappings.sn->count() <= context.resourceDemand] | 1 == 0
 }
 
-objective snm -> mapping::sn {
+function snm with sn {
 	1
 }
 
-global objective : max {
-	snm
+objective : max {
+	functions.snm
 }
