@@ -33,20 +33,20 @@ rule mapSrc {
 // GIPSL starts here!
 //
 
-mapping s2t with mapSrc;
+mapping s2t to mapSrc;
 
-constraint -> pattern::mapSrc {
-	mappings.s2t->filter(m | m.nodes().src == self.nodes().src)->count() == 1
+constraint with mapSrc {
+	mappings.s2t->filter(element.nodes.src == context.nodes.src)->count() == 1
 }
 
-constraint -> class::Target {
-	mappings.s2t->filter(m | m.nodes().trg == self)->sum(m | m.nodes().src.val) <= self.free
+constraint with Target {
+	mappings.s2t->filter(element.nodes.trg == context)->sum(element.nodes.src.val) <= context.free
 }
 
-objective o -> mapping::s2t {
+function o with s2t {
 	1
 }
 
-global objective : min {
-	o
+objective : min {
+	functions.o
 }
