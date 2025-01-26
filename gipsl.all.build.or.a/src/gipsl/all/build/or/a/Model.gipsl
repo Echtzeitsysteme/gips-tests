@@ -37,20 +37,20 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
+mapping n2n to mapVnode;
 
 // OR
-constraint -> class::SubstrateResourceNode {
+constraint with SubstrateResourceNode {
 	// The `filter` operation on the first half of the expression is useless but necessary because of the `self` reference
 	// The second possibility could be true but the goal is to maximize the number of mappings according to the objective function.
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() <= 2 | mappings.n2n->filter(m | m.nodes().snode == self)->count() >= 1
+	mappings.n2n->filter(element.nodes.snode == context)->count() <= 2 | mappings.n2n->filter(element.nodes.snode == context)->count() >= 1
 }
 
-objective nObj -> mapping::n2n {
+function nObj with n2n {
 	1
 }
 
-global objective : max {
-	nObj
+objective : max {
+	functions.nObj
 }
 
