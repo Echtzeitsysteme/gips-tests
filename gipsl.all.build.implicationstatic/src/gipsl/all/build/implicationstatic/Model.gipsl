@@ -37,6 +37,6 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-constraint -> class::SubstrateResourceNode {
-	self.resourceAmountAvailable == 1 => self.resourceAmountTotal == 1
+constraint with SubstrateResourceNode {
+	context.resourceAmountAvailable == 1 => context.resourceAmountTotal == 1
 }
