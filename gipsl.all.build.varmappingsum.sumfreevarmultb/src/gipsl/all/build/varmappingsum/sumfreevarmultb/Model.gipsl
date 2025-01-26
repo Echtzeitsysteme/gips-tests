@@ -1,4 +1,4 @@
-package "gipsl.all.build.varmappingsum.sumfreevarmultb"
+package "gipsl.all.build.varmappingsuelement.sumfreevarmultb"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
@@ -42,7 +42,7 @@ rule mapVnode {
 //				+ attribute access
 //				+ multiplication in sum
 
-mapping n2n with mapVnode {
+mapping n2n to mapVnode {
 	var u : EInt
 	var v : EInt
 	var w : EDouble
@@ -50,45 +50,45 @@ mapping n2n with mapVnode {
 	var y : EDouble
 };
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->count() == 1
 }
 
-constraint -> mapping::n2n {
-	self.variables().u >= 0
+constraint with n2n {
+	context.variables.u >= 0
 }
 
-constraint -> mapping::n2n {
-	self.variables().v >= 0
+constraint with n2n {
+	context.variables.v >= 0
 }
 
-constraint -> mapping::n2n {
-	self.variables().w >= 0
+constraint with n2n {
+	context.variables.w >= 0
 }
 
-constraint -> mapping::n2n {
-	self.variables().x >= 0
+constraint with n2n {
+	context.variables.x >= 0
 }
 
-constraint -> mapping::n2n {
-	self.variables().y >= 0
+constraint with n2n {
+	context.variables.y >= 0
 }
 
-constraint -> global {
-	mappings.n2n->sum(m | 4 * (m.variables().u
-							+ m.variables().v
-							+ m.variables().w
-							+ m.variables().x
-							+ m.variables().y
-							+ m.nodes().vnode.resourceDemand)
+constraint {
+	mappings.n2n->sum(4 * (element.variables.u
+							+ element.variables.v
+							+ element.variables.w
+							+ element.variables.x
+							+ element.variables.y
+							+ element.nodes.vnode.resourceDemand)
 	)
 	== 1000
 }
 
-objective n2nObj -> mapping::n2n {
+function n2nObj with n2n {
 	1
 }
 
-global objective : max {
-	n2nObj
+objective : max {
+	functions.n2nObj
 }
