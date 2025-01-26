@@ -1,7 +1,7 @@
 package gipsl.all.build.resourceinit.infthenoptobjective.connector;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.resourceinit.infthenoptobjective.api.gips.InfthenoptobjectiveGipsAPI;
 import test.suite.gips.utils.AResourceConnector;
@@ -16,8 +16,8 @@ public class InfThenOptObjectiveConnector extends AResourceConnector {
 		GlobalTestConfig.overrideSolver(api);
 	}
 
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((InfthenoptobjectiveGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;
 	}

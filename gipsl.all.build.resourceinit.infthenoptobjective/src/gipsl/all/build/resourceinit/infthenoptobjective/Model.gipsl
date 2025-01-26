@@ -34,22 +34,22 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
+mapping n2n to mapVnode;
 
 // Exactly one mapping per virtual resource node
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->count() == 1
 }
 
 // Do not overbook substrate resource nodes
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+constraint with SubstrateResourceNode {
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) <= context.resourceAmountAvailable
 }
 
-objective nObj -> mapping::n2n {
-	self.nodes().vnode.resourceDemand
+function nObj with n2n {
+	context.nodes.vnode.resourceDemand
 }
 
-global objective : max {
-	2 * nObj
+objective : max {
+	2 * functions.nObj
 }
