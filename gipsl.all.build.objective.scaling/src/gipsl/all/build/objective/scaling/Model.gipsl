@@ -1,4 +1,4 @@
-package "gipsl.all.build.objective.scaling"
+package "gipsl.all.build.function.scaling"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
@@ -196,74 +196,74 @@ rule mapVnodeFourty {
 // GIPSL starts here!
 //
 
-mapping a with mapVnodeOne;
-mapping b with mapVnodeTwo;
-mapping c with mapVnodeTen;
-mapping d with mapVnodeTwenty;
-mapping f with mapVnodeTwentyOne;
-mapping g with mapVnodeTwentyTwo;
-mapping h with mapVnodeThirtyThree;
-mapping i with mapVnodeFourty;
+mapping a to mapVnodeOne;
+mapping b to mapVnodeTwo;
+mapping c to mapVnodeTen;
+mapping d to mapVnodeTwenty;
+mapping f to mapVnodeTwentyOne;
+mapping g to mapVnodeTwentyTwo;
+mapping h to mapVnodeThirtyThree;
+mapping i to mapVnodeFourty;
 
 // Each found virtual node (match) must be mapped (for both mappings!)
-constraint -> pattern::mapVnodeOne {
-	mappings.a->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+constraint with mapVnodeOne {
+	mappings.a->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
 }
-constraint -> pattern::mapVnodeTwo {
-	mappings.b->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+constraint with mapVnodeTwo {
+	mappings.b->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
 }
-constraint -> pattern::mapVnodeTen {
-	mappings.c->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+constraint with mapVnodeTen {
+	mappings.c->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
 }
-constraint -> pattern::mapVnodeTwenty {
-	mappings.d->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+constraint with mapVnodeTwenty {
+	mappings.d->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
 }
-constraint -> pattern::mapVnodeTwentyOne {
-	mappings.f->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+constraint with mapVnodeTwentyOne {
+	mappings.f->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
 }
-constraint -> pattern::mapVnodeTwentyTwo {
-	mappings.g->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+constraint with mapVnodeTwentyTwo {
+	mappings.g->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
 }
-constraint -> pattern::mapVnodeThirtyThree {
-	mappings.h->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+constraint with mapVnodeThirtyThree {
+	mappings.h->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
 }
-constraint -> pattern::mapVnodeFourty {
-	mappings.i->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() == 1
+constraint with mapVnodeFourty {
+	mappings.i->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
 }
 
-objective objA -> mapping::a {
+function objA with a {
 	1
 }
 
-objective objB -> mapping::b {
+function objB with b {
 	100
 }
 
-objective sumC -> class::SubstrateResourceNode {
-	mappings.c->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) / 5
+function sumC with SubstrateResourceNode {
+	mappings.c->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) / 5
 }
 
-objective sumD -> class::SubstrateResourceNode {
-	mappings.d->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) / 0.1
+function sumD with SubstrateResourceNode {
+	mappings.d->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) / 0.1
 }
 
-objective sumFG -> class::SubstrateResourceNode {
-	(mappings.f->filter(m | m.nodes().snode == self)->count() +
-	mappings.g->filter(m | m.nodes().snode == self)->count())
+function sumFG with SubstrateResourceNode {
+	(mappings.f->filter(element.nodes.snode == context)->count() +
+	mappings.g->filter(element.nodes.snode == context)->count())
 	/ 2 
 }
 
-objective sumH -> class::SubstrateResourceNode {
-	mappings.h->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) / 3
+function sumH with SubstrateResourceNode {
+	mappings.h->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) / 3
 }
 
-objective objIA -> mapping::i {
-	(self.nodes().vnode.resourceDemand + 10) / 5
+function objIA with i {
+	(context.nodes.vnode.resourceDemand + 10) / 5
 }
-objective objIB -> class::VirtualResourceNode {
-	mappings.i->filter(m | m.nodes().vnode == self)->sum(m | m.nodes().vnode.resourceDemand)
+function objIB with VirtualResourceNode {
+	mappings.i->filter(element.nodes.vnode == context)->sum(element.nodes.vnode.resourceDemand)
 }
 
-global objective : min {
-	73 * objA + (objB / 5) + sumC + sumD + (sumH / 11) + ((objIA + objIB) / 5) + sumFG
+objective : min {
+	73 * functions.objA + (functions.objB / 5) + functions.sumC + functions.sumD + (functions.sumH / 11) + ((functions.objIA + functions.objIB) / 5) + functions.sumFG
 }
