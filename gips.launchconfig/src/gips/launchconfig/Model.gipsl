@@ -25,9 +25,9 @@ rule exampleRule {
 }
 
 // create a mapping on the rule
-mapping mapNode with exampleRule;
+mapping mapNode to exampleRule;
 
 // create a constraint on one class
-constraint -> class::EOperation {
-	mappings.mapNode->filter(m | m.nodes().clazz.^abstract)->count() > self.lowerBound
+constraint with EOperation {
+	mappings.mapNode->filter(element.nodes.clazz.^abstract)->count() > context.lowerBound
 }
