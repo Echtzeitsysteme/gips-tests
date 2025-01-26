@@ -24,20 +24,20 @@ rule ra {
 	}
 }
 
-mapping ma with ra;
+mapping ma to ra;
 
 // Example: a + (1-b) + c (1-d)
-constraint -> class::Entry {
-	mappings.ma->filter(m | m.nodes().val == self)->count()
-	+ (1 - mappings.ma->filter(m | m.nodes().val == self)->count())
-	+ 2 * (1 - mappings.ma->filter(m | m.nodes().val == self)->count())
+constraint with Entry {
+	mappings.ma->filter(element.nodes.val == context)->count()
+	+ (1 - mappings.ma->filter(element.nodes.val == context)->count())
+	+ 2 * (1 - mappings.ma->filter(element.nodes.val == context)->count())
 	== 1
 }
 
-objective entryObj -> mapping::ma {
+function entryObj with ma {
 	1
 }
 
-global objective : max {
-	entryObj
+objective : max {
+	functions.entryObj
 }

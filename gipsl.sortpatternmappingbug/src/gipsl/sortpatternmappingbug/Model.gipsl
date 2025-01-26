@@ -38,21 +38,21 @@ pattern p {
 	val: Entry
 }
 
-mapping ma with ra;
-mapping mb with rb;
+mapping ma to ra;
+mapping mb to rb;
 
-constraint -> class::Entry {
-	patterns.p->filter(m | m.nodes().val == self)->count() + mappings.ma->filter(m | m.nodes().val == self)->count() + mappings.mb->filter(m | m.nodes().val == self)->count() == 3
+constraint with Entry {
+	patterns.p->filter(element.nodes.val == context)->count() + mappings.ma->filter(element.nodes.val == context)->count() + mappings.mb->filter(element.nodes.val == context)->count() == 3
 }
 
-objective maObj -> mapping::ma {
+function maObj with ma {
 	1
 }
 
-objective mbObj -> mapping::mb {
+function mbObj with mb {
 	1
 }
 
-global objective : min {
-	maObj + mbObj
+objective : min {
+	functions.maObj + functions.mbObj
 }
