@@ -61,38 +61,38 @@ when isMiddleNode
 // GIPSL
 //
 
-mapping selectEdge with selectEdge;
+mapping selectEdgeMapping to selectEdge;
 
-constraint -> pattern::findSourceNode {
-	mappings.selectEdge->filter(m | m.nodes().source == self.nodes().node)->count() == 1
+constraint with findSourceNode {
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->count() == 1
 	&
-	mappings.selectEdge->filter(m | m.nodes().target == self.nodes().node)->count() == 0
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->count() == 0
 }
 
-constraint -> pattern::findTargetNode {
-	mappings.selectEdge->filter(m | m.nodes().target == self.nodes().node)->count() == 1
+constraint with findTargetNode {
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->count() == 1
 	&
-	mappings.selectEdge->filter(m | m.nodes().source == self.nodes().node)->count() == 0
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->count() == 0
 }
 
-constraint -> pattern::findMiddleNode {
-	mappings.selectEdge->filter(m | m.nodes().target == self.nodes().node)->count() == 1
+constraint with findMiddleNode {
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->count() == 1
 	<=>
-	mappings.selectEdge->filter(m | m.nodes().source == self.nodes().node)->count() == 1
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->count() == 1
 }
 
-constraint -> class::Node {
-	mappings.selectEdge->filter(m | m.nodes().target == self)->count() <= 1
+constraint with Node {
+	mappings.selectEdgeMapping->filter(element.nodes.target == context)->count() <= 1
 	&
-	mappings.selectEdge->filter(m | m.nodes().source == self)->count() <= 1
+	mappings.selectEdgeMapping->filter(element.nodes.source == context)->count() <= 1
 }
 
 // Local objective is the weight of the selected edges
-objective o -> mapping::selectEdge {
-	self.nodes().edge.weight
+function o with selectEdgeMapping {
+	context.nodes.edge.weight
 }
 
 // Global objective should be minimized
-global objective : min {
-	o
+objective : min {
+	functions.o
 }

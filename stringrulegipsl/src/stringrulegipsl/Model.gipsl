@@ -28,4 +28,4 @@ rule setName(newname : EString) {
 	}
 }
 
-mapping m with setName;
+mapping m to setName;

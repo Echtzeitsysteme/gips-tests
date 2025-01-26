@@ -7,7 +7,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 import org.emoflon.smartemf.persistence.SmartEMFResourceFactoryImpl;
 
 import shortestpath.api.gips.ShortestpathGipsAPI;
@@ -61,8 +61,8 @@ public abstract class AbstractShortestPathGipsRunner {
 	 * @return Returns the objective value.
 	 */
 	protected double buildAndSolve(final ShortestpathGipsAPI gipsApi) {
-		gipsApi.buildILPProblem(true);
-		final ILPSolverOutput output = gipsApi.solveILPProblem();
+		gipsApi.buildProblem(true);
+		final SolverOutput output = gipsApi.solveProblem();
 		if (output.solutionCount() == 0) {
 			throw new InternalError("No solution found!");
 		}
@@ -92,7 +92,7 @@ public abstract class AbstractShortestPathGipsRunner {
 	 */
 	protected void applySolution(final ShortestpathGipsAPI gipsApi) {
 		// Print selected mappings
-		gipsApi.getSelectEdge().getMappings().forEach((k, v) -> {
+		gipsApi.getSelectEdgeMapping().getMappings().forEach((k, v) -> {
 			if (v.getValue() == 1) {
 				System.out.println("Selected mapping: " + v.getMatch().getSource().getName() + " -> "
 						+ v.getMatch().getTarget().getName());
@@ -100,7 +100,7 @@ public abstract class AbstractShortestPathGipsRunner {
 		});
 
 		// Apply found solution
-		gipsApi.getSelectEdge().applyNonZeroMappings();
+		gipsApi.getSelectEdgeMapping().applyNonZeroMappings();
 	}
 
 }
