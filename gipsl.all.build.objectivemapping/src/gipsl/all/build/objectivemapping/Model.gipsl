@@ -57,58 +57,58 @@ rule mapVnodeTen {
 // GIPSL starts here!
 //
 
-mapping a with mapVnode;
-mapping ten with mapVnodeTen;
+mapping a to mapVnode;
+mapping ten to mapVnodeTen;
 
-//constraint -> pattern::mapVnode {
+//constraint with mapVnode {
 //	mappings.a
 //		->filter(
-//			m | m.nodes().snode == self.nodes().snode
-//			& m.nodes().vnode == self.nodes().vnode
+//			element.nodes.snode == context.nodes.snode
+//			& element.nodes.vnode == context.nodes.vnode
 //		)
 //		->count() == 1
 //}
 //
-//constraint -> pattern::mapVnodeTen {
+//constraint with mapVnodeTen {
 //	mappings.ten
 //		->filter(
-//			m | m.nodes().snode == self.nodes().snode
-//			& m.nodes().vnode == self.nodes().vnode
+//			element.nodes.snode == context.nodes.snode
+//			& element.nodes.vnode == context.nodes.vnode
 //		)
 //		->count() == 1
 //}
 
 // Exactly one mapping must be chosen
-constraint -> class::VirtualResourceNode {
+constraint with VirtualResourceNode {
 		mappings.a
-		->filter(m | m.nodes().vnode == self)
+		->filter(element.nodes.vnode == context)
 		->count()
 		
 		+
 		
 		mappings.ten
-		->filter(m | m.nodes().vnode == self)
+		->filter(element.nodes.vnode == context)
 		->count()
 		
 		== 1
 }
 
-objective localObj -> pattern::mapVnode {
+function localObj with mapVnode {
 	mappings.a
 		->filter(
-			m | m.nodes().snode == self.nodes().snode
-			& m.nodes().vnode == self.nodes().vnode
-		)->sum(m | m.nodes().vnode.resourceDemand)
+			element.nodes.snode == context.nodes.snode
+			& element.nodes.vnode == context.nodes.vnode
+		)->sum(element.nodes.vnode.resourceDemand)
 }
 
-objective localObjTen -> pattern::mapVnodeTen {
+function localObjTen with mapVnodeTen {
 	mappings.ten
 		->filter(
-			m | m.nodes().snode == self.nodes().snode
-			& m.nodes().vnode == self.nodes().vnode
+			element.nodes.snode == context.nodes.snode
+			& element.nodes.vnode == context.nodes.vnode
 		)->count()
 }
 
-global objective : min {
-	localObj + localObjTen
+objective : min {
+	functions.localObj + functions.localObjTen
 }
