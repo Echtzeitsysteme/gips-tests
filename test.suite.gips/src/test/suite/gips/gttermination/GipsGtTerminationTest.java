@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.emoflon.ibex.common.operational.IMatch;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -41,8 +41,8 @@ public class GipsGtTerminationTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 
 		// Get the interpreter and check number of matches before the termination
 		// (must be 2)

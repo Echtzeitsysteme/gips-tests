@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 
 import gips.multilayeredinheritencersinit.connector.MultiLayeredInheritenceRSInitConnector;
@@ -22,9 +22,9 @@ public class MultiLayeredInheritenceRSInitTest extends AMultiLayeredInheritenceT
 			throw new IllegalArgumentException("Desired objective value < 0.");
 		}
 
-		final ILPSolverOutput ret = con.solve();
+		final SolverOutput ret = con.solve();
 		con.apply();
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(objDesVal, Math.abs(ret.objectiveValue()));
 		assertFalse(ret.validationLog().isNotValid());
 	}

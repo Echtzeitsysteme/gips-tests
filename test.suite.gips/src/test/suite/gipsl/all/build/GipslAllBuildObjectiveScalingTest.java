@@ -2,8 +2,8 @@ package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.objective.scaling.connector.ObjectiveScalingConnector;
@@ -25,9 +25,9 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(73 * 1, ret.objectiveValue());
 	}
 
@@ -37,9 +37,9 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 2);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(100 / 5, ret.objectiveValue());
 	}
 
@@ -49,9 +49,9 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 10);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10 / 5, ret.objectiveValue());
 	}
 
@@ -61,9 +61,9 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 20);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(20 / 0.1, ret.objectiveValue());
 	}
 
@@ -74,9 +74,9 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 22);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals((1 + 1) / 2, ret.objectiveValue());
 	}
 
@@ -86,9 +86,9 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 33);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals((33) / 3 / 11, ret.objectiveValue());
 	}
 
@@ -98,9 +98,9 @@ public class GipslAllBuildObjectiveScalingTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 40);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals((10 + 40) / 5, ret.objectiveValue());
 	}
 

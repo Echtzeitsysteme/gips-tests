@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,10 +42,10 @@ public class GipslAllBuildResourceSetInfThenOptObjectiveTest extends AGipslAllBu
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
 
-		ILPSolverOutput ret = con.solve();
+		SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 
 		// Reset the model
@@ -56,7 +56,7 @@ public class GipslAllBuildResourceSetInfThenOptObjectiveTest extends AGipslAllBu
 		ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(2 * 2, ret.objectiveValue());
 	}
@@ -68,10 +68,10 @@ public class GipslAllBuildResourceSetInfThenOptObjectiveTest extends AGipslAllBu
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
 
-		ILPSolverOutput ret = con.solve();
+		SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 
 		// Change model
@@ -86,7 +86,7 @@ public class GipslAllBuildResourceSetInfThenOptObjectiveTest extends AGipslAllBu
 		ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(2 * 2, ret.objectiveValue());
 	}
@@ -100,10 +100,10 @@ public class GipslAllBuildResourceSetInfThenOptObjectiveTest extends AGipslAllBu
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
 
-		ILPSolverOutput ret = con.solve();
+		SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 
 		// Change model
@@ -128,7 +128,7 @@ public class GipslAllBuildResourceSetInfThenOptObjectiveTest extends AGipslAllBu
 		ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(10, ret.objectiveValue());
 	}
@@ -140,10 +140,10 @@ public class GipslAllBuildResourceSetInfThenOptObjectiveTest extends AGipslAllBu
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
 
-		ILPSolverOutput ret = con.solve();
+		SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(4, ret.objectiveValue());
 		assertFalse(ret.validationLog().isNotValid());
 
@@ -169,7 +169,7 @@ public class GipslAllBuildResourceSetInfThenOptObjectiveTest extends AGipslAllBu
 		ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(10, ret.objectiveValue());
 	}

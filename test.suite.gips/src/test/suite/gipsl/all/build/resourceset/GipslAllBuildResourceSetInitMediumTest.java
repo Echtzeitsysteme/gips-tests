@@ -2,8 +2,8 @@ package test.suite.gipsl.all.build.resourceset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,10 +40,10 @@ public class GipslAllBuildResourceSetInitMediumTest extends AGipslAllBuildResour
 				vNodeCntr++;
 			}
 
-			ILPSolverOutput ret = con.solve();
+			SolverOutput ret = con.solve();
 			con.apply();
 
-			assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+			assertEquals(SolverStatus.OPTIMAL, ret.status());
 			// All mappings must be chosen, according to the objective function
 			assertEquals(vNodeCntr, ret.objectiveValue());
 		}
@@ -64,10 +64,10 @@ public class GipslAllBuildResourceSetInitMediumTest extends AGipslAllBuildResour
 				vNodeCntr++;
 			}
 
-			ILPSolverOutput ret = con.solve();
+			SolverOutput ret = con.solve();
 			con.apply();
 
-			assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+			assertEquals(SolverStatus.OPTIMAL, ret.status());
 			// All mappings must be chosen, according to the objective function
 			assertEquals(vNodeCntr, ret.objectiveValue());
 		}
