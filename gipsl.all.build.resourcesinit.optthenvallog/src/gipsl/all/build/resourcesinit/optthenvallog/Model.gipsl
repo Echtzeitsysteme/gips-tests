@@ -42,23 +42,23 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
+mapping n2n to mapVnode;
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->count() <= 1
 }
 
 // This constraint must not be fulfilled
 //constraint -> pattern::wrongSnode {
-constraint -> class::SubstrateResourceNode {
-	self.resourceAmountAvailable > self.resourceAmountTotal
+constraint with SubstrateResourceNode {
+	context.resourceAmountAvailable > context.resourceAmountTotal
 //	self.nodes().snode.resourceAmountAvailable > self.nodes().snode.resourceAmountTotal
 }
 
-objective nObj -> mapping::n2n {
+function nObj with n2n {
 	1
 }
 
-global objective : max {
-	nObj
+objective : max {
+	functions.nObj
 }
