@@ -51,18 +51,18 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
+mapping n2n to mapVnode;
 
-constraint -> class::SubstrateResourceNode {
+constraint with SubstrateResourceNode {
 	// RHS of the OR term is useless (logically); the RHS is never true
 	// This constraint ensures that each virtual node is mapped to every substrate node possible.
-	mappings.n2n->filter(m | m.nodes().snode == self)->count() >= patterns.vnodeNotMapped->count() | mappings.n2n->filter(m | m.nodes().snode != self)->count() <= -1
+	mappings.n2n->filter(element.nodes.snode == context)->count() >= patterns.vnodeNotMapped->count() | mappings.n2n->filter(element.nodes.snode != context)->count() <= -1
 }
 
-objective nObj -> mapping::n2n {
+function nObj with n2n {
 	1
 }
 
-global objective : min {
-	nObj
+objective : min {
+	functions.nObj
 }
