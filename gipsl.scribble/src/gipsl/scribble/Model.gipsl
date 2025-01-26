@@ -35,7 +35,7 @@ rule mapVnode {
 	# snode.resourceAmountAvailable >= 0
 }
 
-mapping n2n with mapVnode;
+mapping n2n to mapVnode;
 
 //constraint -> class::VirtualResourceNode {
 //	mappings.n2n->filter(m | true)->filter(n | n.nodes().snode == self)->notEmpty()
@@ -68,10 +68,10 @@ mapping n2n with mapVnode;
 //objective testObj -> mapping::n2n {
 //	2 log 3
 //}
-objective testObj -> mapping::n2n {
+function testObj with n2n {
 	2 log 3 + pi + e
 }
 
-global objective : min {
+objective : min {
 	1
 }
