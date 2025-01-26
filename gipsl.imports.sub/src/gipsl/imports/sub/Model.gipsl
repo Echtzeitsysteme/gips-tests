@@ -12,16 +12,16 @@ config {
 	debugOutput := false;
 }
 
-mapping g2h with mapGuestA;
+mapping g2h to mapGuestA;
 
-constraint -> global {
+constraint {
 	mappings.g2h->count() == patterns.guestNotMapped->count()
 }
 
-objective g2hObj -> mapping::g2h {
+function g2hObj with g2h {
 	1
 }
 
-global objective : min {
-	g2hObj
+objective : min {
+	functions.g2hObj
 }
