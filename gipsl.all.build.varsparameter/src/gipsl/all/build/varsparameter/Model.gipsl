@@ -40,22 +40,22 @@ rule mapVnode(par : EInt) {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode {
+mapping n2n to mapVnode {
 	var y : EInt bind par
 };
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->count() == 1
 }
 
-constraint -> mapping::n2n {
-	self.variables().y == 3
+constraint with n2n {
+	context.variables.y == 3
 }
 
-objective n2nObj -> mapping::n2n {
+function n2nObj with n2n {
 	1
 }
 
-global objective : max {
-	n2nObj
+objective : max {
+	functions.n2nObj
 }
