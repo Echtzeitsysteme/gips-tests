@@ -51,18 +51,18 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+mapping n2n to mapVnode;
+constraint with SubstrateResourceNode {
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) <= context.resourceAmountAvailable
 }
-constraint -> pattern::vnodeNotMapped {
-	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
+constraint with vnodeNotMapped {
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count() == 1
 }
 
-objective nObj -> mapping::n2n {
+function nObj with n2n {
 	1
 }
 
-global objective : min {
-	2 * nObj + 1
+objective : min {
+	2 * functions.nObj + 1
 }
