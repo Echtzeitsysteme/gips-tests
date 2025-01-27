@@ -82,13 +82,13 @@ mapping ten to mapVnodeTen;
 constraint with VirtualResourceNode {
 		mappings.a
 		->filter(element.nodes.vnode == context)
-		->count()
+		->sum(element.value)
 		
 		+
 		
 		mappings.ten
 		->filter(element.nodes.vnode == context)
-		->count()
+		->sum(element.value)
 		
 		== 1
 }
@@ -98,7 +98,7 @@ function localObj with mapVnode {
 		->filter(
 			element.nodes.snode == context.nodes.snode
 			& element.nodes.vnode == context.nodes.vnode
-		)->sum(element.nodes.vnode.resourceDemand)
+		)->sum(element.nodes.vnode.resourceDemand * element.value)
 }
 
 function localObjTen with mapVnodeTen {
@@ -106,7 +106,7 @@ function localObjTen with mapVnodeTen {
 		->filter(
 			element.nodes.snode == context.nodes.snode
 			& element.nodes.vnode == context.nodes.vnode
-		)->count()
+		)->sum(element.value)
 }
 
 objective : min {

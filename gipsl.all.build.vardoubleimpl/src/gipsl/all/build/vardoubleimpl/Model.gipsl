@@ -50,7 +50,7 @@ mapping n2n to mapVnode {
 
 // Enforce the pattern constraints by ILP
 constraint with SubstrateResourceNode {
-	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) <= context.resourceAmountAvailable
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) <= context.resourceAmountAvailable
 }
 
 // Attach the free variable (v) to the mapping variable
@@ -65,7 +65,7 @@ constraint  with n2n {
 }
 
 function n2nObj  with n2n {
-	1
+	context.value
 }
 
 objective : max {

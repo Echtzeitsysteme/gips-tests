@@ -53,14 +53,14 @@ rule mapVnode {
 
 mapping n2n to mapVnode;
 constraint with SubstrateResourceNode {
-	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) <= context.resourceAmountAvailable
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) <= context.resourceAmountAvailable
 }
 constraint with vnodeNotMapped {
-	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count() == 1
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
 
 function nObj with n2n {
-	1
+	context.value
 }
 
 objective : min {

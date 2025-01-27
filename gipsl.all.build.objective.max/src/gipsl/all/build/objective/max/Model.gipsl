@@ -40,11 +40,11 @@ rule mapVnode {
 mapping n2n to mapVnode;
 
 constraint with VirtualNode {
-	mappings.n2n->filter(element.nodes.vnode == context)->count() >= 0
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) >= 0
 }
 
 function nObj with n2n {
-	1
+	context.value
 }
 
 objective : max {

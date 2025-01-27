@@ -54,11 +54,11 @@ constraint {
 }
 
 constraint {
-	mappings.n2n->count() == 2
+	mappings.n2n->sum(element.value) == 2
 }
 
 function mapped with n2n {
-	1
+	context.value
 }
 
 objective : max {

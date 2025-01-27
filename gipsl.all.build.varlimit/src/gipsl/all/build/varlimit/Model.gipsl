@@ -56,11 +56,11 @@ mapping n2n to mapVnode;
 constraint with SubstrateResourceNode {
 	// RHS of the OR term is useless (logically); the RHS is never true
 	// This constraint ensures that each virtual node is mapped to every substrate node possible.
-	mappings.n2n->filter(element.nodes.snode == context)->count() >= patterns.vnodeNotMapped->count() | mappings.n2n->filter(element.nodes.snode != context)->count() <= -1
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) >= patterns.vnodeNotMapped->count() | mappings.n2n->filter(element.nodes.snode != context)->sum(element.value) <= -1
 }
 
 function nObj with n2n {
-	1
+	context.value
 }
 
 objective : min {

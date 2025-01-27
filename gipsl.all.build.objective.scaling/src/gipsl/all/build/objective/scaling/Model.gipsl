@@ -207,61 +207,61 @@ mapping i to mapVnodeFourty;
 
 // Each found virtual node (match) must be mapped (for both mappings!)
 constraint with mapVnodeOne {
-	mappings.a->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
+	mappings.a->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value)== 1
 }
 constraint with mapVnodeTwo {
-	mappings.b->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
+	mappings.b->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
 constraint with mapVnodeTen {
-	mappings.c->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
+	mappings.c->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
 constraint with mapVnodeTwenty {
-	mappings.d->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
+	mappings.d->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
 constraint with mapVnodeTwentyOne {
-	mappings.f->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
+	mappings.f->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
 constraint with mapVnodeTwentyTwo {
-	mappings.g->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
+	mappings.g->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
 constraint with mapVnodeThirtyThree {
-	mappings.h->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
+	mappings.h->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
 constraint with mapVnodeFourty {
-	mappings.i->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->count() == 1
+	mappings.i->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
 
 function objA with a {
-	1
+	context.value
 }
 
 function objB with b {
-	100
+	100 * context.value
 }
 
 function sumC with SubstrateResourceNode {
-	mappings.c->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) / 5
+	mappings.c->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) / 5
 }
 
 function sumD with SubstrateResourceNode {
-	mappings.d->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) / 0.1
+	mappings.d->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) / 0.1
 }
 
 function sumFG with SubstrateResourceNode {
-	(mappings.f->filter(element.nodes.snode == context)->count() +
-	mappings.g->filter(element.nodes.snode == context)->count())
+	(mappings.f->filter(element.nodes.snode == context)->sum(element.value) +
+	mappings.g->filter(element.nodes.snode == context)->sum(element.value))
 	/ 2 
 }
 
 function sumH with SubstrateResourceNode {
-	mappings.h->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) / 3
+	mappings.h->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) / 3
 }
 
 function objIA with i {
-	(context.nodes.vnode.resourceDemand + 10) / 5
+	context.value * ((context.nodes.vnode.resourceDemand + 10) / 5)
 }
 function objIB with VirtualResourceNode {
-	mappings.i->filter(element.nodes.vnode == context)->sum(element.nodes.vnode.resourceDemand)
+	mappings.i->filter(element.nodes.vnode == context)->sum(element.nodes.vnode.resourceDemand * element.value)
 }
 
 objective : min {

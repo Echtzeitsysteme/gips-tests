@@ -28,7 +28,7 @@ pattern findVnodeMapping {
 mapping move to moveVnodeMapping;
 
 constraint {
-	mappings.move->count() == 1
+	mappings.move->sum(element.value) == 1
 }
 
 
@@ -37,7 +37,7 @@ constraint {
 // It does not need a test method, etc.
 //
 function o with move {
-	patterns.findVnodeMapping
+	context.value * patterns.findVnodeMapping
 		->filter(element.nodes.s == context.nodes.s1)
 		->count()
 }

@@ -43,7 +43,7 @@ mapping n2n to mapVnode {
 };
 
 constraint with VirtualResourceNode {
-	mappings.n2n->filter(element.nodes.vnode == context)->count() == 1
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) == 1
 }
 
 constraint with n2n {
@@ -52,7 +52,7 @@ constraint with n2n {
 }
 
 function n2nObj with n2n {
-	1
+	context.value
 }
 
 function vObj with n2n {
