@@ -28,14 +28,14 @@ mapping ma to ra;
 
 // Example: a + (1-b) + c (1-d)
 constraint with Entry {
-	mappings.ma->filter(element.nodes.val == context)->count()
-	+ (1 - mappings.ma->filter(element.nodes.val == context)->count())
-	+ 2 * (1 - mappings.ma->filter(element.nodes.val == context)->count())
+	mappings.ma->filter(element.nodes.val == context)->sum(element.value)
+	+ (1 - mappings.ma->filter(element.nodes.val == context)->sum(element.value))
+	+ 2 * (1 - mappings.ma->filter(element.nodes.val == context)->sum(element.value))
 	== 1
 }
 
 function entryObj with ma {
-	1
+	context.value
 }
 
 objective : max {

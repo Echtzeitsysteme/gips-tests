@@ -64,32 +64,32 @@ when isMiddleNode
 mapping selectEdgeMapping to selectEdge;
 
 constraint with findSourceNode {
-	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->count() == 1
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value) == 1
 	&
-	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->count() == 0
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value) == 0
 }
 
 constraint with findTargetNode {
-	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->count() == 1
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value) == 1
 	&
-	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->count() == 0
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value) == 0
 }
 
 constraint with findMiddleNode {
-	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->count() == 1
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value) == 1
 	<=>
-	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->count() == 1
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value) == 1
 }
 
 constraint with Node {
-	mappings.selectEdgeMapping->filter(element.nodes.target == context)->count() <= 1
+	mappings.selectEdgeMapping->filter(element.nodes.target == context)->sum(element.value) <= 1
 	&
-	mappings.selectEdgeMapping->filter(element.nodes.source == context)->count() <= 1
+	mappings.selectEdgeMapping->filter(element.nodes.source == context)->sum(element.value) <= 1
 }
 
 // Local objective is the weight of the selected edges
 function o with selectEdgeMapping {
-	context.nodes.edge.weight
+	context.nodes.edge.weight * context.value
 }
 
 // Global objective should be minimized

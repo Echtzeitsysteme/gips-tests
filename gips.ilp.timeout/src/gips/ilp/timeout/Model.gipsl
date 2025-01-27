@@ -46,20 +46,20 @@ when srcNotMapped
 mapping s2t to mapSrc; 
 
 constraint with mapSrc {
-	mappings.s2t->filter(element.nodes.src == context.nodes.src)->count() == 1
+	mappings.s2t->filter(element.nodes.src == context.nodes.src)->sum(element.value) == 1
 }
 
 constraint with Target {
-	mappings.s2t->filter(element.nodes.trg == context)->sum(element.nodes.src.val) <= context.free
-}
+	mappings.s2t->filter(element.nodes.trg == context)->sum(element.nodes.src.val * element.value) <= context.free
+} 
 
 // The following constraint is redundant to the first one (if a non incremental run is archieved)
 constraint with Source {
-	mappings.s2t->filter(element.nodes.src == context)->count() == 1
+	mappings.s2t->filter(element.nodes.src == context)->sum(element.value) == 1
 }
 
 function o with s2t {
-	1
+	context.value
 }
 
 objective : min {

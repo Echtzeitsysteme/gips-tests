@@ -28,12 +28,12 @@ mapping t2s to runTaskInSlot;
 
 // Every task must be mapped n times (according to its duration)
 constraint with Task {
-	mappings.t2s->filter(element.nodes.t == context)->count() == context.duration     
+	mappings.t2s->filter(element.nodes.t == context)->sum(element.value) == context.duration     
 }
 
 // There must be at most one mapping per slot
 constraint with Slot {
-	mappings.t2s->filter(element.nodes.s == context)->count() <= 1
+	mappings.t2s->filter(element.nodes.s == context)->sum(element.value) <= 1
 }
 
 // No objective on purpose

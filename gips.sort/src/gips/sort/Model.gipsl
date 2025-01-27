@@ -38,13 +38,13 @@ mapping e2e to sortOne;
 mapping e2self to sortLast;
 
 constraint with Entry {
-	mappings.e2e->filter(element.nodes.valA == context)->count() + mappings.e2self->filter(element.nodes.val == context)->count() == 1
+	mappings.e2e->filter(element.nodes.valA == context)->sum(element.value) + mappings.e2self->filter(element.nodes.val == context)->sum(element.value) == 1
 }
 
 constraint with Entry {
-	mappings.e2e->filter(element.nodes.valB == context)->count() <= 1
+	mappings.e2e->filter(element.nodes.valB == context)->sum(element.value) <= 1
 } 
 
 constraint {
-	mappings.e2self->count() == 1
+	mappings.e2self->sum(element.value) == 1
 }

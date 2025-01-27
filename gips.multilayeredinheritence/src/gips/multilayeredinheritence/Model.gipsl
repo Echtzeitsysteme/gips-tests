@@ -25,21 +25,21 @@ mapping za to zeroA;
 
 // Forbid mapping of A with id 11
 constraint with A {
-	mappings.za->filter(element.nodes.a == context & context.idA == 11)->count() == 0
+	mappings.za->filter(element.nodes.a == context & context.idA == 11)->sum(element.value) == 0
 }
 
 // Forbid mapping of B with id 22
 constraint with B {
-	mappings.za->filter(element.nodes.a == context & context.idA == 22)->count() == 0
+	mappings.za->filter(element.nodes.a == context & context.idA == 22)->sum(element.value) == 0
 }
 
 // Forbid mapping of C with id 33
 constraint with C {
-	mappings.za->filter(element.nodes.a == context & context.idA == 33)->count() == 0
+	mappings.za->filter(element.nodes.a == context & context.idA == 33)->sum(element.value) == 0
 }
 
 function oa with za {
-	1
+	context.value
 }
 
 objective : max {

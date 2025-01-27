@@ -38,11 +38,11 @@ mapping n2n to mapVnode;
 
 // AND
 constraint {
-	mappings.n2n->count() == 1
+	mappings.n2n->sum(element.value) == 2
 }
 
 function nObj with n2n {
-	1
+	context.value
 }
 
 objective : max {

@@ -42,15 +42,17 @@ mapping ma to ra;
 mapping mb to rb;
 
 constraint with Entry {
-	patterns.p->filter(element.nodes.val == context)->count() + mappings.ma->filter(element.nodes.val == context)->count() + mappings.mb->filter(element.nodes.val == context)->count() == 3
+	patterns.p->filter(element.nodes.val == context)->count() + 
+	mappings.ma->filter(element.nodes.val == context)->sum(element.value) +
+mappings.mb->filter(element.nodes.val == context)->sum(element.value) == 3
 }
 
 function maObj with ma {
-	1
+	context.value
 }
 
 function mbObj with mb {
-	1
+	context.value
 }
 
 objective : min {

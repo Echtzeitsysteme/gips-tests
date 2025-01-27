@@ -15,11 +15,11 @@ config {
 mapping g2h to mapGuestA;
 
 constraint {
-	mappings.g2h->count() == patterns.guestNotMapped->count()
+	mappings.g2h->sum(element.value) == patterns.guestNotMapped->count()
 }
 
 function g2hObj with g2h {
-	1
+	context.value
 }
 
 objective : min {
