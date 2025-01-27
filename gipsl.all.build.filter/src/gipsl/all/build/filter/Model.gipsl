@@ -55,16 +55,16 @@ mapping n2n to mapVnode;
 // Constraint that should be tested
 constraint with vnodeNotMapped {
 	// This should not throw an error during compilation time
-	mappings.n2n->filter(element.nodes.snode.resourceAmountAvailable == context.nodes.vnode.resourceDemand)->count() == 1
+	mappings.n2n->filter(element.nodes.snode.resourceAmountAvailable == context.nodes.vnode.resourceDemand)->sum(element.value) == 1
 }
 
 // Helper constraint to only map a virtual node once
 constraint with vnodeNotMapped {
-	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count() == 1
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
 
 function o with n2n {
-	1
+	context.value
 }
 
 objective : max {

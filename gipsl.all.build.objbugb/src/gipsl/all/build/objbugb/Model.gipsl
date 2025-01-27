@@ -23,7 +23,7 @@ mapping m to p {
 // triggers a bug when the constant expression (`(2-1` in this case)
 // has a higher depth than the non-constant one
 function o with p {
-	mappings.m->sum(element.nodes.vnode.resourceDemand) / (2 - 1)
+	mappings.m->sum(element.nodes.vnode.resourceDemand * element.value) / (2 - 1)
 }
 
 // triggers a bug when both sides of an expression are non-constant

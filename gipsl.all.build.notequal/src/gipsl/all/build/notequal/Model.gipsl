@@ -45,15 +45,15 @@ mapping n2n to mapVnode;
 
 // NOT ...->count() == 1
 constraint with SubstrateResourceNode {
-	!mappings.n2n->filter(element.nodes.snode == context)->count() == 1
+	!mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) == 1
 }
 // ...->count() != 1
 constraint with SubstrateResourceNode {
-	mappings.n2n->filter(element.nodes.snode == context)->count() != 1
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) != 1
 }
 
 function nObj with n2n {
-	1
+	context.value
 }
 
 objective : max {

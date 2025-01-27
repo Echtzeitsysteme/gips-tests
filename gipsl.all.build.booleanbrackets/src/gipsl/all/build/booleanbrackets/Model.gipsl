@@ -24,11 +24,11 @@ constraint with SubstrateResourceNode {
 }
 
 constraint with VirtualResourceNode {
-	[mappings.sn->count() >= context.resourceDemand & mappings.sn->count() <= context.resourceDemand] | 1 == 0
+	[mappings.sn->sum(element.value) >= context.resourceDemand & mappings.sn->sum(element.value) <= context.resourceDemand] | 1 == 0
 }
 
 function snm with sn {
-	1
+	context.value
 }
 
 objective : max {

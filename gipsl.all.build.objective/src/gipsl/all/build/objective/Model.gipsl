@@ -53,16 +53,16 @@ rule mapVnode {
 
 mapping a to mapVnode;
 constraint with SubstrateResourceNode {
-	mappings.a->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) <= context.resourceAmountAvailable
+	mappings.a->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) <= context.resourceAmountAvailable
 }
 constraint with vnodeNotMapped {
-	mappings.a->filter(element.nodes.vnode == context.nodes.vnode)->count() == 1
+	mappings.a->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
 
 function objA with a {
-	1 + 2 + sin(3) + cos(4) + abs(-5) + -(6) + 7 pow 3 + sqrt(8) + context.nodes.snode.resourceAmountTotal - 9 + 10/10
+	context.value * (1 + 2 + sin(3) + cos(4) + abs(-5) + -(6) + 7 pow 3 + sqrt(8) + context.nodes.snode.resourceAmountTotal - 9 + 10/10)
 }
-function  objB with Root {
+function objB with Root {
 	500
 }
 

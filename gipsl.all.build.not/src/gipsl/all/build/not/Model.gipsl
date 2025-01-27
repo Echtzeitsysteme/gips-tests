@@ -44,7 +44,7 @@ mapping n2n to mapVnode;
 //	!(mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable)
 //}
 constraint with SubstrateResourceNode {
-	!mappings.n2n->filter(element.nodes.snode == context)->count() >= 1
+	!mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) >= 1
 }
 
 // OR
@@ -53,7 +53,7 @@ constraint with SubstrateResourceNode {
 //}
 
 function nObj with n2n {
-	1
+	context.value
 }
 
 objective : max {
