@@ -140,10 +140,10 @@ constraint with SubstrateResourceNode {
 	mappings.n2n->sum(element.nodes.snode.resourceAmountTotal) >= context.resourceAmountAvailable
 }
 
-// TODO: Broken
-//constraint with Root {
-//	mappings.n2n->filter(match | match.nodes.snode == context)->notEmpty()
-//}
+// TODO: Was broken but it should be fixed now
+constraint with Root {
+	mappings.n2n->filter(element.nodes.snode == context)->notEmpty()
+}
 
 constraint with mapVnode {
 	context.nodes.snode.resourceAmountAvailable >= 0
@@ -155,16 +155,11 @@ constraint with SubstrateResourceNode {
 	mappings.n2n->filter(element.nodes.snode == context)->count() >= 1 & context.resourceAmountAvailable > 0
 }
 
-// TODO: Broken
-// Other variable names must also be allowed
-//constraint with SubstrateResourceNode {
-//	mappings.n2n->filter(v | v.nodes.snode == context)->notEmpty()
-//}
+// TODO: Was broken but it should be fixed now
+constraint with SubstrateResourceNode {
+	mappings.n2n->filter(element.nodes.snode == context)->notEmpty()
+}
 
-// TODO: Broken
-//constraint with SubstrateResourceNode {
-//	mappings.n2n->filter(element.nodes.snode == context)->notEmpty()
-//}
 constraint with SubstrateResourceNode {
 	mappings.n2n->filter(element.nodes.snode == context)->count() == 0
 }
