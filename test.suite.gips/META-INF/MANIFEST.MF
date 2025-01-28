@@ -21,7 +21,8 @@ Require-Bundle: junit-jupiter-api;bundle-version="5.9.0",
  gips.nullmodel;bundle-version="0.0.1",
  gips.scheduling.taskmodel;bundle-version="0.0.1",
  gips.enummodel;bundle-version="0.0.1",
- genericgraphmetamodel;bundle-version="0.0.1"
+ genericgraphmetamodel;bundle-version="0.0.1",
+ org.emoflon.ibex.common
 Import-Package: gips.enumequals.connector,
  gips.generic.scheduling.codegenintreducebug.connector,
  gips.generic.scheduling.connector,
@@ -86,6 +87,8 @@ Import-Package: gips.enumequals.connector,
  gipsl.string.compare.filter.connector,
  gipsl.string.compare.nonmappingcontext.connector,
  gipsprojectpackagenamebug.connector,
+ hipe.engine,
+ org.emoflon.ibex.gt.hipe.runtime,
  org.junit.jupiter.api,
  shortestpath.connector,
  test.suite.gips.utils
