@@ -124,10 +124,21 @@ constraint with SubstrateResourceNode {
 constraint with mapVnode {
 	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count() == 1
 }
+// This constraint is redundant and only used as a sanity check vor constants. It should not change the test outcome. 
+constraint with mapVnode {
+	let a := mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count();
+	constants.a == 1
+} 
 
 // This must not produce an error
 constraint with VirtualResourceNode {
 	mappings.n2n->count() * 1 == context.resourceDemand
+}
+// This constraint is redundant and only used as a sanity check vor constants. It should not change the test outcome.
+constraint with VirtualResourceNode {
+	let a := mappings.n2n->count();
+	let b := context.resourceDemand;     
+	constants.a * 1 == constants.b  
 }
 
 constraint with SubstrateResourceNode {
