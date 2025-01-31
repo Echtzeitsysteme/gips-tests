@@ -124,7 +124,7 @@ constraint with SubstrateResourceNode {
 constraint with mapVnode {
 	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count() == 1
 }
-// This constraint is redundant and only used as a sanity check vor constants. It should not change the test outcome. 
+// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome. 
 constraint with mapVnode {
 	let a := mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count();
 	constants.a == 1
@@ -134,7 +134,7 @@ constraint with mapVnode {
 constraint with VirtualResourceNode {
 	mappings.n2n->count() * 1 == context.resourceDemand
 }
-// This constraint is redundant and only used as a sanity check vor constants. It should not change the test outcome.
+// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
 constraint with VirtualResourceNode {
 	let a := mappings.n2n->count();
 	let b := context.resourceDemand;     
@@ -398,8 +398,12 @@ function testObjD with mappingA {
 function testObjE with mappingB {
 	abs(1) + -(1) + sqrt(1) - sqrt(2.0) / cos(55)
 }
+
+// This constraint should work as before and is used as a sanity check for constants. It should not change the test outcome.
+let eh := e;
 function testObjF with mappingC {
-	2 log 3 + pi + e
+	let kuchen := pi;
+	2 log 3 + constants.kuchen + constants.eh
 }
 
 objective : min {
