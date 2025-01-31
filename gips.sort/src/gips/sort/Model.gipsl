@@ -63,8 +63,9 @@ constraint {
 
 // This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
 let global := 1;
-constraint {
-	mappings.e2self->sum(element.value) == constants.global
+let set := mappings.e2self;
+constraint { 
+	constants.set->sum(element.value) == constants.global 
 }
 
 constraint with Entry {
