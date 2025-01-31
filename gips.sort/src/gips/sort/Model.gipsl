@@ -41,6 +41,13 @@ constraint with Entry {
 	mappings.e2e->filter(element.nodes.valA == context)->sum(element.value) + mappings.e2self->filter(element.nodes.val == context)->sum(element.value) == 1
 }
 
+// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
+constraint with Entry {
+	let v := mappings.e2e->filter(element.nodes.valA == context);
+	let v2 := mappings.e2self->filter(element.nodes.val == context);
+	constants.v->sum(element.value) + constants.v2->sum(element.value) == 1
+}
+
 constraint with Entry {
 	mappings.e2e->filter(element.nodes.valB == context)->sum(element.value) <= 1
 }
