@@ -2,7 +2,7 @@ package gipsl.all.build.varequivalence.connector;
 
 import java.util.Map;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.varequivalence.api.gips.VarequivalenceGipsAPI;
 import gipsl.all.build.varequivalence.api.gips.mapping.N2nMapping;
@@ -19,8 +19,8 @@ public class VarEquivalenceConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((VarequivalenceGipsAPI) api).getN2n().applyNonZeroMappings();
 
 		save(outputPath);

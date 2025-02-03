@@ -2,8 +2,8 @@ package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,8 +22,8 @@ public class GipslAllBuildSmokeTest extends AGipslAllBuildTest {
 
 	@Test
 	public void testCreateOutput() {
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(0 + 1, ret.objectiveValue());
 	}
 

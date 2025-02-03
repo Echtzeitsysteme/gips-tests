@@ -1,6 +1,6 @@
 package gips.generic.scheduling.codegenintreducebug.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gips.generic.scheduling.codegenintreducebug.api.gips.CodegenintreducebugGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class CodeGenIntReduceBugConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		final var ams = ((CodegenintreducebugGipsAPI) api).getT2s().applyNonZeroMappings();
 		save(outputPath);
 		return output;

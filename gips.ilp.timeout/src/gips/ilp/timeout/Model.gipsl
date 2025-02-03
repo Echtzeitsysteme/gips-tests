@@ -43,25 +43,25 @@ when srcNotMapped
 // GIPSL starts here!
 //
 
-mapping s2t with mapSrc;
+mapping s2t to mapSrc; 
 
-constraint -> pattern::mapSrc {
-	mappings.s2t->filter(m | m.nodes().src == self.nodes().src)->count() == 1
+constraint with mapSrc {
+	mappings.s2t->filter(element.nodes.src == context.nodes.src)->sum(element.value) == 1
 }
 
-constraint -> class::Target {
-	mappings.s2t->filter(m | m.nodes().trg == self)->sum(m | m.nodes().src.val) <= self.free
-}
+constraint with Target {
+	mappings.s2t->filter(element.nodes.trg == context)->sum(element.nodes.src.val * element.value) <= context.free
+} 
 
 // The following constraint is redundant to the first one (if a non incremental run is archieved)
-constraint -> class::Source {
-	mappings.s2t->filter(m | m.nodes().src == self)->count() == 1
+constraint with Source {
+	mappings.s2t->filter(element.nodes.src == context)->sum(element.value) == 1
 }
 
-objective o -> mapping::s2t {
-	1
+function o with s2t {
+	context.value
 }
 
-global objective : min {
-	o
+objective : min {
+	functions.o
 }

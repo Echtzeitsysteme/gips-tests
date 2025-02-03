@@ -1,6 +1,6 @@
 package shortestpath.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import shortestpath.api.gips.ShortestpathGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,9 +16,9 @@ public class ShortestPathConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
-		((ShortestpathGipsAPI) api).getSelectEdge().applyNonZeroMappings();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
+		((ShortestpathGipsAPI) api).getSelectEdgeMapping().applyNonZeroMappings();
 		save(outputPath);
 		return output;
 	}

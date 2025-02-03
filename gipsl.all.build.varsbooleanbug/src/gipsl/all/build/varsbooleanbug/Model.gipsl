@@ -42,40 +42,40 @@ rule setDummyAttrRoot(p: EBoolean) {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode {
+mapping n2n to mapVnode {
 	var b : EBoolean
 };
 
-mapping dummyM with setDummyAttrRoot {
+mapping dummyM to setDummyAttrRoot {
 	var x : EBoolean bind p
 };
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) == 1
 }
 
-constraint -> class::Root {
-	mappings.dummyM->filter(m | m.nodes().root == self)->count() == 1
+constraint with Root {
+	mappings.dummyM->filter(element.nodes.root == context)->sum(element.value) == 1
 }
 
 // Sets the respective variable `b` to `1` if the corresponding mapping has been chosen
-constraint -> pattern::mapVnode {
-	mappings.n2n->filter(m | m.nodes().snode == self.nodes().snode & m.nodes().vnode == self.nodes().vnode)->count()
+constraint with mapVnode {
+	mappings.n2n->filter(element.nodes.snode == context.nodes.snode & element.nodes.vnode == context.nodes.vnode)->sum(element.value)
 	==
-	mappings.n2n->filter(m | m.nodes().snode == self.nodes().snode & m.nodes().vnode == self.nodes().vnode)->sum(m | m.variables().b)
+	mappings.n2n->filter(element.nodes.snode == context.nodes.snode & element.nodes.vnode == context.nodes.vnode)->sum(element.variables.b)
 }
 
 // Sets the respective variable `p` to `1` if the corresponding mapping has been chosen
-constraint -> pattern::setDummyAttrRoot {
-	mappings.dummyM->filter(m | m.nodes().root == self.nodes().root)->count()
+constraint with setDummyAttrRoot {
+	mappings.dummyM->filter(element.nodes.root == context.nodes.root)->sum(element.value)
 	==
-	mappings.dummyM->filter(m | m.nodes().root == self.nodes().root)->sum(m | m.variables().x)
+	mappings.dummyM->filter(element.nodes.root == context.nodes.root)->sum(element.variables.x)
 }
 
-objective n2nObj -> mapping::n2n {
-	1
+function n2nObj with n2n {
+	context.value
 }
 
-global objective : max {
-	n2nObj
+objective : max {
+	functions.n2nObj
 }

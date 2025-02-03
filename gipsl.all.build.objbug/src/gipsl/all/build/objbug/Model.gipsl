@@ -14,13 +14,13 @@ pattern p {
 	vnode: VirtualResourceNode
 }
 
-mapping m with p;
+mapping m to p;
 
-objective o -> mapping::m {
-	1 / (1 + 1)
+function o with m {
+	context.value * 1 / (1 + 1)
 //	1
 }
 
-global objective : max {
-	o
+objective : max {
+	functions.o
 }

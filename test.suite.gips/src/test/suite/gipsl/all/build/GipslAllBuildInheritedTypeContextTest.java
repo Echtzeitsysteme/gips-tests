@@ -2,8 +2,8 @@ package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.inheritedtypecontext.connector.InheritedTypeContextConnector;
@@ -28,10 +28,10 @@ public class GipslAllBuildInheritedTypeContextTest extends AGipslAllBuildTest {
 		gen.genSubstrateNode("s1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
 		// Result must be infeasible because the constraint is NOT satisfied
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -47,10 +47,10 @@ public class GipslAllBuildInheritedTypeContextTest extends AGipslAllBuildTest {
 
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
 		// Result must be feasible/optimal because the constraint IS satisfied
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 	}
 
 	@Override

@@ -15,6 +15,6 @@ config {
 // GIPSL starts here!
 //
 
-constraint -> class::SubstrateResourceNode {
-	self.resourceAmountAvailable >= 0
+constraint with SubstrateResourceNode {
+	context.resourceAmountAvailable >= 0
 }

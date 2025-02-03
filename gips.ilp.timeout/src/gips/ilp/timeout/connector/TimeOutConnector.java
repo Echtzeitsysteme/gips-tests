@@ -1,6 +1,6 @@
 package gips.ilp.timeout.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gips.ilp.timeout.api.gips.TimeoutGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class TimeOutConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((TimeoutGipsAPI) api).getS2t().applyNonZeroMappings();
 		save(outputPath);
 		return output;

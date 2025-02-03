@@ -38,32 +38,32 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode {
+mapping n2n to mapVnode {
 	var v : EInt
 	var w : EDouble
 	var x : EDouble
 };
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) == 1
 }
 
-constraint -> mapping::n2n {
-	self.variables().v == 2
+constraint with n2n {
+	context.variables.v == 2
 }
 
-constraint -> mapping::n2n {
-	self.variables().x == 42
+constraint with n2n {
+	context.variables.x == 42
 }
 
-constraint -> mapping::n2n {
-	self.variables().w == 1.5
+constraint with n2n {
+	context.variables.w == 1.5
 }
 
-objective n2nObj -> mapping::n2n {
-	1
+function n2nObj with n2n {
+	context.value
 }
 
-global objective : max {
-	n2nObj
+objective : max {
+	functions.n2nObj
 }

@@ -22,58 +22,58 @@ rule runTaskInSlot {
 	s: Slot
 }
 
-mapping t2s with runTaskInSlot;
+mapping t2s to runTaskInSlot;
 
 // Test values (hard-coded)
 // duration = 0
 // deadline = 1
 
 // +
-constraint -> global {
-	1 == classes.Task->sum(t | t.duration + t.deadline)
+constraint {
+	1 == types.Task->sum(element.duration + element.deadline)  
 }
 
-// -
-constraint -> global {
-	-1 == classes.Task->sum(t | t.duration - t.deadline)
+// - 
+constraint {
+	-1 == types.Task->sum(element.duration - element.deadline)
 }
 
 // *
-constraint -> global {
-	0 == classes.Task->sum(t | t.duration * t.deadline)
+constraint {
+	0 == types.Task->sum(element.duration * element.deadline)
 }
 
 // /
-constraint -> global {
-	0 == classes.Task->sum(t | t.duration / t.deadline)
+constraint {
+	0 == types.Task->sum(element.duration / element.deadline)
 }
 
 // log
-constraint -> global {
-	0 == classes.Task->sum(t | t.deadline log e)
+constraint {
+	0 == types.Task->sum(element.deadline log e)
 }
 
 // POW
-constraint -> global {
-	0 == classes.Task->sum(t | t.duration pow t.deadline)
+constraint {
+	0 == types.Task->sum(element.duration pow element.deadline)
 }
 
 // ABS
-constraint -> global {
-	1 == classes.Task->sum(t | abs(t.deadline))
+constraint {
+	1 == types.Task->sum(abs(element.deadline))
 }
 
 // SINE
-constraint -> global {
-	0 == classes.Task->sum(t | sin(t.duration))
+constraint {
+	0 == types.Task->sum(sin(element.duration))
 }
 
 // COSINE
-constraint -> global {
-	1 == classes.Task->sum(t | cos(t.duration))
+constraint {
+	1 == types.Task->sum(cos(element.duration))
 }
 
 // SQRT
-constraint -> global {
-	1 == classes.Task->sum(t | sqrt(t.deadline))
+constraint {
+	1 == types.Task->sum(sqrt(element.deadline))
 }

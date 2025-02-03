@@ -44,23 +44,23 @@ rule mapGuest {
 // GIPSL starts here!
 //
 
-mapping n2n with mapGuest;
+mapping n2n to mapGuest;
 
 // Every non-mapped guest must be mapped
-constraint -> pattern::guestNotMapped {
-	mappings.n2n->filter(m | m.nodes().g == self.nodes().g)->count() <= 1
+constraint with guestNotMapped {
+	mappings.n2n->filter(element.nodes.g == context.nodes.g)->sum(element.value) == 1
 }
 
 // Name of the guest must be equal to the name of the host
 // Context = pattern
-constraint -> pattern::mapGuest {
-	self.nodes().g.name == self.nodes().h.name
+constraint with mapGuest {
+	context.nodes.g.name == context.nodes.h.name
 }
 
-objective gObj -> mapping::n2n {
+function gObj with n2n {
 	1
 }
 
-global objective : max {
-	gObj
+objective : max {
+	functions.gObj
 }

@@ -21,27 +21,27 @@ rule zeroA {
 	}
 }
 
-mapping za with zeroA;
+mapping za to zeroA;
 
 // Forbid mapping of A with id 11
-constraint -> class::A {
-	mappings.za->filter(m | m.nodes().a == self & self.idA == 11)->count() == 0
+constraint with A {
+	mappings.za->filter(element.nodes.a == context & context.idA == 11)->sum(element.value) == 0
 }
 
 // Forbid mapping of B with id 22
-constraint -> class::B {
-	mappings.za->filter(m | m.nodes().a == self & self.idA == 22)->count() == 0
+constraint with B {
+	mappings.za->filter(element.nodes.a == context & context.idA == 22)->sum(element.value) == 0
 }
 
 // Forbid mapping of C with id 33
-constraint -> class::C {
-	mappings.za->filter(m | m.nodes().a == self & self.idA == 33)->count() == 0
+constraint with C {
+	mappings.za->filter(element.nodes.a == context & context.idA == 33)->sum(element.value) == 0
 }
 
-objective oa -> mapping::za {
-	1
+function oa with za {
+	context.value
 }
 
-global objective : max {
-	oa
+objective : max {
+	functions.oa
 }

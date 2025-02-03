@@ -36,18 +36,17 @@ rule mapVnode {
 //
 // GIPSL starts here!
 //
+mapping n2n to mapVnode;
 
-mapping n2n with mapVnode;
-
-constraint -> class::VirtualNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
+constraint with VirtualNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) <= 1
 }
 
-objective nObj -> mapping::n2n {
-	1
+function nObj with n2n {
+	context.value
 }
 
-global objective : min {
-	nObj
+objective : min {
+	functions.nObj
 }
 

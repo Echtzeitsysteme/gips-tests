@@ -1,7 +1,7 @@
 package gips.xmiinit.connector;
 
 import org.eclipse.emf.common.util.URI;
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gips.xmiinit.api.gips.XmiinitGipsAPI;
 import hipe.engine.config.HiPEPathOptions;
@@ -35,8 +35,8 @@ public class XmiInitConnector extends AConnector {
 	 * @return ILP solver output object.
 	 */
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((XmiinitGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;
 	}

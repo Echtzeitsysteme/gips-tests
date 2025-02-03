@@ -3,8 +3,8 @@ package test.suite.gips.ilp.threads;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,8 +44,8 @@ public class GipsIlpThreadsTest extends AGipsIlpTimeOutTest {
 		assertTrue(((ThreadsConnector) con).getSolverConfigThreadsEnabled());
 		assertEquals(4, ((ThreadsConnector) con).getSolverConfigThreads());
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 	}
 
 	@Test
@@ -61,8 +61,8 @@ public class GipsIlpThreadsTest extends AGipsIlpTimeOutTest {
 		assertTrue(((ThreadsConnector) con).getSolverConfigThreadsEnabled());
 		assertEquals(7, ((ThreadsConnector) con).getSolverConfigThreads());
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 	}
 
 	// Utilities

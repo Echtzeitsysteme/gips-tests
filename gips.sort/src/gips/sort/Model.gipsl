@@ -34,17 +34,47 @@ rule sortLast {
 	}
 }
 
-mapping e2e with sortOne;
-mapping e2self with sortLast;
+mapping e2e to sortOne;
+mapping e2self to sortLast;
 
-constraint -> class::Entry {
-	mappings.e2e->filter(m | m.nodes().valA == self)->count() + mappings.e2self->filter(m | m.nodes().val == self)->count() == 1
+constraint with Entry {
+	mappings.e2e->filter(element.nodes.valA == context)->sum(element.value) + mappings.e2self->filter(element.nodes.val == context)->sum(element.value) == 1
 }
 
-constraint -> class::Entry {
-	mappings.e2e->filter(m | m.nodes().valB == self)->count() <= 1
+// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
+constraint with Entry {
+	let v := mappings.e2e->filter(element.nodes.valA == context);
+	let v2 := mappings.e2self->filter(element.nodes.val == context);
+	constants.v->sum(element.value) + constants.v2->sum(element.value) == 1
 }
 
-constraint -> global {
-	mappings.e2self->count() == 1
+constraint with Entry {
+	mappings.e2e->filter(element.nodes.valB == context)->sum(element.value) <= 1
 }
+
+// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
+constraint with Entry {
+	let one := 1;
+	mappings.e2e->filter(element.nodes.valB == context)->sum(element.value) <= constants.one
+}
+
+constraint {
+	mappings.e2self->sum(element.value) == 1
+}
+
+// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
+constraint {
+	let one := 1;
+	mappings.e2self->sum(element.value) == constants.one
+}
+
+// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
+let global := 1;
+let set := mappings.e2self;
+constraint { 
+	constants.set->sum(element.value) == constants.global 
+}
+
+constraint with Entry {
+	mappings.e2e->filter(element.nodes.valB == context)->sum(element.value) <= constants.global
+} 

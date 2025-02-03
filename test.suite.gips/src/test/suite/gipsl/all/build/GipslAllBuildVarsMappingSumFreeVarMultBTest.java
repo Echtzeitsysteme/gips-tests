@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.varmappingsum.sumfreevarmultb.api.gips.mapping.N2nMapping;
@@ -30,9 +30,9 @@ public class GipslAllBuildVarsMappingSumFreeVarMultBTest extends AGipslAllBuildT
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 
 		assertFalse(((VarsMappingSumFreeVarMultBConnector) con).getN2nMappings().isEmpty());
@@ -46,9 +46,9 @@ public class GipslAllBuildVarsMappingSumFreeVarMultBTest extends AGipslAllBuildT
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 
 		assertFalse(((VarsMappingSumFreeVarMultBConnector) con).getN2nMappings().isEmpty());
@@ -64,9 +64,9 @@ public class GipslAllBuildVarsMappingSumFreeVarMultBTest extends AGipslAllBuildT
 
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, Math.abs(ret.objectiveValue()));
 
 		assertFalse(((VarsMappingSumFreeVarMultBConnector) con).getN2nMappings().isEmpty());
