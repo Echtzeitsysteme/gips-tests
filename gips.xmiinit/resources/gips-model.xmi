@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GipsIntermediate:GipsIntermediateModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:GipsIntermediate="platform:/resource/org.emoflon.gips.intermediate/model/GipsIntermediate.ecore" xmlns:IBeXPatternModel="platform:/resource/org.emoflon.ibex.patternmodel/model/IBeXPatternModel.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xsi:schemaLocation="http://www.eclipse.org/emf/2002/Ecore java://org.eclipse.emf.ecore.EcorePackage" name="Model" requiredPatterns="//@ibexModel/@patternSet/@contextPatterns.0" requiredRules="//@ibexModel/@ruleSet/@rules.0">
+<GipsIntermediate:GipsIntermediateModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:GipsIntermediate="platform:/resource/org.emoflon.gips.intermediate/model/GipsIntermediate.ecore" xmlns:IBeXPatternModel="platform:/resource/org.emoflon.ibex.patternmodel/model/IBeXPatternModel.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xsi:schemaLocation="platform:/resource/org.emoflon.gips.intermediate/model/GipsIntermediate.ecore java://org.emoflon.gips.intermediate.GipsIntermediate.GipsIntermediatePackage platform:/resource/org.emoflon.ibex.patternmodel/model/IBeXPatternModel.ecore java://org.emoflon.ibex.patternmodel.IBeXPatternModel.IBeXPatternModelPackage http://www.eclipse.org/emf/2002/Ecore java://org.eclipse.emf.ecore.EcorePackage" name="Model" requiredPatterns="//@ibexModel/@patternSet/@contextPatterns.0" requiredRules="//@ibexModel/@ruleSet/@rules.0">
   <ibexModel xmi:type="IBeXPatternModel:IBeXModel">
     <patternSet xmi:type="IBeXPatternModel:IBeXPatternSet">
       <contextPatterns xmi:type="IBeXPatternModel:IBeXContextPattern" name="mapVnode" documentation="" localEdges="//@ibexModel/@edgeSet/@edges.0 //@ibexModel/@edgeSet/@edges.1 //@ibexModel/@edgeSet/@edges.2 //@ibexModel/@edgeSet/@edges.3" signatureNodes="//@ibexModel/@nodeSet/@nodes.0 //@ibexModel/@nodeSet/@nodes.1 //@ibexModel/@nodeSet/@nodes.2 //@ibexModel/@nodeSet/@nodes.3 //@ibexModel/@nodeSet/@nodes.4"/>
@@ -49,7 +49,7 @@
   <config xmi:type="GipsIntermediate:SolverConfig" enableTimeLimit="true" ilpTimeLimit="10.0" enableRndSeed="true" enablePresolve="true"/>
   <variables xmi:type="GipsIntermediate:Variable" name="n2n" upperBound="1.0"/>
   <mappings xmi:type="GipsIntermediate:RuleMapping" name="n2n" contextPattern="//@ibexModel/@patternSet/@contextPatterns.0" mappingVariable="//@variables.0" rule="//@ibexModel/@ruleSet/@rules.0"/>
-  <constraints xmi:type="GipsIntermediate:RuleConstraint" name="RuleConstraint0OnmapVnode" constant="true" rule="//@ibexModel/@ruleSet/@rules.0" contextPattern="//@ibexModel/@patternSet/@contextPatterns.0">
+  <constraints xmi:type="GipsIntermediate:RuleConstraint" name="RuleConstraint0OnmapVnode" rule="//@ibexModel/@ruleSet/@rules.0" contextPattern="//@ibexModel/@patternSet/@contextPatterns.0">
     <expression xmi:type="GipsIntermediate:RelationalExpression" operator="Equal">
       <lhs xmi:type="GipsIntermediate:MappingReference" mapping="//@mappings.0">
         <setExpression xmi:type="GipsIntermediate:SetExpression">
@@ -59,7 +59,9 @@
               <rhs xmi:type="GipsIntermediate:NodeReference" local="true" node="//@ibexModel/@nodeSet/@nodes.4"/>
             </expression>
           </setOperation>
-          <setReduce xmi:type="GipsIntermediate:SetSimpleQuery" operator="COUNT"/>
+          <setReduce xmi:type="GipsIntermediate:SetSummation">
+            <expression xmi:type="GipsIntermediate:VariableReference" variable="//@variables.0"/>
+          </setReduce>
         </setExpression>
       </lhs>
       <rhs xmi:type="GipsIntermediate:IntegerLiteral" literal="1"/>

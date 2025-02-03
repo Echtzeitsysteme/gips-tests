@@ -31,5 +31,5 @@ rule mapSrc {
 mapping s2t to mapSrc;
 
 constraint with Target {
-	mappings.s2t->count() <= context.free
+	mappings.s2t->sum(element.value) <= context.free
 }

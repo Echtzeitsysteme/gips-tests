@@ -33,7 +33,7 @@ rule mapVnode {
 mapping n2n to mapVnode;
 
 constraint with mapVnode {
-	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count() == 1
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
 
 function o with n2n {

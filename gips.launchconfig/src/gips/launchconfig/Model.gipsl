@@ -29,5 +29,5 @@ mapping mapNode to exampleRule;
 
 // create a constraint on one class
 constraint with EOperation {
-	mappings.mapNode->filter(element.nodes.clazz.^abstract)->count() > context.lowerBound
+	mappings.mapNode->filter(element.nodes.clazz.^abstract)->sum(element.value) > context.lowerBound
 }

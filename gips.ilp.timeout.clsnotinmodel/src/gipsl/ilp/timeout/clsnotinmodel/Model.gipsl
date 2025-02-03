@@ -36,7 +36,7 @@ rule mapSrc {
 mapping s2t to mapSrc;
 
 constraint with mapSrc {
-	mappings.s2t->filter(element.nodes.src == context.nodes.src)->count() == 1
+	mappings.s2t->filter(element.nodes.src == context.nodes.src)->sum(element.value) == 1
 }
 
 constraint with Target {

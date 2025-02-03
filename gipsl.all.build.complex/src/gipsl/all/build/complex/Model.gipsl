@@ -122,24 +122,24 @@ constraint with SubstrateResourceNode {
 	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) <= context.resourceAmountAvailable
 }
 constraint with mapVnode {
-	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count() == 1
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
-// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome. 
-constraint with mapVnode {
-	let a := mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->count();
-	constants.a == 1
-} 
+//// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome. 
+//constraint with mapVnode {
+//	let a := mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value);
+//	constants.a == 1
+//} 
 
 // This must not produce an error
 constraint with VirtualResourceNode {
-	mappings.n2n->count() * 1 == context.resourceDemand
+	mappings.n2n->sum(element.value) * 1 == context.resourceDemand
 }
-// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
-constraint with VirtualResourceNode {
-	let a := mappings.n2n->count();
-	let b := context.resourceDemand;     
-	constants.a * 1 == constants.b  
-}
+//// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
+//constraint with VirtualResourceNode {
+//	let a := mappings.n2n->sum(element.value);
+//	let b := context.resourceDemand;     
+//	constants.a * 1 == constants.b  
+//}
 
 constraint with SubstrateResourceNode {
 	mappings.n2n->sum(element.nodes.snode.resourceAmountTotal) == context.resourceAmountAvailable
@@ -163,7 +163,7 @@ constraint with SubstrateResourceNode {
 	context.resourceAmountAvailable <= context.resourceAmountTotal
 }
 constraint with SubstrateResourceNode {
-	mappings.n2n->filter(element.nodes.snode == context)->count() >= 1 & context.resourceAmountAvailable > 0
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) >= 1 & context.resourceAmountAvailable > 0
 }
 
 // TODO: Was broken but it should be fixed now
@@ -172,7 +172,7 @@ constraint with SubstrateResourceNode {
 }
 
 constraint with SubstrateResourceNode {
-	mappings.n2n->filter(element.nodes.snode == context)->count() == 0
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) == 0
 }
 
 // TODO: Broken
@@ -225,7 +225,7 @@ constraint with SubstrateResourceNode {
 //}
 
 constraint with VirtualResourceNode {
-	context.resourceDemand > mappings.n2n->count()
+	context.resourceDemand > mappings.n2n->sum(element.value)
 }
 
 // TODO: Broken
@@ -249,23 +249,23 @@ constraint with VirtualResourceNode {
 //}
 
 constraint with VirtualResourceNode {
-	mappings.n2n->count() > mappings.n2n->filter(element.nodes.vnode == context)->count()
+	mappings.n2n->count() > mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value)
 }
 
 constraint with VirtualResourceNode {
-	mappings.n2n->count() + 1 > mappings.n2n->filter(element.nodes.vnode == context)->count() * 4
+	mappings.n2n->count() + 1 > mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) * 4
 }
 
 constraint with VirtualResourceNode {
-	mappings.n2n->count() - 1 > mappings.n2n->filter(element.nodes.vnode == context)->count() * 4
+	mappings.n2n->count() - 1 > mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) * 4
 }
 
 constraint with VirtualResourceNode {
-	2 - 1 > mappings.n2n->filter(element.nodes.vnode == context)->count() * 4
+	2 - 1 > mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) * 4
 }
 
 constraint with VirtualResourceNode {
-	mappings.n2n->count() == context.resourceDemand
+	mappings.n2n->sum(element.value) == context.resourceDemand
 }
 
 // TODO: Broken
@@ -360,7 +360,7 @@ constraint with mapVnode {
 // TODO: Test access to "patterns." and "types."!
 
 constraint with VirtualResourceNode {
-	mappings.n2n->count() >= 1 * context.resourceDemand | mappings.n2n->count() * context.resourceDemand <= 2
+	mappings.n2n->sum(element.value) >= 1 * context.resourceDemand | mappings.n2n->sum(element.value) * context.resourceDemand <= 2
 }
 
 

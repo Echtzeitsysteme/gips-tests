@@ -32,6 +32,6 @@ constraint with findContainer {
 // org.eclipse.emf.ecore.impl.EEnumImpl@57686538 (name: State)
 // (instanceClassName: null) (serializable: true)
 constraint with findContainer {
-	mappings.m->filter(element.nodes.c.state == context.nodes.c.state)->count() >= 0      
+	mappings.m->filter(element.nodes.c.state == context.nodes.c.state)->sum(element.value) >= 0      
 } 
  
