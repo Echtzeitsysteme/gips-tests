@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import org.emoflon.gips.core.milp.SolverOutput;
 import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +31,13 @@ public class GipslAllBuildXmiInitTest extends AGipslAllBuildTest {
 	public void callableSetUp() {
 		deleteDefaultXmiFiles();
 		con = new XmiInitConnector(gipsModelPath, modelPath, ibexPatternPath, hipeNetworkPath, hipeEngineClassName);
+	}
+
+	@AfterEach
+	public void resetHiPEPathOptions() {
+		if (con != null) {
+			((XmiInitConnector) con).resetHiPEPathOptions();
+		}
 	}
 
 	// Actual tests
