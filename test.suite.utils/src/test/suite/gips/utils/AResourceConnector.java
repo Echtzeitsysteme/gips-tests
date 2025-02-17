@@ -5,7 +5,7 @@ import org.emoflon.gips.core.milp.SolverOutput;
 
 public abstract class AResourceConnector {
 
-	protected GipsEngineAPI<?, ?> api;
+	protected GipsEngineAPI<?> api;
 
 	public SolverOutput solve() {
 		// Build the ILP problem (including updates)

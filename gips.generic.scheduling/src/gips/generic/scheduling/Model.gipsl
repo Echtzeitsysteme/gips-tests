@@ -1,4 +1,5 @@
-package "gipsl.generic.scheduling"
+package gipsl.generic.scheduling
+
 import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
 
 config {  
@@ -10,19 +11,19 @@ config {
 }
 
 rule runTaskInSlot {
-	root: Root {
-		-tasks -> t
-		-slots -> s
+	[=] root: Root {
+		[=] -tasks -> t
+		[=] -slots -> s
 	}
 	
-	t: Task {
-		++ -runningon -> s
+	[=] t: Task {
+		[+] -runningon -> s
 	}
 	
-	s: Slot
+	[=] s: Slot
 	
-	# t.^deadline >= s.^index
-}
+	[#] t.deadline >= s.index;
+};
 
 mapping t2s to runTaskInSlot;  
 

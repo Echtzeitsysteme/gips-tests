@@ -1,4 +1,5 @@
-package "gips.enumequals"
+package gips.enumequals
+
 import "http://www.eclipse.org/emf/2002/Ecore"
 // import a metamodel here
 import "platform:/resource/gips.enummodel/model/Enummodel.ecore"
@@ -12,13 +13,13 @@ config {
 }
 
 rule findContainer {
-	r : Root {
-		- containers -> c
+	[=] r : Root {
+		[=] -containers-> c
 	}
-	c : StateContainer {
-		.visited := true
-	}
-}
+	[=] c : StateContainer {
+		.visited := true;
+	} 
+}; 
 
 mapping m to findContainer;
 

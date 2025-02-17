@@ -8,7 +8,7 @@ import org.emoflon.gips.core.milp.SolverOutput;
 
 public abstract class AConnector {
 
-	protected GipsEngineAPI<?, ?> api;
+	protected GipsEngineAPI<?> api;
 
 	public abstract SolverOutput run(final String outputPath);
 

@@ -1,4 +1,4 @@
-package "gips.generic.scheduling.codegenintreducebug"
+package gips.generic.scheduling.codegenintreducebug
 import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
 
 config {  
@@ -10,18 +10,18 @@ config {
 }
 
 rule runTaskInSlot {
-	root: Root {
-		-tasks -> t
-		-slots -> s
+	[=] root: Root {
+		[=] -tasks -> t
+		[=] -slots -> s
 	}
 	
-	t: Task {
-		++ -runningon -> s
+	[=] t: Task {
+		[+] -runningon -> s
 	}
 	
-	s: Slot
-}
-
+	[=] s: Slot
+};
+ 
 mapping t2s to runTaskInSlot;
 
 // Test values (hard-coded)

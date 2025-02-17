@@ -31,7 +31,7 @@ public class GlobalTestConfig {
 	 * 
 	 * @param api GipsEngineAPI for which the  solver should be overridden.
 	 */
-	public static void overrideSolver(final GipsEngineAPI<?, ?> api) {
+	public static void overrideSolver(final GipsEngineAPI<?> api) {
 		if (!solverOverride) {
 			return;
 		}
@@ -48,7 +48,7 @@ public class GlobalTestConfig {
 	 * @param api    GipsEngineAPI to get config from.
 	 * @return Newly instantiated  solver object.
 	 */
-	private static Solver getSolver(final SolverConfig config, final GipsEngineAPI<?, ?> api) {
+	private static Solver getSolver(final SolverConfig config, final GipsEngineAPI<?> api) {
 		switch (solverType) {
 		case GLPK: {
 			return new GlpkSolver(api, config);
