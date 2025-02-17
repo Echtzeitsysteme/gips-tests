@@ -1,4 +1,4 @@
-package "gips.ilp.timeout"
+package gips.ilp.timeout
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
 config {  
@@ -9,35 +9,35 @@ config {
 	debugOutput := false;
 }
 
-condition srcNotMapped = forbid srcIsMapped
 pattern srcIsMapped {
-	trg: Target
+	[=] trg: Target
 	
-	src: Source {
-		-host -> trg
+	[=] src: Source {
+		[=] -host -> trg
 	}
-}
+};
 
 rule mapSrc {
-	root: Root {
-		-elements -> src
-		-elements -> trg
+	[=] root: Root {
+		[=] -elements -> src
+		[=] -elements -> trg
 	}
 	
-	src: Source {
-		++ -host -> trg
+	[=] src: Source {
+		[+] -host -> trg
 	}
 	
-	trg: Target {
-		++ -srcs -> src
-		.free := trg.free - src.val
+	[=] trg: Target {
+		[+] -srcs -> src
+		.free := trg.free - src.val;
 	}
 	
-	# src.val <= trg.free
-	# trg.free > 0
-	# trg.val > 0
-}
-when srcNotMapped
+	[#] src.val <= trg.free;
+	[#] trg.free > 0;
+	[#] trg.val > 0;
+	
+	forbid (srcIsMapped) [src=src, trg=trg]
+};
 
 //
 // GIPSL starts here!

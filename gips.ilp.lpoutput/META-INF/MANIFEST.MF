@@ -4,7 +4,27 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gips.ilp.lpoutput
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gips.ilp.lpoutput.connector
+Export-Package: gips.ilp.lpoutput.connector,
+ gips.ilp.lpoutput.api,
+ gips.ilp.lpoutput.api.match,
+ gips.ilp.lpoutput.api.pattern,
+ gips.ilp.lpoutput.api.rule,
+ gips.ilp.lpoutput.gips,
+ gips.ilp.threads.api,
+ gips.ilp.threads.api.match,
+ gips.ilp.threads.api.pattern,
+ gips.ilp.threads.api.rule,
+ gips.ilp.threads.gips,
+ gips.ilp.timeout.api,
+ gips.ilp.timeout.api.match,
+ gips.ilp.timeout.api.pattern,
+ gips.ilp.timeout.api.rule,
+ gips.ilp.timeout.gips,
+ gipsl.ilp.timeout.clsnotinmodel.api,
+ gipsl.ilp.timeout.clsnotinmodel.api.match,
+ gipsl.ilp.timeout.clsnotinmodel.api.pattern,
+ gipsl.ilp.timeout.clsnotinmodel.api.rule,
+ gipsl.ilp.timeout.clsnotinmodel.gips
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gips.ilp.lpoutput; singleton:=true
 Bundle-ActivationPolicy: lazy
@@ -14,4 +34,6 @@ Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.gips.core,
  org.emoflon.ibex.gt.democles,
  org.emoflon.ibex.gt.hipe,
- gips.ilp.timeout.timeoutmodel;bundle-version="0.0.1"
+ gips.ilp.timeout.timeoutmodel;bundle-version="0.0.1",
+ org.emoflon.ibex.gt.gtmodel,
+ org.eclipse.emf.ecore

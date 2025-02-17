@@ -4,7 +4,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gips.gttermination
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gips.gttermination.connector
+Export-Package: gips.gttermination.connector,
+ gips.gttermination.api,
+ gips.gttermination.api.match,
+ gips.gttermination.api.pattern,
+ gips.gttermination.api.rule,
+ gips.gttermination.gips
 Bundle-SymbolicName: gips.gttermination; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
@@ -14,4 +19,6 @@ Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt.democles,
  org.emoflon.ibex.gt.hipe,
  gipsl.all.build.model,
- test.suite.utils
+ test.suite.utils,
+ org.emoflon.ibex.gt.gtmodel,
+ org.eclipse.emf.ecore

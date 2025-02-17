@@ -1,4 +1,5 @@
-package "gips.gttermination"
+package gips.gttermination
+
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
@@ -10,25 +11,25 @@ config {
 }
 
 rule mapVnode {
-	root: Root {
-		-containers -> substrateContainer
-		-containers -> virtualContainer
+	[=] root: Root {
+		[=] -containers -> substrateContainer
+		[=] -containers -> virtualContainer
 	}
 	
-	substrateContainer: SubstrateContainer {
-		-substrateNodes -> snode
+	[=] substrateContainer: SubstrateContainer {
+		[=] -substrateNodes -> snode
 	}
 	
-	virtualContainer: VirtualContainer {
-		-virtualNodes -> vnode
+	[=] virtualContainer: VirtualContainer {
+		[=] -virtualNodes -> vnode
 	}
 	
-	snode: SubstrateResourceNode
+	[=] snode: SubstrateResourceNode
 	
-	vnode: VirtualResourceNode {
-		++ -host -> snode
+	[=] vnode: VirtualResourceNode {
+		[+] -host -> snode
 	}
-}
+};
 
 //
 // GIPSL starts here!

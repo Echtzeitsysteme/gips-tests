@@ -1,4 +1,4 @@
-package "gipsl.ilp.timeout.clsnotinmodel"
+package gipsl.ilp.timeout.clsnotinmodel
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
 config {  
@@ -10,24 +10,24 @@ config {
 }
 
 rule mapSrc {
-	root: Root {
-		-elements -> src
-		-elements -> trg
+	[=] root: Root {
+		[=] -elements -> src
+		[=] -elements -> trg
 	}
 	
-	src: Source {
-		++ -host -> trg
+	[=] src: Source {
+		[+] -host -> trg
 	}
 	
-	trg: Target {
-		++ -srcs -> src
-		.free := trg.free - src.val
+	[=] trg: Target {
+		[+] -srcs -> src
+		.free := trg.free - src.val;
 	}
 	
-	# src.val <= trg.free
-	# trg.free > 0
-	# trg.val > 0
-}
+	[#] src.val <= trg.free;
+	[#] trg.free > 0;
+	[#] trg.val > 0;
+};
 
 //
 // GIPSL starts here!

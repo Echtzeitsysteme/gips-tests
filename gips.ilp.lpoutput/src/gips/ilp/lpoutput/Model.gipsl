@@ -1,4 +1,4 @@
-package "gips.ilp.lpoutput"
+package gips.ilp.lpoutput
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
 config {  
@@ -9,20 +9,20 @@ config {
 }
 
 rule mapSrc {
-	root: Root {
-		-elements -> src
-		-elements -> trg
+	[=] root: Root {
+		[=] -elements -> src
+		[=] -elements -> trg
 	}
 	
-	src: Source {
-		++ -host -> trg
+	[=] src: Source {
+		[+] -host -> trg
 	}
 	
-	trg: Target {
-		++ -srcs -> src
-		.free := trg.free - src.val
+	[=] trg: Target {
+		[+] -srcs -> src
+		.free := trg.free - src.val;
 	}
-}
+};
 
 //
 // GIPSL starts here!

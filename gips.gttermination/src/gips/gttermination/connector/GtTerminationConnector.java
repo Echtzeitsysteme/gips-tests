@@ -1,9 +1,9 @@
 package gips.gttermination.connector;
 
 import org.emoflon.gips.core.milp.SolverOutput;
-import org.emoflon.ibex.gt.api.GraphTransformationAPI;
+import org.emoflon.ibex.gt.api.IBeXGtAPI;
 
-import gips.gttermination.api.gips.GtterminationGipsAPI;
+import gips.gttermination.gips.GtterminationHiPEGipsApi;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
 import test.suite.gips.utils.GlobalTestConfig;
@@ -11,7 +11,7 @@ import test.suite.gips.utils.GlobalTestConfig;
 public class GtTerminationConnector extends AConnector {
 
 	public GtTerminationConnector(final String modelPath) {
-		api = new GtterminationGipsAPI();
+		api = new GtterminationHiPEGipsApi();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 		GlobalTestConfig.overrideSolver(api);
 	}
@@ -19,12 +19,12 @@ public class GtTerminationConnector extends AConnector {
 	@Override
 	public SolverOutput run(final String outputPath) {
 		final SolverOutput output = solve();
-		((GtterminationGipsAPI) api).getN2n().applyNonZeroMappings();
+		((GtterminationHiPEGipsApi) api).getN2n().applyNonZeroMappings();
 		save(outputPath);
 		return output;
 	}
 
-	public GraphTransformationAPI getEmoflonApi() {
+	public IBeXGtAPI<?, ?, ?> getEmoflonApi() {
 		return api.getEMoflonAPI();
 	}
 
