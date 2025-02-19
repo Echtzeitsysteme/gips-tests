@@ -1,0 +1,65 @@
+package "gipsl.all.build.objective.typeaccess"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+condition vnodeNotMapped = forbid vnodeIsMapped
+pattern vnodeIsMapped {
+	host: SubstrateNode
+	
+	vnode: VirtualNode {
+		-host -> host
+	}
+}
+
+pattern vnodeNotMapped {
+	vnode: VirtualNode
+}
+when vnodeNotMapped
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping a to mapVnode;
+
+constraint with vnodeNotMapped {
+	mappings.a->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
+}
+
+function objA with a {
+	1
+}
+
+objective : max {
+	0
+	+ functions.objA
+	+ types.SubstrateResourceNode->sum(element.resourceAmountTotal)
+}
