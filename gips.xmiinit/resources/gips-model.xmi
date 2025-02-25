@@ -46,7 +46,7 @@
       </edges>
     </edgeSet>
   </ibexModel>
-  <config xmi:type="GipsIntermediate:SolverConfig" enableTimeLimit="true" ilpTimeLimit="10.0" enableRndSeed="true" enablePresolve="true"/>
+  <config xmi:type="GipsIntermediate:SolverConfig" enableTimeLimit="true" timeLimit="10.0" enableRndSeed="true" enablePresolve="true"/>
   <variables xmi:type="GipsIntermediate:Variable" name="n2n" upperBound="1.0"/>
   <mappings xmi:type="GipsIntermediate:RuleMapping" name="n2n" contextPattern="//@ibexModel/@patternSet/@contextPatterns.0" mappingVariable="//@variables.0" rule="//@ibexModel/@ruleSet/@rules.0"/>
   <constraints xmi:type="GipsIntermediate:RuleConstraint" name="RuleConstraint0OnmapVnode" rule="//@ibexModel/@ruleSet/@rules.0" contextPattern="//@ibexModel/@patternSet/@contextPatterns.0">
