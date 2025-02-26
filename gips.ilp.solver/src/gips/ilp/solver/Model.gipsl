@@ -1,0 +1,29 @@
+package "gips.ilp.solver"
+import "platform:/resource/gips.nullmodel/model/Nullmodel.ecore"
+// import a metamodel here
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule addSubNode {
+	root: Root {
+		++ -subnode -> sn
+	}
+	
+	sn: Subnode
+}
+
+mapping asn to addSubNode;
+
+function o with asn {
+	1
+}
+
+objective : max {
+	functions.o
+}
