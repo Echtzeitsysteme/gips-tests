@@ -1,5 +1,6 @@
 package gips.generic.scheduling.connector;
 
+import org.emoflon.gips.core.api.GipsEngineAPI;
 import org.emoflon.gips.core.milp.SolverOutput;
 
 import gips.generic.scheduling.api.gips.SchedulingGipsAPI;
@@ -21,6 +22,10 @@ public class GenericSchedulingConnector extends AConnector {
 		final var ams = ((SchedulingGipsAPI) api).getT2s().applyNonZeroMappings();
 		save(outputPath);
 		return output;
+	}
+
+	public GipsEngineAPI<?, ?> getApi() {
+		return this.api;
 	}
 
 }
