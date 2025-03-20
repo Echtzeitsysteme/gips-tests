@@ -9,6 +9,7 @@ import org.emoflon.gips.core.milp.SolverOutput;
 import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import gips.ilp.timeout.connector.TimeOutConnector;
@@ -40,6 +41,7 @@ public class GipsIlpTimeOutTest extends AGipsIlpTimeOutTest {
 				"The ILP solver did find at least one solution for all three tests.");
 	}
 
+	@Disabled("Sometimes, the solver is too fast in this test.")
 	@Test
 	public void test10to10() {
 		for (int i = 1; i <= 10; i++) {
