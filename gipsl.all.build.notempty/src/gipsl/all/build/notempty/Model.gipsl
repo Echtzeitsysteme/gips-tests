@@ -2,8 +2,7 @@ package "gipsl.all.build.notempty"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -37,22 +36,19 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
+mapping n2n to mapVnode;
 
-constraint -> global {
-//	mappings.n2n->count() >= 1
+constraint {
 	mappings.n2n->notEmpty()
 }
-constraint -> class::VirtualResourceNode {
-//	mappings.n2n->filter(m | m.nodes().vnode == self)->count() >= 1
-	mappings.n2n->filter(m | m.nodes().vnode == self)->notEmpty()
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->notEmpty()
 }
 
-objective nObj -> mapping::n2n {
-	1
+function nObj with n2n {
+	context.value
 }
 
-global objective : max {
-	nObj
+objective : max {
+	functions.nObj
 }
-

@@ -6,7 +6,7 @@ Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: gipsl.all.build.notempty;singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-16
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: gipsl.all.build.model;bundle-version="0.0.1",
  test.suite.utils;bundle-version="1.0.0",
  org.emoflon.ibex.common,
