@@ -2,7 +2,7 @@ package "gips.tsp"
 import "platform:/resource/gips.tsp.citymodel/model/Citymodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 60.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -27,29 +27,30 @@ pattern findCity {
 	c: City
 }
 
-mapping c2c with connect;
-mapping c with findCity {
+mapping c2c to connect;
+mapping c to findCity {
 	var v : EInt
 };
 
-constraint -> class::City {
-	mappings.c2c->filter(m | m.nodes().ca == self)->count() == 1 &
-	mappings.c2c->filter(m | m.nodes().cb == self)->count() == 1
+constraint with City {
+	mappings.c2c->filter(element.nodes.ca == context)->sum(element.value) == 1 &
+	mappings.c2c->filter(element.nodes.cb == context)->sum(element.value) == 1
 }
 
 // TODO: Eliminate sub tours
-constraint -> mapping::c {
-	1 <= self.variables().v
+constraint with c {
+	1 <= context.variables.v
 }
-constraint -> mapping::c {
-	self.variables().v <= classes.City->count() - 1
+constraint with c {
+	context.variables.v <= types.City->count() - 1
 }
 
-objective city -> mapping::c2c {
+function city with c2c {
 	// TODO: sqrt needed?
-	(self.nodes().cb.x - self.nodes().ca.x) pow 2 + (self.nodes().cb.y - self.nodes().ca.y) pow 2
+	((context.nodes.cb.x - context.nodes.ca.x) pow 2 + (context.nodes.cb.y - context.nodes.ca.y) pow 2)
+	* context.value
 }
 
-global objective : min {
-	city
+objective : min {
+	functions.city
 }
