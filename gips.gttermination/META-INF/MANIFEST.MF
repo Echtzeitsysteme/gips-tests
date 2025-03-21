@@ -5,7 +5,6 @@ Bundle-Name: gips.gttermination
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Export-Package: gips.gttermination.connector
-Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gips.gttermination; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
@@ -14,4 +13,5 @@ Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.gips.core,
  org.emoflon.ibex.gt.democles,
  org.emoflon.ibex.gt.hipe,
- gipsl.all.build.model
+ gipsl.all.build.model,
+ test.suite.utils

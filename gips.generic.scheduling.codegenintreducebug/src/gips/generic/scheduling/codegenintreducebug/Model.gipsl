@@ -1,0 +1,79 @@
+package "gips.generic.scheduling.codegenintreducebug"
+import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 60.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule runTaskInSlot {
+	root: Root {
+		-tasks -> t
+		-slots -> s
+	}
+	
+	t: Task {
+		++ -runningon -> s
+	}
+	
+	s: Slot
+}
+
+mapping t2s to runTaskInSlot;
+
+// Test values (hard-coded)
+// duration = 0
+// deadline = 1
+
+// +
+constraint {
+	1 == types.Task->sum(element.duration + element.deadline)  
+}
+
+// - 
+constraint {
+	-1 == types.Task->sum(element.duration - element.deadline)
+}
+
+// *
+constraint {
+	0 == types.Task->sum(element.duration * element.deadline)
+}
+
+// /
+constraint {
+	0 == types.Task->sum(element.duration / element.deadline)
+}
+
+// log
+constraint {
+	0 == types.Task->sum(element.deadline log e)
+}
+
+// POW
+constraint {
+	0 == types.Task->sum(element.duration pow element.deadline)
+}
+
+// ABS
+constraint {
+	1 == types.Task->sum(abs(element.deadline))
+}
+
+// SINE
+constraint {
+	0 == types.Task->sum(sin(element.duration))
+}
+
+// COSINE
+constraint {
+	1 == types.Task->sum(cos(element.duration))
+}
+
+// SQRT
+constraint {
+	1 == types.Task->sum(sqrt(element.deadline))
+}

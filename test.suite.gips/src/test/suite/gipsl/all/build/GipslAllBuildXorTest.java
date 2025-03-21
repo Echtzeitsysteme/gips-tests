@@ -2,8 +2,8 @@ package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.xor.connector.XorConnector;
@@ -26,9 +26,9 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		// One mapping must be chosen
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 	}
@@ -41,9 +41,9 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v3", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		// Only one of the three matches must be embedded because of the XOR constraint
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 	}
@@ -53,11 +53,11 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 		gen.genSubstrateNode("s1", 2);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
 		// No mapping must be chosen but status must be infeasible
 		// 0 matches -> both conditions are true -> XOR is always false
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -65,11 +65,16 @@ public class GipslAllBuildXorTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
 		// No mapping must be chosen but status must be optimal
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, Math.abs(ret.objectiveValue()));
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return XorConnector.class;
 	}
 
 }

@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,10 +38,10 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		// Set up in such a way that the validation log gets triggered
 		gen.genSubstrateNode("s1", 1);
 
-		final ILPSolverOutput ret = con.solve();
+		final SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 		assertTrue(ret.validationLog().isNotValid());
 
 		// Lets start with the real test!
@@ -49,10 +49,10 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		gen.reset();
 		gen.genVirtualNode("v1", 1);
 
-		final ILPSolverOutput ret2 = con.solve();
+		final SolverOutput ret2 = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret2.status());
+		assertEquals(SolverStatus.OPTIMAL, ret2.status());
 		assertEquals(0, Math.abs(ret2.objectiveValue()));
 	}
 
@@ -61,22 +61,22 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		// Set up in such a way that the validation log does not get triggered
 		gen.genVirtualNode("v1", 1);
 
-		final ILPSolverOutput ret = con.solve();
+		final SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 
 		// Reset the model
 		gen.reset();
 		gen.genSubstrateNode("s1", 1);
 
-		final ILPSolverOutput ret2 = con.solve();
+		final SolverOutput ret2 = con.solve();
 		con.apply();
 
 		// Now, the validation log must be invalid again + the problem must be
 		// infeasible
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret2.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret2.status());
 		assertTrue(ret2.validationLog().isNotValid());
 	}
 
@@ -87,20 +87,25 @@ public class GipslAllBuildResourceSetOptThenValidationLogFailureTest extends AGi
 		final SubstrateResourceNode snode = (SubstrateResourceNode) sub.getSubstrateNodes().get(0);
 		snode.setResourceAmountAvailable(2);
 
-		final ILPSolverOutput ret = con.solve();
+		final SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, Math.abs(ret.objectiveValue()));
 
 		// Add a virtual node
 		gen.genVirtualNode("v1", 1);
 
-		final ILPSolverOutput ret2 = con.solve();
+		final SolverOutput ret2 = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret2.status());
+		assertEquals(SolverStatus.OPTIMAL, ret2.status());
 		assertEquals(1, Math.abs(ret2.objectiveValue()));
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return OptThenValidationLogConnector.class;
 	}
 
 }

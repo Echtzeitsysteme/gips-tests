@@ -2,7 +2,7 @@ package "gipsl.all.build.varnamebug"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -34,31 +34,31 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode {
+mapping n2n to mapVnode {
 	var n : EInt
 };
 
 // Connect the variable 'n' to the corresponding mapping variable through the pattern context
-constraint -> pattern::mapVnode {
-	[mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() >= 1
+constraint with mapVnode {
+	[mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) >= 1
 	=>
-	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->sum(m | m.variables().n) >= 1]
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.variables.n) >= 1] 
+	 
+	&    
 	
-	&
-	
-	[mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->sum(m | m.variables().n) >= 1
+	[mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.variables.n) >= 1
 	=>
-	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode & m.nodes().snode == self.nodes().snode)->count() >= 1]
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) >= 1]
 }
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) == 1
 }
 
-objective o -> mapping::n2n {
-	1
+function o with n2n {
+	context.value
 }
 
-global objective : min {
-	o
+objective : min {
+	functions.o
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genericgraphmetamodel:Root xmlns:genericgraphmetamodel="platform:/resource/genericgraphmetamodel/model/Genericgraphmetamodel.ecore" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" sourceNode="//@nodes.0" targetNode="//@nodes.2" xmi:version="2.0">
+  <nodes name="1" outgoingEdges="//@edges.0 //@edges.1" />
+  <nodes name="2" incomingEdges="//@edges.0" outgoingEdges="//@edges.2" />
+  <nodes name="3" incomingEdges="//@edges.2 //@edges.3" />
+  <nodes name="4" incomingEdges="//@edges.1" outgoingEdges="//@edges.3" />
+  <edges source="//@nodes.0" target="//@nodes.1" name="1-&gt;2" weight="1" selected="true" />
+  <edges source="//@nodes.0" target="//@nodes.3" name="1-&gt;4" weight="4" selected="false" />
+  <edges source="//@nodes.1" target="//@nodes.2" name="2-&gt;3" weight="1" selected="true" />
+  <edges source="//@nodes.3" target="//@nodes.2" name="4-&gt;3" weight="2" selected="false" />
+</genericgraphmetamodel:Root>

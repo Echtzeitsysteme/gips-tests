@@ -2,7 +2,7 @@ package "gipsl.all.build.resourcesetinit"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -34,16 +34,16 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
+mapping n2n to mapVnode;
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) == 1
 }
 
-objective nObj -> mapping::n2n {
-	1
+function nObj with n2n {
+	context.value
 }
 
-global objective : min {
-	nObj
+objective : min {
+	functions.nObj
 }

@@ -5,10 +5,11 @@ import java.io.File;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import test.suite.gips.AbstractGipsTest;
 import test.suite.gips.imports.utils.ImportsModelGenerator;
 import test.suite.gips.utils.AConnector;
 
-public abstract class AGipslImportsTest {
+public abstract class AGipslImportsTest extends AbstractGipsTest {
 
 	protected AConnector con;
 	protected ImportsModelGenerator gen;

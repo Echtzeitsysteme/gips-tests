@@ -14,4 +14,4 @@ Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt.hipe,
  gipsl.all.build.model;bundle-version="0.0.1",
  test.suite.utils;bundle-version="1.0.0"
-Export-Package: gipsl.all.build.or.connector
+Export-Package: gipsl.all.build.or.a.connector

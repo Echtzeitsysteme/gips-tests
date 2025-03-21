@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.emoflon.gips.intermediate.GipsIntermediate.ILPSolverType;
+import org.emoflon.gips.intermediate.GipsIntermediate.SolverType;
 
 import test.suite.gips.utils.GlobalTestConfig;
 
@@ -30,17 +30,17 @@ public class GlobalTestRunnerAllSolvers {
 
 		GlobalTestConfig.solverOverride = true;
 
-		GlobalTestConfig.solverType = ILPSolverType.GLPK;
+		GlobalTestConfig.solverType = SolverType.GLPK;
 		removeFile(GLPK_REPORT_PATH);
 		GlobalTestRunner.runTests(pathArg, GLPK_SUB_PATH);
 		renameFile(BASE_REPORT_PATH, GLPK_REPORT_PATH);
 
-		GlobalTestConfig.solverType = ILPSolverType.GUROBI;
+		GlobalTestConfig.solverType = SolverType.GUROBI;
 		removeFile(GUROBI_REPORT_PATH);
 		GlobalTestRunner.runTests(pathArg, GUROBI_SUB_PATH);
 		renameFile(BASE_REPORT_PATH, GUROBI_REPORT_PATH);
 
-		GlobalTestConfig.solverType = ILPSolverType.CPLEX;
+		GlobalTestConfig.solverType = SolverType.CPLEX;
 		removeFile(CPLEX_REPORT_PATH);
 		GlobalTestRunner.runTests(pathArg, CPLEX_SUB_PATH);
 		renameFile(BASE_REPORT_PATH, CPLEX_REPORT_PATH);

@@ -2,8 +2,7 @@ package "gipsl.all.build.sumvalue"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
@@ -49,19 +48,19 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
-constraint -> global {
-	mappings.n2n->sum(m | m.value()) == 2
+mapping n2n to mapVnode;
+constraint { 
+	mappings.n2n->sum(element.value) == 2 
 }
 
-constraint -> global {
-	mappings.n2n->count() == 2
+constraint {
+	mappings.n2n->sum(element.value) == 2
 }
 
-objective mapped -> mapping::n2n {
-	1
+function mapped with n2n {
+	context.value
 }
 
-global objective : max {
-	mapped
+objective : max {
+	functions.mapped
 }
