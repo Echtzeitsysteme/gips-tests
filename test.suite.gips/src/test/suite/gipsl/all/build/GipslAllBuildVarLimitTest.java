@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.varlimit.connector.VarLimitConnector;
@@ -30,9 +30,9 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
@@ -46,9 +46,9 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, Math.abs(ret.objectiveValue()));
 		checkConsistency();
 	}
@@ -63,9 +63,9 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		// Every virtual node must be mapped to both substrate nodes
 		assertEquals(10 * 2, Math.abs(ret.objectiveValue()));
 		checkConsistency();
@@ -81,11 +81,11 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
 		// Status must be infeasible because the one virtual node has no match for the
 		// second substrate node (because its resouce demand is too high)
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	// Utility methods
@@ -104,6 +104,11 @@ public class GipslAllBuildVarLimitTest extends AGipslAllBuildTest {
 				});
 			}
 		});
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarLimitConnector.class;
 	}
 
 }

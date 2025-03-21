@@ -2,8 +2,8 @@ package test.suite.gips.imports;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.imports.sub.connector.ImportsSubConnector;
@@ -21,8 +21,8 @@ public class GipslImportsSimpleMappingTest extends AGipslImportsTest {
 		gen.genGuest("g1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, ret.objectiveValue());
 	}
 
@@ -33,8 +33,8 @@ public class GipslImportsSimpleMappingTest extends AGipslImportsTest {
 		gen.genGuest("g2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
 	}
 
@@ -46,8 +46,8 @@ public class GipslImportsSimpleMappingTest extends AGipslImportsTest {
 		gen.genGuest("g2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
 	}
 
@@ -56,8 +56,8 @@ public class GipslImportsSimpleMappingTest extends AGipslImportsTest {
 		gen.genHost("h1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, ret.objectiveValue());
 	}
 
@@ -66,8 +66,13 @@ public class GipslImportsSimpleMappingTest extends AGipslImportsTest {
 		gen.genGuest("g1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return ImportsSubConnector.class;
 	}
 
 }

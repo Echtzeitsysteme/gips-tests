@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.varmappingsum.sumfreevarmapping
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gipsl.all.build.varsmappingsum.sumfreevarmapping.connector
+Export-Package: gipsl.all.build.varmappingsum.sumfreevarmapping.connector
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gipsl.all.build.varmappingsum.sumfreevarmapping; singleton:=true
 Bundle-ActivationPolicy: lazy

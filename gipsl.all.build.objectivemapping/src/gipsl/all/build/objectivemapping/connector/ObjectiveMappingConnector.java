@@ -1,6 +1,6 @@
 package gipsl.all.build.objectivemapping.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.objectivemapping.api.gips.ObjectivemappingGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class ObjectiveMappingConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((ObjectivemappingGipsAPI) api).getA().applyNonZeroMappings();
 		save(outputPath);
 		return output;

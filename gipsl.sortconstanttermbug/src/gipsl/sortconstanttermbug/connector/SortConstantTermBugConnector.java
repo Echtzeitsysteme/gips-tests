@@ -1,6 +1,6 @@
 package gipsl.sortconstanttermbug.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.sortconstanttermbug.api.gips.SortconstanttermbugGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class SortConstantTermBugConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((SortconstanttermbugGipsAPI) api).getMa().applyNonZeroMappings();
 		return output;
 	}

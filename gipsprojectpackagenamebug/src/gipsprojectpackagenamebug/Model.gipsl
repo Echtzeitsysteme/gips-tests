@@ -2,7 +2,7 @@ package "gipsprojectpackagenamebug"
 import "platform:/resource/gips.nullmodel/model/Nullmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -23,12 +23,12 @@ rule addSubNode {
 	sn: Subnode
 }
 
-mapping asn with addSubNode;
+mapping asn to addSubNode;
 
-objective o -> mapping::asn {
+function o with asn {
 	1
 }
 
-global objective : max {
-	o
+objective : max {
+	functions.o
 }

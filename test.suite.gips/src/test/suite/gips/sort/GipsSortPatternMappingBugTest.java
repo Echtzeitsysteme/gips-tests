@@ -2,8 +2,8 @@ package test.suite.gips.sort;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +29,10 @@ public class GipsSortPatternMappingBugTest extends AGipsSortTest {
 	public void test1Entry() {
 		SortModelGenerator.genNEntries(1);
 		callableSetUp();
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 		SortModelGenerator.loadModel(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2 * 1, ret.objectiveValue());
 	}
 
@@ -40,10 +40,10 @@ public class GipsSortPatternMappingBugTest extends AGipsSortTest {
 	public void test2Entries() {
 		SortModelGenerator.genNEntries(2);
 		callableSetUp();
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 		SortModelGenerator.loadModel(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2 * 2, ret.objectiveValue());
 	}
 
@@ -51,11 +51,16 @@ public class GipsSortPatternMappingBugTest extends AGipsSortTest {
 	public void test10Entries() {
 		SortModelGenerator.genNEntries(10);
 		callableSetUp();
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 		SortModelGenerator.loadModel(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2 * 10, ret.objectiveValue());
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return SortPatternMappingBugConnector.class;
 	}
 
 }

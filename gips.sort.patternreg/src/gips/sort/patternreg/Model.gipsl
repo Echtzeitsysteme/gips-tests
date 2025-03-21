@@ -2,8 +2,7 @@ package "gips.sort.patternreg"
 import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
@@ -22,6 +21,6 @@ rule findFirst {
 
 // Mapping removed on purpose to trigger exception
 //mapping eFirst with findFirst;
-constraint -> class::Entry {
-	patterns.findFirst->filter(m | m.nodes().val == self)->count() == 0
+constraint with Entry {
+	rules.findFirst->filter(element.nodes.val == context)->count() == 0
 }
