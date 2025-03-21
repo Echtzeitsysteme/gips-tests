@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.emoflon.gips.core.milp.SolverOutput;
 import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
+
 import gipsl.all.build.notempty.connector.NotEmptyConnector;
 
 public class GipslAllBuildNotEmptyTest extends AGipslAllBuildTest {

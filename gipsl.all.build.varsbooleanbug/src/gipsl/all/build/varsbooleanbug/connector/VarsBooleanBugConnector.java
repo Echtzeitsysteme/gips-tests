@@ -26,11 +26,11 @@ public class VarsBooleanBugConnector extends AConnector {
 		save(outputPath);
 		return output;
 	}
-	
+
 	public Map<String, N2nMapping> getN2nMappings() {
 		return ((VarsbooleanbugGipsAPI) api).getN2n().getMappings();
 	}
-	
+
 	public Map<String, DummyMMapping> getDummyMMappings() {
 		return ((VarsbooleanbugGipsAPI) api).getDummyM().getMappings();
 	}

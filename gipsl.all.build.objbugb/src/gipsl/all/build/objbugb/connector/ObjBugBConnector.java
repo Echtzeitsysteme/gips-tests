@@ -1,6 +1,5 @@
 package gipsl.all.build.objbugb.connector;
 
-
 import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.objbugb.api.gips.ObjbugbGipsAPI;

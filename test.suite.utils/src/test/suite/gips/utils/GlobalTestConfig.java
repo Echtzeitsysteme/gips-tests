@@ -27,9 +27,9 @@ public class GlobalTestConfig {
 	}
 
 	/**
-	 * Overrides the  solver configuration for a given GipsEngineAPI.
+	 * Overrides the solver configuration for a given GipsEngineAPI.
 	 * 
-	 * @param api GipsEngineAPI for which the  solver should be overridden.
+	 * @param api GipsEngineAPI for which the solver should be overridden.
 	 */
 	public static void overrideSolver(final GipsEngineAPI<?, ?> api) {
 		if (!solverOverride) {
@@ -40,13 +40,13 @@ public class GlobalTestConfig {
 	}
 
 	/**
-	 * Creates a new  solver instance for the given SolverConfig and the given
+	 * Creates a new solver instance for the given SolverConfig and the given
 	 * GipsEngineAPI.
 	 * 
 	 * @param config SolverConfig which should be used by the newly instantiated
-	 *                solver.
+	 *               solver.
 	 * @param api    GipsEngineAPI to get config from.
-	 * @return Newly instantiated  solver object.
+	 * @return Newly instantiated solver object.
 	 */
 	private static Solver getSolver(final SolverConfig config, final GipsEngineAPI<?, ?> api) {
 		switch (solverType) {

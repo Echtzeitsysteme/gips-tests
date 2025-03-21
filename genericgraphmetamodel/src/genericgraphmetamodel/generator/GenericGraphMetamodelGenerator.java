@@ -54,22 +54,22 @@ public class GenericGraphMetamodelGenerator {
 		genEdge("5", "3", 14);
 		genEdge("5", "4", 10);
 		genEdge("5", "6", 2);
-		
+
 		genEdge("6", "5", 2);
 		genEdge("6", "7", 1);
 		genEdge("6", "8", 6);
-		
+
 		genEdge("7", "0", 8);
 		genEdge("7", "1", 11);
 		genEdge("7", "6", 1);
 		genEdge("7", "8", 7);
-		
+
 		genEdge("8", "2", 2);
 		genEdge("8", "6", 6);
 		genEdge("8", "7", 7);
 
 		propagateEdgesToNodes();
-		
+
 		model.setSourceNode(getNode(String.valueOf(fromNode)));
 		model.setTargetNode(getNode(String.valueOf(toNode)));
 

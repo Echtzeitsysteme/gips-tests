@@ -20,7 +20,7 @@ public abstract class AGipsIlpTimeOutTest extends AbstractGipsTest {
 			con.terminate();
 		}
 	}
-	
+
 	@Override
 	public String getProjectName() {
 		return "gips.ilp.timeout";

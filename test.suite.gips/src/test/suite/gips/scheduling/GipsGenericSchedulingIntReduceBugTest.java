@@ -24,7 +24,7 @@ public class GipsGenericSchedulingIntReduceBugTest extends AGipsSchedulingTest {
 	}
 
 	// Actual test
-	
+
 	@Test
 	public void test1Task() {
 		SchedulingModelGenerator.genTask(1, 0, 1);

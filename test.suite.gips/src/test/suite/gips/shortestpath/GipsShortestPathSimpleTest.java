@@ -16,7 +16,7 @@ public class GipsShortestPathSimpleTest extends AGipsShortestPathTest {
 	public Class<?> getConnectorClass() {
 		return ShortestPathConnector.class;
 	}
-	
+
 	@AfterAll
 	public static void resetModelPath() {
 		MODEL_PATH = "model.xmi";

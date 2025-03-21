@@ -27,7 +27,7 @@ public class MultiLayeredInheritenceResourceSetModelGenerator extends AMultiLaye
 		clearResourceSet();
 		createModel();
 	}
-	
+
 	private void createModel() {
 		final Root root = MultilayeredinheritencemodelFactory.eINSTANCE.createRoot();
 
@@ -79,7 +79,7 @@ public class MultiLayeredInheritenceResourceSetModelGenerator extends AMultiLaye
 	public ResourceSet getResourceSet() {
 		return resourceSet;
 	}
-	
+
 	private void clearResourceSet() {
 		resourceSet.getResources().forEach(r -> r.getContents().clear());
 	}

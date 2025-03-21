@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import test.suite.gips.utils.GipsTestUtils;
 
 public abstract class AbstractGipsTest {
-	
+
 	public String getProjectName() {
 		String packageName = getConnectorClass().getPackageName();
 		if (packageName.contains(".connector")) {
@@ -22,7 +22,7 @@ public abstract class AbstractGipsTest {
 		GipsTestUtils.checkIfFileGenerated(
 				GipsTestUtils.constructFilePath(getProjectName(), getProjectName(), "gips-model.xmi"));
 	}
-	
+
 	public abstract Class<?> getConnectorClass();
 
 }

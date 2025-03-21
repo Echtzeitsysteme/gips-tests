@@ -32,7 +32,7 @@ public class GipsIlpSolverTest extends AGipsNullProjectTest {
 		int numberOfThreads = Runtime.getRuntime().availableProcessors();
 		try (ExecutorService service = Executors.newFixedThreadPool(numberOfThreads)) {
 			CountDownLatch latch = new CountDownLatch(numberOfThreads);
-			
+
 			for (int i = 0; i < numberOfThreads; i++) {
 				service.submit(() -> {
 					SolverConnector con = new SolverConnector();
@@ -42,7 +42,7 @@ public class GipsIlpSolverTest extends AGipsNullProjectTest {
 			}
 			latch.await();
 		}
-		
+
 		assertEquals(out, System.out);
 		assertEquals(err, System.err);
 	}

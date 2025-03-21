@@ -5,13 +5,13 @@ import org.eclipse.emf.common.util.URI;
 import shortestpath.api.gips.ShortestpathGipsAPI;
 
 public class ShortestPathGipsRunner extends AbstractShortestPathGipsRunner {
-	
+
 	private final String scenarioFileName = "gen.xmi";
 
 	public static void main(final String[] args) {
 		new ShortestPathGipsRunner().run();
 	}
-	
+
 	public void run() {
 		//
 		// Load an XMI model
@@ -22,14 +22,14 @@ public class ShortestPathGipsRunner extends AbstractShortestPathGipsRunner {
 		final String filePath = instanceFolder + scenarioFileName;
 
 		checkIfFileExists(filePath);
-		
+
 		//
 		// Initialize GIPS API
 		//
-		
+
 		final ShortestpathGipsAPI gipsApi = new ShortestpathGipsAPI();
 		gipsApi.init(URI.createFileURI(filePath));
-		
+
 		//
 		// Build and solve the ILP problem
 		//
