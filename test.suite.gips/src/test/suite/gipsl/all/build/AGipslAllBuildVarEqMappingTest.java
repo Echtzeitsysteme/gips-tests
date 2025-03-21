@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 
-import org.emoflon.gips.core.gt.GTMapping;
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.gt.GipsGTMapping;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,9 +43,9 @@ public abstract class AGipslAllBuildVarEqMappingTest extends AGipslAllBuildTest 
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, Math.abs(ret.objectiveValue()), DELTA);
 
 		runChecks(false);
@@ -58,9 +58,9 @@ public abstract class AGipslAllBuildVarEqMappingTest extends AGipslAllBuildTest 
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, Math.abs(ret.objectiveValue()), DELTA);
 
 		runChecks(false);
@@ -74,9 +74,9 @@ public abstract class AGipslAllBuildVarEqMappingTest extends AGipslAllBuildTest 
 		}
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, Math.abs(ret.objectiveValue()), DELTA);
 
 		runChecks(false);
@@ -90,9 +90,9 @@ public abstract class AGipslAllBuildVarEqMappingTest extends AGipslAllBuildTest 
 		gen.genVirtualNode("v1", 2);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(0, Math.abs(ret.objectiveValue()), DELTA);
 
 		runChecks(true);
@@ -100,7 +100,7 @@ public abstract class AGipslAllBuildVarEqMappingTest extends AGipslAllBuildTest 
 
 	// Utility methods
 
-	private double getVarValFromMapping(final GTMapping<?, ?> mapping, final String varName) {
+	private double getVarValFromMapping(final GipsGTMapping<?, ?> mapping, final String varName) {
 		if (mapping.getBoundVariableNames().contains(varName)) {
 			return mapping.getBoundVariables().get(varName).getValue().doubleValue();
 		} else if (mapping.getFreeVariableNames().contains(varName)) {
@@ -110,7 +110,7 @@ public abstract class AGipslAllBuildVarEqMappingTest extends AGipslAllBuildTest 
 		throw new IllegalArgumentException("Var with name " + varName + " not found in mapping " + mapping);
 	}
 
-	protected void checkConstraints(final Map<String, GTMapping<?, ?>> mappings, final boolean expectedZero) {
+	protected void checkConstraints(final Map<String, GipsGTMapping<?, ?>> mappings, final boolean expectedZero) {
 		mappings.forEach((k, m) -> {
 			if (expectedZero) {
 				assertEquals(0, getVarValFromMapping(m, "v"));

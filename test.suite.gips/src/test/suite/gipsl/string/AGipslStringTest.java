@@ -8,10 +8,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import stringmodel.Root;
+import test.suite.gips.AbstractGipsTest;
 import test.suite.gips.utils.AConnector;
 import test.suite.gipsl.string.utils.StringModelGenerator;
 
-public abstract class AGipslStringTest {
+public abstract class AGipslStringTest extends AbstractGipsTest {
 
 	protected AConnector con;
 	protected StringModelGenerator gen;

@@ -19,21 +19,22 @@ Thus, you have to install and configure Gurobi or change the configuration of al
 
 ## Repository/Project structure
 
-| Project name                     | Type       | Purpose                                                                                        |
-| -------------------------------- | ---------- | ---------------------------------------------------------------------------------------------- |
-| `gips.ilp.lpoutput`              | GIPSL      | Tests the LP output generation (e.g., logs)                                                    |
-| `gips.ilp.timeout.*`             | GIPSL set  | Tests the time limit behaviour of the ILP solvers                                              |
-| `gips.multilayeredinheritence.*` | GIPSL      | Tests the correct behaviour of GIPS for multi-layered inheritence in classes                   |
-| `gips.null*`                     | GIPSL set  | Test project and metamodel to trigger a NPE bug in GIPS                                        |
-| `gips.sort.*`                    | GIPSL set  | A simple test to create a sorted linked-list                                                   |
-| `gips.scheduling.*`              | GIPSL set  | Test project and metamodel to plan generic task scheduling                                     |
-| `gipsl.all.build.*`              | GIPSL set  | Multiple projects with the same metamodel to test individual language features                 |
-| `gipsl.imports.*`                | GIPSL set  | Multiple projects to test the import functionality                                             |
-| `gips(l).*bug.*`                 | GIPSL set  | Multiple projects to triggern known bugs (fixed or not fixed)                                  |
-| `gipsl.scribble`                 | GIPSL      | Scribble project to debug, e.g., the validator - does not contain tests                        |
-| `stringrulegipsl`                | GIPSL      | Tests a specific bug with missing default values for the data type EString in GT rules         |
-| `test.suite.gips`                | Test suite | Test suite with a global test runner to run all tests in this repo                             |
-| `test.suite.utils`               | Utilities  | Utilities for the tests that are also needed by the GIPSL projects above                       |
+| Project name                             | Type              | Purpose                                                                                        |
+| ---------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------- |
+| `gips.ilp.lpoutput`                      | GIPSL             | Tests the LP output generation (e.g., logs)                                                    |
+| `gips.ilp.timeout.*`                     | GIPSL set         | Tests the time limit behaviour of the ILP solvers                                              |
+| `gips.multilayeredinheritence.*`         | GIPSL             | Tests the correct behaviour of GIPS for multi-layered inheritence in classes                   |
+| `gips.null*`                             | GIPSL set         | Test project and metamodel to trigger a NPE bug in GIPS                                        |
+| `gips.sort.*`                            | GIPSL set         | A simple test to create a sorted linked-list                                                   |
+| `gips.scheduling.*`                      | GIPSL set         | Test project and metamodel to plan generic task scheduling                                     |
+| `gipsl.all.build.*`                      | GIPSL set         | Multiple projects with the same metamodel to test individual language features                 |
+| `gipsl.imports.*`                        | GIPSL set         | Multiple projects to test the import functionality                                             |
+| `gips(l).*bug.*`                         | GIPSL set         | Multiple projects to triggern known bugs (fixed or not fixed)                                  |
+| `gipsl.scribble`                         | GIPSL             | Scribble project to debug, e.g., the validator - does not contain tests                        |
+| `shortestpath` + `genericgraphmetamodel` | GIPSL + Metamodel | Generic GIPSL implementation to find the shortest path in a generic graph                      |
+| `stringrulegipsl`                        | GIPSL             | Tests a specific bug with missing default values for the data type EString in GT rules         |
+| `test.suite.gips`                        | Test suite        | Test suite with a global test runner to run all tests in this repo                             |
+| `test.suite.utils`                       | Utilities         | Utilities for the tests that are also needed by the GIPSL projects above                       |
 
 
 ## License

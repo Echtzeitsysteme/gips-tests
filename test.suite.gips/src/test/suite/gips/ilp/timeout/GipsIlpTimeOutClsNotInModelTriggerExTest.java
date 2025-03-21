@@ -37,4 +37,9 @@ public class GipsIlpTimeOutClsNotInModelTriggerExTest extends AGipsIlpTimeOutTes
 		assertNotNull(con.run(OUTPUT_PATH));
 	}
 
+	@Override
+	public Class<?> getConnectorClass() {
+		return TimeOutClsNotInModelConnector.class;
+	}
+
 }

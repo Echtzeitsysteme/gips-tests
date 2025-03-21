@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.resourceinit.infthenoptobjective
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gipsl.all.build.resourceinit.infthenopt.objective.connector
+Export-Package: gipsl.all.build.resourceinit.infthenoptobjective.connector
 Import-Package: test.suite.gips.utils
 Bundle-SymbolicName: gipsl.all.build.resourceinit.infthenoptobjective;singleton:=true
 Bundle-ActivationPolicy: lazy

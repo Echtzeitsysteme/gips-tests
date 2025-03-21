@@ -1,6 +1,6 @@
 package gipsl.all.build.objective.max.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.objective.max.api.gips.MaxGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class ObjectiveMaxConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((MaxGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;
 	}

@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gipsl.all.build.resourceinit.infthenopt.objective.connector.InfThenOptObjectiveConnector;
+import gipsl.all.build.resourceinit.infthenoptobjective.connector.InfThenOptObjectiveConnector;
 import model.Container;
 import model.Root;
 import model.SubstrateContainer;
@@ -46,9 +46,9 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 
 		// ILP solver itself must decide that the problem is infeasible, not the
 		// validation log
@@ -64,7 +64,7 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 
 		ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(2 * 2, ret.objectiveValue());
 	}
@@ -77,9 +77,9 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 
 		// ILP solver itself must decide that the problem is infeasible, not the
 		// validation log
@@ -96,7 +96,7 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 
 		ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(2 * 2, ret.objectiveValue());
 	}
@@ -111,9 +111,9 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 
 		// ILP solver itself must decide that the problem is infeasible, not the
 		// validation log
@@ -129,7 +129,7 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 
 		ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(10, ret.objectiveValue());
 	}
@@ -142,9 +142,9 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(4, ret.objectiveValue());
 		assertFalse(ret.validationLog().isNotValid());
 
@@ -158,9 +158,14 @@ public class GipslAllBuildFileInitInfThenOptObjectiveTest extends AGipslAllBuild
 
 		ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertFalse(ret.validationLog().isNotValid());
 		assertEquals(10, ret.objectiveValue());
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return InfThenOptObjectiveConnector.class;
 	}
 
 }

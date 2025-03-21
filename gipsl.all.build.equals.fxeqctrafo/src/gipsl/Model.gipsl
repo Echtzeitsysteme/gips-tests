@@ -1,0 +1,78 @@
+package "gipsl.all.build.equals.fxeqctrafo"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	// This constraint must be expressed via ILP to be able to
+	// get the corresponding matches
+//	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+pattern findSnode {
+	root: Root {
+		-containers -> substrateContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	snode: SubstrateResourceNode
+}
+
+//  
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+mapping mu to findSnode;
+
+// Constraint to map f(x) == c <=> u == 1:
+constraint with SubstrateResourceNode {
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) == 1
+	<=>
+	mappings.mu->filter(element.nodes.snode == context)->sum(element.value) == 1
+}
+
+// Ensure that the mapping gets only selected if the respective
+// resources demanded by the virtual node are available on the
+// substrate node
+constraint with SubstrateResourceNode {
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) <= context.resourceAmountAvailable
+}
+
+// Motivate the solver to select N2N mappings
+function o with n2n {
+	context.value
+}
+
+objective : max {
+	functions.o
+}
