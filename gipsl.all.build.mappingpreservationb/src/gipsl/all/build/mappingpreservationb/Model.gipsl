@@ -1,0 +1,66 @@
+package "gipsl.all.build.mappingpreservationb"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 5.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule incrementVNodeRD {
+	root: Root {
+		-containers -> virtualContainer
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+		
+	vnode: VirtualResourceNode {
+		.resourceDemand := vnode.resourceDemand + 1
+	}
+	
+//	# vnode.resourceDemand != 10
+}
+
+rule incrementVNodeRDIfZero {
+	root: Root {
+		-containers -> virtualContainer
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+		
+	vnode: VirtualResourceNode {
+		.resourceDemand := vnode.resourceDemand + 1
+	}
+	
+	# vnode.resourceDemand == 0
+}
+
+mapping incr to incrementVNodeRD;
+mapping incrIfZero to incrementVNodeRDIfZero;
+
+constraint with VirtualNode {
+	mappings.incr->filter(element.nodes.vnode == context)->sum(element.value) == 1
+}
+
+constraint with incrementVNodeRDIfZero {
+	mappings.incrIfZero->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
+}
+
+function objIncr with incr {
+	context.value
+}
+
+function objIncrIfZero with incrIfZero {
+	context.value
+}
+
+objective : max {
+	functions.objIncr + functions.objIncrIfZero
+}
