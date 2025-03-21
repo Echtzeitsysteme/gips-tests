@@ -2,8 +2,8 @@ package test.suite.gipsl.all.build;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.sumvalueinf.connector.SumValueInfConnector;
@@ -26,9 +26,9 @@ public class GipslAllBuildSumValueInfTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -39,9 +39,9 @@ public class GipslAllBuildSumValueInfTest extends AGipslAllBuildTest {
 		}
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -52,9 +52,9 @@ public class GipslAllBuildSumValueInfTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -66,9 +66,9 @@ public class GipslAllBuildSumValueInfTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -79,9 +79,9 @@ public class GipslAllBuildSumValueInfTest extends AGipslAllBuildTest {
 		}
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -90,9 +90,9 @@ public class GipslAllBuildSumValueInfTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -100,9 +100,9 @@ public class GipslAllBuildSumValueInfTest extends AGipslAllBuildTest {
 		gen.genSubstrateNode("s1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 	}
 
 	@Test
@@ -110,9 +110,14 @@ public class GipslAllBuildSumValueInfTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return SumValueInfConnector.class;
 	}
 
 }

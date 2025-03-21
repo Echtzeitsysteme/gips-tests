@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import gips.xmiinit.connector.XmiInitConnector;
@@ -31,15 +33,22 @@ public class GipslAllBuildXmiInitTest extends AGipslAllBuildTest {
 		con = new XmiInitConnector(gipsModelPath, modelPath, ibexPatternPath, hipeNetworkPath, hipeEngineClassName);
 	}
 
+	@AfterEach
+	public void resetHiPEPathOptions() {
+		if (con != null) {
+			((XmiInitConnector) con).resetHiPEPathOptions();
+		}
+	}
+
 	// Actual tests
 
 	@Test
 	public void testMap1to1() {
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		// One mapping must be chosen, according to the objective function
 		assertEquals(1, ret.objectiveValue());
 	}
@@ -71,6 +80,21 @@ public class GipslAllBuildXmiInitTest extends AGipslAllBuildTest {
 			e.printStackTrace();
 			Assert.fail("IOException caught.");
 		}
+	}
+
+	/**
+	 * This test intentionally deletes the default generated XMI files. Hence, it
+	 * will always fail to check for the generated files.
+	 */
+	@Disabled
+	@Override
+	public void testGeneratedFiles() {
+		// Do nothing.
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return null;
 	}
 
 }

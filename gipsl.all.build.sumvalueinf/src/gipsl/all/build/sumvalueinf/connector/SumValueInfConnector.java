@@ -1,6 +1,6 @@
 package gipsl.all.build.sumvalueinf.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.sumvalueinf.api.gips.SumvalueinfGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class SumValueInfConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((SumvalueinfGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;
 	}

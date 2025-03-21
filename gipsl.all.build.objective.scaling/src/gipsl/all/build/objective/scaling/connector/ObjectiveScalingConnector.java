@@ -1,6 +1,6 @@
 package gipsl.all.build.objective.scaling.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.objective.scaling.api.gips.ScalingGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class ObjectiveScalingConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((ScalingGipsAPI) api).getA().applyNonZeroMappings();
 		((ScalingGipsAPI) api).getB().applyNonZeroMappings();
 		save(outputPath);

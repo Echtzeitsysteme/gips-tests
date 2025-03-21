@@ -3,12 +3,11 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := false;
-//	lpOutput := true [path := "./GUROBI.lp"];
 }
 
 rule mapVnode {
@@ -39,38 +38,38 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode {
+mapping n2n to mapVnode {
 	var v : EInt
 	var w : EDouble
 	var x : EDouble
 };
 
-constraint -> class::VirtualResourceNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) == 1
 }
 
-constraint -> mapping::n2n {
-	self.variables().x >= 0
+constraint with n2n {
+	context.variables.x >= 0
 }
 
-constraint -> mapping::n2n {
-	self.variables().v >= 0
+constraint with n2n {
+	context.variables.v >= 0
 }
 
-constraint -> mapping::n2n {
-	self.variables().w >= 0
+constraint with n2n {
+	context.variables.w >= 0
 }
 
-constraint -> global {
-	mappings.n2n->sum(m | m.variables().x)
-	+ mappings.n2n->sum(m | m.variables().v)
-	+ mappings.n2n->sum(m | m.variables().w) == 42
+constraint {
+	mappings.n2n->sum(element.variables.x)
+	+ mappings.n2n->sum(element.variables.v)
+	+ mappings.n2n->sum(element.variables.w) == 42
 }
 
-objective n2nObj -> mapping::n2n {
-	1
+function n2nObj with n2n {
+	context.value
 }
 
-global objective : max {
-	n2nObj
+objective : max {
+	functions.n2nObj
 }

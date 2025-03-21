@@ -3,9 +3,10 @@ package test.suite.gips.multilayeredinheritence;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import test.suite.gips.AbstractGipsTest;
 import test.suite.gips.utils.AConnector;
 
-public abstract class AMultiLayeredInheritenceTest {
+public abstract class AMultiLayeredInheritenceTest extends AbstractGipsTest {
 
 	protected final static String MODEL_PATH = "model.xmi";
 	protected final static String OUTPUT_PATH = "output.xmi";

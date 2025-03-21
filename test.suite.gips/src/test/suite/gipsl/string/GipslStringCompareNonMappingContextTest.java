@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.string.compare.nonmappingcontext.connector.StringCompareNonMappingContextConnector;
@@ -31,9 +31,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		gen.genGuest("b");
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 		// checkConsistency();
 	}
 
@@ -43,9 +43,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		gen.genGuest("a");
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, ret.objectiveValue());
 		checkConsistency();
 	}
@@ -57,9 +57,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		gen.genGuest("c");
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 		// checkConsistency();
 	}
 
@@ -70,9 +70,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		gen.genGuest("b");
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 		// checkConsistency();
 	}
 
@@ -83,9 +83,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		gen.genGuest("a");
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
 		checkConsistency();
 	}
@@ -99,9 +99,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		gen.genGuest("b");
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.INFEASIBLE, ret.status());
+		assertEquals(SolverStatus.INFEASIBLE, ret.status());
 		// checkConsistency();
 	}
 
@@ -113,9 +113,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		}
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, ret.objectiveValue());
 		checkConsistency();
 	}
@@ -128,9 +128,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		gen.genGuest("c");
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(1, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -144,9 +144,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		gen.genGuest("d");
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(1, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -158,9 +158,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		gen.genGuest("a");
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(1, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -173,9 +173,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		gen.genGuest("b");
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(2, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -188,9 +188,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		}
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(10, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -203,9 +203,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		}
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(10, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -218,9 +218,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		gen.genGuest("1");
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(1, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -233,9 +233,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		}
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(10, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -245,9 +245,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		gen.genHost("a");
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(0, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -257,9 +257,9 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 //		gen.genGuest("a");
 //		callableSetUp();
 //
-//		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+//		final SolverOutput ret = con.run(OUTPUT_PATH);
 //
-//		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+//		assertEquals(SolverStatus.OPTIMAL, ret.status());
 //		assertEquals(0, ret.objectiveValue());
 //		checkConsistency();
 //	}
@@ -289,6 +289,11 @@ public class GipslStringCompareNonMappingContextTest extends AGipslStringTest {
 		for (final Guest g : guests) {
 			assertEquals(g.getName(), g.getHost().getName());
 		}
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return StringCompareNonMappingContextConnector.class;
 	}
 
 }

@@ -1,6 +1,6 @@
 package gipsprojectpackagenamebug.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsprojectpackagenamebug.api.gips.GipsprojectpackagenamebugGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class ProjectPackageNameBugConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((GipsprojectpackagenamebugGipsAPI) api).getAsn().applyNonZeroMappings();
 		save(outputPath);
 		return output;

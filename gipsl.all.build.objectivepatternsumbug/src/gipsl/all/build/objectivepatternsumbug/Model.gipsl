@@ -2,7 +2,7 @@ package "gipsl.all.build.objectivepatternsumbug"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -25,10 +25,10 @@ pattern findVnodeMapping {
 	}
 }
 
-mapping move with moveVnodeMapping;
+mapping move to moveVnodeMapping;
 
-constraint -> global {
-	mappings.move->count() == 1
+constraint {
+	mappings.move->sum(element.value) == 1
 }
 
 
@@ -36,12 +36,12 @@ constraint -> global {
 // This objective triggers a compiler error in the generated code.
 // It does not need a test method, etc.
 //
-objective o -> mapping::move {
-	patterns.findVnodeMapping
-		->filter(m | m.nodes().s == self.nodes().s1)
+function o with move {
+	context.value * patterns.findVnodeMapping
+		->filter(element.nodes.s == context.nodes.s1)
 		->count()
 }
 
-global objective : max {
-	o
+objective : max {
+	functions.o
 }

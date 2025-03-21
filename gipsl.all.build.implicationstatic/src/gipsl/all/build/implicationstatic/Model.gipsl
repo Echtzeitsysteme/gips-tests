@@ -2,8 +2,7 @@ package "gipsl.all.build.implicationstatic"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -38,6 +37,6 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-constraint -> class::SubstrateResourceNode {
-	self.resourceAmountAvailable == 1 => self.resourceAmountTotal == 1
+constraint with SubstrateResourceNode {
+	context.resourceAmountAvailable == 1 => context.resourceAmountTotal == 1
 }

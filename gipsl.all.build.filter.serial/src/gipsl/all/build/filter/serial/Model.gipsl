@@ -1,0 +1,61 @@
+package "gipsl.all.build.filter.serial"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode {
+		++ -guests -> vnode
+	}
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+constraint with mapVnode {
+	mappings.n2n
+	->filter(element.nodes.vnode == context.nodes.vnode)
+	->filter(element.nodes.snode == context.nodes.snode)
+	->sum(element.value) == 1
+}
+
+constraint {
+	mappings.n2n
+	->filter(element.nodes.vnode.resourceDemand == 0)
+	->filter(element.nodes.snode.resourceAmountTotal == 0)
+	->sum(element.value) == 0
+}
+
+function o with n2n {
+	context.value
+}
+
+objective : min {
+	functions.o
+}

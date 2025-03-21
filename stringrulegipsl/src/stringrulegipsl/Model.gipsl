@@ -3,8 +3,7 @@ import "platform:/resource/stringmetamodel/model/Stringmetamodel.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -29,4 +28,4 @@ rule setName(newname : EString) {
 	}
 }
 
-mapping m with setName;
+mapping m to setName;

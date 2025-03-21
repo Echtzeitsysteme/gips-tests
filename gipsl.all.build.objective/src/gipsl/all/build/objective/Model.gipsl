@@ -2,8 +2,7 @@ package "gipsl.all.build.objective"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
@@ -52,21 +51,21 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping a with mapVnode;
-constraint -> class::SubstrateResourceNode {
-	mappings.a->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+mapping a to mapVnode;
+constraint with SubstrateResourceNode {
+	mappings.a->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) <= context.resourceAmountAvailable
 }
-constraint -> pattern::vnodeNotMapped {
-	mappings.a->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
+constraint with vnodeNotMapped {
+	mappings.a->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
 
-objective objA -> mapping::a {
-	1 + 2 + sin(3) + cos(4) + abs(-5) + -(6) + 7 pow 3 + sqrt(8) + self.nodes().snode.resourceAmountTotal - 9 + 10/10
+function objA with a {
+	context.value * (1 + 2 + sin(3) + cos(4) + abs(-5) + -(6) + 7 pow 3 + sqrt(8) + context.nodes.snode.resourceAmountTotal - 9 + 10/10)
 }
-objective objB -> class::Root {
+function objB with Root {
 	500
 }
 
-global objective : min {
-	2 * objA + 73 + 2 * objB
+objective : min {
+	2 * functions.objA + 73 + 2 * functions.objB
 }

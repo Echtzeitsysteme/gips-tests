@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.varmappingsum.sumfreevarmapping.api.gips.mapping.N2nMapping;
-import gipsl.all.build.varsmappingsum.sumfreevarmapping.connector.VarsMappingSumFreeVarMappingConnector;
+import gipsl.all.build.varmappingsum.sumfreevarmapping.connector.VarsMappingSumFreeVarMappingConnector;
 
 public class GipslAllBuildVarsMappingSumFreeVarMappingTest extends AGipslAllBuildTest {
 
@@ -30,9 +30,9 @@ public class GipslAllBuildVarsMappingSumFreeVarMappingTest extends AGipslAllBuil
 		gen.genVirtualNode("v1", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 
 		assertFalse(((VarsMappingSumFreeVarMappingConnector) con).getN2nMappings().isEmpty());
@@ -46,9 +46,9 @@ public class GipslAllBuildVarsMappingSumFreeVarMappingTest extends AGipslAllBuil
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 
 		assertFalse(((VarsMappingSumFreeVarMappingConnector) con).getN2nMappings().isEmpty());
@@ -64,9 +64,9 @@ public class GipslAllBuildVarsMappingSumFreeVarMappingTest extends AGipslAllBuil
 
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, Math.abs(ret.objectiveValue()));
 
 		assertFalse(((VarsMappingSumFreeVarMappingConnector) con).getN2nMappings().isEmpty());
@@ -106,6 +106,11 @@ public class GipslAllBuildVarsMappingSumFreeVarMappingTest extends AGipslAllBuil
 			sumVWX += 1;
 		}
 		assertEquals(73, sumVWX);
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return VarsMappingSumFreeVarMappingConnector.class;
 	}
 
 }

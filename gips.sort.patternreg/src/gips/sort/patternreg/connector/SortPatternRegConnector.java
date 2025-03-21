@@ -1,6 +1,6 @@
 package gips.sort.patternreg.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gips.sort.patternreg.api.gips.PatternregGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,7 +16,7 @@ public class SortPatternRegConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
+	public SolverOutput run(final String outputPath) {
 		solve();
 		return null;
 	}
