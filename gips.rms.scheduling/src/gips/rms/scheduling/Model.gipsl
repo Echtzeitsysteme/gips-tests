@@ -2,7 +2,7 @@ package "gips.rms.scheduling"
 import "platform:/resource/gips.scheduling.periodictaskmodel/model/Periodictaskmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -22,21 +22,21 @@ rule runTaskInSlot {
 	s: Slot
 }
 
-mapping t2s with runTaskInSlot;
+mapping t2s to runTaskInSlot;
 
 // Every task must be mapped n times (according to its execution time)
-constraint -> class::Task {
-	mappings.t2s->filter(m | m.nodes().t == self)->count() == self.executiontime
+constraint with Task {
+	mappings.t2s->filter(element.nodes.t == context)->sum(element.value) == context.executiontime
 }
 
 // There must be at most one mapping per slot
-constraint -> class::Slot {
-	mappings.t2s->filter(m | m.nodes().s == self)->count() <= 1
+constraint with Slot {
+	mappings.t2s->filter(element.nodes.s == context)->sum(element.value) <= 1
 }
 
 // Check completion time theorem
-constraint -> global {
-	classes.Task->sum(t | (1.0 * t.executiontime / t.timeperiod))
+constraint {
+	types.Task->sum((1.0 * element.executiontime / element.timeperiod))
 	<=
-	classes.Task->count() * ((2 pow (1 / classes.Task->count())) - 1)	
+	types.Task->count() * ((2 pow (1 / types.Task->count())) - 1)	
 }
