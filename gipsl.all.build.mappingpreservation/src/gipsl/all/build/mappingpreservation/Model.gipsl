@@ -74,27 +74,27 @@ rule mapVnodeWith10ResDem {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
-mapping resDem with mapVnodeWith10ResDem;
+mapping n2n to mapVnode;
+mapping resDem to mapVnodeWith10ResDem;
 
 // At most one mapping per virtual node is allowed
-constraint -> class::VirtualNode {
-	mappings.n2n->filter(m | m.nodes().vnode == self)->count() <= 1
+constraint with VirtualNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) <= 1
 }
 
-constraint -> class::VirtualNode {
-	mappings.resDem->filter(m | m.nodes().vnode == self)->count() <= 1
+constraint with VirtualNode {
+	mappings.resDem->filter(element.nodes.vnode == context)->sum(element.value) <= 1
 }
 
 // Cost = 1 per mapped virtual node
-objective maps -> mapping::n2n {
-	1
+function maps with n2n {
+	context.value
 }
 
-objective map10ResDem -> mapping::resDem {
-	1
+function map10ResDem with resDem {
+	context.value
 }
 
-global objective : max {
-	maps + map10ResDem
+objective : max {
+	functions.maps + functions.map10ResDem
 }

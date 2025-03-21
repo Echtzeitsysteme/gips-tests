@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.mappingpreservation.api.gips.MappingpreservationGipsAPI;
 import gipsl.all.build.mappingpreservation.api.gips.mapping.N2nMapping;
@@ -25,15 +25,15 @@ public class MappingPreservationConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((MappingpreservationGipsAPI) api).getN2n().applyNonZeroMappings();
 		save(outputPath);
 		return output;
 	}
 
-	public ILPSolverOutput runWithNoApplication(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput runWithNoApplication(final String outputPath) {
+		final SolverOutput output = solve();
 		save(outputPath);
 		return output;
 	}

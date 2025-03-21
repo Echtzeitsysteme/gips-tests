@@ -42,25 +42,25 @@ rule incrementVNodeRDIfZero {
 	# vnode.resourceDemand == 0
 }
 
-mapping incr with incrementVNodeRD;
-mapping incrIfZero with incrementVNodeRDIfZero;
+mapping incr to incrementVNodeRD;
+mapping incrIfZero to incrementVNodeRDIfZero;
 
-constraint -> class::VirtualNode {
-	mappings.incr->filter(m | m.nodes().vnode == self)->count() == 1
+constraint with VirtualNode {
+	mappings.incr->filter(element.nodes.vnode == context)->sum(element.value) == 1
 }
 
-constraint -> pattern::incrementVNodeRDIfZero {
-	mappings.incrIfZero->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
+constraint with incrementVNodeRDIfZero {
+	mappings.incrIfZero->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
 
-objective objIncr -> mapping::incr {
-	1
+function objIncr with incr {
+	context.value
 }
 
-objective objIncrIfZero -> mapping::incrIfZero {
-	1
+function objIncrIfZero with incrIfZero {
+	context.value
 }
 
-global objective : max {
-	objIncr + objIncrIfZero
+objective : max {
+	functions.objIncr + functions.objIncrIfZero
 }

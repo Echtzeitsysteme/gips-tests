@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.util.Collection;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.mappingpreservation.api.gips.mapping.N2nMapping;
@@ -41,10 +41,10 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = ((MappingPreservationConnector) con).runWithNoApplication(OUTPUT_PATH);
+		final SolverOutput ret = ((MappingPreservationConnector) con).runWithNoApplication(OUTPUT_PATH);
 
 		// Pre-checks
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 
 		gen.loadModel(OUTPUT_PATH);
@@ -78,8 +78,8 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		final ILPSolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 
 		// Check model state
@@ -106,8 +106,8 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		}
 		callableSetUp();
 
-		final ILPSolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, Math.abs(ret.objectiveValue()));
 
 		// Check model state
@@ -140,8 +140,8 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 
 		// The first run application does not apply the matches for rule #2.
 		// (This is intended!)
-		final ILPSolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		final SolverOutput ret = ((MappingPreservationConnector) con).run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(3, Math.abs(ret.objectiveValue()));
 
 		// Check model state
@@ -195,6 +195,11 @@ public class GipslAllBuildMappingPreservationTest extends AGipslAllBuildTest {
 		}
 
 		assertEquals(expected, hostedVnodeCntr);
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return MappingPreservationConnector.class;
 	}
 
 }

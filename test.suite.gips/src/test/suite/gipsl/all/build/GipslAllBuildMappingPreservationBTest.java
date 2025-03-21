@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.mappingpreservationb.connector.MappingPreservationBConnector;
@@ -36,11 +36,11 @@ public class GipslAllBuildMappingPreservationBTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v1", 0);
 		callableSetUp();
 
-		final ILPSolverOutput ret = ((MappingPreservationBConnector) con).runWithNoApplication(OUTPUT_PATH);
+		final SolverOutput ret = ((MappingPreservationBConnector) con).runWithNoApplication(OUTPUT_PATH);
 
 		// Pre-checks
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
-		
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
+
 		// One VNode with two applied mappings
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 
@@ -50,13 +50,13 @@ public class GipslAllBuildMappingPreservationBTest extends AGipslAllBuildTest {
 		checkNumberOfZeroVnodes(1);
 		assertEquals(1, ((MappingPreservationBConnector) con).getIncrMappings().size());
 		assertEquals(1, ((MappingPreservationBConnector) con).getIncrIfZeroMappings().size());
-		
+
 		// Apply all (one) mapping of type "increment"
 		((MappingPreservationBConnector) con).applyIncrMatches();
-		
+
 		// First mapping (of type "increment") must be present
 		assertEquals(1, ((MappingPreservationBConnector) con).getIncrMappings().size());
-		
+
 		// Second mapping (of type "increment if zero") will be gone
 		assertEquals(0, ((MappingPreservationBConnector) con).getIncrIfZeroMappings().size());
 	}
@@ -64,7 +64,7 @@ public class GipslAllBuildMappingPreservationBTest extends AGipslAllBuildTest {
 	//
 	// Utility methods
 	//
-	
+
 	private void checkNumberOfZeroVnodes(final int expected) {
 		int vnodeCntr = 0;
 
@@ -83,6 +83,11 @@ public class GipslAllBuildMappingPreservationBTest extends AGipslAllBuildTest {
 		}
 
 		assertEquals(expected, vnodeCntr);
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return MappingPreservationBConnector.class;
 	}
 
 }
