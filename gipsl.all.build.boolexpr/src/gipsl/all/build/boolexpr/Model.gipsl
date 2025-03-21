@@ -1,0 +1,36 @@
+package "gipsl.all.build.boolexpr"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI [home:="fu", license:="bar"];
+	launchConfig := true [main := "TODO"];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+	lpOutput := true [path := "./test.lp"];
+}
+
+pattern snode {
+	snode: SubstrateResourceNode
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping sn to snode;
+
+constraint with SubstrateResourceNode {
+	[context.resourceAmountAvailable == 1]
+	<=>
+	[mappings.sn->filter(element.nodes.snode == context)->sum(element.value) >= 1]
+}
+
+function o with sn {
+	context.value
+}
+
+objective : max {
+	functions.o
+}
