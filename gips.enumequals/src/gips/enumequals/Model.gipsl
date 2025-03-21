@@ -4,8 +4,7 @@ import "http://www.eclipse.org/emf/2002/Ecore"
 import "platform:/resource/gips.enummodel/model/Enummodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 120.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -21,17 +20,18 @@ rule findContainer {
 	}
 }
 
-mapping m with findContainer;
+mapping m to findContainer;
 
 // $object == $object works as expected
-constraint -> pattern::findContainer {
-	mappings.m->filter(m | m.nodes().c == self.nodes().c)->count() >= 1
+constraint with findContainer {
+	mappings.m->filter(element.nodes.c == context.nodes.c)->sum(element.value) >= 1 
 }
-
+  
 // $enum == $enum works **not** as expected
 // java.lang.IllegalArgumentException: Unsupported data type:
 // org.eclipse.emf.ecore.impl.EEnumImpl@57686538 (name: State)
 // (instanceClassName: null) (serializable: true)
-constraint -> pattern::findContainer {
-	mappings.m->filter(m | m.nodes().c.state == self.nodes().c.state)->count() >= 0
-}
+constraint with findContainer {
+	mappings.m->filter(element.nodes.c.state == context.nodes.c.state)->sum(element.value) >= 0      
+} 
+ 

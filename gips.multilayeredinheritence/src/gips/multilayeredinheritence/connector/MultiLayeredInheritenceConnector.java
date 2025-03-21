@@ -1,6 +1,6 @@
 package gips.multilayeredinheritence.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gips.multilayeredinheritence.api.gips.MultilayeredinheritenceGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class MultiLayeredInheritenceConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((MultilayeredinheritenceGipsAPI) api).getZa().applyNonZeroMappings();
 		save(outputPath);
 		return output;

@@ -1,0 +1,98 @@
+package "shortestpath"
+import "platform:/resource/genericgraphmetamodel/model/Genericgraphmetamodel.ecore"
+
+// This specification solves the "shortest path" problem (which, normally,
+// could be solved by the algorithm of Dijkstra).
+//
+// Assumptions:
+// - the graph is connected
+// - there is exactly one source node, i.e., there is exactly one node
+//   that does not have any incoming edges
+// - there is exactly one target node, i.e., there is exactly one node
+//   that does not have any outgoing edges
+// - the graph does not contain any cycles
+//
+// You should not solve a standard shortest path problem with this
+// implementation. It was developed solely for testing purposes.
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+	tolerance := true [value := 0.00001];
+	lpOutput := false [path := "./gurobi.lp"];
+}
+
+rule selectEdge {
+	source : Node
+	target : Node
+	edge : Edge {
+		- source -> source
+		- target -> target
+		.selected := true
+	}
+}
+
+pattern findSourceNode {
+	node : Node
+	root : Root {
+		- sourceNode -> node
+	}
+}
+
+pattern findTargetNode {
+	node : Node
+	root : Root {
+		- targetNode -> node
+	}
+}
+
+condition isMiddleNode = forbid findSourceNode && forbid findTargetNode
+pattern findMiddleNode {
+	node : Node
+}
+when isMiddleNode
+
+
+
+//
+// GIPSL
+//
+
+mapping selectEdgeMapping to selectEdge;
+
+constraint with findSourceNode {
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value) == 1
+	&
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value) == 0
+}
+
+constraint with findTargetNode {
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value) == 1
+	&
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value) == 0
+}
+
+constraint with findMiddleNode {
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value) == 1
+	<=>
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value) == 1
+}
+
+constraint with Node {
+	mappings.selectEdgeMapping->filter(element.nodes.target == context)->sum(element.value) <= 1
+	&
+	mappings.selectEdgeMapping->filter(element.nodes.source == context)->sum(element.value) <= 1
+}
+
+// Local objective is the weight of the selected edges
+function o with selectEdgeMapping {
+	context.nodes.edge.weight * context.value
+}
+
+// Global objective should be minimized
+objective : min {
+	functions.o
+}

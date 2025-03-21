@@ -2,7 +2,7 @@ package "gips.ilp.lpoutput"
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	presolve := true;
 	debugOutput := false;
 	lpOutput := true [path := "./test.lp"];	
@@ -28,8 +28,8 @@ rule mapSrc {
 // GIPSL starts here!
 //
 
-mapping s2t with mapSrc;
+mapping s2t to mapSrc;
 
-constraint -> class::Target {
-	mappings.s2t->count() <= self.free
+constraint with Target {
+	mappings.s2t->sum(element.value) <= context.free
 }

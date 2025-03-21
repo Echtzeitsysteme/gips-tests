@@ -2,8 +2,7 @@ package "gipsl.all.build.simple"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
@@ -52,18 +51,18 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode;
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+mapping n2n to mapVnode;
+constraint with SubstrateResourceNode {
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) <= context.resourceAmountAvailable
 }
-constraint -> pattern::vnodeNotMapped {
-	mappings.n2n->filter(m | m.nodes().vnode == self.nodes().vnode)->count() == 1
-}
-
-objective nObj -> mapping::n2n {
-	1
+constraint with vnodeNotMapped {
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
 
-global objective : min {
-	2 * nObj + 1
+function nObj with n2n {
+	context.value
+}
+
+objective : min {
+	2 * functions.nObj + 1
 }

@@ -3,7 +3,7 @@ import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -39,35 +39,35 @@ rule mapVnode {
 // GIPSL starts here!
 //
 
-mapping n2n with mapVnode {
+mapping n2n to mapVnode {
 	var v : EInt
 };
 
 // Explicitly no constraint that enforces the mappings
 //constraint -> class::VirtualResourceNode {
-//	mappings.n2n->filter(m | m.nodes().vnode == self)->count() == 1
+//	mappings.n2n->filter(m | m.nodes().vnode == context)->count() == 1
 //}
 
 // Enforce the pattern constraints by ILP
-constraint -> class::SubstrateResourceNode {
-	mappings.n2n->filter(m | m.nodes().snode == self)->sum(m | m.nodes().vnode.resourceDemand) <= self.resourceAmountAvailable
+constraint with SubstrateResourceNode {
+	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand * element.value) <= context.resourceAmountAvailable
 }
 
 // Attach the free variable (v) to the mapping variable
-constraint -> mapping::n2n {
-	[self.variables().v >= 1 => self.value() >= 1] &
-	[self.value() >= 1 => self.variables().v >= 1]
+constraint  with n2n {
+	[context.variables.v >= 1 => context.value >= 1] &
+	[context.value >= 1 => context.variables.v >= 1]
 }
 
 // Limit the value of the integer variable to positive values only.
-constraint -> mapping::n2n {
-	self.variables().v >= 0
+constraint  with n2n {
+	context.variables.v >= 0
 }
 
-objective n2nObj -> mapping::n2n {
-	1
+function n2nObj  with n2n {
+	context.value
 }
 
-global objective : max {
-	n2nObj
+objective : max {
+	functions.n2nObj
 }

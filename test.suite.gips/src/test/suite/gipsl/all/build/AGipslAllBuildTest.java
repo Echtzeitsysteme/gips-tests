@@ -7,10 +7,11 @@ import java.io.File;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import test.suite.gips.AbstractGipsTest;
 import test.suite.gips.utils.AConnector;
 import test.suite.gipsl.all.build.utils.AllBuildModelGenerator;
 
-public abstract class AGipslAllBuildTest {
+public abstract class AGipslAllBuildTest extends AbstractGipsTest {
 
 	protected AConnector con;
 	protected AllBuildModelGenerator gen;

@@ -2,8 +2,7 @@ package "gipsl.all.build.inheritedtypecontext"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := true;
@@ -29,6 +28,6 @@ pattern findSnode {
 
 // This constraint should make the ILP problem infeasible if no guest is embedded onto an instance (=SubstrateRESOURCENode).
 // SubstrateNode = parent class
-constraint -> class::SubstrateNode {
-	self.guests->count() >= 1
+constraint with SubstrateNode {
+	context.guests->count() >= 1
 }
