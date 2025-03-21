@@ -16,3 +16,7 @@ genericgraphmetamodel/instances/gen.xmi
 shortestpath/gurobi.lp
 
 test.suite.gips/gurobi.lp
+
+**/.DS_Store
+
+**/trace_cache.bin

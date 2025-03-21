@@ -11,7 +11,7 @@ public class ThreadsConnector extends AConnector {
 
 	public ThreadsConnector(final String modelPath, final int newNumberOfThreads) {
 		this(modelPath);
-		api.setIlpSolverThreads(newNumberOfThreads);
+		api.getSolverConfig().setThreadCount(newNumberOfThreads);
 	}
 
 	public ThreadsConnector(final String modelPath) {
@@ -33,7 +33,7 @@ public class ThreadsConnector extends AConnector {
 	 */
 
 	public void setSolverConfigThreads(final int value) {
-		api.setIlpSolverThreads(value);
+		api.getSolverConfig().setThreadCount(value);
 	}
 
 	/*
@@ -41,11 +41,11 @@ public class ThreadsConnector extends AConnector {
 	 */
 
 	public int getSolverConfigThreads() {
-		return api.getSolverConfig().threads();
+		return api.getSolverConfig().getThreadCount();
 	}
 
 	public boolean getSolverConfigThreadsEnabled() {
-		return api.getSolverConfig().threadCount();
+		return api.getSolverConfig().isEnableThreadCount();
 	}
 
 }

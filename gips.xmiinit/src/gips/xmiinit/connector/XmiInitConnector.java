@@ -41,4 +41,12 @@ public class XmiInitConnector extends AConnector {
 		return output;
 	}
 
+	/**
+	 * Resets both HiPE path options for all following tests.
+	 */
+	public void resetHiPEPathOptions() {
+		HiPEPathOptions.getInstance().resetNetworkPath();
+		HiPEPathOptions.getInstance().resetEngineClassName();
+	}
+
 }
