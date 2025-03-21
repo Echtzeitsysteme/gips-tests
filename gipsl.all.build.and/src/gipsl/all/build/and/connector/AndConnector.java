@@ -1,6 +1,6 @@
 package gipsl.all.build.and.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.and.api.gips.AndGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class AndConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((AndGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;
 	}

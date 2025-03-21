@@ -2,8 +2,8 @@ package test.suite.gipsl.all.build.resourceset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +31,10 @@ public class GipslAllBuildResourceSetInitSimpleTest extends AGipslAllBuildResour
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
 
-		final ILPSolverOutput ret = con.solve();
+		final SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		// All mappings must be chosen, according to the objective function
 		assertEquals(2, ret.objectiveValue());
 	}
@@ -45,10 +45,10 @@ public class GipslAllBuildResourceSetInitSimpleTest extends AGipslAllBuildResour
 		gen.genVirtualNode("v1", 1);
 		gen.genVirtualNode("v2", 1);
 
-		ILPSolverOutput ret = con.solve();
+		SolverOutput ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		// All mappings must be chosen, according to the objective function
 		assertEquals(2, ret.objectiveValue());
 
@@ -57,7 +57,7 @@ public class GipslAllBuildResourceSetInitSimpleTest extends AGipslAllBuildResour
 		ret = con.solve();
 		con.apply();
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		// All mappings must be chosen, according to the objective function
 		assertEquals(3, ret.objectiveValue());
 	}
@@ -69,13 +69,18 @@ public class GipslAllBuildResourceSetInitSimpleTest extends AGipslAllBuildResour
 		for (int i = 1; i <= 10; i++) {
 			gen.genVirtualNode("v" + i, 1);
 
-			ILPSolverOutput ret = con.solve();
+			SolverOutput ret = con.solve();
 			con.apply();
 
-			assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+			assertEquals(SolverStatus.OPTIMAL, ret.status());
 			// All mappings must be chosen, according to the objective function
 			assertEquals(i, ret.objectiveValue());
 		}
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return RsinitConnector.class;
 	}
 
 }

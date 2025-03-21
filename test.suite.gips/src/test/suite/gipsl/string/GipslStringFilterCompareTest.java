@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.string.compare.filter.connector.StringCompareFilterConnector;
@@ -35,9 +35,9 @@ public class GipslStringFilterCompareTest extends AGipslStringTest {
 		gen.genGuest("b");
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, ret.objectiveValue());
 		checkConsistency(1);
 	}
@@ -49,9 +49,9 @@ public class GipslStringFilterCompareTest extends AGipslStringTest {
 		gen.genGuest("c");
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, ret.objectiveValue());
 		checkConsistency(2);
 	}
@@ -64,9 +64,9 @@ public class GipslStringFilterCompareTest extends AGipslStringTest {
 		}
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(100, ret.objectiveValue());
 		checkConsistency(100);
 	}
@@ -81,9 +81,9 @@ public class GipslStringFilterCompareTest extends AGipslStringTest {
 		}
 		callableSetUp();
 
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, ret.objectiveValue());
 		checkConsistency(10);
 	}
@@ -135,6 +135,11 @@ public class GipslStringFilterCompareTest extends AGipslStringTest {
 			}
 		}
 		assertEquals(ref, guestCntr);
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return StringCompareFilterConnector.class;
 	}
 
 }

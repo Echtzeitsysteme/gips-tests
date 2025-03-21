@@ -1,6 +1,6 @@
 package gipsl.all.build.notequal.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.notequal.api.gips.NotequalGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class NotEqualConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		((NotequalGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;
 	}

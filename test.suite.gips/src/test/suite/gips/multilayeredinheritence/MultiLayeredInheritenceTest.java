@@ -3,8 +3,8 @@ package test.suite.gips.multilayeredinheritence;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
-import org.emoflon.gips.core.ilp.ILPSolverStatus;
+import org.emoflon.gips.core.milp.SolverOutput;
+import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.BeforeEach;
 
 import gips.multilayeredinheritence.connector.MultiLayeredInheritenceConnector;
@@ -30,11 +30,16 @@ public class MultiLayeredInheritenceTest extends AMultiLayeredInheritenceTest {
 		}
 
 		callableSetUp();
-		final ILPSolverOutput ret = con.run(OUTPUT_PATH);
+		final SolverOutput ret = con.run(OUTPUT_PATH);
 		((MultiLayeredInheritenceModelGenerator) gen).loadModel(OUTPUT_PATH);
-		assertEquals(ILPSolverStatus.OPTIMAL, ret.status());
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(objDesVal, Math.abs(ret.objectiveValue()));
 		assertFalse(ret.validationLog().isNotValid());
+	}
+
+	@Override
+	public Class<?> getConnectorClass() {
+		return MultiLayeredInheritenceConnector.class;
 	}
 
 }

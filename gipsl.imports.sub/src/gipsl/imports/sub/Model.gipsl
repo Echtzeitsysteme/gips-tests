@@ -5,24 +5,23 @@ from "../gipsl.imports.supera/src/gipsl/imports/supera/Model.gipsl" import mapGu
 from "../gipsl.imports.superb/src/gipsl/imports/superb/Rules.gt" import guestNotMapped
 
 config {  
-	solver := GUROBI [home:="fu", license:="bar"];
-	launchConfig := true [main := "TODO"];
+	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
 	presolve := true;
 	debugOutput := false;
 }
 
-mapping g2h with mapGuestA;
+mapping g2h to mapGuestA;
 
-constraint -> global {
-	mappings.g2h->count() == patterns.guestNotMapped->count()
+constraint {
+	mappings.g2h->sum(element.value) == patterns.guestNotMapped->count()
 }
 
-objective g2hObj -> mapping::g2h {
-	1
+function g2hObj with g2h {
+	context.value
 }
 
-global objective : min {
-	g2hObj
+objective : min {
+	functions.g2hObj
 }

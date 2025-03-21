@@ -1,0 +1,16 @@
+package "gipsl.solverconfig.withoutsolverargs"
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+config {
+	// Full specification
+//	solver := GUROBI [home:="fu", license:="bar"];
+
+	// Empty brackets (this was possible before adapting GIPSL)
+//	solver := GUROBI [];
+
+	// No solver configuration at all (new)
+	solver := GUROBI;
+	
+	// Launch configuration that also depends on the variables above
+//	launchConfig := true [main := "dummyMainMethod"];
+}

@@ -1,6 +1,6 @@
 package gipsl.all.build.equals.fxeqctrafo.connector;
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.equals.fxeqctrafo.api.gips.FxeqctrafoGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -16,8 +16,8 @@ public class FxeqctrafoConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 		// Do not apply the mappings on purpose
 //		((FxeqctrafoGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;

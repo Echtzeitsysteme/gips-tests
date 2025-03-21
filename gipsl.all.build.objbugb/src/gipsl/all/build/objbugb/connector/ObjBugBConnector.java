@@ -1,7 +1,7 @@
 package gipsl.all.build.objbugb.connector;
 
 
-import org.emoflon.gips.core.ilp.ILPSolverOutput;
+import org.emoflon.gips.core.milp.SolverOutput;
 
 import gipsl.all.build.objbugb.api.gips.ObjbugbGipsAPI;
 import test.suite.gips.utils.AConnector;
@@ -17,8 +17,8 @@ public class ObjBugBConnector extends AConnector {
 	}
 
 	@Override
-	public ILPSolverOutput run(final String outputPath) {
-		final ILPSolverOutput output = solve();
+	public SolverOutput run(final String outputPath) {
+		final SolverOutput output = solve();
 //		((ObjbugGipsAPI) api).getM().getNonZeroVariableMappings();
 		save(outputPath);
 		return output;
