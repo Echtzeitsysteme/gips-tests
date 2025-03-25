@@ -76,9 +76,13 @@ constraint with findTargetNode {
 }
 
 constraint with findMiddleNode {
-	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value) == 1
-	<=>
-	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value) == 1
+//	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value) == 1
+//	<=>
+//	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value) == 1
+	// "Shorter" version of the constraint above:
+	mappings.selectEdgeMapping->filter(element.nodes.target == context.nodes.node)->sum(element.value)
+	==
+	mappings.selectEdgeMapping->filter(element.nodes.source == context.nodes.node)->sum(element.value)
 }
 
 constraint with Node {

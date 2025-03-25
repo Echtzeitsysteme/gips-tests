@@ -23,6 +23,14 @@ public class GlobalTestConfig {
 	 */
 	public static SolverType solverType = SolverType.GUROBI;
 
+	/**
+	 * Allowed delta for numeric assertions in the tests.
+	 */
+	public static final double delta = 0.001;
+
+	/**
+	 * No public instance of this class allowed.
+	 */
 	private GlobalTestConfig() {
 	}
 
