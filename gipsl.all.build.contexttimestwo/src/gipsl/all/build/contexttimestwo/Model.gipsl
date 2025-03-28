@@ -1,0 +1,75 @@
+package "gipsl.all.build.contexttimestwo"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+pattern findSnode {
+	root: Root {
+		-containers -> substrateContainer
+	}
+	
+	substrateContainer : SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	snode : SubstrateResourceNode
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+mapping patternMap to findSnode;
+
+// Helper constraint (i.e., all pattern mappings must be selected)
+constraint with patternMap {
+	context.value == 1
+}
+
+// Constraint under test
+constraint with n2n {
+	mappings.patternMap->filter(element.nodes.snode == context.nodes.snode)->sum(element.value)
+	+
+	mappings.patternMap->filter(element.nodes.snode != context.nodes.snode)->sum(element.value)
+	<= context.value * 2
+}
+
+function nObj with n2n {
+	context.value
+}
+
+objective : min {
+	functions.nObj
+}
