@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gipsl.all.build.objective.keywordaccess
+Bundle-ManifestVersion: 2
+Bundle-Name: gipsl.all.build.objective.keywordaccess
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: gipsl.all.build.objective.keywordaccess; singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: org.emoflon.ibex.common,
+ org.emoflon.ibex.gt,
+ org.emoflon.gips.core,
+ org.emoflon.ibex.gt.democles,
+ org.emoflon.ibex.gt.hipe,
+ gipsl.all.build.model,
+ test.suite.utils
