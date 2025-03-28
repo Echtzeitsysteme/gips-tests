@@ -7,6 +7,7 @@ import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.notequal.connector.NotEqualConnector;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class GipslAllBuildNotEqualTest extends AGipslAllBuildTest {
 
@@ -45,7 +46,7 @@ public class GipslAllBuildNotEqualTest extends AGipslAllBuildTest {
 		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		// Both virtual nodes must be mapped because there is more than one mapping onto
 		// the same substrate node possible
-		assertEquals(2, Math.abs(ret.objectiveValue()));
+		assertEquals(2, Math.abs(ret.objectiveValue()), GlobalTestConfig.delta);
 	}
 
 	@Override
