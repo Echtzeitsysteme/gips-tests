@@ -93,6 +93,7 @@ Import-Package: gips.enumequals.connector,
  gipsprojectpackagenamebug.connector,
  hipe.engine,
  org.emoflon.ibex.gt.hipe.runtime,
+ org.gipsl.all.build.nestedattributeaccess.connector,
  org.junit.jupiter.api,
  shortestpath.connector,
  test.suite.gips.utils
