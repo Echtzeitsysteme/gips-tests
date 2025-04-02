@@ -5,12 +5,14 @@ import org.emoflon.gips.core.milp.SolverOutput;
 import gipsl.string.compare.api.gips.CompareGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
+import test.suite.gips.utils.GlobalTestConfig;
 
 public class StringCompareConnector extends AConnector {
 
 	public StringCompareConnector(final String modelPath) {
 		api = new CompareGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
+		GlobalTestConfig.overrideSolver(api);
 	}
 
 	@Override
