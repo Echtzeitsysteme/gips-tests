@@ -13,7 +13,7 @@ public abstract class AbstractGipsTest {
 		}
 		// The project name equals the package name per default in all GIPS test
 		// projects.
-		System.err.println(packageName);
+//		System.err.println(packageName);
 		return packageName;
 	}
 
