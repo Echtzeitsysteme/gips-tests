@@ -1,0 +1,62 @@
+package "org.gipsl.all.build.nestedattributeaccess"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 73];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+// Access to an attribute with two hops
+// This constraint does not check something meaningful.
+constraint with mapVnode {
+	context.nodes.vnode.host.name == context.nodes.snode.name
+}
+
+// Access to an attribute via a for loop in a constraint
+constraint with mapVnode {
+	context.nodes.snode.guests->filter(element == context.nodes.vnode)->count() == 1
+}
+
+// Access to an attribute via a for loop in a function
+function guestsWithCorrectName with mapVnode {
+	context.nodes.snode.guests->filter(element == context.nodes.vnode)->count()
+}
+
+function guestHostGuestSize with mapVnode {
+	context.nodes.vnode.host.guests->count()
+}
+
+objective : max {
+	functions.guestsWithCorrectName
+	+ functions.guestHostGuestSize
+}
