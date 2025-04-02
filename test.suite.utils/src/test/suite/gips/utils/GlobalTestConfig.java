@@ -4,6 +4,7 @@ import org.emoflon.gips.core.api.GipsEngineAPI;
 import org.emoflon.gips.core.milp.CplexSolver;
 import org.emoflon.gips.core.milp.GlpkSolver;
 import org.emoflon.gips.core.milp.GurobiSolver;
+import org.emoflon.gips.core.milp.MosekSolver;
 import org.emoflon.gips.core.milp.Solver;
 import org.emoflon.gips.core.milp.SolverConfig;
 import org.emoflon.gips.intermediate.GipsIntermediate.SolverType;
@@ -21,7 +22,7 @@ public class GlobalTestConfig {
 	/**
 	 * Configures the used solver type (e.g., GLPK, Gurobi) if override is enabled.
 	 */
-	public static SolverType solverType = SolverType.GUROBI;
+	public static SolverType solverType = SolverType.MOSEK;
 
 	/**
 	 * Allowed delta for numeric assertions in the tests.
@@ -70,6 +71,9 @@ public class GlobalTestConfig {
 		}
 		case CPLEX: {
 			return new CplexSolver(api, config);
+		}
+		case MOSEK: {
+			return new MosekSolver(api, config);
 		}
 		default: {
 			throw new UnsupportedOperationException("Solver type not known.");
