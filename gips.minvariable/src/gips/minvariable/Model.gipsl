@@ -1,0 +1,80 @@
+package "gips.minvariable"
+import "platform:/resource/gips.minvariablemodel/model/Minvariablemodel.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := true;
+}
+
+//
+// GT
+//
+
+rule selectNode {
+	root : Root {
+		- nodess -> n
+	}
+	
+	n : Node {
+		.selected := true
+	}	
+}
+
+pattern findNodeContextCombination {
+	root : Root {
+		- nodess -> n
+		- contextNodes -> c
+	}
+	
+	n : Node
+	c : Context
+}
+
+pattern findRoot {
+	root : Root
+}
+
+//
+// GIPSL
+//
+
+mapping select to selectNode {
+	var z : EBoolean
+};
+
+mapping minimum to findRoot {
+	var minimum : EInt
+};
+
+constraint {
+	mappings.select->filter(element.nodes.n.valueSecondary == 1)->sum(element.value) == 1
+	&
+	mappings.select->sum(element.value) == 1
+}
+
+constraint with minimum {
+	context.variables.minimum >= 0
+}
+
+// Min constraint is complicated
+//
+// Q <= a * R_i
+constraint with select {
+	mappings.minimum->sum(element.variables.minimum)
+	<= context.nodes.n.valueConstant * context.value
+}
+
+// Q >= a * R_i - M(1 - z_i)
+constraint with select {
+	mappings.minimum->sum(element.variables.minimum)
+	>= context.nodes.n.valueConstant * context.value
+	- 1000 * (1 - context.variables.z)
+}
+
+// sum_i(z_i) == 1
+constraint {
+	mappings.select->sum(element.variables.z) == 1
+}
