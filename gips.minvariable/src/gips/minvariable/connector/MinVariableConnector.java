@@ -22,4 +22,17 @@ public class MinVariableConnector extends AConnector {
 		return output;
 	}
 
+	public int getMinVarValue() {
+		final var mappings = ((MinvariableGipsAPI) api).getMinimum().getMappings().values();
+
+		if (mappings.size() != 1) {
+			throw new InternalError();
+		}
+
+		for (final var m : mappings) {
+			return m.getMinimum().getValue();
+		}
+		return -1;
+	}
+
 }

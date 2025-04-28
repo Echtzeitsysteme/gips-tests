@@ -18,6 +18,8 @@ public class MinVariableModelGenerator {
 
 	private Root model = null;
 
+	private static MinVariableModelGenerator instance = new MinVariableModelGenerator();
+
 	public void run(final Map<Integer, Integer> nodes, final List<Integer> contexts, final String outputPath) {
 		initModel();
 
@@ -31,11 +33,11 @@ public class MinVariableModelGenerator {
 		writeXmiToFile(outputPath, model);
 	}
 
-	private void initModel() {
+	public void initModel() {
 		model = MinvariablemodelFactory.eINSTANCE.createRoot();
 	}
 
-	private void genNode(final int value, final int secondaryValue) {
+	public void genNode(final int value, final int secondaryValue) {
 		final var node = MinvariablemodelFactory.eINSTANCE.createNode();
 		node.setSelected(false);
 		node.setValueConstant(value);
@@ -43,10 +45,25 @@ public class MinVariableModelGenerator {
 		this.model.getNodess().add(node);
 	}
 
-	private void genContextNode(final int contextValue) {
+	public void genContextNode(final int contextValue) {
 		final var node = MinvariablemodelFactory.eINSTANCE.createContext();
 		node.setValueContext(contextValue);
 		this.model.getContextNodes().add(node);
+	}
+
+	public static void reset() {
+		MinVariableModelGenerator.instance.initModel();
+	}
+
+	public static MinVariableModelGenerator getInstance() {
+		if (instance == null) {
+			instance = new MinVariableModelGenerator();
+		}
+		return instance;
+	}
+
+	public void persistModel(final String path) {
+		this.writeXmiToFile(path, model);
 	}
 
 	/**
