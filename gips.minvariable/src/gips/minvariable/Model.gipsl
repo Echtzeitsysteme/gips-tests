@@ -7,6 +7,7 @@ config {
 	randomSeed := true [value := 0];
 	presolve := true;
 	debugOutput := true;
+	lpOutput := true [path := "./problem.lp"];
 }
 
 //
@@ -37,6 +38,16 @@ pattern findRoot {
 	root : Root
 }
 
+pattern findSecondarySelectedNode {
+	root : Root {
+		- nodess -> n
+	}
+	
+	n : Node
+	
+	# n.valueSecondary >= 1
+}
+
 //
 // GIPSL
 //
@@ -50,11 +61,12 @@ mapping minimum to findRoot {
 };
 
 constraint {
-	mappings.select->filter(element.nodes.n.valueSecondary == 1)->sum(element.value) == 1
-	&
-	mappings.select->sum(element.value) == 1
+	mappings.select->sum(element.value)
+	==
+	patterns.findSecondarySelectedNode->count()
 }
 
+// This constraint should not be necessary
 constraint with minimum {
 	context.variables.minimum >= 0
 }
@@ -63,18 +75,46 @@ constraint with minimum {
 //
 // Q <= a * R_i
 constraint with select {
-	mappings.minimum->sum(element.variables.minimum)
-	<= context.nodes.n.valueConstant * context.value
+//	[
+//		mappings.select->filter( //
+//			element.nodes.n == context.nodes.n //
+//			& element.nodes.root == context.nodes.root
+//		)->sum(element.value) == 1
+//	]
+//	=>
+	[
+		mappings.minimum->sum(element.variables.minimum)
+		<= context.nodes.n.valueConstant * context.value
+	]
 }
 
 // Q >= a * R_i - M(1 - z_i)
 constraint with select {
-	mappings.minimum->sum(element.variables.minimum)
-	>= context.nodes.n.valueConstant * context.value
-	- 1000 * (1 - context.variables.z)
+//	[
+//		mappings.select->filter( //
+//			element.nodes.n == context.nodes.n //
+//			& element.nodes.root == context.nodes.root
+//		)->sum(element.value) == 1
+//	]
+//	=>
+	[
+		mappings.minimum->sum(element.variables.minimum)
+		>= context.nodes.n.valueConstant * context.value
+		- 1000 * (1 - context.variables.z)
+	]
 }
 
 // sum_i(z_i) == 1
 constraint {
 	mappings.select->sum(element.variables.z) == 1
+}
+
+// Objective: maximize the number of selected mappings
+function select with select {
+	context.value
+}
+
+objective : max {
+	0
+	+ functions.select
 }
