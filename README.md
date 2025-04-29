@@ -13,8 +13,15 @@ This repository holds some GIPS test projects.
 
 ### Requirements
 
-Currently, all of the tests use the [Gurobi](https://www.gurobi.com/) ILP solver, which is a commercial solution.
+Currently, all of the tests use the [Gurobi](https://www.gurobi.com/) (M)ILP solver, which is a commercial solution.
 Thus, you have to install and configure Gurobi or change the configuration of all tests in the [`GlobalTestConfig`](https://github.com/Echtzeitsysteme/gips-tests/blob/main/test.suite.utils/src/test/suite/gips/utils/GlobalTestConfig.java#L24) file from `GUROBI` to another solver.
+
+
+## Running all tests
+
+The easiest way of running the whole test suite is by using one of the provided Eclipse launch files:
+- [test.suite.gips.launch](./test.suite.gips/launch/test.suite.gips.launch) - launches all JUnit tests without explicitly setting environment variables. This file fits the use case that you are using an Eclipse runtime workspace with properly set up environment variables in your runtime launch config.
+- [test.suite.gips.envs.launch](./test.suite.gips/launch/test.suite.gips.envs.launch) - launches all JUnit tests with standard environment variable values. This file fits the use case that you did not set up proper environment variables in your Eclipse runtime workspace or you are using GIPS as a deployed plug-in.
 
 
 ## Repository/Project structure
@@ -22,7 +29,7 @@ Thus, you have to install and configure Gurobi or change the configuration of al
 | Project name                             | Type              | Purpose                                                                                        |
 | ---------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------- |
 | `gips.ilp.lpoutput`                      | GIPSL             | Tests the LP output generation (e.g., logs)                                                    |
-| `gips.ilp.timeout.*`                     | GIPSL set         | Tests the time limit behaviour of the ILP solvers                                              |
+| `gips.ilp.timeout.*`                     | GIPSL set         | Tests the time limit behaviour of the (M)ILP solvers                                           |
 | `gips.multilayeredinheritence.*`         | GIPSL             | Tests the correct behaviour of GIPS for multi-layered inheritence in classes                   |
 | `gips.null*`                             | GIPSL set         | Test project and metamodel to trigger a NPE bug in GIPS                                        |
 | `gips.sort.*`                            | GIPSL set         | A simple test to create a sorted linked-list                                                   |

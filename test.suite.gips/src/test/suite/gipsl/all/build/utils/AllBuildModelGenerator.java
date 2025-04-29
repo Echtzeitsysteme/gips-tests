@@ -12,8 +12,10 @@ import model.Container;
 import model.ModelFactory;
 import model.Root;
 import model.SubstrateContainer;
+import model.SubstrateNode;
 import model.SubstrateResourceNode;
 import model.VirtualContainer;
+import model.VirtualNode;
 import model.VirtualResourceNode;
 
 public class AllBuildModelGenerator {
@@ -84,6 +86,31 @@ public class AllBuildModelGenerator {
 			}
 		}
 		return null;
+	}
+
+	public SubstrateResourceNode getSubstrateResourceNode(final String name) {
+		for (final SubstrateNode snode : ((SubstrateContainer) getContainer(SUB_NAME)).getSubstrateNodes()) {
+			if (snode.getName() != null && snode.getName().equals(name)) {
+				return (SubstrateResourceNode) snode;
+			}
+		}
+		throw new UnsupportedOperationException("SubstrateResourceNode with the name <" + name + "> not found.");
+	}
+
+	public VirtualResourceNode getVirtualResourceNode(final String name) {
+		for (final VirtualNode vnode : ((VirtualContainer) getContainer(VIRT_NAME)).getVirtualNodes()) {
+			if (vnode.getName() != null && vnode.getName().equals(name)) {
+				return (VirtualResourceNode) vnode;
+			}
+		}
+		throw new UnsupportedOperationException("VirtualResourceNode with the name <" + name + "> not found.");
+	}
+
+	public void embeddVnodeIntoSnode(final String vNodeName, final String sNodeName) {
+		final SubstrateResourceNode snode = getSubstrateResourceNode(sNodeName);
+		final VirtualResourceNode vnode = getVirtualResourceNode(vNodeName);
+		snode.getGuests().add(vnode);
+		vnode.setHost(snode);
 	}
 
 }

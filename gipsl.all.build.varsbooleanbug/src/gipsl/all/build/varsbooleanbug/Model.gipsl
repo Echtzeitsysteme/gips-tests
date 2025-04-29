@@ -31,6 +31,10 @@ rule mapVnode {
 	}
 }
 
+pattern dummyPattern {
+	root : Root
+}
+
 rule setDummyAttrRoot(p: EBoolean) {
 	root: Root {
 		.dummyAttribute := true
@@ -48,6 +52,10 @@ mapping n2n to mapVnode {
 
 mapping dummyM to setDummyAttrRoot {
 	var x : EBoolean bind p
+};
+
+mapping dummyPatternM to dummyPattern {
+	var b : EBoolean
 };
 
 constraint with VirtualResourceNode {
