@@ -21,19 +21,16 @@ rule selectNode {
 	
 	n : Node {
 		.selected := true
-	}	
-}
-
-pattern findNodeContextCombination {
-	root : Root {
-		- nodess -> n
-		- contextNodes -> c
 	}
 	
-	n : Node
-	c : Context
+	// Omitted on purpose to also create non-selected
+	// mappings in the problem.
+//	# n.valueSecondary >= 1
 }
 
+// The pattern `findRoot` is another way to specify a
+// global constraint. Because of a bug in the GIPSL 
+// compiler, this pattern is necessary.
 pattern findRoot {
 	root : Root
 }
@@ -70,17 +67,14 @@ mapping minimum to findRoot {
 	var minimum : EInt
 };
 
-//constraint {
-//	mappings.select->sum(element.value)
-//	==
-//	patterns.findSecondarySelectedNode->count()
-//}
-
+// Every matching node in the model must be selected for a mapping
 constraint with findSecondarySelectedNode {
 	mappings.select->filter(element.nodes.n == context.nodes.n)->sum(element.value)
 	==
 	1
 }
+
+// Every non-matching node in the model must *not* be selected for a mapping
 constraint with findSecondaryNotSelectedNode {
 	mappings.select->filter(element.nodes.n == context.nodes.n)->sum(element.value)
 	==
@@ -92,55 +86,47 @@ constraint with findSecondaryNotSelectedNode {
 //	context.variables.minimum >= 0
 //}
 
+//
 // Min constraint is complicated
+//
+
+// The value of Q (i.e., the minimum) must not be larger than
+// any of the selected mapping's value.
 //
 // Q <= a * R_i
 constraint with select {
-//	[
-//		mappings.select->filter( //
-//			element.nodes.n == context.nodes.n //
-//			& element.nodes.root == context.nodes.root
-//		)->sum(element.value) == 1
-//	]
-//	=>
-//	[
-		mappings.minimum->sum(element.variables.minimum)
-		<= context.nodes.n.valueConstant * context.value
-		+ 1000 * (1 - context.value)
-//	]
+	mappings.minimum->sum(element.variables.minimum)
+	<= context.nodes.n.valueConstant * context.value
+	+ 1000 * (1 - context.value)
+	// The equation above was extended by the last term (`+ 1000 * ...`)
+	// to not draw the minimum value to zero if a mapping was not selected.
 }
 
+// There must be exactly one mapping thats value is >=
+// than the found minimum value.
+//
 // Q >= a * R_i - M(1 - z_i)
 constraint with select {
-//	[
-//		mappings.select->filter( //
-//			element.nodes.n == context.nodes.n //
-//			& element.nodes.root == context.nodes.root
-//		)->sum(element.value) == 1
-//	]
-//	=>
-//	[
-		mappings.minimum->sum(element.variables.minimum)
-		>= context.nodes.n.valueConstant * context.value
-		- 1000 * (1 - context.variables.z)
-//		- 1000 * (1 - context.value)
-//	]
+	mappings.minimum->sum(element.variables.minimum)
+	>= context.nodes.n.valueConstant * context.value
+	- 1000 * (1 - context.variables.z)
 }
 
+// Only one mapping must be >= the found minimum value.
+// This constraint must only be enforced when at least
+// one of the possible mappings is selected. Otherwise,
+// the LP would be infeasible.
+// 
 // sum_i(z_i) == 1
-// TODO: this generates broken code
-//constraint {
-//	mappings.select->sum(element.value) >= 1
-//	=>
-//	mappings.select->sum(element.variables.z) == 1
-//}
 constraint with findRoot {
-//constraint {
 	mappings.select->sum(element.value) >= 1
 	=>
 	mappings.select->sum(element.variables.z) == 1
 }
 
+// If there is no selected mapping at all, the found
+// minimum value must be 0 (but it could also be something
+// else if desired).
 constraint with findRoot {
 	mappings.select->sum(element.value) == 0
 	=>
