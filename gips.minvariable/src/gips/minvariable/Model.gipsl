@@ -48,6 +48,16 @@ pattern findSecondarySelectedNode {
 	# n.valueSecondary >= 1
 }
 
+pattern findSecondaryNotSelectedNode {
+	root : Root {
+		- nodess -> n
+	}
+	
+	n : Node
+	
+	# n.valueSecondary == 0
+}
+
 //
 // GIPSL
 //
@@ -60,16 +70,27 @@ mapping minimum to findRoot {
 	var minimum : EInt
 };
 
-constraint {
-	mappings.select->sum(element.value)
+//constraint {
+//	mappings.select->sum(element.value)
+//	==
+//	patterns.findSecondarySelectedNode->count()
+//}
+
+constraint with findSecondarySelectedNode {
+	mappings.select->filter(element.nodes.n == context.nodes.n)->sum(element.value)
 	==
-	patterns.findSecondarySelectedNode->count()
+	1
+}
+constraint with findSecondaryNotSelectedNode {
+	mappings.select->filter(element.nodes.n == context.nodes.n)->sum(element.value)
+	==
+	0
 }
 
-// This constraint should not be necessary
-constraint with minimum {
-	context.variables.minimum >= 0
-}
+//// This constraint should not be necessary
+//constraint with minimum {
+//	context.variables.minimum >= 0
+//}
 
 // Min constraint is complicated
 //
@@ -82,10 +103,11 @@ constraint with select {
 //		)->sum(element.value) == 1
 //	]
 //	=>
-	[
+//	[
 		mappings.minimum->sum(element.variables.minimum)
 		<= context.nodes.n.valueConstant * context.value
-	]
+		+ 1000 * (1 - context.value)
+//	]
 }
 
 // Q >= a * R_i - M(1 - z_i)
@@ -97,16 +119,37 @@ constraint with select {
 //		)->sum(element.value) == 1
 //	]
 //	=>
-	[
+//	[
 		mappings.minimum->sum(element.variables.minimum)
 		>= context.nodes.n.valueConstant * context.value
 		- 1000 * (1 - context.variables.z)
-	]
+//		- 1000 * (1 - context.value)
+//	]
 }
 
 // sum_i(z_i) == 1
-constraint {
+// TODO: this generates broken code
+//constraint {
+//	mappings.select->sum(element.value) >= 1
+//	=>
+//	mappings.select->sum(element.variables.z) == 1
+//}
+constraint with findRoot {
+//constraint {
+	mappings.select->sum(element.value) >= 1
+	=>
 	mappings.select->sum(element.variables.z) == 1
+}
+
+constraint with findRoot {
+	mappings.select->sum(element.value) == 0
+	=>
+	mappings.minimum->sum(element.variables.minimum) == 0
+}
+
+// z must only be set if mapping was selected
+constraint with select {
+	context.value >= context.variables.z
 }
 
 // Objective: maximize the number of selected mappings

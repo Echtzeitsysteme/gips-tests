@@ -110,6 +110,42 @@ public class GipsMinVarTest extends AGipsVarMinTest {
 		verifyMinimum(73);
 	}
 	
+	@Test
+	public void testTwoNodes_sameValue_firstSelected() {
+		gen.genContextNode(1);
+		gen.genNode(42, 1);
+		gen.genNode(42, 0);
+		callableSetUp();
+
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
+		verifyMinimum(42);
+	}
+	
+	@Test
+	public void testTwoNodes_sameValue_secondSelected() {
+		gen.genContextNode(1);
+		gen.genNode(42, 0);
+		gen.genNode(42, 1);
+		callableSetUp();
+
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
+		verifyMinimum(42);
+	}
+	
+	@Test
+	public void testTwoNodes_sameValue_noneSelected() {
+		gen.genContextNode(1);
+		gen.genNode(42, 0);
+		gen.genNode(42, 0);
+		callableSetUp();
+
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
+		verifyMinimum(0);
+	}
+	
 	// Utility methods
 
 	@Override
