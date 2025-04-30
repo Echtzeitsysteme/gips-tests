@@ -90,52 +90,81 @@ constraint with findSecondaryNotSelectedNode {
 // Min constraint is complicated
 //
 
-// The value of Q (i.e., the minimum) must not be larger than
-// any of the selected mapping's value.
+//// The value of Q (i.e., the minimum) must not be larger than
+//// any of the selected mapping's value.
+////
+//// Q <= a * R_i
+//constraint with select {
+//	mappings.minimum->sum(element.variables.minimum)
+//	<= context.nodes.n.valueConstant * context.value
+//	+ 1000 * (1 - context.value)
+//	// The equation above was extended by the last term (`+ 1000 * ...`)
+//	// to not draw the minimum value to zero if a mapping was not selected.
+//}
 //
-// Q <= a * R_i
+//// There must be exactly one mapping thats value is >=
+//// than the found minimum value.
+////
+//// Q >= a * R_i - M(1 - z_i)
+//constraint with select {
+//	mappings.minimum->sum(element.variables.minimum)
+//	>= context.nodes.n.valueConstant * context.value
+//	- 1000 * (1 - context.variables.z)
+//}
+//
+//// Only one mapping must be >= the found minimum value.
+//// This constraint must only be enforced when at least
+//// one of the possible mappings is selected. Otherwise,
+//// the LP would be infeasible.
+//// 
+//// sum_i(z_i) == 1
+//constraint with findRoot {
+//	mappings.select->sum(element.value) >= 1
+//	=>
+//	mappings.select->sum(element.variables.z) == 1
+//}
+//
+//// If there is no selected mapping at all, the found
+//// minimum value must be 0 (but it could also be something
+//// else if desired).
+//constraint with findRoot {
+//	mappings.select->sum(element.value) == 0
+//	=>
+//	mappings.minimum->sum(element.variables.minimum) == 0
+//}
+//
+//// z must only be set if mapping was selected
+//constraint with select {
+//	context.value >= context.variables.z
+//}
+
+//
+// Andys variant:
+//
+
+// für alle i aus 1 bis n:  Q <= a_i + M * (1 - x_i)
 constraint with select {
 	mappings.minimum->sum(element.variables.minimum)
 	<= context.nodes.n.valueConstant * context.value
 	+ 1000 * (1 - context.value)
-	// The equation above was extended by the last term (`+ 1000 * ...`)
-	// to not draw the minimum value to zero if a mapping was not selected.
 }
 
-// There must be exactly one mapping thats value is >=
-// than the found minimum value.
-//
-// Q >= a * R_i - M(1 - z_i)
+// für alle i aus 1 bis n:  Q >= a_i – M * (1 - z_i)
 constraint with select {
 	mappings.minimum->sum(element.variables.minimum)
 	>= context.nodes.n.valueConstant * context.value
 	- 1000 * (1 - context.variables.z)
 }
 
-// Only one mapping must be >= the found minimum value.
-// This constraint must only be enforced when at least
-// one of the possible mappings is selected. Otherwise,
-// the LP would be infeasible.
-// 
-// sum_i(z_i) == 1
+// für alle i aus 1 bis n:  z_i <= x_i
 constraint with findRoot {
-	mappings.select->sum(element.value) >= 1
-	=>
+	mappings.select->sum(element.variables.z) <=
+	mappings.select->sum(element.value)
+}
+
+// für alle i aus 1 bis n:  sum(z_i) = 1
+constraint with findRoot {
 	mappings.select->sum(element.variables.z) == 1
-}
-
-// If there is no selected mapping at all, the found
-// minimum value must be 0 (but it could also be something
-// else if desired).
-constraint with findRoot {
-	mappings.select->sum(element.value) == 0
-	=>
-	mappings.minimum->sum(element.variables.minimum) == 0
-}
-
-// z must only be set if mapping was selected
-constraint with select {
-	context.value >= context.variables.z
 }
 
 // Objective: maximize the number of selected mappings
