@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: gips.minvariablemodel
+Bundle-SymbolicName: gips.minvariablemodel;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: 
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: gips.minvariablemodel
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.emoflon.smartemf
+Export-Package: gips.minvariablemodel.generator,
+ minvariablemodel,
+ minvariablemodel.impl
+
