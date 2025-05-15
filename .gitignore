@@ -20,3 +20,5 @@ test.suite.gips/gurobi.lp
 **/.DS_Store
 
 **/trace_cache.bin
+
+test.suite.gips/problem.lp
