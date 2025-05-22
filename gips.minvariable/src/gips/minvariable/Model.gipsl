@@ -59,12 +59,13 @@ pattern findSecondaryNotSelectedNode {
 // GIPSL
 //
 
-mapping select to selectNode {
-	var z : EBoolean
-};
+mapping select to selectNode ; //{
+//	var z : EBoolean
+//};
 
 mapping minimum to findRoot {
 	var minimum : EInt
+	var maximum : EInt
 };
 
 // Every matching node in the model must be selected for a mapping
@@ -90,39 +91,64 @@ constraint with findSecondaryNotSelectedNode {
 // Min constraint is complicated
 //
 
-// The value of Q (i.e., the minimum) must not be larger than
-// any of the selected mapping's value.
-//
-// Q <= a * R_i
+//// The value of Q (i.e., the minimum) must not be larger than
+//// any of the selected mapping's value.
+////
+//// Q <= a * R_i
+//constraint with select {
+//	mappings.minimum->sum(element.variables.minimum)
+//	<= context.nodes.n.valueConstant * context.value
+//	+ 1000 * (1 - context.value)
+//	// The equation above was extended by the last term (`+ 1000 * ...`)
+//	// to not draw the minimum value to zero if a mapping was not selected.
+//}
+
+// min >= -p_i * a_i
 constraint with select {
 	mappings.minimum->sum(element.variables.minimum)
-	<= context.nodes.n.valueConstant * context.value
-	+ 1000 * (1 - context.value)
-	// The equation above was extended by the last term (`+ 1000 * ...`)
-	// to not draw the minimum value to zero if a mapping was not selected.
+	>=
+	0 - context.value * context.nodes.n.valueConstant
 }
 
-// There must be exactly one mapping thats value is >=
-// than the found minimum value.
-//
-// Q >= a * R_i - M(1 - z_i)
+// max >= p_i * a_i
 constraint with select {
-	mappings.minimum->sum(element.variables.minimum)
-	>= context.nodes.n.valueConstant * context.value
-	- 1000 * (1 - context.variables.z)
+	mappings.minimum->sum(element.variables.maximum)
+	>=
+	context.value * context.nodes.n.valueConstant
 }
 
-// Only one mapping must be >= the found minimum value.
-// This constraint must only be enforced when at least
-// one of the possible mappings is selected. Otherwise,
-// the LP would be infeasible.
-// 
-// sum_i(z_i) == 1
-constraint with findRoot {
-	mappings.select->sum(element.value) >= 1
-	=>
-	mappings.select->sum(element.variables.z) == 1
+// max + min >= 0
+//constraint with minimum {
+//	context.variables.maximum + context.variables.minimum >= 0
+//}
+constraint with minimum {
+	context.variables.maximum >= 0
 }
+constraint with minimum {
+	context.variables.minimum >= 0
+}
+
+//// There must be exactly one mapping thats value is >=
+//// than the found minimum value.
+////
+//// Q >= a * R_i - M(1 - z_i)
+//constraint with select {
+//	mappings.minimum->sum(element.variables.minimum)
+//	>= context.nodes.n.valueConstant * context.value
+//	- 1000 * (1 - context.variables.z)
+//}
+
+//// Only one mapping must be >= the found minimum value.
+//// This constraint must only be enforced when at least
+//// one of the possible mappings is selected. Otherwise,
+//// the LP would be infeasible.
+//// 
+//// sum_i(z_i) == 1
+//constraint with findRoot {
+//	mappings.select->sum(element.value) >= 1
+//	=>
+//	mappings.select->sum(element.variables.z) == 1
+//}
 
 // If there is no selected mapping at all, the found
 // minimum value must be 0 (but it could also be something
@@ -132,18 +158,29 @@ constraint with findRoot {
 	=>
 	mappings.minimum->sum(element.variables.minimum) == 0
 }
-
-// z must only be set if mapping was selected
-constraint with select {
-	context.value >= context.variables.z
+constraint with findRoot {
+	mappings.select->sum(element.value) == 0
+	=>
+	mappings.minimum->sum(element.variables.maximum) == 0
 }
 
-// Objective: maximize the number of selected mappings
-function select with select {
-	context.value
+//// z must only be set if mapping was selected
+//constraint with select {
+//	context.value >= context.variables.z
+//}
+
+//// Objective: maximize the number of selected mappings
+//function select with select {
+//	context.value
+//}
+
+function test with minimum {
+	context.variables.maximum + context.variables.minimum
 }
 
-objective : max {
+//objective : max {
+objective : min {
 	0
-	+ functions.select
+//	+ functions.select
+	+ functions.test
 }
