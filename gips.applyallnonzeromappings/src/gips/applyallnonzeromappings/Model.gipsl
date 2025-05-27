@@ -1,0 +1,39 @@
+package "gips.applyallnonzeromappings"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule setAvailableZero {
+	snode: SubstrateResourceNode {
+		.resourceAmountAvailable := 0
+	}
+}
+
+rule setTotalZero {
+	snode: SubstrateResourceNode {
+		.resourceAmountTotal := 0
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping availableZero to setAvailableZero;
+mapping totalZero to setTotalZero;
+
+// Apply all mappings of type available zero
+constraint with availableZero {
+	context.value == 1
+}
+
+// Apply all mappings of type total zero
+constraint with totalZero {
+	context.value == 1
+}
