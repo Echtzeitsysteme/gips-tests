@@ -1,0 +1,56 @@
+package "gips.flipoperatorbug"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+// Rhs is not constant and Lhs is constant -> (1) Flip lhs with rhs, (2) flip
+// relational operator, (3) normalize and expand lhs, (4) move const terms of
+// lhs to rhs
+
+// LESS_OR_EQUAL
+
+constraint {
+	0 <= mappings.n2n->sum(element.value)
+}
+
+// Maximize the number of selected mappings
+function obj with n2n {
+	context.value
+}
+
+objective : max {
+	functions.obj
+}
