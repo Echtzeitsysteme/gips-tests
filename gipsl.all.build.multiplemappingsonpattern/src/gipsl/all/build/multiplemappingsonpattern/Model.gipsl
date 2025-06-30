@@ -1,0 +1,33 @@
+package "gipsl.all.build.multiplemappingsonpattern"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+pattern testPattern {
+	root : Root {
+		- containers -> vc
+	}
+	
+	vc : VirtualContainer
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping a to testPattern;
+mapping b to testPattern;
+
+constraint with a {
+	context.value == 0
+}
+
+constraint with b {
+	context.value == 1
+}
