@@ -3,9 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/extentreports-5.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/extentreports-5.1.2-javadoc.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/freemarker-2.3.33.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/freemarker-2.3.33-javadoc.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/freemarker-2.3.33-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/freemarker-2.3.34.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/freemarker-2.3.34-javadoc.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/freemarker-2.3.34-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/gson-2.11.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/gson-2.11.0-javadoc.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/html-report-generator/gson-2.11.0-sources.jar"/>
