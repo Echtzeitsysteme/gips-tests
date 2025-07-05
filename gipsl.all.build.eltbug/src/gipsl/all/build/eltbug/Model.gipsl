@@ -1,0 +1,58 @@
+package "gipsl.all.build.eltbug"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+pattern findRoot {
+	root : Root
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+// Every node must be mapped exactly once
+constraint with VirtualNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) == 1
+}
+
+// This function triggers the bug within the code generation
+function dummy with Root {
+	mappings.n2n->sum(element.value)
+	*
+	patterns.findRoot->sum(1)
+	// ^this does also trigger the bug when access uses `rules.xy`
+}
+
+objective : min {
+	functions.dummy
+}
