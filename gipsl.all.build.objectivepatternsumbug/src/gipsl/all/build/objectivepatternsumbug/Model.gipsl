@@ -1,7 +1,7 @@
 package "gipsl.all.build.objectivepatternsumbug"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
@@ -10,17 +10,20 @@ config {
 }
 
 rule moveVnodeMapping {
-	v : VirtualNode {
-		-- -host -> s1
+	v: VirtualNode {
+		---host -> s1
 		++ -host -> s2
 	}
-	s1 : SubstrateNode
-	s2 : SubstrateNode
+
+	s1: SubstrateNode
+
+	s2: SubstrateNode
 }
 
 pattern findVnodeMapping {
-	s : SubstrateNode
-	v : VirtualNode {
+	s: SubstrateNode
+
+	v: VirtualNode {
 		-host -> s
 	}
 }
@@ -31,15 +34,13 @@ constraint {
 	mappings.move->sum(element.value) == 1
 }
 
-
 //
 // This objective triggers a compiler error in the generated code.
 // It does not need a test method, etc.
 //
 function o with move {
 	context.value * patterns.findVnodeMapping
-		->filter(element.nodes.s == context.nodes.s1)
-		->count()
+		->filter(element.nodes.s == context.nodes.s1)->count()
 }
 
 objective : max {

@@ -1,11 +1,11 @@
 package "gips.ilp.lpoutput"
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	presolve := true;
 	debugOutput := false;
-	lpOutput := true [path := "./test.lp"];	
+	lpOutput := true [path := "./test.lp"];
 }
 
 rule mapSrc {
@@ -13,11 +13,11 @@ rule mapSrc {
 		-elements -> src
 		-elements -> trg
 	}
-	
+
 	src: Source {
 		++ -host -> trg
 	}
-	
+
 	trg: Target {
 		++ -srcs -> src
 		.free := trg.free - src.val

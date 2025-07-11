@@ -1,7 +1,7 @@
 package "gipsl.all.build.objbugb"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 0];
@@ -11,6 +11,7 @@ config {
 
 pattern p {
 	host: SubstrateResourceNode
+
 	vnode: VirtualResourceNode
 }
 
@@ -29,8 +30,8 @@ function o with p {
 // triggers a bug when both sides of an expression are non-constant
 // (side note: this constraint does not alter the junit test result)
 constraint {
-	mappings.m->sum(element.variables.v)    
-	== 
+	mappings.m->sum(element.variables.v)
+	==
 	mappings.m->sum(element.variables.w * element.nodes.host.resourceAmountTotal)
 }
 

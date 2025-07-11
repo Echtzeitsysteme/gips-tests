@@ -4,7 +4,7 @@ import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
 from "../gipsl.imports.supera/src/gipsl/imports/supera/Model.gipsl" import mapGuestA
 from "../gipsl.imports.superb/src/gipsl/imports/superb/Rules.gt" import guestNotMapped
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];

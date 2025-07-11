@@ -1,7 +1,7 @@
 package "gips.applyallnonzeromappings"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
@@ -26,6 +26,7 @@ rule setTotalZero {
 //
 
 mapping availableZero to setAvailableZero;
+
 mapping totalZero to setTotalZero;
 
 // Apply all mappings of type available zero

@@ -2,7 +2,7 @@ package "stringrulegipsl"
 import "platform:/resource/stringmetamodel/model/Stringmetamodel.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
@@ -19,11 +19,12 @@ config {
 // already produced non-compilable code.
 //
 
-rule setName(newname : EString) {
-	root : Root {
-		- items -> i
+rule setName(newname: EString) {
+	root: Root {
+		-items -> i
 	}
-	i : Item {
+
+	i: Item {
 		.name := param::newname
 	}
 }
