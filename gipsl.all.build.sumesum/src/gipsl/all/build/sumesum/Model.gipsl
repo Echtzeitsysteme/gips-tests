@@ -1,9 +1,9 @@
 package "gipsl.all.build.sumesum"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
-	timeLimit := false [value:=120.0];
+	timeLimit := false [value := 120.0];
 	presolve := true;
 	debugOutput := false;
 }
@@ -16,17 +16,17 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
@@ -39,7 +39,7 @@ rule mapVnode {
 mapping n2n to mapVnode;
 
 constraint {
-//	mappings.n2n->sum(m | m.value()) == mappings.n2n->sum(m | m.value())
+	// mappings.n2n->sum(m | m.value()) == mappings.n2n->sum(m | m.value())
 	mappings.n2n->count() + mappings.n2n->sum(element.value) >= 0
 }
 

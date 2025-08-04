@@ -1,7 +1,7 @@
 package "gipsl.all.build.objectivemapping"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
@@ -14,17 +14,17 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
@@ -35,21 +35,20 @@ rule mapVnodeTen {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 10
 }
 
@@ -58,55 +57,51 @@ rule mapVnodeTen {
 //
 
 mapping a to mapVnode;
+
 mapping ten to mapVnodeTen;
 
-//constraint with mapVnode {
-//	mappings.a
-//		->filter(
-//			element.nodes.snode == context.nodes.snode
-//			& element.nodes.vnode == context.nodes.vnode
-//		)
-//		->count() == 1
-//}
+// constraint with mapVnode {
+// mappings.a
+// ->filter(
+// element.nodes.snode == context.nodes.snode
+// & element.nodes.vnode == context.nodes.vnode
+// )
+// ->count() == 1
+// }
 //
-//constraint with mapVnodeTen {
-//	mappings.ten
-//		->filter(
-//			element.nodes.snode == context.nodes.snode
-//			& element.nodes.vnode == context.nodes.vnode
-//		)
-//		->count() == 1
-//}
+// constraint with mapVnodeTen {
+// mappings.ten
+// ->filter(
+// element.nodes.snode == context.nodes.snode
+// & element.nodes.vnode == context.nodes.vnode
+// )
+// ->count() == 1
+// }
 
 // Exactly one mapping must be chosen
 constraint with VirtualResourceNode {
-		mappings.a
-		->filter(element.nodes.vnode == context)
-		->sum(element.value)
-		
-		+
-		
-		mappings.ten
-		->filter(element.nodes.vnode == context)
-		->sum(element.value)
-		
-		== 1
+	mappings.a
+		->filter(element.nodes.vnode == context)->sum(element.value)
+	+
+	mappings.ten
+		->filter(element.nodes.vnode == context)->sum(element.value)
+	== 1
 }
 
 function localObj with mapVnode {
 	mappings.a
 		->filter(
-			element.nodes.snode == context.nodes.snode
-			& element.nodes.vnode == context.nodes.vnode
-		)->sum(element.nodes.vnode.resourceDemand * element.value)
+		element.nodes.snode == context.nodes.snode
+		& element.nodes.vnode == context.nodes.vnode
+	)->sum(element.nodes.vnode.resourceDemand * element.value)
 }
 
 function localObjTen with mapVnodeTen {
 	mappings.ten
 		->filter(
-			element.nodes.snode == context.nodes.snode
-			& element.nodes.vnode == context.nodes.vnode
-		)->sum(element.value)
+		element.nodes.snode == context.nodes.snode
+		& element.nodes.vnode == context.nodes.vnode
+	)->sum(element.value)
 }
 
 objective : min {

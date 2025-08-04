@@ -1,7 +1,7 @@
 package "gipsl.all.build.function.scaling"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
@@ -14,21 +14,20 @@ rule mapVnodeOne {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 1
 }
 
@@ -37,21 +36,20 @@ rule mapVnodeTwo {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 2
 }
 
@@ -60,21 +58,20 @@ rule mapVnodeTen {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 10
 }
 
@@ -83,21 +80,20 @@ rule mapVnodeTwenty {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 20
 }
 
@@ -106,43 +102,42 @@ rule mapVnodeTwentyOne {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 21
 }
+
 rule mapVnodeTwentyTwo {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 22
 }
 
@@ -151,21 +146,20 @@ rule mapVnodeThirtyThree {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 33
 }
 
@@ -174,21 +168,20 @@ rule mapVnodeFourty {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand == 40
 }
 
@@ -197,36 +190,50 @@ rule mapVnodeFourty {
 //
 
 mapping a to mapVnodeOne;
+
 mapping b to mapVnodeTwo;
+
 mapping c to mapVnodeTen;
+
 mapping d to mapVnodeTwenty;
+
 mapping f to mapVnodeTwentyOne;
+
 mapping g to mapVnodeTwentyTwo;
+
 mapping h to mapVnodeThirtyThree;
+
 mapping i to mapVnodeFourty;
 
 // Each found virtual node (match) must be mapped (for both mappings!)
 constraint with mapVnodeOne {
-	mappings.a->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value)== 1
+	mappings.a->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
+
 constraint with mapVnodeTwo {
 	mappings.b->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
+
 constraint with mapVnodeTen {
 	mappings.c->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
+
 constraint with mapVnodeTwenty {
 	mappings.d->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
+
 constraint with mapVnodeTwentyOne {
 	mappings.f->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
+
 constraint with mapVnodeTwentyTwo {
 	mappings.g->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
+
 constraint with mapVnodeThirtyThree {
 	mappings.h->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
+
 constraint with mapVnodeFourty {
 	mappings.i->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) == 1
 }
@@ -249,8 +256,8 @@ function sumD with SubstrateResourceNode {
 
 function sumFG with SubstrateResourceNode {
 	(mappings.f->filter(element.nodes.snode == context)->sum(element.value) +
-	mappings.g->filter(element.nodes.snode == context)->sum(element.value))
-	/ 2 
+		mappings.g->filter(element.nodes.snode == context)->sum(element.value))
+	/ 2
 }
 
 function sumH with SubstrateResourceNode {
@@ -260,6 +267,7 @@ function sumH with SubstrateResourceNode {
 function objIA with i {
 	context.value * ((context.nodes.vnode.resourceDemand + 10) / 5)
 }
+
 function objIB with VirtualResourceNode {
 	mappings.i->filter(element.nodes.vnode == context)->sum(element.nodes.vnode.resourceDemand * element.value)
 }

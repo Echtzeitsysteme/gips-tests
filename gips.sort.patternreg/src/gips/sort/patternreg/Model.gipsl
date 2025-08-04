@@ -1,7 +1,7 @@
 package "gips.sort.patternreg"
 import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
@@ -13,14 +13,14 @@ rule findFirst {
 	root: Root {
 		-entries -> val
 	}
-	
+
 	val: Entry {
 		.^value := -1
 	}
 }
 
 // Mapping removed on purpose to trigger exception
-//mapping eFirst with findFirst;
+// mapping eFirst with findFirst;
 constraint with Entry {
 	rules.findFirst->filter(element.nodes.val == context)->count() == 0
 }

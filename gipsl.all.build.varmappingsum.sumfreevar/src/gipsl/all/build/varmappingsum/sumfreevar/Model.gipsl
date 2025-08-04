@@ -2,7 +2,7 @@ package "gipsl.all.build.varmappingsuelement.sumfreevar"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 import "http://www.eclipse.org/emf/2002/Ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
@@ -15,23 +15,22 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode {
 		++ -guests -> vnode
 	}
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand <= snode.resourceAmountAvailable
 	# snode.resourceAmountAvailable >= 0
 }
@@ -76,11 +75,10 @@ constraint with n2n {
 
 constraint {
 	mappings.n2n->sum(element.variables.u
-		+ element.variables.v
-		+ element.variables.w
-		+ element.variables.x
-		+ element.variables.y
-	) == 73
+	+ element.variables.v
+	+ element.variables.w
+	+ element.variables.x
+	+ element.variables.y) == 73
 }
 
 function n2nObj with n2n {
