@@ -6,7 +6,7 @@ config {
 	launchConfig := true [main := "mySpecificMainName"];
 	timeLimit := true [value := 1.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 }
 
 //
