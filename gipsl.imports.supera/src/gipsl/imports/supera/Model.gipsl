@@ -1,11 +1,11 @@
 package "gipsl.imports.supera"
 import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -14,12 +14,11 @@ rule mapGuestA {
 		-elements -> h
 		-elements -> g
 	}
-	
+
 	h: Host
-	
+
 	g: Guest {
 		++ -host -> h
 	}
-	
 	# h.resource >= g.demand
 }

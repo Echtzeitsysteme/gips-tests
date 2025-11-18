@@ -1,11 +1,11 @@
 package "gips.sort"
 import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -14,13 +14,12 @@ rule sortOne {
 		-entries -> valA
 		-entries -> valB
 	}
-	
+
 	valA: Entry {
 		++ -next -> valB
 	}
-	
+
 	valB: Entry
-		
 	# valA.^value < valB.^value
 }
 
@@ -28,13 +27,14 @@ rule sortLast {
 	root: Root {
 		-entries -> val
 	}
-	
+
 	val: Entry {
 		++ -next -> val
 	}
 }
 
 mapping e2e to sortOne;
+
 mapping e2self to sortLast;
 
 constraint with Entry {
@@ -70,11 +70,13 @@ constraint {
 
 // This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
 let global := 1;
+
 let set := mappings.e2self;
-constraint { 
-	constants.set->sum(element.value) == constants.global 
+
+constraint {
+	constants.set->sum(element.value) == constants.global
 }
 
 constraint with Entry {
 	mappings.e2e->filter(element.nodes.valB == context)->sum(element.value) <= constants.global
-} 
+}

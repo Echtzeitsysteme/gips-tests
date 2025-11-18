@@ -5,7 +5,7 @@ config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -19,21 +19,20 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand <= snode.resourceAmountAvailable
 	# snode.resourceAmountAvailable >= 0
 }
@@ -45,71 +44,70 @@ rule mapA {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode {
 		++ -guests -> vnode
 	}
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# snode.resourceAmountAvailable >= 1
 }
+
 rule mapB {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode {
 		++ -guests -> vnode
 	}
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# snode.resourceAmountAvailable >= 2
 }
+
 rule mapC {
 	root: Root {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode {
 		++ -guests -> vnode
 	}
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# snode.resourceAmountAvailable >= 3
 }
 
@@ -118,35 +116,39 @@ rule mapC {
 //
 
 mapping n2n to mapVnode;
+
 constraint with SubstrateResourceNode {
 	mappings.n2n->filter(element.nodes.snode == context)->sum(element.nodes.vnode.resourceDemand) <= context.resourceAmountAvailable
 }
+
 constraint with mapVnode {
 	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
-//// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome. 
-//constraint with mapVnode {
-//	let a := mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value);
-//	constants.a == 1
-//} 
+// // This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome. 
+// constraint with mapVnode {
+// let a := mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value);
+// constants.a == 1
+// } 
 
 // This must not produce an error
 constraint with VirtualResourceNode {
 	mappings.n2n->sum(element.value) * 1 == context.resourceDemand
 }
-//// This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
-//constraint with VirtualResourceNode {
-//	let a := mappings.n2n->sum(element.value);
-//	let b := context.resourceDemand;     
-//	constants.a * 1 == constants.b  
-//}
+// // This constraint is redundant and only used as a sanity check for constants. It should not change the test outcome.
+// constraint with VirtualResourceNode {
+// let a := mappings.n2n->sum(element.value);
+// let b := context.resourceDemand;     
+// constants.a * 1 == constants.b  
+// }
 
 constraint with SubstrateResourceNode {
 	mappings.n2n->sum(element.nodes.snode.resourceAmountTotal) == context.resourceAmountAvailable
 }
+
 constraint with SubstrateResourceNode {
 	mappings.n2n->sum(element.nodes.snode.resourceAmountTotal) <= context.resourceAmountAvailable
 }
+
 constraint with SubstrateResourceNode {
 	mappings.n2n->sum(element.nodes.snode.resourceAmountTotal) >= context.resourceAmountAvailable
 }
@@ -159,9 +161,11 @@ constraint with Root {
 constraint with mapVnode {
 	context.nodes.snode.resourceAmountAvailable >= 0
 }
+
 constraint with SubstrateResourceNode {
 	context.resourceAmountAvailable <= context.resourceAmountTotal
 }
+
 constraint with SubstrateResourceNode {
 	mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) >= 1 & context.resourceAmountAvailable > 0
 }
@@ -176,77 +180,77 @@ constraint with SubstrateResourceNode {
 }
 
 // TODO: Broken
-//constraint with SubstrateResourceNode {
-//	mappings.n2n->filter(element.nodes.snode != context)->notEmpty()
-//}
+// constraint with SubstrateResourceNode {
+// mappings.n2n->filter(element.nodes.snode != context)->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with SubstrateResourceNode {
-//	mappings.n2n->filter(element.nodes.snode != context)->filter(element.nodes.snode.resourceAmountAvailable > 0)->notEmpty()
-//}
+// constraint with SubstrateResourceNode {
+// mappings.n2n->filter(element.nodes.snode != context)->filter(element.nodes.snode.resourceAmountAvailable > 0)->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with SubstrateResourceNode {
-//	mappings.n2n->filter(element.nodes.root != context)->filter(element.nodes.root == context)->notEmpty()
-//}
+// constraint with SubstrateResourceNode {
+// mappings.n2n->filter(element.nodes.root != context)->filter(element.nodes.root == context)->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with SubstrateResourceNode {
-//	mappings.n2n->filter(element.nodes.root != context)->filter(element.nodes.root == context)->filter(element.nodes.snode.resourceAmountAvailable > 0)->notEmpty()
-//}
+// constraint with SubstrateResourceNode {
+// mappings.n2n->filter(element.nodes.root != context)->filter(element.nodes.root == context)->filter(element.nodes.snode.resourceAmountAvailable > 0)->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with SubstrateResourceNode {
-//	mappings.n2n->filter(element.nodes.root != context)->notEmpty() & true & true & true
-//}
+// constraint with SubstrateResourceNode {
+// mappings.n2n->filter(element.nodes.root != context)->notEmpty() & true & true & true
+// }
 
 // TODO: These constraints should be possible, but !() is not yet implemented
 // Current status: java.lang.IllegalArgumentException: Optimization problem is impossible to solve: One ore more constraints return false by definition.
-//constraint with SubstrateResourceNode {
-//	mappings.n2n->filter(element.nodes.root != context)->notEmpty() & !(false)
-//}
-//constraint with SubstrateResourceNode {
-//	!(false) & context.resourceAmountTotal == 0
-//}
+// constraint with SubstrateResourceNode {
+// mappings.n2n->filter(element.nodes.root != context)->notEmpty() & !(false)
+// }
+// constraint with SubstrateResourceNode {
+// !(false) & context.resourceAmountTotal == 0
+// }
 
 // TODO: Broken
-//constraint with VirtualResourceNode {
-//	mappings.n2n->filter(m | true)->filter(n | n.nodes.snode == context)->notEmpty()
-//}
+// constraint with VirtualResourceNode {
+// mappings.n2n->filter(m | true)->filter(n | n.nodes.snode == context)->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with VirtualResourceNode {
-//	mappings.n2n->filter(m | false)->filter(n | n.nodes.snode == context)->notEmpty()
-//}
+// constraint with VirtualResourceNode {
+// mappings.n2n->filter(m | false)->filter(n | n.nodes.snode == context)->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with VirtualResourceNode {
-//	mappings.n2n->filter(m | 0 > 1)->filter(element.nodes.root == context)->notEmpty()
-//}
+// constraint with VirtualResourceNode {
+// mappings.n2n->filter(m | 0 > 1)->filter(element.nodes.root == context)->notEmpty()
+// }
 
 constraint with VirtualResourceNode {
 	context.resourceDemand > mappings.n2n->sum(element.value)
 }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.snode.guests->notEmpty()
-//}
+// constraint with n2n {
+// context.nodes.snode.guests->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.root.containers->notEmpty()
-//}
+// constraint with n2n {
+// context.nodes.root.containers->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.root.containers->filter(m | context.isMapped()->count() == 1
-//}
+// constraint with n2n {
+// context.nodes.root.containers->filter(m | context.isMapped()->count() == 1
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.root.containers->notEmpty()
-//}
+// constraint with n2n {
+// context.nodes.root.containers->notEmpty()
+// }
 
 constraint with VirtualResourceNode {
 	mappings.n2n->count() > mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value)
@@ -269,93 +273,93 @@ constraint with VirtualResourceNode {
 }
 
 // TODO: Broken
-//constraint with VirtualResourceNode {
-//	mappings.n2n->filter(element.nodes.vnode.resourceDemand ^ 1 + 1 == context.resourceDemand)->notEmpty()
-//}
+// constraint with VirtualResourceNode {
+// mappings.n2n->filter(element.nodes.vnode.resourceDemand ^ 1 + 1 == context.resourceDemand)->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.snode.resourceAmountAvailable pow 2 == 0
-//}
+// constraint with n2n {
+// context.nodes.snode.resourceAmountAvailable pow 2 == 0
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	2 pow context.nodes.snode.resourceAmountAvailable == 1
-//}
+// constraint with n2n {
+// 2 pow context.nodes.snode.resourceAmountAvailable == 1
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.snode.resourceAmountAvailable * 2 == 1
-//}
+// constraint with n2n {
+// context.nodes.snode.resourceAmountAvailable * 2 == 1
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	sin(context.nodes.vnode.resourceDemand) == 0
-//}
+// constraint with n2n {
+// sin(context.nodes.vnode.resourceDemand) == 0
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	cos(context.nodes.vnode.resourceDemand) == 0
-//}
+// constraint with n2n {
+// cos(context.nodes.vnode.resourceDemand) == 0
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	abs(context.nodes.vnode.resourceDemand) == 0
-//}
+// constraint with n2n {
+// abs(context.nodes.vnode.resourceDemand) == 0
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	sqrt(context.nodes.vnode.resourceDemand) == 0
-//}
+// constraint with n2n {
+// sqrt(context.nodes.vnode.resourceDemand) == 0
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	-(context.nodes.vnode.resourceDemand) == 0
-//}
+// constraint with n2n {
+// -(context.nodes.vnode.resourceDemand) == 0
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.snode.resourceAmountAvailable == context.nodes.snode.resourceAmountTotal
-//}
+// constraint with n2n {
+// context.nodes.snode.resourceAmountAvailable == context.nodes.snode.resourceAmountTotal
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.snode.resourceAmountAvailable - context.nodes.snode.resourceAmountTotal == 0
-//}
+// constraint with n2n {
+// context.nodes.snode.resourceAmountAvailable - context.nodes.snode.resourceAmountTotal == 0
+// }
 
 // TODO: Broken
-//constraint with SubstrateContainer {
-//	mappings.n2n->filter(element.nodes.substrateContainer == context)->notEmpty()
-//}
+// constraint with SubstrateContainer {
+// mappings.n2n->filter(element.nodes.substrateContainer == context)->notEmpty()
+// }
 
 // TODO: Broken
-//constraint with n2n {
-//	context.nodes.snode.resourceAmountAvailable pow 1 == 0
-//}
+// constraint with n2n {
+// context.nodes.snode.resourceAmountAvailable pow 1 == 0
+// }
 
 constraint with mapVnode {
 	abs(context.nodes.snode.guests->filter(element.host != context.nodes.snode)->count()) == 0
 }
-   
-// TODO: Broken
-//constraint with n2n {
-//	context.isMapped()
-//}
 
 // TODO: Broken
-//constraint with mapVnode { 
-//	context.nodes.snode != null
-//}
+// constraint with n2n {
+// context.isMapped()
+// }
 
 // TODO: Broken
-//constraint with VirtualResourceNode {
-//	context.host != null
-//}
+// constraint with mapVnode { 
+// context.nodes.snode != null
+// }
 
 // TODO: Broken
-//constraint with SubstrateResourceNode {
-//	context.guests->filter(o | o != null)->notEmpty()
-//}
+// constraint with VirtualResourceNode {
+// context.host != null
+// }
+
+// TODO: Broken
+// constraint with SubstrateResourceNode {
+// context.guests->filter(o | o != null)->notEmpty()
+// }
 
 // TODO: Test access to "patterns." and "types."!
 
@@ -363,14 +367,16 @@ constraint with VirtualResourceNode {
 	mappings.n2n->sum(element.value) >= 1 * context.resourceDemand | mappings.n2n->sum(element.value) * context.resourceDemand <= 2
 }
 
-
 mapping mappingA to mapA;
+
 mapping mappingB to mapB;
+
 mapping mappingC to mapC;
 
 function snode with SubstrateResourceNode {
 	2
 }
+
 function nPatObj with mapVnode {
 	3
 }
@@ -401,6 +407,7 @@ function testObjE with mappingB {
 
 // This constraint should work as before and is used as a sanity check for constants. It should not change the test outcome.
 let eh := e;
+
 function testObjF with mappingC {
 	let kuchen := pi;
 	2 log 3 + constants.kuchen + constants.eh

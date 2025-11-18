@@ -1,21 +1,20 @@
 package "gips.multilayeredinheritencersinit"
 import "platform:/resource/gips.multilayeredinheritencemodel/model/Multilayeredinheritencemodel.ecore"
 
-
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
 // This rule just sets the node id of a to 0
 rule zeroA {
 	root: Root {
-		-objects->a
+		-objects -> a
 	}
-	
+
 	a: A {
 		.idA := 0
 	}

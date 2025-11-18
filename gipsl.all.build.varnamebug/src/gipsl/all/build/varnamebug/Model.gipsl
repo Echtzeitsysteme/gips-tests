@@ -1,11 +1,11 @@
 package "gipsl.all.build.varnamebug"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -14,17 +14,17 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
@@ -41,14 +41,12 @@ mapping n2n to mapVnode {
 // Connect the variable 'n' to the corresponding mapping variable through the pattern context
 constraint with mapVnode {
 	[mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) >= 1
-	=>
-	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.variables.n) >= 1] 
-	 
-	&    
-	
+		=>
+		mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.variables.n) >= 1]
+	&
 	[mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.variables.n) >= 1
-	=>
-	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) >= 1]
+		=>
+		mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode & element.nodes.snode == context.nodes.snode)->sum(element.value) >= 1]
 }
 
 constraint with VirtualResourceNode {

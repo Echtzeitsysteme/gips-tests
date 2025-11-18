@@ -1,18 +1,19 @@
 package "gipsl.all.build.filter"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
 condition vnodeNotMapped = forbid vnodeIsMapped
+
 pattern vnodeIsMapped {
 	host: SubstrateNode
-	
+
 	vnode: VirtualResourceNode {
 		-host -> host
 	}
@@ -28,22 +29,22 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
-	// No updating of "available" variables nor constraint checking
+
+// No updating of "available" variables nor constraint checking
 }
 
 //

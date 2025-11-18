@@ -1,14 +1,14 @@
 package "gips.ilp.threads"
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
-	
+
 	// Hard-code a specific number of threads on purpose.
 	// This value will later be overwritten in the test.
-	threadCount := true[value := 4];
+	threadCount := true [value := 4];
 }
 
 rule mapSrc {
@@ -16,11 +16,11 @@ rule mapSrc {
 		-elements -> src
 		-elements -> trg
 	}
-	
+
 	src: Source {
 		++ -host -> trg
 	}
-	
+
 	trg: Target {
 		++ -srcs -> src
 		.free := trg.free - src.val

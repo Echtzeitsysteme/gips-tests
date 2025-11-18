@@ -1,11 +1,11 @@
 package "gipsl.all.build.notempty"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -14,19 +14,19 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode {
 		++ -guests -> vnode
 	}
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
@@ -41,6 +41,7 @@ mapping n2n to mapVnode;
 constraint {
 	mappings.n2n->notEmpty()
 }
+
 constraint with VirtualResourceNode {
 	mappings.n2n->filter(element.nodes.vnode == context)->notEmpty()
 }

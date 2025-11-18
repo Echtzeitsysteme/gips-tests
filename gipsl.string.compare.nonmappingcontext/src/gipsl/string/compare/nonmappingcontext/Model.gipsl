@@ -1,18 +1,19 @@
 package "gipsl.string.compare.nonmappingcontext"
 import "platform:/resource/gipsl.string.stringmodel/model/Stringmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
 condition guestNotMapped = forbid guestIsMapped
+
 pattern guestIsMapped {
 	h: Host
-	
+
 	g: Guest {
 		-host -> h
 	}
@@ -28,16 +29,16 @@ rule mapGuest {
 		-elements -> g
 		-elements -> h
 	}
-	
+
 	h: Host {
 		++ -guests -> g
 	}
-	
+
 	g: Guest {
 		++ -host -> h
 	}
-	
-	// intentionally left out condition that both names must be equal
+
+// intentionally left out condition that both names must be equal
 }
 
 //

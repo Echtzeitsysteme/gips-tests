@@ -1,18 +1,19 @@
 package "gips.ilp.timeout"
 import "platform:/resource/gips.ilp.timeout.timeoutmodel/model/Timeoutmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 0.001];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
 condition srcNotMapped = forbid srcIsMapped
+
 pattern srcIsMapped {
 	trg: Target
-	
+
 	src: Source {
 		-host -> trg
 	}
@@ -23,16 +24,15 @@ rule mapSrc {
 		-elements -> src
 		-elements -> trg
 	}
-	
+
 	src: Source {
 		++ -host -> trg
 	}
-	
+
 	trg: Target {
 		++ -srcs -> src
 		.free := trg.free - src.val
 	}
-	
 	# src.val <= trg.free
 	# trg.free > 0
 	# trg.val > 0
@@ -43,7 +43,7 @@ when srcNotMapped
 // GIPSL starts here!
 //
 
-mapping s2t to mapSrc; 
+mapping s2t to mapSrc;
 
 constraint with mapSrc {
 	mappings.s2t->filter(element.nodes.src == context.nodes.src)->sum(element.value) == 1
@@ -51,7 +51,7 @@ constraint with mapSrc {
 
 constraint with Target {
 	mappings.s2t->filter(element.nodes.trg == context)->sum(element.nodes.src.val * element.value) <= context.free
-} 
+}
 
 // The following constraint is redundant to the first one (if a non incremental run is archieved)
 constraint with Source {

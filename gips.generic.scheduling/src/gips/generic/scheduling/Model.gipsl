@@ -1,11 +1,11 @@
 package "gipsl.generic.scheduling"
 import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 60.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -14,21 +14,20 @@ rule runTaskInSlot {
 		-tasks -> t
 		-slots -> s
 	}
-	
+
 	t: Task {
 		++ -runningon -> s
 	}
-	
+
 	s: Slot
-	
 	# t.^deadline >= s.^index
 }
 
-mapping t2s to runTaskInSlot;  
+mapping t2s to runTaskInSlot;
 
 // Every task must be mapped n times (according to its duration)
 constraint with Task {
-	mappings.t2s->filter(element.nodes.t == context)->sum(element.value) == context.duration     
+	mappings.t2s->filter(element.nodes.t == context)->sum(element.value) == context.duration
 }
 
 // There must be at most one mapping per slot

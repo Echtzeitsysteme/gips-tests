@@ -1,11 +1,11 @@
 package "gipsl.all.build.implication"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -14,21 +14,20 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand <= snode.resourceAmountAvailable
 	# snode.resourceAmountAvailable >= 0
 }
@@ -43,15 +42,15 @@ mapping n2n to mapVnode;
 constraint with SubstrateResourceNode {
 	mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) <= 1 =>
 	mappings.n2n->filter(element.nodes.snode == context)->sum(element.value) >= 2
-	// 1 => 1 = 1
-	// 1 => 0 = 0
-	// 0 => 1 = 1
-	// 0 => 0 = 1
+// 1 => 1 = 1
+// 1 => 0 = 0
+// 0 => 1 = 1
+// 0 => 0 = 1
 }
 
-//constraint -> global {
-//	1 == 1 => 1 == 1
-//}
+// constraint -> global {
+// 1 == 1 => 1 == 1
+// }
 
 function nObj with n2n {
 	context.value

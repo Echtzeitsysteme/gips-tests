@@ -1,16 +1,17 @@
 package "gipsl.all.build.objbug"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
 pattern p {
 	host: SubstrateResourceNode
+
 	vnode: VirtualResourceNode
 }
 
@@ -18,7 +19,7 @@ mapping m to p;
 
 function o with m {
 	context.value * 1 / (1 + 1)
-//	1
+// 1
 }
 
 objective : max {

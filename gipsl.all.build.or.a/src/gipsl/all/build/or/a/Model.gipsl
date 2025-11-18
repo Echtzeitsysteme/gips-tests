@@ -1,11 +1,11 @@
 package "gipsl.all.build.or.a"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 73];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -14,21 +14,20 @@ rule mapVnode {
 		-containers -> substrateContainer
 		-containers -> virtualContainer
 	}
-	
+
 	substrateContainer: SubstrateContainer {
 		-substrateNodes -> snode
 	}
-	
+
 	virtualContainer: VirtualContainer {
 		-virtualNodes -> vnode
 	}
-	
+
 	snode: SubstrateResourceNode
-	
+
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
-	
 	# vnode.resourceDemand <= snode.resourceAmountAvailable
 	# snode.resourceAmountAvailable >= 0
 }
@@ -53,4 +52,3 @@ function nObj with n2n {
 objective : max {
 	functions.nObj
 }
-

@@ -1,11 +1,11 @@
 package "gips.generic.scheduling.constantdivbug"
 import "platform:/resource/gips.scheduling.taskmodel/model/Taskmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 60.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -14,11 +14,11 @@ rule runTaskInSlot {
 		-tasks -> t
 		-slots -> s
 	}
-	
+
 	t: Task {
 		++ -runningon -> s
 	}
-	
+
 	s: Slot
 }
 

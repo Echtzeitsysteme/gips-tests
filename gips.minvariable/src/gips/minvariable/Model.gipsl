@@ -1,11 +1,11 @@
 package "gips.minvariable"
 import "platform:/resource/gips.minvariablemodel/model/Minvariablemodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := true;
 	lpOutput := true [path := "./problem.lp"];
 }
@@ -15,43 +15,41 @@ config {
 //
 
 rule selectNode {
-	root : Root {
-		- nodess -> n
+	root: Root {
+		-nodess -> n
 	}
-	
-	n : Node {
+
+	n: Node {
 		.selected := true
 	}
-	
-	// Omitted on purpose to also create non-selected
-	// mappings in the problem.
-//	# n.valueSecondary >= 1
+
+// Omitted on purpose to also create non-selected
+// mappings in the problem.
+// # n.valueSecondary >= 1
 }
 
 // The pattern `findRoot` is another way to specify a
 // global constraint. Because of a bug in the GIPSL 
 // compiler, this pattern is necessary.
 pattern findRoot {
-	root : Root
+	root: Root
 }
 
 pattern findSecondarySelectedNode {
-	root : Root {
-		- nodess -> n
+	root: Root {
+		-nodess -> n
 	}
-	
-	n : Node
-	
+
+	n: Node
 	# n.valueSecondary >= 1
 }
 
 pattern findSecondaryNotSelectedNode {
-	root : Root {
-		- nodess -> n
+	root: Root {
+		-nodess -> n
 	}
-	
-	n : Node
-	
+
+	n: Node
 	# n.valueSecondary == 0
 }
 
@@ -81,10 +79,10 @@ constraint with findSecondaryNotSelectedNode {
 	0
 }
 
-//// This constraint should not be necessary
-//constraint with minimum {
-//	context.variables.minimum >= 0
-//}
+// // This constraint should not be necessary
+// constraint with minimum {
+// context.variables.minimum >= 0
+// }
 
 //
 // Min constraint is complicated
@@ -98,8 +96,8 @@ constraint with select {
 	mappings.minimum->sum(element.variables.minimum)
 	<= context.nodes.n.valueConstant * context.value
 	+ 1000 * (1 - context.value)
-	// The equation above was extended by the last term (`+ 1000 * ...`)
-	// to not draw the minimum value to zero if a mapping was not selected.
+// The equation above was extended by the last term (`+ 1000 * ...`)
+// to not draw the minimum value to zero if a mapping was not selected.
 }
 
 // There must be exactly one mapping thats value is >=
@@ -116,7 +114,7 @@ constraint with select {
 // This constraint must only be enforced when at least
 // one of the possible mappings is selected. Otherwise,
 // the LP would be infeasible.
-// 
+//
 // sum_i(z_i) == 1
 constraint with findRoot {
 	mappings.select->sum(element.value) >= 1

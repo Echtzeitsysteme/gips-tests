@@ -1,20 +1,20 @@
 package "gipsl.all.build.multiplemappingsonpattern"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
 pattern testPattern {
-	root : Root {
-		- containers -> vc
+	root: Root {
+		-containers -> vc
 	}
-	
-	vc : VirtualContainer
+
+	vc: VirtualContainer
 }
 
 //
@@ -22,6 +22,7 @@ pattern testPattern {
 //
 
 mapping a to testPattern;
+
 mapping b to testPattern;
 
 constraint with a {

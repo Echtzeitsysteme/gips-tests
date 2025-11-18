@@ -1,11 +1,11 @@
 package "gipsl.sortpatternmappingbug"
 import "platform:/resource/gips.sort.listmodel/model/Listmodel.ecore"
 
-config {  
+config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -18,7 +18,7 @@ rule ra {
 	root: Root {
 		-entries -> val
 	}
-	
+
 	val: Entry {
 		++ -next -> val
 	}
@@ -28,7 +28,7 @@ rule rb {
 	root: Root {
 		-entries -> val
 	}
-	
+
 	val: Entry {
 		++ -next -> val
 	}
@@ -39,12 +39,13 @@ pattern p {
 }
 
 mapping ma to ra;
+
 mapping mb to rb;
 
 constraint with Entry {
-	patterns.p->filter(element.nodes.val == context)->count() + 
+	patterns.p->filter(element.nodes.val == context)->count() +
 	mappings.ma->filter(element.nodes.val == context)->sum(element.value) +
-mappings.mb->filter(element.nodes.val == context)->sum(element.value) == 3
+	mappings.mb->filter(element.nodes.val == context)->sum(element.value) == 3
 }
 
 function maObj with ma {
