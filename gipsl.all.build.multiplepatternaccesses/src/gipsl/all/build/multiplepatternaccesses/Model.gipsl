@@ -1,0 +1,54 @@
+package "gipsl.all.build.multiplepatternaccesses"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := auto;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+
+	snode: SubstrateResourceNode
+
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+pattern simplePattern {
+	root: Root
+}
+
+pattern otherPattern {
+	snode: SubstrateResourceNode
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+// Constraint with multiple pattern accesses
+constraint {
+	mappings.n2n->sum(element.value)
+	== 
+	patterns.simplePattern->sum(1)
+	+ patterns.otherPattern->sum(1)
+	- 1
+}
