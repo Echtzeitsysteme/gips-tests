@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Automatic-Module-Name: gips.all.build.joinall
 Bundle-ManifestVersion: 2
-Bundle-Name: gips.all.build.joinall
+Bundle-Name: gipsl.all.build.joinall
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Export-Package: gipsl.all.build.joinall.connector
-Bundle-SymbolicName: gips.all.build.joinall; singleton:=true
+Bundle-SymbolicName: gipsl.all.build.joinall;singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.emoflon.ibex.common,
