@@ -1,4 +1,4 @@
-package "gips.all.build.joinall"
+package "gipsl.all.build.joinall"
 import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
 config {

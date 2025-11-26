@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gips.all.build.joinall
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gips.all.build.joinall.connector
+Export-Package: gipsl.all.build.joinall.connector
 Bundle-SymbolicName: gips.all.build.joinall; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21

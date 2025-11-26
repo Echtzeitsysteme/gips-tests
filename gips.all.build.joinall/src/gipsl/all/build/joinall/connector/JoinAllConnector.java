@@ -1,4 +1,4 @@
-package gips.all.build.joinall.connector;
+package gipsl.all.build.joinall.connector;
 
 import org.emoflon.gips.core.milp.SolverOutput;
 
