@@ -1,39 +1,94 @@
 package "gips.all.build.joinall"
-import "http://www.eclipse.org/emf/2002/Ecore"
-// ^import a metamodel here
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
-	timeLimit := true [value := 42.0];
-	randomSeed := true [value := 73];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
 	presolve := auto;
-	debugOutput := true;
-	tolerance := true [value := 0.000001];
+	debugOutput := false;
+	lpOutput:=  true [path := "./problem.lp"];
 }
 
-// specify an example rule
-rule exampleRule {
-	clazz : EClass {
-		++ -eAllOperations -> op
+condition vnodeNotMapped = forbid vnodeIsMapped
+
+pattern vnodeIsMapped {
+	host: SubstrateNode
+
+	vnode: VirtualResourceNode {
+		-host -> host
 	}
-	
-	op : EOperation
 }
 
-// create a mapping on the rule
-mapping mapNode to exampleRule;
+pattern vnodeNotMapped {
+	vnode: VirtualResourceNode
+}
+when vnodeNotMapped
 
-// create a constraint on one class
-constraint with EOperation {
-	mappings.mapNode->filter(element.nodes.clazz.^abstract)->sum(element.value) > context.lowerBound
+pattern snodeNotUsed {
+	host: SubstrateNode
+}
+when vnodeNotMapped
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+
+	snode: SubstrateResourceNode
+
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+
+// No updating of "available" variables nor constraint checking
 }
 
-// create an objective for the mapping
-function nodeObj with mapNode {
-	context.nodes.op.upperBound * sin(73)
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+// Ensure that every non-mapped virtual node gets mapped
+constraint with vnodeNotMapped {
+	mappings.n2n->join((vnode,vnode))->sum(element.value) == 1
 }
 
-// create an overall objective
+// Ensure that every substrate node is used at least once
+constraint with snodeNotUsed {
+	mappings.n2n->join((snode, host))->sum(element.value) >= 1
+}
+
+// NNonsensical constraint for language feature testing
+constraint with mapVnode {
+	mappings.n2n->joinAll()->sum(element.value) >= 0
+}
+
+// NNonsensical constraint for language feature testing
+constraint with n2n {
+	mappings.n2n->joinAll()->sum(element.value) >= 0
+}
+
+// NNonsensical constraint for language feature testing
+constraint with SubstrateNode {
+	types.SubstrateNode->joinAll()->count() >= 0
+}
+
+function o with n2n {
+	context.value
+}
+
 objective : min {
-	2 * functions.nodeObj
+	functions.o
 }
+

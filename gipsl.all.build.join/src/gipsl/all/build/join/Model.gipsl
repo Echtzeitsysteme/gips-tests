@@ -7,6 +7,7 @@ config {
 	randomSeed := true [value := 0];
 	presolve := auto;
 	debugOutput := false;
+	lpOutput:=  true [path := "./problem.lp"];
 }
 
 condition vnodeNotMapped = forbid vnodeIsMapped
@@ -21,6 +22,11 @@ pattern vnodeIsMapped {
 
 pattern vnodeNotMapped {
 	vnode: VirtualResourceNode
+}
+when vnodeNotMapped
+
+pattern snodeNotUsed {
+	host: SubstrateNode
 }
 when vnodeNotMapped
 
@@ -53,21 +59,28 @@ rule mapVnode {
 
 mapping n2n to mapVnode;
 
-// Constraint that should be tested
+// Ensure that every non-mapped virtual node gets mapped
 constraint with vnodeNotMapped {
-	// This should not throw an error during compilation time
-	mappings.n2n->filter(element.nodes.snode.resourceAmountAvailable == context.nodes.vnode.resourceDemand)->sum(element.value) == 1
+	mappings.n2n->join((vnode,vnode))->sum(element.value) == 1
 }
 
-// Helper constraint to only map a virtual node once
-constraint with vnodeNotMapped {
-	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
+// Ensure that every substrate node is used at least once
+constraint with snodeNotUsed {
+	mappings.n2n->join((snode, host))->sum(element.value) >= 1
+}
+//constraint with SubstrateNode {
+//	mappings.n2n->join(snode)->filter(/* needs a way to filter elements with other sets */)->sum(element.value) >= 1
+//}
+
+// NNonsensical constraint for language feature testing
+constraint with SubstrateNode {
+	mappings.n2n->join(snode)->sum(element.value) >=0
 }
 
 function o with n2n {
 	context.value
 }
 
-objective : max {
+objective : min {
 	functions.o
 }
