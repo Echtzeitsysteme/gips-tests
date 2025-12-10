@@ -30,7 +30,7 @@ public class CollectionMetamodelGenerator {
 	public void genValue(final int value) {
 		final var val = CollectionmetamodelFactory.eINSTANCE.createValueType();
 		val.setVal(value);
-		this.model.getContainers().getFirst().getValueObjects().add(val);
+		this.model.getContainers().get(0).getValueObjects().add(val);
 	}
 
 	public static void reset() {
