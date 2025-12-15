@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,8 +18,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.unusedvars.connector.UnusedvarsConnector;
-import gipsl.all.build.vars.api.gips.mapping.N2nMapping;
-import gipsl.all.build.vars.connector.VarsConnector;
 
 public class GipslAllBuildUnusedVarsTest extends AGipslAllBuildTest {
 
@@ -73,14 +70,15 @@ public class GipslAllBuildUnusedVarsTest extends AGipslAllBuildTest {
 		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(1, Math.abs(ret.objectiveValue()));
 
-		// Check that each relevant mapping contains at least one match
-//		assertFalse(((UnusedvarsConnector) con).getAPI().getN2n().getMappings().isEmpty());
-//		assertFalse(((UnusedvarsConnector) con).getAPI().getUnusedMapping().getMappings().isEmpty());
+		// Ensure that each relevant mapping contains at least one match
+		assertFalse(((UnusedvarsConnector) con).getAPI().getN2n().getMappings().isEmpty());
+		assertFalse(((UnusedvarsConnector) con).getAPI().getUnusedMapping().getMappings().isEmpty());
 
-//		List<String> lpFile = loadLPFile();
-//		assertTextContainsExactly(lpFile, Pattern.compile("n2n#\\d+"), 1);
-//		assertTextContainsNot(lpFile, Pattern.compile("n2n#\\d+->unusedVar"));
-//		assertTextContainsNot(lpFile, Pattern.compile("unusedMapping"));
+		List<String> lpFile = loadLPFile();
+		assertTextContainsExactly(lpFile, Pattern.compile("\\bn2n#\\d+\\b(?!->)"), 3);
+		assertTextContainsExactly(lpFile, Pattern.compile("\\bn2n#\\d+->usedVar\\b"), 2);
+		assertTextContainsNot(lpFile, Pattern.compile("\\bn2n#\\d+->unusedVar\\b"));
+		assertTextContainsNot(lpFile, Pattern.compile("unusedMapping"));
 	}
 
 	@Test
@@ -95,8 +93,15 @@ public class GipslAllBuildUnusedVarsTest extends AGipslAllBuildTest {
 		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(2, Math.abs(ret.objectiveValue()));
 
-		assertFalse(((VarsConnector) con).getN2nMappings().isEmpty());
-		checkConstraints(((VarsConnector) con).getN2nMappings());
+		// Ensure that each relevant mapping contains at least one match
+		assertFalse(((UnusedvarsConnector) con).getAPI().getN2n().getMappings().isEmpty());
+		assertFalse(((UnusedvarsConnector) con).getAPI().getUnusedMapping().getMappings().isEmpty());
+
+		List<String> lpFile = loadLPFile();
+		assertTextContainsExactly(lpFile, Pattern.compile("\\bn2n#\\d+\\b(?!->)"), 6);
+		assertTextContainsExactly(lpFile, Pattern.compile("\\bn2n#\\d+->usedVar\\b"), 4);
+		assertTextContainsNot(lpFile, Pattern.compile("\\bn2n#\\d+->unusedVar\\b"));
+		assertTextContainsNot(lpFile, Pattern.compile("unusedMapping"));
 	}
 
 	@Test
@@ -112,30 +117,18 @@ public class GipslAllBuildUnusedVarsTest extends AGipslAllBuildTest {
 		assertEquals(SolverStatus.OPTIMAL, ret.status());
 		assertEquals(10, Math.abs(ret.objectiveValue()));
 
-		assertFalse(((VarsConnector) con).getN2nMappings().isEmpty());
-		checkConstraints(((VarsConnector) con).getN2nMappings());
+		// Ensure that each relevant mapping contains at least one match
+		assertFalse(((UnusedvarsConnector) con).getAPI().getN2n().getMappings().isEmpty());
+		assertFalse(((UnusedvarsConnector) con).getAPI().getUnusedMapping().getMappings().isEmpty());
+
+		List<String> lpFile = loadLPFile();
+		assertTextContainsExactly(lpFile, Pattern.compile("\\bn2n#\\d+\\b(?!->)"), 30);
+		assertTextContainsExactly(lpFile, Pattern.compile("\\bn2n#\\d+->usedVar\\b"), 20);
+		assertTextContainsNot(lpFile, Pattern.compile("\\bn2n#\\d+->unusedVar\\b"));
+		assertTextContainsNot(lpFile, Pattern.compile("unusedMapping"));
 	}
 
 	// Utility methods
-
-	private double getVarValFromMapping(final N2nMapping mapping, final String varName) {
-		if (mapping.getBoundVariableNames().contains(varName)) {
-			return mapping.getBoundVariables().get(varName).getValue().doubleValue();
-		} else if (mapping.getFreeVariableNames().contains(varName)) {
-			return mapping.getFreeVariables().get(varName).getValue().doubleValue();
-		}
-
-		throw new IllegalArgumentException("Var with name " + varName + " not found in mapping " + mapping);
-	}
-
-	private void checkConstraints(final Map<String, N2nMapping> mappings) {
-		mappings.forEach((k, m) -> {
-			final N2nMapping mapping = m;
-			assertEquals(2, getVarValFromMapping(mapping, "v"));
-			assertEquals(1.5, getVarValFromMapping(mapping, "w"));
-			assertEquals(42, getVarValFromMapping(mapping, "x"));
-		});
-	}
 
 	private static void assertTextContainsNot(List<String> lines, Pattern regex) {
 		for (int i = 0; i < lines.size(); ++i) {
@@ -163,7 +156,7 @@ public class GipslAllBuildUnusedVarsTest extends AGipslAllBuildTest {
 		List<Integer> counter = new LinkedList<>();
 		for (int i = 0; i < lines.size(); ++i) {
 			Matcher m = regex.matcher(lines.get(i));
-			if (m.find()) {
+			while (m.find()) {
 				counter.add(i);
 			}
 		}
