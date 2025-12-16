@@ -6,7 +6,7 @@ bin
 *.log
 *.LOG
 test.suite.gips/*.xmi
-test.suite.gips/*.lp
+test.suite.gips/lpoutput/*.lp
 
 test.suite.gips/build/
 
