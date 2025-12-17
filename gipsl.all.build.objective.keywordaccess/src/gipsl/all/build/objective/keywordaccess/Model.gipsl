@@ -1,0 +1,86 @@
+package "gipsl.all.build.objective.keywordaccess"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {  
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := true;
+	debugOutput := false;
+}
+
+//
+// The GIPS files compiled from this document will not be executed, yet.
+//
+
+condition vnodeNotMapped = forbid vnodeIsMapped
+pattern vnodeIsMapped {
+	host: SubstrateNode
+	
+	vnode: VirtualNode {
+		-host -> host
+	}
+}
+
+pattern vnodeNotMapped {
+	vnode: VirtualNode
+}
+when vnodeNotMapped
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+	
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+	
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+	
+	snode: SubstrateResourceNode
+	
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping a to mapVnode;
+
+constraint with vnodeNotMapped {
+	mappings.a->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
+}
+
+function objA with a {
+	1
+}
+
+objective : max {
+	// Constants work as it is
+	0
+	
+	// Functions work out-of-the-box
+	+ functions.objA
+	
+	// Types work with the recent fix
+	+ types.SubstrateResourceNode->sum(element.resourceAmountTotal)
+	
+	// Mappings work correctly (when access statically = constant value)
+	+ mappings.a->sum(1)
+
+	// TODO: generates broken code -> the validator should forbid this
+//	+ mappings.a->sum(element.value)
+
+	// TODO: generates broken code -> should work because it is a constant
+//	+ patterns.vnodeNotMapped->sum(1)
+
+	// TODO: generates broken code -> should work because it is a constant
+//	+ rules.mapVnode->sum(1)
+}
