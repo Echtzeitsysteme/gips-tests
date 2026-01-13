@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gipsl.all.build.typeextension
+Bundle-ManifestVersion: 2
+Bundle-Name: gipsl.all.build.typeextension
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.all.build.typeextension.connector
+Require-Bundle: org.emoflon.ibex.common;bundle-version="1.0.0",
+ org.emoflon.ibex.gt;bundle-version="1.0.0",
+ org.emoflon.gips.core;bundle-version="1.5.0",
+ org.emoflon.ibex.gt.democles;bundle-version="1.0.0",
+ org.emoflon.ibex.gt.hipe;bundle-version="1.0.0",
+ test.suite.utils;bundle-version="1.0.0",
+ gipsl.all.build.model;bundle-version="0.0.1"
+Bundle-SymbolicName: gipsl.all.build.typeextension; singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-21
