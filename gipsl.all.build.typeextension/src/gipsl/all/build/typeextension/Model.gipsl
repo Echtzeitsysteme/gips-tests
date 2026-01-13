@@ -59,29 +59,32 @@ type SubstrateNode {
 };
 
 type SubstrateResourceNode {
-	var unusedVar : EInt
+	var unusedVar : EInt // value should not show up in LP
 	var resourceAmountAvailable : EInt bind to resourceAmountAvailable
 	var resourceAmountUsed : EInt
+	var embeddedVirtualNodes2 : EInt
 };
  
 constraint with VirtualResourceNode {
 	mappings.n2n->join(vnode)->sum(element.value) == 1
 }
 
-//constraint with SubstrateNode {
-//	context.variables.embeddedVirtualNodes == mappings.n2n->join(snode)->sum(element.value)
-//}
-//
-//constraint with SubstrateResourceNode {
-//	context.variables.resourceAmountUsed == mappings.n2n->join(snode)->sum(element.value * element.nodes.vnode.resourceDemand)
-//}
-
-//constraint with SubstrateResourceNode {
-//	context.variables.resourceAmountAvailable == context.resourceAmountTotal - context.variables.resourceAmountUsed
-//}
+constraint with SubstrateNode {
+	context.variables.embeddedVirtualNodes == mappings.n2n->join(snode)->sum(element.value)
+}
 
 constraint with SubstrateResourceNode {
-	context.variables.resourceAmountAvailable == context.resourceAmountTotal - mappings.n2n->join(snode)->sum(element.value * element.nodes.vnode.resourceDemand)
+	context.variables.resourceAmountUsed == mappings.n2n->join(snode)->sum(element.value * element.nodes.vnode.resourceDemand)
+}
+
+constraint with SubstrateResourceNode {
+	context.variables.resourceAmountAvailable == context.resourceAmountTotal - context.variables.resourceAmountUsed
+}
+
+
+// Test that we can "transfer" one inherited value to another
+constraint with SubstrateResourceNode {
+	context.variables.embeddedVirtualNodes2 == context.variables.embeddedVirtualNodes
 }
  
 constraint with SubstrateResourceNode {

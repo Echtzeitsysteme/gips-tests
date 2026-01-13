@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static test.suite.gips.utils.TextFileAsserts.assertTextContains;
-import static test.suite.gips.utils.TextFileAsserts.assertTextContainsExactly;
 import static test.suite.gips.utils.TextFileAsserts.assertTextContainsNot;
 import static test.suite.gips.utils.TextFileAsserts.deleteFile;
 import static test.suite.gips.utils.TextFileAsserts.readTextFile;
@@ -22,7 +21,6 @@ import gipsl.all.build.typeextension.api.gips.TypeextensionGipsAPI;
 import gipsl.all.build.typeextension.api.gips.types.TypeSubstrateNodeExtension;
 import gipsl.all.build.typeextension.api.gips.types.TypeSubstrateResourceNodeExtension;
 import gipsl.all.build.typeextension.connector.TypeextensionConnector;
-import gipsl.all.build.unusedvars.connector.UnusedvarsConnector;
 
 public class GipslAllBuildTypeExtensionTest extends AGipslAllBuildTest {
 
@@ -75,11 +73,18 @@ public class GipslAllBuildTypeExtensionTest extends AGipslAllBuildTest {
 		assertEquals(2, // 2 of 3 should be still available
 				getSubstrateResourceNodeExtension("s1").getValueOfResourceAmountAvailable());
 
+		// variable transfer asserts
+		assertEquals(getSubstrateNodeExtension("s1").getValueOfEmbeddedVirtualNodes(),
+				getSubstrateResourceNodeExtension("s1").getValueOfEmbeddedVirtualNodes2());
+
 		List<String> lpFile = loadLPFile();
 		assertTextContains(lpFile, Pattern.compile("embeddedVirtualNodes"));
 		assertTextContains(lpFile, Pattern.compile("resourceAmountAvailable"));
 		assertTextContains(lpFile, Pattern.compile("resourceAmountUsed"));
 		assertTextContainsNot(lpFile, Pattern.compile("unusedVar"));
+
+		getAPI().getTypeSubstrateNode().applyAllBoundVariablesToModel();
+		getAPI().getTypeSubstrateResourceNode().applyAllBoundVariablesToModel();
 	}
 
 	@Test
@@ -108,35 +113,77 @@ public class GipslAllBuildTypeExtensionTest extends AGipslAllBuildTest {
 		assertEquals(1, // 1 of 3 should be still available
 				getSubstrateResourceNodeExtension("s1").getValueOfResourceAmountAvailable());
 
+		// variable transfer asserts
+		assertEquals(getSubstrateNodeExtension("s1").getValueOfEmbeddedVirtualNodes(),
+				getSubstrateResourceNodeExtension("s1").getValueOfEmbeddedVirtualNodes2());
+
 		List<String> lpFile = loadLPFile();
 		assertTextContains(lpFile, Pattern.compile("embeddedVirtualNodes"));
 		assertTextContains(lpFile, Pattern.compile("resourceAmountAvailable"));
 		assertTextContains(lpFile, Pattern.compile("resourceAmountUsed"));
 		assertTextContainsNot(lpFile, Pattern.compile("unusedVar"));
+
+		getAPI().getTypeSubstrateNode().applyAllBoundVariablesToModel();
+		getAPI().getTypeSubstrateResourceNode().applyAllBoundVariablesToModel();
 	}
 
-//	@Test
-	public void testMap10to1() {
-		gen.genSubstrateNode("s1", 10);
-		for (int i = 1; i <= 10; i++) {
-			gen.genVirtualNode("v" + i, 1);
-		}
+	@Test
+	public void testMap1to3() {
+		gen.genSubstrateNode("s1", 1);
+		gen.genSubstrateNode("s2", 2);
+		gen.genSubstrateNode("s3", 3);
+		gen.genVirtualNode("v1", 3);
 		callableSetUp();
 
 		final SolverOutput ret = con.run(OUTPUT_PATH);
-
 		assertEquals(SolverStatus.OPTIMAL, ret.status());
-		assertEquals(10, Math.abs(ret.objectiveValue()));
+		assertEquals(1, Math.abs(ret.objectiveValue()));
 
-		// Ensure that each relevant mapping contains at least one match
-		assertFalse(((UnusedvarsConnector) con).getAPI().getN2n().getMappings().isEmpty());
-		assertFalse(((UnusedvarsConnector) con).getAPI().getUnusedMapping().getMappings().isEmpty());
+		// Ensure that at least one mapping was created
+		assertFalse(getAPI().getN2n().getMappings().isEmpty());
+
+		assertEquals(3, // 3 SubstrateNode in model -> 3 extension expected
+				getSubstrateNodeExtensions().size());
+		assertEquals(3, // 3 SubstrateResourceNode in model -> 3 extension expected
+				getSubstrateResourceNodeExtensions().size());
+
+		assertEquals(0, // v1 can only be embedded on v3
+				getSubstrateNodeExtension("s1").getValueOfEmbeddedVirtualNodes());
+		assertEquals(0, // v1 can only be embedded on v3
+				getSubstrateNodeExtension("s2").getValueOfEmbeddedVirtualNodes());
+		assertEquals(1, // v1 can only be embedded on v3
+				getSubstrateNodeExtension("s3").getValueOfEmbeddedVirtualNodes());
+
+		assertEquals(0, // no virtual node embedded, no resources used!
+				getSubstrateResourceNodeExtension("s1").getValueOfResourceAmountUsed());
+		assertEquals(0, // no virtual node embedded, no resources used!
+				getSubstrateResourceNodeExtension("s2").getValueOfResourceAmountUsed());
+		assertEquals(3, // v1 needs 3 units
+				getSubstrateResourceNodeExtension("s3").getValueOfResourceAmountUsed());
+
+		assertEquals(1, // 1 of 1 should be still available
+				getSubstrateResourceNodeExtension("s1").getValueOfResourceAmountAvailable());
+		assertEquals(2, // 2 of 2 should be still available
+				getSubstrateResourceNodeExtension("s2").getValueOfResourceAmountAvailable());
+		assertEquals(0, // none
+				getSubstrateResourceNodeExtension("s3").getValueOfResourceAmountAvailable());
+
+		// variable transfer asserts
+		assertEquals(getSubstrateNodeExtension("s1").getValueOfEmbeddedVirtualNodes(),
+				getSubstrateResourceNodeExtension("s1").getValueOfEmbeddedVirtualNodes2());
+		assertEquals(getSubstrateNodeExtension("s2").getValueOfEmbeddedVirtualNodes(),
+				getSubstrateResourceNodeExtension("s2").getValueOfEmbeddedVirtualNodes2());
+		assertEquals(getSubstrateNodeExtension("s2").getValueOfEmbeddedVirtualNodes(),
+				getSubstrateResourceNodeExtension("s2").getValueOfEmbeddedVirtualNodes2());
 
 		List<String> lpFile = loadLPFile();
-		assertTextContainsExactly(lpFile, Pattern.compile("\\bn2n#\\d+\\b(?!->)"), 30);
-		assertTextContainsExactly(lpFile, Pattern.compile("\\bn2n#\\d+->usedVar\\b"), 20);
-		assertTextContainsNot(lpFile, Pattern.compile("\\bn2n#\\d+->unusedVar\\b"));
-		assertTextContainsNot(lpFile, Pattern.compile("unusedMapping"));
+		assertTextContains(lpFile, Pattern.compile("embeddedVirtualNodes"));
+		assertTextContains(lpFile, Pattern.compile("resourceAmountAvailable"));
+		assertTextContains(lpFile, Pattern.compile("resourceAmountUsed"));
+		assertTextContainsNot(lpFile, Pattern.compile("unusedVar"));
+
+		getAPI().getTypeSubstrateNode().applyAllBoundVariablesToModel();
+		getAPI().getTypeSubstrateResourceNode().applyAllBoundVariablesToModel();
 	}
 
 	// Utility methods
