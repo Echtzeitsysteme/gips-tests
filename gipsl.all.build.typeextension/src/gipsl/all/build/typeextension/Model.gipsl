@@ -1,0 +1,100 @@
+package "gipsl.all.build.typeextension"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {
+	solver := GUROBI;
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := auto;
+	lpOutput := true [path := "./lpoutput/Typeextension.lp"];
+} 
+
+condition vnodeNotMapped = forbid vnodeIsMapped
+
+pattern vnodeIsMapped {
+	host: SubstrateNode
+
+	vnode: VirtualResourceNode {
+		-host -> host
+	}
+}
+
+pattern vnodeNotMapped {
+	vnode: VirtualResourceNode
+}
+when vnodeNotMapped
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+
+	snode: SubstrateResourceNode
+
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+type SubstrateNode {      
+	var embeddedVirtualNodes : EInt
+};
+
+type SubstrateResourceNode {
+	var unusedVar : EInt // value should not show up in LP
+	var resourceAmountAvailable : EInt bind to resourceAmountAvailable
+	var resourceAmountUsed : EInt
+	var embeddedVirtualNodes2 : EInt
+};
+ 
+constraint with VirtualResourceNode {
+	mappings.n2n->join(vnode)->sum(element.value) == 1
+}
+
+constraint with SubstrateNode {
+	context.variables.embeddedVirtualNodes == mappings.n2n->join(snode)->sum(element.value)
+}
+
+constraint with SubstrateResourceNode {
+	context.variables.resourceAmountUsed == mappings.n2n->join(snode)->sum(element.value * element.nodes.vnode.resourceDemand)
+}
+
+constraint with SubstrateResourceNode {
+	context.variables.resourceAmountAvailable == context.resourceAmountTotal - context.variables.resourceAmountUsed
+}
+
+
+// Test that we can "transfer" one inherited value to another
+constraint with SubstrateResourceNode {
+	context.variables.embeddedVirtualNodes2 == context.variables.embeddedVirtualNodes
+}
+ 
+constraint with SubstrateResourceNode {
+	0 <= context.variables.resourceAmountAvailable
+}
+
+function o with n2n {
+	context.value
+}
+
+objective : max {
+	functions.o
+}
