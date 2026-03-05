@@ -1,39 +1,63 @@
 package "gips.constraints.autoremove"
-import "http://www.eclipse.org/emf/2002/Ecore"
-// ^import a metamodel here
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
-	timeLimit := true [value := 42.0];
-	randomSeed := true [value := 73];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
 	presolve := auto;
-	debugOutput := true;
-	tolerance := true [value := 0.000001];
+	debugOutput := false;
+	lpOutput := true [path := "debug.lp"];
 }
 
-// specify an example rule
-rule exampleRule {
-	clazz : EClass {
-		++ -eAllOperations -> op
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
 	}
-	
-	op : EOperation
+
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+
+	snode: SubstrateResourceNode
+
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
 }
 
-// create a mapping on the rule
-mapping mapNode to exampleRule;
-
-// create a constraint on one class
-constraint with EOperation {
-	mappings.mapNode->filter(element.nodes.clazz.^abstract)->sum(element.value) > context.lowerBound
+pattern findSnode42 {
+	snode: SubstrateResourceNode
+	# snode.resourceAmountAvailable == 42
 }
 
-// create an objective for the mapping
-function nodeObj with mapNode {
-	context.nodes.op.upperBound * sin(73)
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+constraint with SubstrateResourceNode {
+	mappings.n2n->filter( //
+		element.nodes.snode == context //
+	)->sum(element.value) <= 3
 }
 
-// create an overall objective
-objective : min {
-	2 * functions.nodeObj
+// Constraint that can be used to trigger a duplicate of
+// the previous constraint if the substrate node is of 42
+constraint with findSnode42 {
+	mappings.n2n->filter( //
+		element.nodes.snode == context.nodes.snode //
+	)->sum(element.value) <= 3
+}
+
+// Trivial constraints
+// (These constraints must always be removed.)
+constraint with n2n {
+	context.value >= 0
 }
