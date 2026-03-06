@@ -171,6 +171,29 @@ public class GipslAllBuildAutoRemoveConstraintTest extends AGipslAllBuildTest {
 		assertEquals(7, ret.stats().getRemovedDuplicateConstraints());
 	}
 
+	/**
+	 * This test should not trigger any duplicate or trivial constraint removal,
+	 * because the feature will be disabled.
+	 */
+	@Test
+	public void testMap2to1DuplicateRemovalDisabled() {
+		gen.genSubstrateNode("s1", 73);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		callableSetUp();
+
+		// Explicitly disable the GIPS feature
+		((AutoremoveConnector) con).configureUselessConstraintRemoval(false);
+
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
+		assertEquals(2 + 2 + 1, ret.stats().constraints);
+		assertEquals(2, ret.stats().vars);
+		assertEquals(0, ret.stats().getRemovedTrivialConstraints());
+		assertEquals(0, ret.stats().getRemovedDuplicateConstraints());
+	}
+
 	@Override
 	public Class<?> getConnectorClass() {
 		return AutoremoveConnector.class;

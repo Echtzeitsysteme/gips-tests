@@ -1,5 +1,7 @@
 package gips.constraints.autoremove.connector;
 
+import java.util.Objects;
+
 import org.emoflon.gips.core.milp.SolverOutput;
 
 import gips.constraints.autoremove.api.gips.AutoremoveGipsAPI;
@@ -20,6 +22,11 @@ public class AutoremoveConnector extends AConnector {
 		final SolverOutput output = solve();
 		((AutoremoveGipsAPI) api).getN2n().applyNonZeroMappings();
 		return output;
+	}
+
+	public void configureUselessConstraintRemoval(final boolean enable) {
+		Objects.requireNonNull(api);
+		api.getConfig().setUselessDuplicateConstraints(enable);
 	}
 
 }
