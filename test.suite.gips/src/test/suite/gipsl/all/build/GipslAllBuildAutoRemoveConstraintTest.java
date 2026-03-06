@@ -111,8 +111,65 @@ public class GipslAllBuildAutoRemoveConstraintTest extends AGipslAllBuildTest {
 		assertEquals(0, ret.stats().getRemovedDuplicateConstraints());
 	}
 
-	// TODO: Add at least one test for a successful duplicate removal within the
-	// same GIPSL constraint
+	/**
+	 * This test will not trigger duplicate removal because the constraint do not
+	 * feature the same set of variables.
+	 */
+	@Test
+	public void testMap2to2NoDuplicateRemoval() {
+		gen.genSubstrateNode("s1", 3);
+		gen.genSubstrateNode("s2", 3);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		callableSetUp();
+
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
+		assertEquals(2, ret.stats().constraints);
+		assertEquals(4, ret.stats().vars);
+		assertEquals(4, ret.stats().getRemovedTrivialConstraints());
+		assertEquals(0, ret.stats().getRemovedDuplicateConstraints());
+	}
+
+	/**
+	 * This test triggers a single duplicate removal.
+	 */
+	@Test
+	public void testMap2to1DuplicateRemoval() {
+		gen.genSubstrateNode("s1", 73);
+		gen.genVirtualNode("v1", 1);
+		gen.genVirtualNode("v2", 1);
+		callableSetUp();
+
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
+		assertEquals(2, ret.stats().constraints);
+		assertEquals(2, ret.stats().vars);
+		assertEquals(2, ret.stats().getRemovedTrivialConstraints());
+		assertEquals(1, ret.stats().getRemovedDuplicateConstraints());
+	}
+
+	/**
+	 * This test triggers 7/8 duplicate removals.
+	 */
+	@Test
+	public void testMap8to1DuplicateRemoval() {
+		gen.genSubstrateNode("s1", 73);
+		for (int i = 1; i <= 8; i++) {
+			gen.genVirtualNode("v" + i, 1);
+		}
+		callableSetUp();
+
+		final SolverOutput ret = con.run(OUTPUT_PATH);
+
+		assertEquals(SolverStatus.OPTIMAL, ret.status());
+		assertEquals(2, ret.stats().constraints);
+		assertEquals(8, ret.stats().vars);
+		assertEquals(8, ret.stats().getRemovedTrivialConstraints());
+		assertEquals(7, ret.stats().getRemovedDuplicateConstraints());
+	}
 
 	@Override
 	public Class<?> getConnectorClass() {

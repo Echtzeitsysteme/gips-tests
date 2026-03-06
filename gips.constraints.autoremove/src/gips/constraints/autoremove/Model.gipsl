@@ -7,7 +7,6 @@ config {
 	randomSeed := true [value := 0];
 	presolve := auto;
 	debugOutput := false;
-	lpOutput := true [path := "debug.lp"];
 }
 
 rule mapVnode {
@@ -42,14 +41,16 @@ pattern findSnode42 {
 
 mapping n2n to mapVnode;
 
+// A "normal" "complex" constraint
 constraint with SubstrateResourceNode {
 	mappings.n2n->filter( //
 		element.nodes.snode == context //
 	)->sum(element.value) <= 3
 }
 
-// Constraint that can be used to trigger a duplicate of
-// the previous constraint if the substrate node is of 42
+// Constraint that cannot be used to trigger a duplicate of
+// the previous constraint, since they are different GIPSL
+// constraints
 constraint with findSnode42 {
 	mappings.n2n->filter( //
 		element.nodes.snode == context.nodes.snode //
@@ -60,4 +61,12 @@ constraint with findSnode42 {
 // (These constraints must always be removed.)
 constraint with n2n {
 	context.value >= 0
+}
+
+// Trigger duplicate constraints if snode has value 73
+// and more than one virtual resource node exists
+constraint with mapVnode {
+	mappings.n2n
+		->filter(element.nodes.snode.resourceAmountAvailable == 73)
+		->sum(element.value) >= 0
 }
