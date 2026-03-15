@@ -1,0 +1,72 @@
+package "gipsl.all.build.typevarnpe"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := auto;
+	debugOutput := false;
+}
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+
+	snode: SubstrateResourceNode
+
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+//
+// GIPSL starts here!
+//
+
+// Type definition to trigger the bug
+type SubstrateResourceNode {
+	var iAmBad : EInt bind to resourceAmountTotal
+};
+
+// This pattern defines a very specific context for the following constraint
+pattern findVerySpecificSubstrateResourceNode {
+	snode: SubstrateResourceNode
+	# snode.resourceAmountAvailable == 42
+}
+
+// This constraint will only be instantiated if a substrate resource node with
+// the value 42 can be found in the model.
+// However, it triggers the code generator to believe the type variable defined
+// above is important and must be generated.
+constraint with findVerySpecificSubstrateResourceNode {
+	context.nodes.snode.variables.iAmBad == 2
+}
+
+// Other GIPSL parts to have something to execute.
+// All following is not relevant to trigger the bug.
+mapping n2n to mapVnode;
+
+constraint with VirtualResourceNode {
+	mappings.n2n->filter(element.nodes.vnode == context)->sum(element.value) == 1
+}
+
+function nObj with n2n {
+	context.value
+}
+
+objective : max {
+	functions.nObj
+}
