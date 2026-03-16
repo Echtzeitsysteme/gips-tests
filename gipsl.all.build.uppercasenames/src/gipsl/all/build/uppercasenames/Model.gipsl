@@ -1,39 +1,83 @@
 package "gipsl.all.build.uppercasenames"
-import "http://www.eclipse.org/emf/2002/Ecore"
-// ^import a metamodel here
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
 
-config {  
+config {
 	solver := GUROBI;
-	timeLimit := true [value := 42.0];
-	randomSeed := true [value := 73];
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
 	presolve := auto;
-	debugOutput := true;
-	tolerance := true [value := 0.000001];
+	debugOutput := false;
 }
 
-// specify an example rule
-rule exampleRule {
-	clazz : EClass {
-		++ -eAllOperations -> op
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
 	}
-	
-	op : EOperation
+
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+
+	snode: SubstrateResourceNode
+
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
 }
 
-// create a mapping on the rule
-mapping mapNode to exampleRule;
-
-// create a constraint on one class
-constraint with EOperation {
-	mappings.mapNode->filter(element.nodes.clazz.^abstract)->sum(element.value) > context.lowerBound
+// pattern with a capital letter start
+pattern FindVnode {
+	vnode: VirtualResourceNode
 }
 
-// create an objective for the mapping
-function nodeObj with mapNode {
-	context.nodes.op.upperBound * sin(73)
+// pattern with all caps name
+pattern FINDVNODE {
+	vnode: VirtualResourceNode
 }
 
-// create an overall objective
-objective : min {
-	2 * functions.nodeObj
+// GT rule name that starts with an upper-case letter
+rule UpperCaseRuleName {
+	snode: SubstrateResourceNode {
+		.resourceAmountAvailable := 0
+	}
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode;
+
+mapping doesNotMatter to UpperCaseRuleName;
+
+constraint with FindVnode {
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
+}
+
+constraint with FINDVNODE {
+	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) <= 1
+}
+
+constraint with UpperCaseRuleName {
+	mappings.doesNotMatter->filter(element.nodes.snode == context)->sum(element.value) == 0
+}
+
+function MyName with mapVnode {
+	1
+}
+
+function SECONDNAME with mapVnode {
+	1
+}
+
+objective : max {
+	functions.MyName
+	+ functions.SECONDNAME
 }
