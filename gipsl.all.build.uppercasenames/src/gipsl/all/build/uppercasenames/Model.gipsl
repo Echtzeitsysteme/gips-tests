@@ -38,7 +38,9 @@ pattern FindVnode {
 }
 
 // pattern with all caps name
-pattern FINDVNODE {
+// (case-insensitive conflicts are not allowed so the name has
+// two `E`s at the end)
+pattern FINDVNODEE {
 	vnode: VirtualResourceNode
 }
 
@@ -61,7 +63,7 @@ constraint with FindVnode {
 	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) == 1
 }
 
-constraint with FINDVNODE {
+constraint with FINDVNODEE {
 	mappings.n2n->filter(element.nodes.vnode == context.nodes.vnode)->sum(element.value) <= 1
 }
 
