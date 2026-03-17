@@ -35,7 +35,7 @@ public class GipslAllBuildUpperCaseNamesTest extends AGipslAllBuildTest {
 		// Check number of matches
 		assertEquals(1, getEmoflonApi().mapVnode().countMatches());
 		assertEquals(1, getEmoflonApi().FindVnode().countMatches());
-		assertEquals(1, getEmoflonApi().FINDVNODE().countMatches());
+		assertEquals(1, getEmoflonApi().FINDVNODEE().countMatches());
 		assertEquals(1, getEmoflonApi().UpperCaseRuleName().countMatches());
 	}
 
@@ -54,7 +54,7 @@ public class GipslAllBuildUpperCaseNamesTest extends AGipslAllBuildTest {
 		// Check number of matches
 		assertEquals(2, getEmoflonApi().mapVnode().countMatches());
 		assertEquals(2, getEmoflonApi().FindVnode().countMatches());
-		assertEquals(2, getEmoflonApi().FINDVNODE().countMatches());
+		assertEquals(2, getEmoflonApi().FINDVNODEE().countMatches());
 		assertEquals(1, getEmoflonApi().UpperCaseRuleName().countMatches());
 	}
 	
@@ -74,7 +74,7 @@ public class GipslAllBuildUpperCaseNamesTest extends AGipslAllBuildTest {
 		// Check number of matches
 		assertEquals(4, getEmoflonApi().mapVnode().countMatches());
 		assertEquals(2, getEmoflonApi().FindVnode().countMatches());
-		assertEquals(2, getEmoflonApi().FINDVNODE().countMatches());
+		assertEquals(2, getEmoflonApi().FINDVNODEE().countMatches());
 		assertEquals(2, getEmoflonApi().UpperCaseRuleName().countMatches());
 	}
 
@@ -93,7 +93,7 @@ public class GipslAllBuildUpperCaseNamesTest extends AGipslAllBuildTest {
 		// Check number of matches
 		assertEquals(0, getEmoflonApi().mapVnode().countMatches());
 		assertEquals(0, getEmoflonApi().FindVnode().countMatches());
-		assertEquals(0, getEmoflonApi().FINDVNODE().countMatches());
+		assertEquals(0, getEmoflonApi().FINDVNODEE().countMatches());
 		assertEquals(1, getEmoflonApi().UpperCaseRuleName().countMatches());
 	}
 
