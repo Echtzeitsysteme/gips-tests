@@ -23,8 +23,16 @@ public class XmiInitConnector extends AConnector {
 		api = new XmiinitGipsAPI();
 
 		// Configuration: GIPS model XMI, model XMI, IBeX pattern XMI
-		api.init(GipsTestUtils.pathToUri(gipsModelPath), GipsTestUtils.pathToUri(modelPath),
-				GipsTestUtils.pathToUri(ibexPatternPath));
+		try {
+			api.init(GipsTestUtils.pathToUri(gipsModelPath), GipsTestUtils.pathToUri(modelPath),
+					GipsTestUtils.pathToUri(ibexPatternPath));
+		} catch (final Exception ex) {
+			HiPEPathOptions.getInstance().resetEngineClassName();
+			HiPEPathOptions.getInstance().resetNetworkPath();
+			api.terminate();
+			throw ex;
+		}
+
 		GlobalTestConfig.overrideSolver(api);
 	}
 

@@ -55,8 +55,12 @@
         <setExpression xmi:type="GipsIntermediate:SetExpression">
           <setOperation xmi:type="GipsIntermediate:SetFilter">
             <expression xmi:type="GipsIntermediate:RelationalExpression" operator="Equal" requiresComparables="true">
-              <lhs xmi:type="GipsIntermediate:NodeReference" node="//@ibexModel/@nodeSet/@nodes.4"/>
-              <rhs xmi:type="GipsIntermediate:NodeReference" local="true" node="//@ibexModel/@nodeSet/@nodes.4"/>
+              <lhs xmi:type="GipsIntermediate:MemberReference">
+                <member xmi:type="GipsIntermediate:NodeExpression" node="//@ibexModel/@nodeSet/@nodes.4"/>
+              </lhs>
+              <rhs xmi:type="GipsIntermediate:MemberReference" local="true">
+                <member xmi:type="GipsIntermediate:NodeExpression" node="//@ibexModel/@nodeSet/@nodes.4"/>
+              </rhs>
             </expression>
           </setOperation>
           <setReduce xmi:type="GipsIntermediate:SetSummation">
