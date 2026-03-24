@@ -11,8 +11,8 @@ public class TypeselectConnector extends AConnector {
 
 	public TypeselectConnector(final String modelPath) {
 		api = new TypeselectGipsAPI();
-		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 		GlobalTestConfig.overrideSolver(api);
+		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 	}
 
 	public String getLPOutputPath() {
