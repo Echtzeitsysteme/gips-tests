@@ -61,10 +61,6 @@ constraint with guestNotMapped {
 	mappings.guest2host->join((guest, guest))->sum(element.value) == 1
 }
 
-//constraint with guestIsMapped {
-//	mappings.guest2host->join((guest, guest))->sum(element.value) == 0
-//}
-
 // Check that at least sum, count and filter works for many attributes
 constraint with Host {
 	context.variables.preConsumedResources == context.guests->sum(element.demand)
@@ -82,8 +78,6 @@ constraint with Host {
 //constraint with Host {
 //	context.guests->count() == context.guests->join(host)->count()
 //}
-
-// 
 
 constraint with Host {
 	context.variables.availableResources == context.resource - context.variables.preConsumedResources
