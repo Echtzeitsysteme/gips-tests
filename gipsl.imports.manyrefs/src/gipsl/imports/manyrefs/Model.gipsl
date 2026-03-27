@@ -1,0 +1,104 @@
+package "gipsl.imports.manyrefs"
+import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
+
+config {
+	solver := GUROBI;
+	timeLimit := true [value := 10.0];
+	randomSeed := true [value := 0];
+	presolve := auto;
+	debugOutput := false;
+}
+
+condition guestIsNotMapped = forbid guestIsMapped
+
+pattern guestIsMapped {
+	host: Host
+
+	guest: Guest {
+		-host -> host
+	}
+} 
+
+pattern guestNotMapped {
+	guest: Guest
+}
+when guestIsNotMapped
+
+pattern hostNotUsed {
+	host: Host
+}
+when guestIsNotMapped
+
+rule mapGuest {
+	root: Root {
+		-elements -> host
+		-elements -> guest
+	}
+	
+	host: Host
+
+	guest: Guest {
+		++ -host -> host
+	}
+}
+when guestIsNotMapped
+
+//
+// GIPSL starts here!
+//
+
+mapping guest2host to mapGuest;
+
+type Host {
+	var availableResources : EInt 
+	var numberOfGuests : EInt
+	var preExistingGuests : EInt
+	var preConsumedResources : EInt
+};
+
+// Ensure that every non-mapped guest  gets mapped
+constraint with guestNotMapped {
+	mappings.guest2host->join((guest, guest))->sum(element.value) == 1
+}
+
+// Check that at least sum, count and filter works for many attributes
+constraint with Host {
+	context.variables.preConsumedResources == context.guests->sum(element.demand)
+}
+
+constraint with Host {
+	context.variables.preExistingGuests == context.guests->count()
+}
+
+constraint with Host {
+	context.guests->count() == context.guests->filter( element.host == context )->count()
+}
+
+// join does not work with attributes (join operator expects EditorNodes)
+//constraint with Host {
+//	context.guests->count() == context.guests->join(host)->count()
+//}
+
+constraint with Host {
+	context.variables.availableResources == context.resource - context.variables.preConsumedResources
+}
+
+constraint with Host {
+	context.variables.availableResources >= mappings.guest2host->join(host)->sum(element.value * element.nodes.guest.demand)
+}
+
+constraint with Host {
+	context.variables.numberOfGuests == context.variables.preExistingGuests + mappings.guest2host->join(host)->sum(element.value)
+}
+
+constraint with Host {
+	context.variables.numberOfGuests > 0
+}
+
+function o with guest2host{
+	context.value
+} 
+
+objective : min {
+	functions.o
+}
