@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: gips.all.build.manyrefs
+Bundle-ManifestVersion: 2
+Bundle-Name: gipsl.imports.manyrefs
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.imports.manyrefs.connector
+Bundle-SymbolicName: gipsl.imports.manyrefs;singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: org.emoflon.ibex.common,
+ org.emoflon.ibex.gt,
+ org.emoflon.gips.core,
+ org.emoflon.ibex.gt.democles,
+ org.emoflon.ibex.gt.hipe,
+ gipsl.imports.importmodel;bundle-version="0.0.1",
+ test.suite.utils;bundle-version="1.0.0"
