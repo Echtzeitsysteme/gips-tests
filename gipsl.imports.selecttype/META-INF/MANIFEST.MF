@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.imports.typeselect
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gipsl.imports.typeselect.connector
+Export-Package: gipsl.imports.selecttype.connector
 Require-Bundle: org.emoflon.ibex.common;bundle-version="1.0.0",
  org.emoflon.ibex.gt;bundle-version="1.0.0",
  org.emoflon.gips.core;bundle-version="1.5.0",
@@ -12,6 +12,6 @@ Require-Bundle: org.emoflon.ibex.common;bundle-version="1.0.0",
  org.emoflon.ibex.gt.hipe;bundle-version="1.0.0",
  test.suite.utils;bundle-version="1.0.0",
  gipsl.imports.importmodel;bundle-version="0.0.1"
-Bundle-SymbolicName: gipsl.imports.typeselect;singleton:=true
+Bundle-SymbolicName: gipsl.imports.selecttype;singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21

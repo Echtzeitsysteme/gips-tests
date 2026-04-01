@@ -1,4 +1,4 @@
-package "gipsl.imports.typeselect"
+package "gipsl.imports.selecttype"
 import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
 
 config {
@@ -23,7 +23,7 @@ pattern guestNotInvited {
 	guest: Guest
 }
 when guestNotInvited
-
+ 
 rule inviteGuest {
 	root: Root {
 		-elements -> host

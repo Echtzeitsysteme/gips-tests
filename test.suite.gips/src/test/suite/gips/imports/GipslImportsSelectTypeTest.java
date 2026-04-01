@@ -8,17 +8,17 @@ import org.emoflon.gips.core.milp.SolverOutput;
 import org.emoflon.gips.core.milp.SolverStatus;
 import org.junit.jupiter.api.Test;
 
-import gipsl.imports.typeselect.api.gips.TypeselectGipsAPI;
-import gipsl.imports.typeselect.api.gips.types.TypeHostExtension;
-import gipsl.imports.typeselect.connector.TypeselectConnector;
+import gipsl.imports.selecttype.api.gips.SelecttypeGipsAPI;
+import gipsl.imports.selecttype.api.gips.types.TypeHostExtension;
+import gipsl.imports.selecttype.connector.SelectTypeConnector;
 
-public class GipslImportsTypeSelectTest extends AGipslImportsTest {
+public class GipslImportsSelectTypeTest extends AGipslImportsTest {
 
 	// Setup method
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new TypeselectConnector(MODEL_PATH);
+		con = new SelectTypeConnector(MODEL_PATH);
 	}
 
 	// Actual tests
@@ -150,11 +150,11 @@ public class GipslImportsTypeSelectTest extends AGipslImportsTest {
 
 	@Override
 	public Class<?> getConnectorClass() {
-		return TypeselectConnector.class;
+		return SelectTypeConnector.class;
 	}
 
-	private TypeselectGipsAPI getAPI() {
-		return ((TypeselectConnector) con).getAPI();
+	private SelecttypeGipsAPI getAPI() {
+		return ((SelectTypeConnector) con).getAPI();
 	}
 
 	private Collection<TypeHostExtension> getHostExtensions() {
