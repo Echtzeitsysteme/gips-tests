@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Automatic-Module-Name: gipsl.all.build.typeextension
 Bundle-ManifestVersion: 2
-Bundle-Name: gipsl.imports.typeselect
+Bundle-Name: gipsl.imports.selecttype
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Export-Package: gipsl.imports.selecttype.connector
