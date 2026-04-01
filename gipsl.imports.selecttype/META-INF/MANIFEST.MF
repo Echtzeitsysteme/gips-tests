@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Automatic-Module-Name: gipsl.all.build.typeextension
+Automatic-Module-Name: gipsl.imports.selecttype
 Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.imports.selecttype
 Bundle-Vendor: My Company
