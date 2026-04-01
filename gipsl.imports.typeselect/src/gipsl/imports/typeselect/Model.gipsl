@@ -11,10 +11,11 @@ config {
 condition guestNotInvited = forbid guestInvited
 
 pattern guestInvited {
-	host: Host
+	// do not overlap host in NAC
+	host2: Host
 
 	guest: Guest {
-		-host -> host
+		-host -> host2
 	} 
 }
 
@@ -24,6 +25,11 @@ pattern guestNotInvited {
 when guestNotInvited
 
 rule inviteGuest {
+	root: Root {
+		-elements -> host
+		-elements -> guest
+	}
+	
 	host: Host
 
 	guest: Guest {
@@ -36,6 +42,11 @@ rule inviteGuest {
 when guestNotInvited
 
 rule inviteSpecialGuest {
+	root: Root {
+		-elements -> host
+		-elements -> guest
+	}
+	
 	host: Host
 
 	guest: SpecialGuest {
@@ -71,9 +82,9 @@ constraint with Host {
 }
 
 // transfere mapping value
-//constraint with specialGuest2host {
-//	  [ mappings.guest2host->join((host, host), (guest, guest))->sum(element.value) >= 1 ] <=> [ context.value == 1 ]
-//}
+constraint with specialGuest2host {
+	  [ mappings.guest2host->join((host, host), (guest, guest))->sum(element.value) >= 1 ] <=> [ context.value == 1 ]
+}
 
 // test relevant:
 

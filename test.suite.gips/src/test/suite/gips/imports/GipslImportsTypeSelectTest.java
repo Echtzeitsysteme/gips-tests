@@ -80,7 +80,7 @@ public class GipslImportsTypeSelectTest extends AGipslImportsTest {
 
 	@Test
 	public void testG2SG3on1Yes() {
-		gen.genHost("h1", 8);
+		gen.genHost("h1", 10);
 		gen.genGuest("g1", 4);
 		gen.genGuest("g2", 2);
 		gen.genSpecialGuest("g3", 1, 1);
