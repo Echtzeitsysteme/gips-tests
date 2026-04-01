@@ -1,0 +1,122 @@
+package "gipsl.imports.selecttype"
+import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
+
+config {
+	solver := GUROBI;
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := auto;
+}
+
+condition guestNotInvited = forbid guestInvited
+
+pattern guestInvited {
+	// do not overlap host in NAC
+	host2: Host
+
+	guest: Guest {
+		-host -> host2
+	} 
+}
+
+pattern guestNotInvited {
+	guest: Guest
+}
+when guestNotInvited
+ 
+rule inviteGuest {
+	root: Root {
+		-elements -> host
+		-elements -> guest
+	}
+	
+	host: Host
+
+	guest: Guest {
+		++ -host -> host
+	}
+	
+	# guest.demand <= host.resource
+	# host.resource >= 0
+}
+when guestNotInvited
+
+rule inviteSpecialGuest {
+	root: Root {
+		-elements -> host
+		-elements -> guest
+	}
+	
+	host: Host
+
+	guest: SpecialGuest {
+		++ -host -> host
+	}
+	
+	# guest.demand <= host.resource
+	# host.resource >= 0
+}
+when guestNotInvited
+
+//
+// GIPSL starts here!
+//
+
+mapping guest2host to inviteGuest;
+mapping specialGuest2host to inviteSpecialGuest;
+
+type Host {
+	var totalGuests: EInt
+	var specialGuests: EInt
+	var regularGuests: EInt
+	var famous: EInt
+}; 
+
+// Ensure that every new guest has a host
+constraint with guestNotInvited {
+	mappings.guest2host->join((guest, guest))->sum(element.value) == 1
+}
+
+constraint with Host {
+	context.resource >= mappings.guest2host->join(host)->sum(element.value * element.nodes.guest.demand) + context.guests->sum(element.demand)
+}
+
+// transfere mapping value
+constraint with specialGuest2host {
+	  [ mappings.guest2host->join((host, host), (guest, guest))->sum(element.value) >= 1 ] <=> [ context.value == 1 ]
+}
+
+// test relevant:
+
+// Set key figures by filtering
+constraint with Host {
+	context.variables.totalGuests == context.guests->count() + mappings.guest2host->join(host)->sum(element.value)
+}
+
+// Ensure count works
+constraint with Host {
+	context.variables.specialGuests == context.guests->selectType(SpecialGuest)->count() + mappings.specialGuest2host->join(host)->sum(element.value)
+}
+
+// with pairs (sometimes in the future)
+//constraint with Host {
+//	context.variables.specialGuests == context.guests->selectType(SpecialGuest)->count() + mappings.guest2host->selectType((guest,SpecialGuest))->join(host)->sum(element.value)
+//}
+
+constraint with Host {
+	context.variables.regularGuests == context.variables.totalGuests - context.variables.specialGuests
+}
+
+// Ensure sum works
+constraint with Host {
+	context.variables.famous == context.guests->selectType(SpecialGuest)->sum(element.celebrityRating) + mappings.specialGuest2host->join(host)->sum(element.value * element.nodes.guest.celebrityRating)
+} 
+
+
+function o with guest2host {
+	context.value
+}
+
+objective : max {
+	functions.o
+}

@@ -13,6 +13,7 @@ import importmodel.Guest;
 import importmodel.Host;
 import importmodel.ImportmodelFactory;
 import importmodel.Root;
+import importmodel.SpecialGuest;
 
 public class ImportsModelGenerator {
 
@@ -56,6 +57,15 @@ public class ImportsModelGenerator {
 		final Guest g = ImportmodelFactory.eINSTANCE.createGuest();
 		g.setName(name);
 		g.setDemand(demand);
+		root.getElements().add(g);
+		return g;
+	}
+
+	public SpecialGuest genSpecialGuest(final String name, final int demand, final int celebrityRating) {
+		final SpecialGuest g = ImportmodelFactory.eINSTANCE.createSpecialGuest();
+		g.setName(name);
+		g.setDemand(demand);
+		g.setCelebrityRating(celebrityRating);
 		root.getElements().add(g);
 		return g;
 	}
