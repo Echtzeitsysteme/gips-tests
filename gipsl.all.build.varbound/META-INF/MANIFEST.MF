@@ -6,7 +6,7 @@ Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Export-Package: gipsl.all.build.varbound.api.gips,
  gipsl.all.build.varbound.api.gips.types,
- gipsl.all.build.varbound.conncetor
+ gipsl.all.build.varbound.connector
 Bundle-SymbolicName: gipsl.all.build.varbound;singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21

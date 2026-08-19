@@ -1,4 +1,4 @@
-package gipsl.all.build.varbound.conncetor;
+package gipsl.all.build.varbound.connector;
 
 import org.emoflon.gips.core.milp.SolverOutput;
 
@@ -7,9 +7,9 @@ import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
 import test.suite.gips.utils.GlobalTestConfig;
 
-public class VarboundConnector extends AConnector {
+public class VarBoundConnector extends AConnector {
 
-	public VarboundConnector(final String modelPath) {
+	public VarBoundConnector(final String modelPath) {
 		api = new VarboundGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 		GlobalTestConfig.overrideSolver(api);
@@ -26,7 +26,7 @@ public class VarboundConnector extends AConnector {
 	@Override
 	public SolverOutput run(final String outputPath) {
 		final SolverOutput output = solve();
-		((VarboundGipsAPI) api).getN2n().applyNonZeroMappings();
+//		((VarboundGipsAPI) api).getN2n().applyNonZeroMappings();
 //		save(outputPath);
 		return output;
 	}

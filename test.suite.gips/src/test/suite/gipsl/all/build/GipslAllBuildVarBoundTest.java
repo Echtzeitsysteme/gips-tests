@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import gipsl.all.build.varbound.api.gips.VarboundGipsAPI;
 import gipsl.all.build.varbound.api.gips.types.TypeSubstrateNodeExtension;
-import gipsl.all.build.varbound.conncetor.VarboundConnector;
+import gipsl.all.build.varbound.connector.VarBoundConnector;
 
 public class GipslAllBuildVarBoundTest extends AGipslAllBuildTest {
 
@@ -19,7 +19,7 @@ public class GipslAllBuildVarBoundTest extends AGipslAllBuildTest {
 
 	public void callableSetUp() {
 		gen.persistModel(MODEL_PATH);
-		con = new VarboundConnector(MODEL_PATH);
+		con = new VarBoundConnector(MODEL_PATH);
 	}
 
 	// Actual tests
@@ -159,7 +159,7 @@ public class GipslAllBuildVarBoundTest extends AGipslAllBuildTest {
 	// Utility methods
 
 	private VarboundGipsAPI getAPI() {
-		return ((VarboundConnector) con).getAPI();
+		return ((VarBoundConnector) con).getAPI();
 	}
 
 	private Collection<TypeSubstrateNodeExtension> getSubstrateNodeExtensions() {
@@ -177,7 +177,7 @@ public class GipslAllBuildVarBoundTest extends AGipslAllBuildTest {
 
 	@Override
 	public Class<?> getConnectorClass() {
-		return VarboundConnector.class;
+		return VarBoundConnector.class;
 	}
 
 }
