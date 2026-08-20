@@ -7,7 +7,6 @@ import static test.suite.gips.utils.TextFileAsserts.assertTextContains;
 import static test.suite.gips.utils.TextFileAsserts.readTextFile;
 
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -275,8 +274,6 @@ public class GipslAllBuildVarBoundTest extends AGipslAllBuildTest {
 		assertEquals(2, getSubstrateNodeExtension("s1").getValueOfEmbeddedVirtualNodes());
 		assertEquals(2, getSubstrateNodeExtension("s2").getValueOfEmbeddedVirtualNodes());
 		assertEquals(2, getSubstrateNodeExtension("s3").getValueOfEmbeddedVirtualNodes());
-
-		System.out.println("Test: " + Arrays.toString(getMappingValuesForSubstrateNode("s1")));
 	}
 
 	// Utility methods
