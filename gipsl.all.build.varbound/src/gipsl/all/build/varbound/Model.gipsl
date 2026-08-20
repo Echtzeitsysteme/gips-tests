@@ -6,6 +6,7 @@ config {
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 0];
 	presolve := auto;
+	lpOutput := true [path := "./lpoutput/VarBounds.lp"];
 }
 
 condition vnodeNotMapped = forbid vnodeIsMapped
@@ -49,8 +50,10 @@ rule mapVnode {
 //
 // GIPSL starts here!
 //
-
-mapping n2n to mapVnode;
+ 
+mapping n2n to mapVnode {
+	var minimumResourcesRequired : EDouble [2.5 , *]
+};
 
 type SubstrateNode {
 	// each node should host at least one virtual node, but not more than two.
@@ -60,6 +63,11 @@ type SubstrateNode {
 
 constraint with SubstrateNode {
 	context.variables.embeddedVirtualNodes == mappings.n2n->join( snode )->sum(element.value)
+}
+
+constraint with n2n {
+	// halfed to test doubles
+	context.variables.minimumResourcesRequired == mappings.n2n->join((snode,snode))->sum(element.value) * (context.nodes.snode.resourceAmountTotal / 2.0)
 }
 
 // Ensure each virtual node is only embedded once
