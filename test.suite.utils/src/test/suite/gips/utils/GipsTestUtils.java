@@ -39,7 +39,7 @@ public class GipsTestUtils {
 
 		final File f = new File(path);
 		if (!(f.exists() && !f.isDirectory())) {
-			Assert.fail("Expected file could not be found.");
+			Assert.fail(String.format("Expected file could not be found: %s", path));
 		}
 	}
 
