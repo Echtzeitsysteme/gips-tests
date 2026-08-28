@@ -4,8 +4,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.unaries
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Export-Package: gipsl.all.build.typeextension.api.gips,
- gipsl.all.build.typeextension.api.gips.types,
+Export-Package: gipsl.all.build.unaries.api.gips,
+ gipsl.all.build.unaries.api.gips.mapping,
  gipsl.all.build.unaries.connector
 Require-Bundle: org.emoflon.ibex.common;bundle-version="1.0.0",
  org.emoflon.ibex.gt;bundle-version="1.0.0",
