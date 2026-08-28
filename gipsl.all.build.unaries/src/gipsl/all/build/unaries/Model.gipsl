@@ -1,0 +1,81 @@
+package "gipsl.all.build.unaries"
+import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+
+config {
+	solver := GUROBI;
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := auto;
+} 
+
+condition vnodeNotMapped = forbid vnodeIsMapped
+
+pattern vnodeIsMapped {
+	host: SubstrateNode
+
+	vnode: VirtualResourceNode {
+		-host -> host
+	}
+}
+
+pattern vnodeNotMapped {
+	vnode: VirtualResourceNode
+}
+when vnodeNotMapped 
+
+rule mapVnode {
+	root: Root {
+		-containers -> substrateContainer
+		-containers -> virtualContainer
+	}
+
+	substrateContainer: SubstrateContainer {
+		-substrateNodes -> snode
+	}
+
+	virtualContainer: VirtualContainer {
+		-virtualNodes -> vnode
+	}
+
+	snode: SubstrateResourceNode
+
+	vnode: VirtualResourceNode {
+		++ -host -> snode
+	}
+	
+	# vnode.resourceDemand <= snode.resourceAmountAvailable
+	# snode.resourceAmountAvailable >= 0
+}
+
+//
+// GIPSL starts here!
+//
+
+mapping n2n to mapVnode {
+	var negation : EInt
+	var absolute : EInt
+};
+
+constraint with n2n {
+	context.variables.negation == -(context.value)
+}
+
+constraint with n2n {
+	context.variables.absolute == abs(-10 * context.nodes.vnode.resourceDemand)
+}
+
+constraint with VirtualResourceNode {
+	mappings.n2n->join(vnode)->sum(element.value) <= 1
+}
+
+constraint with SubstrateResourceNode {
+	mappings.n2n->join(snode)->sum(element.value * element.nodes.vnode.resourceDemand) <= context.resourceAmountAvailable
+}
+
+function o with n2n {
+	context.value
+}
+
+objective : max {
+	functions.o
+}
