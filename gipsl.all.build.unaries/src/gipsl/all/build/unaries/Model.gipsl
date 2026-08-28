@@ -6,7 +6,6 @@ config {
 	timeLimit := true [value := 42.0];
 	randomSeed := true [value := 0];
 	presolve := auto;
-	lpOutput := true [path := "./lpoutput/Unaries.lp"];
 } 
 
 condition vnodeNotMapped = forbid vnodeIsMapped
