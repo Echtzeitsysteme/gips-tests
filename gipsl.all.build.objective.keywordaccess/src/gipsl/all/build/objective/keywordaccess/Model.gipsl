@@ -46,6 +46,8 @@ rule mapVnode {
 	vnode: VirtualResourceNode {
 		++ -host -> snode
 	}
+	
+	# snode.resourceAmountAvailable >= vnode.resourceDemand
 }
 
 //
@@ -59,12 +61,12 @@ constraint with vnodeNotMapped {
 }
 
 function objA with a {
-	1
+	5
 }
 
 objective : max {
 	// Constants work as it is
-	0
+	3
 	
 	// Functions work out-of-the-box
 	+ functions.objA

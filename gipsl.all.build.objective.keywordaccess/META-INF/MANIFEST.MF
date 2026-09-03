@@ -4,6 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: gipsl.all.build.objective.keywordaccess
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
+Export-Package: gipsl.all.build.objective.keywordaccess.connector
 Bundle-SymbolicName: gipsl.all.build.objective.keywordaccess; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
