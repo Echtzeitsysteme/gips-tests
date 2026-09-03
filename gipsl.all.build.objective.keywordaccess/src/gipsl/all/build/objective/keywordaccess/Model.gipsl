@@ -5,7 +5,7 @@ config {
 	solver := GUROBI;
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
-	presolve := true;
+	presolve := auto;
 	debugOutput := false;
 }
 
@@ -75,12 +75,12 @@ objective : max {
 	// Mappings work correctly (when access statically = constant value)
 	+ mappings.a->sum(1)
 
-	// TODO: generates broken code -> the validator should forbid this
+	// generates broken code -> the validator should forbid this
 //	+ mappings.a->sum(element.value)
 
-	// TODO: generates broken code -> should work because it is a constant
-//	+ patterns.vnodeNotMapped->sum(1)
+	// Should work because it is a constant
+	+ patterns.vnodeNotMapped->sum(1)
 
-	// TODO: generates broken code -> should work because it is a constant
-//	+ rules.mapVnode->sum(1)
+	// Should work because it is a constant
+	+ rules.mapVnode->sum(1)
 }
