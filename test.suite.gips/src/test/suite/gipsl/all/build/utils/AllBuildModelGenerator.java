@@ -111,6 +111,8 @@ public class AllBuildModelGenerator {
 		final VirtualResourceNode vnode = getVirtualResourceNode(vNodeName);
 		snode.getGuests().add(vnode);
 		vnode.setHost(snode);
+
+		snode.setResourceAmountAvailable(snode.getResourceAmountAvailable() - vnode.getResourceDemand());
 	}
 
 }
