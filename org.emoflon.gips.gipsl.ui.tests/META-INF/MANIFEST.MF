@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests
+Bundle-SymbolicName: org.emoflon.gips.gipsl.ui.tests
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.emoflon.gips.gipsl.ui.tests
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.xtext.xbase.testing,
+ org.eclipse.xtext.ui.testing,
+ org.eclipse.xtext.xbase.ui.testing,
+ org.eclipse.ui.workbench;resolution:=optional,
+ org.eclipse.xtext.testing
