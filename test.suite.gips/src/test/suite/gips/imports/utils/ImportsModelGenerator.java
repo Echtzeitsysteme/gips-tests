@@ -14,6 +14,7 @@ import importmodel.Host;
 import importmodel.ImportmodelFactory;
 import importmodel.Root;
 import importmodel.SpecialGuest;
+import importmodel.SpecialHost;
 
 public class ImportsModelGenerator {
 
@@ -74,6 +75,15 @@ public class ImportsModelGenerator {
 		final Host h = ImportmodelFactory.eINSTANCE.createHost();
 		h.setName(name);
 		h.setResource(resource);
+		root.getElements().add(h);
+		return h;
+	}
+
+	public SpecialHost genSpecialHost(final String name, final int resource, final int budget) {
+		final SpecialHost h = ImportmodelFactory.eINSTANCE.createSpecialHost();
+		h.setName(name);
+		h.setResource(resource);
+		h.setBudget(budget);
 		root.getElements().add(h);
 		return h;
 	}

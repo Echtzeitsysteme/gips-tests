@@ -24,4 +24,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="SpecialGuest" eSuperTypes="#//Guest">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="celebrityRating" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecialHost" eSuperTypes="#//Host">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="budget" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
 </ecore:EPackage>
