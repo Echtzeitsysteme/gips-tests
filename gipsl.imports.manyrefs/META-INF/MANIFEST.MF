@@ -9,7 +9,7 @@ Export-Package: gipsl.imports.manyrefs.api.gips,
  gipsl.imports.manyrefs.connector
 Bundle-SymbolicName: gipsl.imports.manyrefs;singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-25
 Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt,
  org.emoflon.gips.core,
