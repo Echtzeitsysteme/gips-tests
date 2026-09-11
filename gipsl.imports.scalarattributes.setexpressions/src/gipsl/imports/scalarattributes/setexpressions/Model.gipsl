@@ -47,11 +47,16 @@ when guestNotInvited
 
 mapping guest2host to inviteGuest {
 	var hasSpecialGuest : EBoolean
+	var hasSpecialHost : EBoolean
 };
 
+type Guest {
+	var demandSum : EInt
+};
+ 
 // Each guest without invitation must be invited by one host
 constraint with guestNotInvited {
-	mappings.guest2host->join( (guest,guest) )->sum(element.value) == 1
+	mappings.guest2host->join( (guest,guest) )->sum(element.value) == 1  
 }
 
 // Each host can only have has many guests as their resources allow
@@ -59,18 +64,18 @@ constraint with Host {
 	context.resource <= mappings.guest2host->join( host )->sum(element.value * element.nodes.guest.demand) + context.guests->sum(element.demand)
 }
 
-// Special guests must have special hosts
-//constraint with guest2host {
-//	[
-//		context.nodes.guest->selectType(SpecialGuest)->count() == 1 &
-//		context.nodes.host->selectType(SpecialHost)->count() == 0 
-//	] => context.variables.notAllowed
-//}
-
 constraint with guest2host {
-	context.nodes.guest->selectType(SpecialGuest)->sum(1) == 1 => context.variables.hasSpecialGuest 
+	context.nodes.guest->selectType(SpecialGuest)->sum(1) == 1 ==> context.variables.hasSpecialGuest 
 }
 
+constraint with guest2host { 
+	context.nodes.host->selectType(SpecialHost)->sum(1) == 1 ==> context.variables.hasSpecialHost 
+}
+
+constraint with Guest {
+	// a little bit useless, but should nevertheless  work
+	context.variables.demandSum == context.demand->sum(element)
+}    
 
 
 function o with guest2host {
