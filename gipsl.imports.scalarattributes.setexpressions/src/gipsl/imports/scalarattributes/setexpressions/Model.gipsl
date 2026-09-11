@@ -45,7 +45,9 @@ when guestNotInvited
 // GIPSL starts here!
 //
 
-mapping guest2host to inviteGuest;
+mapping guest2host to inviteGuest {
+	var hasSpecialGuest : EBoolean
+};
 
 // Each guest without invitation must be invited by one host
 constraint with guestNotInvited {
@@ -58,12 +60,18 @@ constraint with Host {
 }
 
 // Special guests must have special hosts
+//constraint with guest2host {
+//	[
+//		context.nodes.guest->selectType(SpecialGuest)->count() == 1 &
+//		context.nodes.host->selectType(SpecialHost)->count() == 0 
+//	] => context.variables.notAllowed
+//}
+
 constraint with guest2host {
-	[
-		context.nodes.guest->selectType(SpecialGuest)->count() == 1 &
-		context.nodes.host->selectType(SpecialHost)->count() == 0 
-	] => context.value == 0
+	context.nodes.guest->selectType(SpecialGuest)->sum(1) == 1 => context.variables.hasSpecialGuest 
 }
+
+
 
 function o with guest2host {
 	context.value

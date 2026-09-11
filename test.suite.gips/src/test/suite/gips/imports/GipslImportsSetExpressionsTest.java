@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import gipsl.imports.scalarattributes.setexpressions.api.gips.SetexpressionsGipsAPI;
 import gipsl.imports.scalarattributes.setexpressions.connector.SetExpressionsConnector;
 
-public class GipslImportsSetExpressions extends AGipslImportsTest {
+public class GipslImportsSetExpressionsTest extends AGipslImportsTest {
 
 	// Setup method
 
@@ -42,9 +42,9 @@ public class GipslImportsSetExpressions extends AGipslImportsTest {
 		gen.genSpecialGuest("g2", 2, 2);
 		gen.genSpecialGuest("g3", 1, 4);
 
-		gen.addGuestToHost("g1", "h1");
-		gen.addGuestToHost("g2", "h1");
-		gen.addGuestToHost("g3", "h1");
+//		gen.addGuestToHost("g1", "h1");
+//		gen.addGuestToHost("g2", "h1");
+//		gen.addGuestToHost("g3", "h1");
 		callableSetUp();
 
 		final SolverOutput ret = con.run(OUTPUT_PATH);
