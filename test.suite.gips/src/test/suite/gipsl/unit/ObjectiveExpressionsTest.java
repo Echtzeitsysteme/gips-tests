@@ -9,7 +9,9 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 	public void constantsAreAllowed() throws Exception {
 		var input = """
 				package "gipsl.local.test"
-				import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+				//import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
+				import "file:./../../../../../../../gipsl.all.build.model/model/Model.ecore"
+
 
 				config {
 					solver := GUROBI;
@@ -65,8 +67,17 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 		Assertions.assertNotNull(model);
 		validationTestHelper.assertNoIssues(model);
 
-		// TODO: won't work, "GipslValidator" expects to run within eclipse and won't be
-		// able to access eclipse specific classes and methods.
+		// TODO: some problems:
+
+		// - "GipslValidator" expects to run within eclipse, thus it won't be able to
+		// access eclipse specific classes and methods.
+		// -> Can be solved by overriding the default GipsValidator with a 'Test'
+		// Validator in GipslInjectorProvider that removes the problematic methods
+
+		// - The import statement expects an absolute URI, because the Test does not run
+		// within eclipse "platform:..." does not work. The alternative "file:" scheme
+		// works, but the URI _must_ be absolute. That's just not possible.
+		// -> No workaround yet
 	}
 
 }
