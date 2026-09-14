@@ -61,15 +61,15 @@ constraint with guestNotInvited {
 
 // Each host can only have has many guests as their resources allow
 constraint with Host {
-	context.resource <= mappings.guest2host->join( host )->sum(element.value * element.nodes.guest.demand) + context.guests->sum(element.demand)
-}
+	context.resource >= mappings.guest2host->join( host )->sum(element.value * element.nodes.guest.demand) + context.guests->sum(element.demand)
+} 
 
 constraint with guest2host {
-	context.nodes.guest->selectType(SpecialGuest)->sum(1) == 1 ==> context.variables.hasSpecialGuest 
+	context.nodes.guest->selectType(SpecialGuest)->sum(1) == context.variables.hasSpecialGuest 
 }
 
 constraint with guest2host { 
-	context.nodes.host->selectType(SpecialHost)->sum(1) == 1 ==> context.variables.hasSpecialHost 
+	context.nodes.host->selectType(SpecialHost)->sum(1) == context.variables.hasSpecialHost 
 }
 
 constraint with Guest {
