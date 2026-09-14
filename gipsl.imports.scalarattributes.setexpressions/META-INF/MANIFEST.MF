@@ -5,6 +5,8 @@ Bundle-Name: gipsl.import.scalarattributes.setexpressions
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Export-Package: gipsl.imports.scalarattributes.setexpressions.api.gips,
+ gipsl.imports.scalarattributes.setexpressions.api.gips.mapping,
+ gipsl.imports.scalarattributes.setexpressions.api.gips.types,
  gipsl.imports.scalarattributes.setexpressions.connector
 Bundle-SymbolicName: gipsl.imports.scalarattributes.setexpressions;singleton:=true
 Bundle-ActivationPolicy: lazy
