@@ -21,7 +21,7 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 					solver := GUROBI;
 				}
 
-				condition vnodeNotMapped = forbid vnodeIsMapped
+				condition vnodeNotMappedCondition = forbid vnodeIsMapped
 				pattern vnodeIsMapped {
 					host: SubstrateNode
 
@@ -30,10 +30,11 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 					}
 				}
 
+
 				pattern vnodeNotMapped {
 					vnode: VirtualNode
 				}
-				when vnodeNotMapped
+				// when vnodeNotMappedCondition
 
 				rule mapVnode {
 					root: Root {
@@ -84,6 +85,10 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 		// within eclipse "platform:..." does not work. The alternative "file:" scheme
 		// works, but the URI _must_ be absolute.
 		// -> Build URI on test runtime and inject (format) into text input.
+
+		// For some reasons, the 'condition/forbid' statement
+		// 'condition vnodeNotMapped = forbid vnodeIsMapped'
+		// can not be resolved by the GT scope provider.
 
 	}
 
