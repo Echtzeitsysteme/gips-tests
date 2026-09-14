@@ -1,6 +1,7 @@
 package test.suite.gips.utils;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import org.eclipse.emf.common.util.URI;
 import org.junit.Assert;
@@ -68,6 +69,19 @@ public class GipsTestUtils {
 
 		String filePath = "../" + projectName + "/src-gen/" + packageName.replace(".", "/") + "/api/gips/" + fileName;
 		return filePath;
+	}
+
+	public static Path getLocalFileInTestDirectory(Path path) {
+		return Path.of("../").resolve(path).normalize().toAbsolutePath();
+	}
+
+	public static URI getLocalURIInTestDirectory(Path path) {
+		return filePathToURI(getLocalFileInTestDirectory(path));
+	}
+
+	public static URI filePathToURI(Path path) {
+		String absoluteFilePath = path.toAbsolutePath().normalize().toString();
+		return URI.createFileURI(absoluteFilePath);
 	}
 
 }

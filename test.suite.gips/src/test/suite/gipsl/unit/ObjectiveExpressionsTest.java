@@ -1,7 +1,11 @@
 package test.suite.gipsl.unit;
 
+import java.nio.file.Path;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import test.suite.gips.utils.GipsTestUtils;
 
 public class ObjectiveExpressionsTest extends AbstractParserTest {
 
@@ -10,7 +14,7 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 		var input = """
 				package "gipsl.local.test"
 				//import "platform:/resource/gipsl.all.build.model/model/Model.ecore"
-				import "file:./../../../../../../../gipsl.all.build.model/model/Model.ecore"
+				import "%s"
 
 
 				config {
@@ -61,7 +65,9 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 				objective : max {
 					3
 				}
-				""";
+				""".formatted( //
+				GipsTestUtils.getLocalURIInTestDirectory(Path.of("gipsl.all.build.model", "model", "Model.ecore")) //
+		);
 
 		var model = parseHelper.parse(input);
 		Assertions.assertNotNull(model);
@@ -72,12 +78,13 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 		// - "GipslValidator" expects to run within eclipse, thus it won't be able to
 		// access eclipse specific classes and methods.
 		// -> Can be solved by overriding the default GipsValidator with a 'Test'
-		// Validator in GipslInjectorProvider that removes the problematic methods
+		// Validator in GipslInjectorProvider that removes the problematic methods.
 
 		// - The import statement expects an absolute URI, because the Test does not run
 		// within eclipse "platform:..." does not work. The alternative "file:" scheme
-		// works, but the URI _must_ be absolute. That's just not possible.
-		// -> No workaround yet
+		// works, but the URI _must_ be absolute.
+		// -> Build URI on test runtime and inject (format) into text input.
+
 	}
 
 }
