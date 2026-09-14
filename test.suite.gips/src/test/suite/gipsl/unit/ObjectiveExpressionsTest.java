@@ -21,7 +21,7 @@ public class ObjectiveExpressionsTest extends AbstractParserTest {
 					solver := GUROBI;
 				}
 
-				condition vnodeNotMappedCondition = forbid vnodeIsMapped
+				// condition vnodeNotMappedCondition = forbid vnodeIsMapped
 				pattern vnodeIsMapped {
 					host: SubstrateNode
 
