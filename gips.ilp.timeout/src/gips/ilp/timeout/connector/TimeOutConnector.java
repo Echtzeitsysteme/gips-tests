@@ -23,4 +23,8 @@ public class TimeOutConnector extends AConnector {
 		return output;
 	}
 
+	public TimeoutGipsAPI getAPI() {
+		return (TimeoutGipsAPI) api;
+	}
+
 }
