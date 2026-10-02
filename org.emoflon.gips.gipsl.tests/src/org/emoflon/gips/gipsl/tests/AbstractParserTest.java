@@ -1,11 +1,10 @@
-package test.suite.gipsl.unit;
+package org.emoflon.gips.gipsl.tests;
 
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.testing.util.ParseHelper;
 import org.eclipse.xtext.testing.validation.ValidationTestHelper;
 import org.emoflon.gips.gipsl.gipsl.EditorGTFile;
-import org.emoflon.gips.gipsl.tests.GipslTestInjectorProvider;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.google.inject.Inject;
