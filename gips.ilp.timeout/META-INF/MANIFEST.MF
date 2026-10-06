@@ -14,4 +14,5 @@ Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt.hipe,
  gips.ilp.timeout.timeoutmodel;bundle-version="0.0.1",
  test.suite.utils;bundle-version="1.0.0"
-Export-Package: gips.ilp.timeout.connector
+Export-Package: gips.ilp.timeout.api.gips,
+ gips.ilp.timeout.connector

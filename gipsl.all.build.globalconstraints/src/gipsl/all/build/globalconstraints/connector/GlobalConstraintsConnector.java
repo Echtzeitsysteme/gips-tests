@@ -1,16 +1,16 @@
-package gips.ilp.timeout.connector;
+package gipsl.all.build.globalconstraints.connector;
 
 import org.emoflon.gips.core.milp.SolverOutput;
 
-import gips.ilp.timeout.api.gips.TimeoutGipsAPI;
+import gipsl.all.build.globalconstraints.api.gips.GlobalconstraintsGipsAPI;
 import test.suite.gips.utils.AConnector;
 import test.suite.gips.utils.GipsTestUtils;
 import test.suite.gips.utils.GlobalTestConfig;
 
-public class TimeOutConnector extends AConnector {
+public class GlobalConstraintsConnector extends AConnector {
 
-	public TimeOutConnector(final String modelPath) {
-		api = new TimeoutGipsAPI();
+	public GlobalConstraintsConnector(final String modelPath) {
+		api = new GlobalconstraintsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 		GlobalTestConfig.overrideSolver(api);
 	}
@@ -18,13 +18,7 @@ public class TimeOutConnector extends AConnector {
 	@Override
 	public SolverOutput run(final String outputPath) {
 		final SolverOutput output = solve();
-		((TimeoutGipsAPI) api).getS2t().applyNonZeroMappings();
-		save(outputPath);
 		return output;
-	}
-
-	public TimeoutGipsAPI getAPI() {
-		return (TimeoutGipsAPI) api;
 	}
 
 }

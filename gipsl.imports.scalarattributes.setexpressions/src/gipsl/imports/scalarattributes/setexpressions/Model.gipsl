@@ -1,0 +1,87 @@
+package "gipsl.imports.scalarattributes.setexpressions"
+import "platform:/resource/gipsl.imports.importmodel/model/Importmodel.ecore"
+
+config {
+	solver := GUROBI;
+	timeLimit := true [value := 42.0];
+	randomSeed := true [value := 0];
+	presolve := auto;
+}
+
+condition guestNotInvited = forbid guestInvited
+
+pattern guestInvited {
+	// do not overlap host in NAC
+	host2: Host
+
+	guest: Guest {
+		-host -> host2
+	} 
+}
+
+pattern guestNotInvited {
+	guest: Guest
+}
+when guestNotInvited
+ 
+rule inviteGuest {
+	root: Root {
+		-elements -> host
+		-elements -> guest
+	}
+	
+	host: Host  
+
+	guest: Guest {
+		++ -host -> host
+	}
+	
+	# guest.demand <= host.resource
+	# host.resource >= 0
+}
+when guestNotInvited
+
+//
+// GIPSL starts here!
+//
+
+mapping guest2host to inviteGuest {
+	var hasSpecialGuest : EBoolean
+	var hasSpecialHost : EBoolean
+};
+
+type Guest {
+	var demandSum : EInt
+};
+ 
+// Each guest without invitation must be invited by one host
+constraint with guestNotInvited {
+	mappings.guest2host->join( (guest,guest) )->sum(element.value) == 1  
+}
+
+// Each host can only have has many guests as their resources allow
+constraint with Host {
+	context.resource >= mappings.guest2host->join( host )->sum(element.value * element.nodes.guest.demand) + context.guests->sum(element.demand)
+} 
+
+constraint with guest2host {
+	context.nodes.guest->selectType(SpecialGuest)->sum(1) == context.variables.hasSpecialGuest 
+}
+
+constraint with guest2host { 
+	context.nodes.host->selectType(SpecialHost)->sum(1) == context.variables.hasSpecialHost 
+}
+
+constraint with Guest {
+	// a little bit useless, but should nevertheless  work
+	context.variables.demandSum == context.demand->sum(element)
+}    
+
+
+function o with guest2host {
+	context.value
+}
+
+objective : max {
+	functions.o
+}
