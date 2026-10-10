@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.emoflon.gips.gipsl.tests
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.emoflon.gips.gipsl.tests
 Automatic-Module-Name: org.emoflon.gips.gipsl.tests
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-25
 Require-Bundle: org.emoflon.gips.gipsl;bundle-version="[1.5.0,2.0.0)";visibility:=reexport,
  org.eclipse.xtext.testing;bundle-version="[2.43.0,3.0.0)";visibility:=reexport,
  org.eclipse.xtext.xbase.testing;bundle-version="[2.43.0,3.0.0)";visibility:=reexport,

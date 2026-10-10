@@ -16,4 +16,4 @@ Require-Bundle: org.emoflon.ibex.common;bundle-version="1.0.0",
  gipsl.imports.importmodel;bundle-version="0.0.1"
 Bundle-SymbolicName: gipsl.imports.selecttype;singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-25

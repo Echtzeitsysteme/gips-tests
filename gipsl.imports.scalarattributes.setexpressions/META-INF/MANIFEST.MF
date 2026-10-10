@@ -10,7 +10,7 @@ Export-Package: gipsl.imports.scalarattributes.setexpressions.api.gips,
  gipsl.imports.scalarattributes.setexpressions.connector
 Bundle-SymbolicName: gipsl.imports.scalarattributes.setexpressions;singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-25
 Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt,
  org.emoflon.gips.core,
