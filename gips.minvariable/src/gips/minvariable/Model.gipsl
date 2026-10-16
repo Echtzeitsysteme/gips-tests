@@ -6,7 +6,7 @@ config {
 	timeLimit := true [value := 10.0];
 	randomSeed := true [value := 0];
 	presolve := auto;
-	debugOutput := true;
+	debugOutput := false;
 	lpOutput := true [path := "./problem.lp"];
 }
 
