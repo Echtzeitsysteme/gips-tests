@@ -12,7 +12,7 @@ public class NotEmptyConnector extends AConnector {
 	public NotEmptyConnector(final String modelPath) {
 		api = new NotemptyGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

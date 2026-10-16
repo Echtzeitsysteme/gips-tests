@@ -12,7 +12,7 @@ public class ObjectiveMinConnector extends AConnector {
 	public ObjectiveMinConnector(final String modelPath) {
 		api = new MinGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

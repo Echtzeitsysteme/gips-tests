@@ -12,7 +12,7 @@ public class ObjectiveConnector extends AConnector {
 	public ObjectiveConnector(final String modelPath) {
 		api = new ObjectiveGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

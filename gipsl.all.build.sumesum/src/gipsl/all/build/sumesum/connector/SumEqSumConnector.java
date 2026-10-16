@@ -12,7 +12,7 @@ public class SumEqSumConnector extends AConnector {
 	public SumEqSumConnector(final String modelPath) {
 		api = new SumesumGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

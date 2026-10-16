@@ -12,7 +12,7 @@ public class OrAConnector extends AConnector {
 	public OrAConnector(final String modelPath) {
 		api = new AGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

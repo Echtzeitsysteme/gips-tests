@@ -12,7 +12,7 @@ public class OrExtendedConstantConnector extends AConnector {
 	public OrExtendedConstantConnector(final String modelPath) {
 		api = new ExtendedorconstantGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

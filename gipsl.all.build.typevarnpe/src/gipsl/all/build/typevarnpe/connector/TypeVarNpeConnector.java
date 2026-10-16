@@ -12,7 +12,7 @@ public class TypeVarNpeConnector extends AConnector {
 	public TypeVarNpeConnector(final String modelPath) {
 		api = new TypevarnpeGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

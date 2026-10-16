@@ -12,7 +12,7 @@ public class ObjectiveMaxConnector extends AConnector {
 	public ObjectiveMaxConnector(final String modelPath) {
 		api = new MaxGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

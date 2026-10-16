@@ -20,7 +20,7 @@ public class SequentialExecutionConnector extends AConnector {
 	public SequentialExecutionConnector(final String modelPath) {
 		api = new ExecutionGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

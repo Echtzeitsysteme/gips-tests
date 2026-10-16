@@ -16,7 +16,7 @@ public class ImplicationShortcutConnector extends AConnector {
 	public ImplicationShortcutConnector(final String modelPath) {
 		api = new ShortcutGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

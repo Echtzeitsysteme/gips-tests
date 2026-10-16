@@ -12,7 +12,7 @@ public class UnusedvarsConnector extends AConnector {
 	public UnusedvarsConnector(final String modelPath) {
 		api = new UnusedvarsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	public String getLPOutputPath() {

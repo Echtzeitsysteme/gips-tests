@@ -12,7 +12,7 @@ public class NotConnector extends AConnector {
 	public NotConnector(final String modelPath) {
 		api = new NotGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

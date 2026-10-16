@@ -11,7 +11,7 @@ public class RsinitConnector extends AResourceConnector {
 	public RsinitConnector(final ResourceSet model) {
 		api = new ResourcesetinitGipsAPI();
 		api.init(model);
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

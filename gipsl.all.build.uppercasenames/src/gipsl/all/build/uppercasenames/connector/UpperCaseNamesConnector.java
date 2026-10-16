@@ -13,7 +13,7 @@ public class UpperCaseNamesConnector extends AConnector {
 	public UpperCaseNamesConnector(final String modelPath) {
 		api = new UppercasenamesGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

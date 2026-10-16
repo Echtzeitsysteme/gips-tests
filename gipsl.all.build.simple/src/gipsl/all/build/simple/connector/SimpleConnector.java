@@ -12,7 +12,7 @@ public class SimpleConnector extends AConnector {
 	public SimpleConnector(final String modelPath) {
 		api = new SimpleGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

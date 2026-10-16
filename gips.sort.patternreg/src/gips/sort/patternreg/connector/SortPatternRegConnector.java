@@ -12,7 +12,7 @@ public class SortPatternRegConnector extends AConnector {
 	public SortPatternRegConnector(final String modelPath) {
 		api = new PatternregGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

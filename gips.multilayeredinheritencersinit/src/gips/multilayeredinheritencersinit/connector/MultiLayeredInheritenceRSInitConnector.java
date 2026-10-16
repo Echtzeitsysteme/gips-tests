@@ -11,7 +11,7 @@ public class MultiLayeredInheritenceRSInitConnector extends AResourceConnector {
 	public MultiLayeredInheritenceRSInitConnector(final ResourceSet model) {
 		api = new MultilayeredinheritencersinitGipsAPI();
 		api.init(model);
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

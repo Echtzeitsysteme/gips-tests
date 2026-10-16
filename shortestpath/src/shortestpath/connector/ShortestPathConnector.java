@@ -12,7 +12,7 @@ public class ShortestPathConnector extends AConnector {
 	public ShortestPathConnector(final String modelPath) {
 		api = new ShortestpathGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

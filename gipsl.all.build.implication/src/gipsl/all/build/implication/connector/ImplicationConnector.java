@@ -12,7 +12,7 @@ public class ImplicationConnector extends AConnector {
 	public ImplicationConnector(final String modelPath) {
 		api = new ImplicationGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

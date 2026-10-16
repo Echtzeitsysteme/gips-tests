@@ -12,7 +12,7 @@ public class ProjectPackageNameBugConnector extends AConnector {
 	public ProjectPackageNameBugConnector(final String modelPath) {
 		api = new GipsprojectpackagenamebugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

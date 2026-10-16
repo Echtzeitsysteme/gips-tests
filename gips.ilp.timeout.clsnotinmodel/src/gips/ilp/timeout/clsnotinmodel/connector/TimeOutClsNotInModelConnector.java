@@ -12,7 +12,7 @@ public class TimeOutClsNotInModelConnector extends AConnector {
 	public TimeOutClsNotInModelConnector(final String modelPath) {
 		api = new ClsnotinmodelGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

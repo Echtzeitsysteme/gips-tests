@@ -12,7 +12,7 @@ public class FilterSerialConnector extends AConnector {
 	public FilterSerialConnector(final String modelPath) {
 		api = new SerialGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

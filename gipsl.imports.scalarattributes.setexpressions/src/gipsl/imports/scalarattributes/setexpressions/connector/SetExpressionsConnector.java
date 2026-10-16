@@ -11,7 +11,7 @@ public class SetExpressionsConnector extends AConnector {
 
 	public SetExpressionsConnector(final String modelPath) {
 		api = new SetexpressionsGipsAPI();
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 	}
 

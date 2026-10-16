@@ -12,7 +12,7 @@ public class CodeGenIntReduceBugConnector extends AConnector {
 	public CodeGenIntReduceBugConnector(final String modelPath) {
 		api = new CodegenintreducebugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

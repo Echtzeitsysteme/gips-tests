@@ -12,7 +12,7 @@ public class VarLimitConnector extends AConnector {
 	public VarLimitConnector(final String modelPath) {
 		api = new VarlimitGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

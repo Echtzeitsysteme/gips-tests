@@ -12,7 +12,7 @@ public class JoinAllConnector extends AConnector {
 	public JoinAllConnector(final String modelPath) {
 		api = new JoinallGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

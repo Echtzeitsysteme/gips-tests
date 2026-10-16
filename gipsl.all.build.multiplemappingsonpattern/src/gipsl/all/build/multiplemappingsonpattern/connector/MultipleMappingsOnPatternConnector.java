@@ -12,7 +12,7 @@ public class MultipleMappingsOnPatternConnector extends AConnector {
 	public MultipleMappingsOnPatternConnector(final String modelPath) {
 		api = new MultiplemappingsonpatternGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

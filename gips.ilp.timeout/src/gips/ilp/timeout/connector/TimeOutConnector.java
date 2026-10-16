@@ -12,7 +12,7 @@ public class TimeOutConnector extends AConnector {
 	public TimeOutConnector(final String modelPath) {
 		api = new TimeoutGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

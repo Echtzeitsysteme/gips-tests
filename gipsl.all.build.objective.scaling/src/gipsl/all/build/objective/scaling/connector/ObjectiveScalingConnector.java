@@ -12,7 +12,7 @@ public class ObjectiveScalingConnector extends AConnector {
 	public ObjectiveScalingConnector(final String modelPath) {
 		api = new ScalingGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

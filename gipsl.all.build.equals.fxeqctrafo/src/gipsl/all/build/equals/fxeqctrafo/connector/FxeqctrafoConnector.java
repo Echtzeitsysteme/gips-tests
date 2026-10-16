@@ -12,7 +12,7 @@ public class FxeqctrafoConnector extends AConnector {
 	public FxeqctrafoConnector(final String modelPath) {
 		api = new FxeqctrafoGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

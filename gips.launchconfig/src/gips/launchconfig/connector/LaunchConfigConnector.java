@@ -12,7 +12,7 @@ public class LaunchConfigConnector extends AConnector {
 	public LaunchConfigConnector(final String modelPath) {
 		api = new LaunchconfigGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

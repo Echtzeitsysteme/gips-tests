@@ -12,7 +12,7 @@ public class ManyRefsConnector extends AConnector {
 	public ManyRefsConnector(final String modelPath) {
 		api = new ManyrefsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

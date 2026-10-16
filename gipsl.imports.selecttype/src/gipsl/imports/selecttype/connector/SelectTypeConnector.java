@@ -11,7 +11,7 @@ public class SelectTypeConnector extends AConnector {
 
 	public SelectTypeConnector(final String modelPath) {
 		api = new SelecttypeGipsAPI();
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
 	}
 

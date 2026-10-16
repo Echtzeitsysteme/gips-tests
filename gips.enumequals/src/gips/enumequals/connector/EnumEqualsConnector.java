@@ -12,7 +12,7 @@ public class EnumEqualsConnector extends AConnector {
 	public EnumEqualsConnector(final String modelPath) {
 		api = new EnumequalsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

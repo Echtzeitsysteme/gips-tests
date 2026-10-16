@@ -12,7 +12,7 @@ public class MultiplePatternAccessesConnector extends AConnector {
 	public MultiplePatternAccessesConnector(final String modelPath) {
 		api = new MultiplepatternaccessesGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

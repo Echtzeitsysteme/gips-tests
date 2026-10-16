@@ -12,7 +12,7 @@ public class SortConstantTermBugConnector extends AConnector {
 	public SortConstantTermBugConnector(final String modelPath) {
 		api = new SortconstanttermbugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

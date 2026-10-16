@@ -12,7 +12,7 @@ public class FlipOperatorBugConnector extends AConnector {
 	public FlipOperatorBugConnector(final String modelPath) {
 		api = new FlipoperatorbugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

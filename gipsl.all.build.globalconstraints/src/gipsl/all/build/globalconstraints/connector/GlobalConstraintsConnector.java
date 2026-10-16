@@ -12,7 +12,7 @@ public class GlobalConstraintsConnector extends AConnector {
 	public GlobalConstraintsConnector(final String modelPath) {
 		api = new GlobalconstraintsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

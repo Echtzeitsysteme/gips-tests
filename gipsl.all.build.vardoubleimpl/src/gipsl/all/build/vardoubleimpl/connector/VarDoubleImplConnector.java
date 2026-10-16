@@ -15,7 +15,7 @@ public class VarDoubleImplConnector extends AConnector {
 	public VarDoubleImplConnector(final String modelPath) {
 		api = new VardoubleimplGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

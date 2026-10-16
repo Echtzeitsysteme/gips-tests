@@ -15,7 +15,7 @@ public class VarsMappingSumFreeVarAttrConnector extends AConnector {
 	public VarsMappingSumFreeVarAttrConnector(final String modelPath) {
 		api = new SumfreevarattrGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

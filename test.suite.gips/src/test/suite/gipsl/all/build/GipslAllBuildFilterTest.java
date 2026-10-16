@@ -49,7 +49,6 @@ public class GipslAllBuildFilterTest extends AGipslAllBuildTest {
 		gen.genVirtualNode("v2", 1);
 		callableSetUp();
 
-		System.out.println("=> Flaky test starts here:");
 		final SolverOutput ret = con.run(OUTPUT_PATH);
 
 		assertEquals(SolverStatus.INFEASIBLE, ret.status());

@@ -12,7 +12,7 @@ public class ObjBugBConnector extends AConnector {
 	public ObjBugBConnector(final String modelPath) {
 		api = new ObjbugbGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override
