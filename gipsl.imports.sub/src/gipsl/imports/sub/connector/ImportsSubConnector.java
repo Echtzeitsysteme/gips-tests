@@ -12,7 +12,7 @@ public class ImportsSubConnector extends AConnector {
 	public ImportsSubConnector(final String modelPath) {
 		api = new SubGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

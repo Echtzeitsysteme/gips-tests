@@ -14,7 +14,7 @@ public class AutoremoveConnector extends AConnector {
 	public AutoremoveConnector(final String modelPath) {
 		api = new AutoremoveGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

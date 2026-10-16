@@ -33,7 +33,7 @@ public class XmiInitConnector extends AConnector {
 			throw ex;
 		}
 
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	/**

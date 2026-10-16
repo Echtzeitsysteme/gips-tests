@@ -16,7 +16,7 @@ public class VarsBooleanBugConnector extends AConnector {
 	public VarsBooleanBugConnector(final String modelPath) {
 		api = new VarsbooleanbugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

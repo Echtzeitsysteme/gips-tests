@@ -12,7 +12,7 @@ public class XorConnector extends AConnector {
 	public XorConnector(final String modelPath) {
 		api = new XorGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

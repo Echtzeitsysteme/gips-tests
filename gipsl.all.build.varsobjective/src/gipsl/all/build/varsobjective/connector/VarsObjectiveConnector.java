@@ -15,7 +15,7 @@ public class VarsObjectiveConnector extends AConnector {
 	public VarsObjectiveConnector(final String modelPath) {
 		api = new VarsobjectiveGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

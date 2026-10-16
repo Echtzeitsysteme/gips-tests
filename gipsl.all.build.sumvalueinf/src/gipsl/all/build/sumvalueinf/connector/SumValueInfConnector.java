@@ -12,7 +12,7 @@ public class SumValueInfConnector extends AConnector {
 	public SumValueInfConnector(final String modelPath) {
 		api = new SumvalueinfGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

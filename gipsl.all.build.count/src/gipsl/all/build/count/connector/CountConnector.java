@@ -12,7 +12,7 @@ public class CountConnector extends AConnector {
 	public CountConnector(final String modelPath) {
 		api = new CountGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

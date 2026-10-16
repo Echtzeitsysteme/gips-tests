@@ -12,7 +12,7 @@ public class TypeextensionConnector extends AConnector {
 	public TypeextensionConnector(final String modelPath) {
 		api = new TypeextensionGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	public String getLPOutputPath() {

@@ -12,7 +12,7 @@ public class OrBConnector extends AConnector {
 	public OrBConnector(final String modelPath) {
 		api = new BGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

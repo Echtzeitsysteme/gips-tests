@@ -12,7 +12,7 @@ public class NullProjectConnector extends AConnector {
 	public NullProjectConnector(final String modelPath) {
 		api = new NullprojectGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

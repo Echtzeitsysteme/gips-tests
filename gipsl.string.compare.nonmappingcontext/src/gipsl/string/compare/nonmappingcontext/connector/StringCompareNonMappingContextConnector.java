@@ -12,7 +12,7 @@ public class StringCompareNonMappingContextConnector extends AConnector {
 	public StringCompareNonMappingContextConnector(final String modelPath) {
 		api = new NonmappingcontextGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

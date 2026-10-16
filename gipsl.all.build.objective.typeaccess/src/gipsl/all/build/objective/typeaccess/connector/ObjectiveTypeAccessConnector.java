@@ -12,7 +12,7 @@ public class ObjectiveTypeAccessConnector extends AConnector {
 	public ObjectiveTypeAccessConnector(final String modelPath) {
 		api = new TypeaccessGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

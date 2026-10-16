@@ -13,7 +13,7 @@ public class GenericSchedulingConnector extends AConnector {
 	public GenericSchedulingConnector(final String modelPath) {
 		api = new SchedulingGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

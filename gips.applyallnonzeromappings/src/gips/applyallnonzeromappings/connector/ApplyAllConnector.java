@@ -14,7 +14,7 @@ public class ApplyAllConnector extends AConnector {
 	public ApplyAllConnector(final String modelPath) {
 		api = new ApplyallnonzeromappingsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class MultiLayeredInheritenceConnector extends AConnector {
 	public MultiLayeredInheritenceConnector(final String modelPath) {
 		api = new MultilayeredinheritenceGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class VarBoundConnector extends AConnector {
 	public VarBoundConnector(final String modelPath) {
 		api = new VarboundGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	public String getLPOutputPath() {

@@ -13,7 +13,7 @@ public class GtTerminationConnector extends AConnector {
 	public GtTerminationConnector(final String modelPath) {
 		api = new GtterminationGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

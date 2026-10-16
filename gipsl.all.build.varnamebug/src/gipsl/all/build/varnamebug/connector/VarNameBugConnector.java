@@ -15,7 +15,7 @@ public class VarNameBugConnector extends AConnector {
 	public VarNameBugConnector(final String modelPath) {
 		api = new VarnamebugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

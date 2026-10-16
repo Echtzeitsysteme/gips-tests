@@ -15,7 +15,7 @@ public class VarsConnector extends AConnector {
 	public VarsConnector(final String modelPath) {
 		api = new VarsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

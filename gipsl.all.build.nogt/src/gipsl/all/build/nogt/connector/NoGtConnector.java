@@ -12,7 +12,7 @@ public class NoGtConnector extends AConnector {
 	public NoGtConnector(final String modelPath) {
 		api = new NogtGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

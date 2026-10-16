@@ -12,7 +12,7 @@ public class ContextTimesTwoConnector extends AConnector {
 	public ContextTimesTwoConnector(final String modelPath) {
 		api = new ContexttimestwoGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class VarEquivalenceConnector extends AConnector {
 	public VarEquivalenceConnector(final String modelPath) {
 		api = new VarequivalenceGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

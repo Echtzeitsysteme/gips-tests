@@ -12,7 +12,7 @@ public class SortPatternMappingBugConnector extends AConnector {
 	public SortPatternMappingBugConnector(final String modelPath) {
 		api = new SortpatternmappingbugGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

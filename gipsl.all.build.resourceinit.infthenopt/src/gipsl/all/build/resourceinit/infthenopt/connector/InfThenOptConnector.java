@@ -13,7 +13,7 @@ public class InfThenOptConnector extends AResourceConnector {
 	public InfThenOptConnector(final String modelPath) {
 		api = new InfthenoptGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	public SolverOutput run(final String outputPath) {
@@ -25,7 +25,7 @@ public class InfThenOptConnector extends AResourceConnector {
 	public InfThenOptConnector(final ResourceSet model) {
 		api = new InfthenoptGipsAPI();
 		api.init(model);
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

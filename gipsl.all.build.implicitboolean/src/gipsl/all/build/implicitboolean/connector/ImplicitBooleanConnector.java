@@ -15,7 +15,7 @@ public class ImplicitBooleanConnector extends AConnector {
 	public ImplicitBooleanConnector(final String modelPath) {
 		api = new ImplicitbooleanGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

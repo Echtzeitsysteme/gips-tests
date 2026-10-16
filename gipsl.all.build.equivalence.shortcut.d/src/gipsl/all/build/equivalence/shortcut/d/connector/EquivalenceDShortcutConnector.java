@@ -16,7 +16,7 @@ public class EquivalenceDShortcutConnector extends AConnector {
 	public EquivalenceDShortcutConnector(final String modelPath) {
 		api = new DGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

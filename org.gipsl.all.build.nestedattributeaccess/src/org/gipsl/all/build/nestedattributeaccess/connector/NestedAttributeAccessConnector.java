@@ -12,7 +12,7 @@ public class NestedAttributeAccessConnector extends AConnector {
 	public NestedAttributeAccessConnector(final String modelPath) {
 		api = new NestedattributeaccessGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

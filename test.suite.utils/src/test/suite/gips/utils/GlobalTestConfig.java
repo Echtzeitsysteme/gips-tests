@@ -29,9 +29,26 @@ public class GlobalTestConfig {
 	public static final double delta = 0.001;
 
 	/**
+	 * If true, the constraint output configuration will be overridden.
+	 */
+	public static final boolean constraintOutputOverride = true;
+
+	/**
 	 * No public instance of this class allowed.
 	 */
 	private GlobalTestConfig() {
+	}
+
+	/**
+	 * Overrides all configuration options as defined in this configuration class
+	 * for a given GipsEngineAPI.
+	 * 
+	 * @param api GipsEngineAPI for which all configuration options should be
+	 *            overridden.
+	 */
+	public static void override(final GipsEngineAPI<?, ?> api) {
+		overrideSolver(api);
+		overrideConstraintCleanUpOutput(api);
 	}
 
 	/**
@@ -75,6 +92,20 @@ public class GlobalTestConfig {
 			throw new UnsupportedOperationException("Solver type not known.");
 		}
 		}
+	}
+
+	/**
+	 * Overrides the GIPS configuration for a given GipsEngineAPI in order to not
+	 * print statistics about useless constraints removals.
+	 * 
+	 * @param api GipsEngineAPI for which the configuration should be overridden.
+	 */
+	public static void overrideConstraintCleanUpOutput(final GipsEngineAPI<?, ?> api) {
+		if (!constraintOutputOverride) {
+			return;
+		}
+
+		api.getConfig().setPrintUselessConstraintsStats(false);
 	}
 
 }

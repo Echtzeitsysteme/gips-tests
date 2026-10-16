@@ -15,7 +15,7 @@ public class VarsSumConnector extends AConnector {
 	public VarsSumConnector(final String modelPath) {
 		api = new VarssumGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class OrExtendedTrueConnector extends AConnector {
 	public OrExtendedTrueConnector(final String modelPath) {
 		api = new ExtendedortrueGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

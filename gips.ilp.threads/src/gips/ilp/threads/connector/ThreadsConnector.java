@@ -17,7 +17,7 @@ public class ThreadsConnector extends AConnector {
 	public ThreadsConnector(final String modelPath) {
 		api = new ThreadsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

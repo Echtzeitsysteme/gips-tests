@@ -12,7 +12,7 @@ public class BooleanBracketsConnector extends AConnector {
 	public BooleanBracketsConnector(final String modelPath) {
 		api = new BooleanbracketsGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

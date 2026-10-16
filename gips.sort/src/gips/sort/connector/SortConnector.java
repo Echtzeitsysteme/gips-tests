@@ -12,7 +12,7 @@ public class SortConnector extends AConnector {
 	public SortConnector(final String modelPath) {
 		api = new SortGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

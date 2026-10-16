@@ -12,7 +12,7 @@ public class StringCompareFilterConnector extends AConnector {
 	public StringCompareFilterConnector(final String modelPath) {
 		api = new FilterGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	@Override

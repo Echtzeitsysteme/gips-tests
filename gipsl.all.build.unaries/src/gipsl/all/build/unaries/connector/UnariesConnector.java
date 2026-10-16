@@ -12,7 +12,7 @@ public class UnariesConnector extends AConnector {
 	public UnariesConnector(final String modelPath) {
 		api = new UnariesGipsAPI();
 		api.init(GipsTestUtils.pathToAbsUri(modelPath));
-		GlobalTestConfig.overrideSolver(api);
+		GlobalTestConfig.override(api);
 	}
 
 	public String getLPOutputPath() {
