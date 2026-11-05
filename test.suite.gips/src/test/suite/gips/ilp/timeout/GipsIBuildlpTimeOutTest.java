@@ -53,7 +53,7 @@ public class GipsIBuildlpTimeOutTest extends AGipsIlpTimeOutTest {
 		callableSetUp();
 
 		getAPI().getConfig().setBuildTimeLimit(Duration.ofMillis(timeoutInMS));
-		assertThrows(TimeoutException.class, () -> getAPI().buildProblem());
+		assertThrows(TimeoutException.class, () -> getAPI().buildProblem(false, false));
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class GipsIBuildlpTimeOutTest extends AGipsIlpTimeOutTest {
 		buildModel(5000);
 		callableSetUp();
 
-		getAPI().buildProblem();
+		getAPI().buildProblem(false, false);
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class GipsIBuildlpTimeOutTest extends AGipsIlpTimeOutTest {
 		callableSetUp();
 
 		getAPI().getConfig().setBuildTimeLimit(Duration.ofSeconds(0));
-		getAPI().buildProblem();
+		getAPI().buildProblem(false, false);
 	}
 
 	@Override
